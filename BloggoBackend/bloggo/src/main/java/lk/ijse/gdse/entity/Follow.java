@@ -18,7 +18,14 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
-    private Long followerId; // User who is following
-    private Long followingId; // User who is being followed
+
+    @ManyToOne
+    @JoinColumn(name = "followerId", nullable = false)
+    private Follow follower; // User who is following
+
+    @ManyToOne
+    @JoinColumn(name = "followedId", nullable = false)
+    private Follow followed; // User who is being followed
+
     private LocalDateTime createdAt;
 }

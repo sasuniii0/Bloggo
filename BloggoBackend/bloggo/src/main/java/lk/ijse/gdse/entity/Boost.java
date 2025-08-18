@@ -18,7 +18,14 @@ public class Boost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boostId;
-    private Long postId;
-    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "postId", nullable = false)
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
+
     private LocalDateTime createdAt;
 }

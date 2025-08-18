@@ -18,9 +18,16 @@ public class Earning {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long earningId;
-    private Long walletId;
+
+    @ManyToOne
+    @JoinColumn(name = "walletId", nullable = false)
+    private Wallet walletId;
+    @Enumerated(EnumType.STRING)
     private Source source;
     private Double amount;
-    private Long PostId;
+
+    @ManyToOne
+    @JoinColumn
+    private Post PostId;
     private LocalDateTime createdAt;
 }

@@ -18,9 +18,18 @@ public class AdminAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long actionId;
-    private Long adminId;
-    private Long targetUserId;
-    private Long targetPostId;
+
+    @ManyToOne
+    @JoinColumn(name = "adminId", nullable = false)
+    private User admin;
+
+    @ManyToOne
+    @JoinColumn(name = "targetUserId")
+    private User targetUser;
+
+    @ManyToOne
+    @JoinColumn(name = "targetPostId")
+    private Post targetPost;
 
     @Enumerated(EnumType.STRING)
     private ActionType actionType;

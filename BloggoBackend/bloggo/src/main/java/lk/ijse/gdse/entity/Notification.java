@@ -1,9 +1,6 @@
 package lk.ijse.gdse.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +18,11 @@ public class Notification {
     @Id
     @GeneratedValue
     private Long notificationId; // Unique identifier for the notification
-    private Long userId; // ID of the user receiving the notification
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user; // ID of the user receiving the notification
     private String message;
+    @Enumerated(EnumType.STRING)
     private Type type;
     private Boolean isRead;
     private LocalDateTime createdAt;
