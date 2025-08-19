@@ -2477,3 +2477,8 @@ java.lang.IllegalArgumentException: rawPassword cannot be null
 2025-08-19T17:04:53.380+05:30  WARN 15332 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m46s974ms696µs800ns).
 2025-08-19T18:24:56.670+05:30  WARN 15332 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m2s249ms749µs900ns).
 2025-08-19T18:42:56.285+05:30  WARN 15332 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m59s615ms200µs100ns).
+2025-08-19T19:32:08.672+05:30  INFO 15332 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-19T19:32:08.682+05:30  INFO 15332 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-19T19:32:08.693+05:30  INFO 15332 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-19T19:32:08.702+05:30  INFO 15332 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-19T19:32:08.704+05:30  INFO 15332 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
