@@ -1,0 +1,87 @@
+#notificationTabsContent{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+body {
+    background: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #13293e;
+    object-fit: cover;
+    border: 3px solid #fff;
+    margin-top: -60px;
+}
+
+#edit-profile-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
+}
+.profile-name {
+    font-weight: 700;
+    font-size: 1.6rem;
+
+}
+.profile-bio {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.edit-profile {
+    color: #28a745;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.tab-content {
+    margin-top: 1rem;
+}
+
+.post-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.post-card img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.following-list img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.5rem;
+}
+
+#profileTabs{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+.avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}
