@@ -40,40 +40,40 @@
             <!-- User Info Tabs -->
             <ul class="nav nav-tabs" id="profileTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button">Home</button>
+                    <button class="nav-link active" id="following-tab" data-bs-toggle="tab" data-bs-target="#following" type="button">
+                        Following
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="lists-tab" data-bs-toggle="tab" data-bs-target="#lists" type="button">Lists</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button">About</button>
+                    <button class="nav-link" id="followers-tab" data-bs-toggle="tab" data-bs-target="#followers" type="button">
+                        Followers
+                    </button>
                 </li>
             </ul>
+
             <div class="tab-content">
-                <!-- Home Tab -->
-                <div class="tab-pane fade show active" id="home">
-                    <div class="post-card">
-                        <div>
-                            <h5>Testing in Spring Boot: A Complete Guide</h5>
-                            <p>Software testing is not just a phase in development...</p>
-                            <small class="text-muted">4d ago · 👁️ 17</small>
-                        </div>
+                <!-- Following Tab -->
+                <div class="tab-pane fade show active" id="following">
+                    <div class="user-card">
+                        <h6>@john_doe</h6>
+                        <p>Full-stack developer · 120 posts</p>
                     </div>
-                    <div class="post-card">
-                        <div>
-                            <h5>Why Consistent Writing Matters</h5>
-                            <p>Consistency beats inspiration ....</p>
-                            <small class="text-muted">2d ago · 👁️ 9</small>
-                        </div>
+                    <div class="user-card">
+                        <h6>@susan_writer</h6>
+                        <p>Content creator · 45 posts</p>
                     </div>
                 </div>
-                <!-- Lists Tab -->
-                <div class="tab-pane fade" id="lists">
-                    <p>No lists yet.</p>
-                </div>
-                <!-- About Tab -->
-                <div class="tab-pane fade" id="about">
-                    <p>This is the about section.</p>
+
+                <!-- Followers Tab -->
+                <div class="tab-pane fade" id="followers">
+                    <div class="user-card">
+                        <h6>@alex_reader</h6>
+                        <p>Loves tech blogs · 10 comments</p>
+                    </div>
+                    <div class="user-card">
+                        <h6>@maria_dev</h6>
+                        <p>Frontend engineer · 32 posts</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <h4 class="profile-name m-0">Sasuniwijerathne</h4>
                     <p class="text-muted m-0">she/her</p>
                 </div>
-                <p><a href="follow.html">71 Followers</a></p>
+                <p>71 Followers</p>
                 <p class="profile-bio">Just a 21+ girl navigating life with passion and purpose! ✨</p>
                 <a href="../pages/profile-edit.html" class="edit-profile">Edit profile</a>
             </div>
@@ -97,7 +97,7 @@
                     <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test1</li>
                     <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test2</li>
                     <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test3 </li>
-                    <li><a href="follow.html">See all (12)</a></li>
+                    <li><a href="#">See all (12)</a></li>
                 </ul>
             </div>
         </div>
