@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bloggo — Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/profile.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <a class="brand" href="#" aria-label="Bloggo Home">
+            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
+        </a>
+
+        <!-- Navbar Actions -->
+        <nav class="nav-actions">
+            <a class="btn" href="#">Explore</a>
+            <a class="btn" href="#">Notifications</a>
+            <a class="btn btn-primary" href="#">Write</a>
+
+            <!-- User Profile (visible after login) -->
+            <div class="profile-menu">
+                <a href="profile-edit.html" title="Edit Profile">
+                    <img src="../assets/user-avatar.jpg" class="avatar">
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="container mt-3">
+
+    <div class="row mt-3">
+        <!-- Main Feed -->
+        <div class="col-lg-8">
+            <!-- User Info Tabs -->
+            <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button">Home</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="lists-tab" data-bs-toggle="tab" data-bs-target="#lists" type="button">Lists</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button">About</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <!-- Home Tab -->
+                <div class="tab-pane fade show active" id="home">
+                    <div class="post-card">
+                        <div>
+                            <h5>Testing in Spring Boot: A Complete Guide</h5>
+                            <p>Software testing is not just a phase in development...</p>
+                            <small class="text-muted">4d ago · 👁️ 17</small>
+                        </div>
+                    </div>
+                    <div class="post-card">
+                        <div>
+                            <h5>Why Consistent Writing Matters</h5>
+                            <p>Consistency beats inspiration ....</p>
+                            <small class="text-muted">2d ago · 👁️ 9</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- Lists Tab -->
+                <div class="tab-pane fade" id="lists">
+                    <p>No lists yet.</p>
+                </div>
+                <!-- About Tab -->
+                <div class="tab-pane fade" id="about">
+                    <p>This is the about section.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card p-3 mb-3 text-center" id="edit-profile-card">
+                <img src="../assets/test.png" class="profile-avatar" alt="Avatar">
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;">
+                    <h4 class="profile-name m-0">Sasuniwijerathne</h4>
+                    <p class="text-muted m-0">she/her</p>
+                </div>
+                <p>71 Followers</p>
+                <p class="profile-bio">Just a 21+ girl navigating life with passion and purpose! ✨</p>
+                <a href="../pages/profile-edit.html" class="edit-profile">Edit profile</a>
+            </div>
+
+            <div class="card p-3 mb-3">
+                <h6>Following</h6>
+                <ul class="list-unstyled following-list">
+                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test1</li>
+                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test2</li>
+                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test3 </li>
+                    <li><a href="#">See all (12)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

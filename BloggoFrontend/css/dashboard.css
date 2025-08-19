@@ -53,6 +53,28 @@
     color: var(--muted);
 }
 
+.profile-menu {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    border-color: var(--primary);
+}
+
+
 /* Right Sidebar */
 .rightbar {
     display: flex;
