@@ -1,59 +1,69 @@
-// Current year for footer
-document.getElementById('year').textContent = new Date().getFullYear();
+const api = "http://localhost:8080/auth";
 
-// Form validation and submission
-const signinForm = document.getElementById('signin-form');
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
 
-signinForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+    if (path.includes('signing.html') || path.endsWith('/')) {
+        const signingForm = document.getElementById('signin-form');
 
-    // Reset validation
-    const inputs = signinForm.querySelectorAll('.is-invalid');
-    inputs.forEach(input => input.classList.remove('is-invalid'));
+        signingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-    // Get form values
-    const emailOrUsername = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const rememberMe = document.getElementById('remember-me').checked;
+            const authDTO = {
+                username: document.getElementById('username').value.trim(),
+                password: document.getElementById('password').value.trim()
+            };
 
-    // Simple validation
-    if (!emailOrUsername) {
-        document.getElementById('email').classList.add('is-invalid');
-        return;
+            console.log(authDTO)
+            try {
+                const response = await fetch(`${api}/signing`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(authDTO)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Login response:', result);
+
+                const data = result.data;
+                if (data && data.accessToken && data.role) {
+                    // Save token in sessionStorage & cookie
+                    sessionStorage.setItem('jwtToken', data.accessToken);
+                    sessionStorage.setItem('userRole', data.role);
+                    document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;
+
+                    alert("Sign in successful!");
+                    window.location.href = "dashboard.html";
+                } else {
+                    alert('Authentication failed: Token or role not found');
+                }
+
+            } catch (err) {
+                console.error("Error during sign in:", err);
+                alert('Error during sign in.');
+            }
+        });
     }
-
-    if (!password) {
-        document.getElementById('password').classList.add('is-invalid');
-        return;
-    }
-
-    // Prepare login data
-    const loginData = {
-        emailOrUsername,
-        password,
-        rememberMe
-    };
-
-    // Here you would typically send the data to your server
-    console.log('Login data:', loginData);
-
-    // Simulate successful login
-    alert('Login successful! Redirecting to dashboard...');
-    // window.location.href = 'dashboard.html';
 });
 
-// OAuth button handlers
+// Footer year auto update
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// OAuth button alerts (placeholder)
 document.getElementById('google-auth').addEventListener('click', () => {
     alert('Google OAuth would be implemented here');
-    // Implement Google OAuth flow
 });
 
 document.getElementById('facebook-auth').addEventListener('click', () => {
     alert('Facebook OAuth would be implemented here');
-    // Implement Facebook OAuth flow
 });
 
 document.getElementById('linkedin-auth').addEventListener('click', () => {
     alert('LinkedIn OAuth would be implemented here');
-    // Implement LinkedIn OAuth flow
 });

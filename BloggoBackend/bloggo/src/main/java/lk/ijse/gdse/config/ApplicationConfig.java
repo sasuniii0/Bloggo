@@ -27,7 +27,7 @@ public class ApplicationConfig {
                 .map(user -> new
                         org.springframework.security.core.userdetails.User(
                         user.getUsername(),
-                        user.getPasswordHash(),
+                        user.getPassword(),
                         List.of(new SimpleGrantedAuthority(
                                         "ROLE_" + user.getRole().name()
                                 )

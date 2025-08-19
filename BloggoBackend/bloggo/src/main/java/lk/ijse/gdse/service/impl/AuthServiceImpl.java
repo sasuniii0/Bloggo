@@ -24,9 +24,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
+        System.out.println(authDTO);
         User user = userRepository.findByUsername(authDTO.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        if (!passwordEncoder.matches(authDTO.getPasswordHash(), user.getPasswordHash())) {
+        if (!passwordEncoder.matches(authDTO.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid Credentials");
         }
 
@@ -44,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
-                .passwordHash(passwordEncoder.encode(userDTO.getPasswordHash()))
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .profileImage(userDTO.getProfileImage())
                 .bio(userDTO.getBio())
                 .role(RoleName.USER)

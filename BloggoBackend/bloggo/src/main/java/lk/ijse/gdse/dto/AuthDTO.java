@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class AuthDTO {
     private String username;
-    private String passwordHash;
+    private String password;
 }

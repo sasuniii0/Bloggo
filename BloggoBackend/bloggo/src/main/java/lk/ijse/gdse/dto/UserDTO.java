@@ -17,7 +17,7 @@ public class UserDTO {
     private Long userId;
     private String username;
     private String email;
-    private String passwordHash;
+    private String password;
     private String profileImage;
     private String bio;
     private RoleName role;
