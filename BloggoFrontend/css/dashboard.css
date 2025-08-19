@@ -1,0 +1,81 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 60px; /* space for header */
+}
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+}
+.sidebar a {
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    background: var(--bg-muted);
+}
+
+/* Feed */
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.blog-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+}
+.blog-card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+.blog-card p {
+    margin: 0 0 10px;
+    color: var(--muted);
+}
+.blog-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Right Sidebar */
+.rightbar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+}
+.card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+}
+.card h4 {
+    margin-bottom: 10px;
+}
+.card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.card li {
+    margin-bottom: 8px;
+}

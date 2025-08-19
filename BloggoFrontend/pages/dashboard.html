@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bloggo — Dashboard</title>
+    <link href="../css/main.css" rel="stylesheet" />
+    <link href="../css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="container nav">
+        <a class="brand" href="#" aria-label="Bloggo Home">
+            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
+        </a>
+        <nav class="nav-actions">
+            <a class="btn" href="#">Explore</a>
+            <a class="btn" href="#">Notifications</a>
+            <a class="btn btn-primary" href="#">Write</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container dashboard">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <a href="#">🏠 Home</a>
+        <a href="#">✍ My Blogs</a>
+        <a href="#">🔖 Saved</a>
+        <a href="#">🌍 Explore</a>
+        <a href="#">🔔 Notifications</a>
+        <a href="#">⚙ Settings</a>
+    </aside>
+
+    <!-- Main Feed -->
+    <section class="feed">
+        <article class="blog-card">
+            <h3>Designing Minimal UIs for Focused Reading</h3>
+            <p>A deep dive into how minimalism improves content engagement…</p>
+            <div class="blog-meta">
+                <span>by Alex Carter</span>
+                <span>🚀120 · 💬 34</span>
+            </div>
+        </article>
+        <article class="blog-card">
+            <h3>Why Writers Need a Daily Routine</h3>
+            <p>Consistency beats inspiration — here’s how to build writing habits…</p>
+            <div class="blog-meta">
+                <span>by Sarah Lee</span>
+                <span>🚀 95 · 💬 18</span>
+            </div>
+        </article>
+        <article class="blog-card">
+            <h3>Top 10 Travel Spots for 2025</h3>
+            <p>Explore the most breathtaking destinations for your next adventure…</p>
+            <div class="blog-meta">
+                <span>by Chris Wong</span>
+                <span>🚀 210 · 💬 67</span>
+            </div>
+        </article>
+        <!-- Add infinite scroll or pagination later -->
+    </section>
+
+    <!-- Right Sidebar -->
+    <aside class="rightbar">
+        <div class="card">
+            <h4>👥 People to Follow</h4>
+            <ul>
+                <li><a href="#">Emma Johnson</a></li>
+                <li><a href="#">Michael Brown</a></li>
+                <li><a href="#">Sophia Davis</a></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>🔥 Trending Tags</h4>
+            <ul>
+                <li>#AI</li>
+                <li>#Travel</li>
+                <li>#WritingTips</li>
+                <li>#Productivity</li>
+            </ul>
+        </div>
+    </aside>
+</main>
+
+</body>
+</html>
