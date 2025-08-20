@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bloggo — Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/admin-dashboard.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="container d-flex justify-content-between align-items-center py-2">
+        <a class="brand" href="#" aria-label="Bloggo Home">
+            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
+        </a>
+
+        <nav class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center">
+                <span class="text-black me-3">Welcome, Admin</span>
+                <img src="../assets/boy%20(1).png" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active" href="#">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="#">👤 Manage Users</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="#">📝 Manage Posts</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="#">⚡ Admin Actions</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="#">⚙️ Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <h2 class="mb-4">Admin Dashboard</h2>
+
+            <!-- Stats -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5>Users</h5>
+                        <h3>1,245</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5>Posts</h5>
+                        <h3>3,576</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5>Reports</h5>
+                        <h3>128</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5>Actions</h5>
+                        <h3>412</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Admin Actions -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header fw-bold">Recent Admin Actions</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Admin <strong>@sasuni</strong> banned user <strong>@alex</strong> — Reason: Spam
+                            <small class="text-muted float-end">2h ago</small>
+                        </li>
+                        <li class="list-group-item">
+                            Admin <strong>@pookie</strong> deleted post <em>"Spring Boot Guide"</em>
+                            <small class="text-muted float-end">4h ago</small>
+                        </li>
+                        <li class="list-group-item">
+                            Admin <strong>@oshan</strong> warned user <strong>@susan</strong> — Reason: Offensive comment
+                            <small class="text-muted float-end">6h ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- User Management -->
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold">User Management</div>
+                <div class="card-body">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>#101</td>
+                            <td>@alex</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">Suspend</button>
+                                <button class="btn btn-sm btn-danger">Ban</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#102</td>
+                            <td>@susan</td>
+                            <td><span class="badge bg-danger">Banned</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-success">Unban</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#103</td>
+                            <td>@john</td>
+                            <td><span class="badge bg-warning">Suspended</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-success">Activate</button>
+                                <button class="btn btn-sm btn-danger">Ban</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Example: confirm before banning a user
+    document.querySelectorAll('.btn-danger').forEach(btn => {
+        btn.addEventListener('click', function () {
+            if (!confirm("Are you sure you want to ban this user?")) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>
