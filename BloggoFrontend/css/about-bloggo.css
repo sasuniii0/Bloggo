@@ -1,0 +1,160 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #333;
+}
+
+header {
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:rgba(255,255,255,.8);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--border)
+}
+.nav {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0
+}
+.brand {
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    cursor:pointer;
+}
+.brand-logo {
+    width:200px;
+    height:60px;
+    border-radius:8px;
+    object-fit:contain;
+    transition:transform 0.2s ease-in-out;
+}
+
+.nav-actions {
+    display:flex;
+    align-items:center;
+    gap:10px
+}
+
+.btn {
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    font-weight:600;
+    transition:.2s;
+    cursor:pointer
+}
+.btn:hover {
+    transform:translateY(-1px);
+    box-shadow:var(--shadow)
+}
+
+
+/* Profile Menu */
+.profile-menu {
+    display:flex;
+    align-items:center;
+    margin-left:16px;
+}
+.avatar {
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--border);
+    cursor:pointer;
+    transition:transform 0.2s ease;
+}
+.avatar:hover {
+    transform:scale(1.05);
+    border-color:var(--primary);
+
+}
+.dropdown-menu {
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    padding:8px 0;
+    font-size:0.95rem;
+}
+.dropdown-item {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 15px;
+}
+.dropdown-item:hover {
+    background-color:#f8f9fa;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    color: #fff;
+    text-align: center;
+    padding: 6rem 1rem;
+    border-radius: 0 0 50% 50% / 10%;
+}
+.hero h1 { font-weight: 700; margin-bottom: 1rem; font-size: 3rem; }
+.hero p { font-size: 1.3rem; }
+
+/* Sections */
+.section { padding: 4rem 1rem; }
+.section h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #2575fc;
+}
+
+/* Cards for Team Members */
+.team-member {
+    background: #fff;
+    border-radius: 15px;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    object-fit: cover;
+    border: 3px solid #2575fc;
+}
+.team-member h5 { font-weight: 600; margin-bottom: 0.5rem; }
+.team-member p { color: #666; font-size: 0.95rem; }
+
+/* Mission & Contact */
+.card-light {
+    background: #fff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+footer {
+    background: #fff;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #666;
+    border-top: 1px solid #ddd;
+    margin-top: 4rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .hero p { font-size: 1rem; }
+}

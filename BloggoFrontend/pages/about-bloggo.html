@@ -2,9 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Bloggo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/about-bloggo.css">
 </head>
 <body>
+
+<header>
+    <div class="container nav">
+        <a class="brand" href="about-bloggo.html" aria-label="Bloggo Home">
+            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
+        </a>
+
+        <!-- Navbar Actions -->
+        <nav class="nav-actions">
+            <a class="btn" href="dashboard.html">Explore</a>
+            <a class="btn" href="notification.html">Notifications</a>
+            <a class="btn" id="btn-write" href="blog-editor.html" style="color: white; background: #0d6efd" >Write</a>
+
+            <!-- User Profile (visible after login) -->
+            <div class="profile-menu">
+                <!-- User Profile (visible after login) -->
+                <div class="profile-menu">
+                    <!-- User Profile Menu -->
+                    <div class="dropdown profile-menu">
+                        <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
+                            <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
+                            <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
+                            <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>About Bloggo</h1>
+    <p>Your space to share ideas, inspire readers, and grow as a writer.</p>
+</section>
+
+<!-- Our Mission -->
+<section class="section bg-light">
+    <h2>Our Mission</h2>
+    <div class="card-light text-center">
+        <p>Bloggo is dedicated to providing writers and readers with a clean, intuitive, and interactive platform where ideas flourish, communities connect, and stories reach the right audience. Our mission is to empower every voice.</p>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="section">
+    <h2>Meet Our Team</h2>
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3">
+                <div class="team-member">
+                    <img src="../assets/client1.jpg" alt="Alex Carter">
+                    <h5>Alex Carter</h5>
+                    <p>Founder & CEO</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="team-member">
+                    <img src="../assets/client2.jpg" alt="Sarah Lee">
+                    <h5>Sarah Lee</h5>
+                    <p>Chief Content Officer</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="team-member">
+                    <img src="../assets/client3.jpg" alt="Chris Wong">
+                    <h5>Chris Wong</h5>
+                    <p>Head of Product</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section bg-light">
+    <h2>Contact Us</h2>
+    <div class="card-light text-center">
+        <p>Have questions or suggestions? Reach out at <a href="mailto:support@bloggo.com">support@bloggo.com</a></p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Bloggo. All rights reserved.
+</footer>
 
 </body>
 </html>
