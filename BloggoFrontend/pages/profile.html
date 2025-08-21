@@ -24,9 +24,20 @@
 
             <!-- User Profile (visible after login) -->
             <div class="profile-menu">
-                <a href="profile-edit.html" title="Edit Profile">
-                    <img src="../assets/user-avatar.jpg" class="avatar">
-                </a>
+                <!-- User Profile Menu -->
+                <div class="dropdown profile-menu">
+                    <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
+                        <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
+                        <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
+                        <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>
