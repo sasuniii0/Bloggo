@@ -4,64 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bloggo — Dashboard</title>
-    <link href="../css/main.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link href="../css/dashboard.css" rel="stylesheet">
 </head>
 <body>
 <header>
     <div class="container nav">
-        <a class="brand" href="#" aria-label="Bloggo Home">
+        <a class="brand" href="dashboard.html" aria-label="Bloggo Home">
             <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
         </a>
 
-        <!-- Navbar Actions -->
         <nav class="nav-actions">
             <a class="btn" href="#">Explore</a>
-            <a class="btn" href="#">Notifications</a>
+            <a class="btn" href="notification.html">Notifications</a>
             <a class="btn btn-primary" href="#">Write</a>
 
-            <!-- User Profile (visible after login) -->
-            <div class="profile-menu">
-                <!-- User Profile Menu -->
-                <div class="dropdown profile-menu">
-                    <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
-                        <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
-                        <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
-                        <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
-                    </ul>
-                </div>
+            <!-- ✅ Fixed: Single profile menu -->
+            <div class="dropdown profile-menu">
+                <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../assets/boy%20(1).png" class="avatar" alt="User Profile">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
+                    <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
+                    <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
+                    <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
+                </ul>
             </div>
-
         </nav>
     </div>
 </header>
 
-
 <main class="container dashboard">
-    <!-- Left Sidebar -->
+    <!-- Sidebar -->
     <aside class="sidebar">
         <a href="dashboard.html">🏠 Home</a>
         <a href="profile.html">✍ My Blogs</a>
         <a href="#">🔖 Saved</a>
         <a href="#">🌍 Explore</a>
         <a href="notification.html">🔔 Notifications</a>
-        <a href="#">⚙ Settings</a>
+        <a href="settings.html">⚙ Settings</a>
     </aside>
 
-    <!-- Main Feed -->
+    <!-- Feed -->
     <section class="feed">
         <article class="blog-card">
             <h3>Designing Minimal UIs for Focused Reading</h3>
             <p>A deep dive into how minimalism improves content engagement…</p>
             <div class="blog-meta">
                 <span>by Alex Carter</span>
-                <span>🚀120 · 💬 34</span>
+                <span>🚀 120 · 💬 34</span>
             </div>
         </article>
         <article class="blog-card">
@@ -80,7 +78,6 @@
                 <span>🚀 210 · 💬 67</span>
             </div>
         </article>
-        <!-- Add infinite scroll or pagination later -->
     </section>
 
     <!-- Right Sidebar -->
@@ -105,5 +102,7 @@
     </aside>
 </main>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
