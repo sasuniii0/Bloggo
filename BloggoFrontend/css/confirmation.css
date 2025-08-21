@@ -1,0 +1,79 @@
+body {
+    background: #f9f9f9;
+}
+
+header {
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    padding: 1rem 0;
+}
+
+.brand-logo {
+    height: 40px;
+}
+
+.checkout-steps {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+    font-weight: 500;
+    color: #999;
+}
+
+.step.active {
+    color: #0d6efd;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ddd;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+
+}
+
+.step.active .step-circle {
+    border-color: #0d6efd;
+    background: #0d6efd;
+    color: #fff;
+}
+
+.confirmation-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 2rem auto;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.confirmation-card h2 {
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+.confirmation-card p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.btn-home {
+    background: #0d6efd;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    text-decoration: none;
+}
