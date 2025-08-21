@@ -18,12 +18,18 @@
             <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
         </a>
 
+        <!-- 🔍 Search Bar -->
+        <form class="d-flex mx-3 flex-grow-1" role="search" onsubmit="return false;">
+            <input class="form-control me-2" type="search" id="searchInput" placeholder="Search blogs, tags, or authors..." aria-label="Search">
+            <button class="btn btn-outline-success" type="button" onclick="searchBlogs()">Search</button>
+        </form>
+
         <nav class="nav-actions">
             <a class="btn" href="#">Explore</a>
             <a class="btn" href="notification.html">Notifications</a>
             <a class="btn btn-primary" href="blog-editor.html">Write</a>
 
-            <!-- ✅ Fixed: Single profile menu -->
+            <!-- ✅ Profile dropdown -->
             <div class="dropdown profile-menu">
                 <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="../assets/boy%20(1).png" class="avatar" alt="User Profile">
@@ -40,6 +46,7 @@
         </nav>
     </div>
 </header>
+
 
 <main class="container dashboard">
     <!-- Sidebar -->
