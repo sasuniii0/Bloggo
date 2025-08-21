@@ -10,7 +10,7 @@
 body {
     font-family: 'Inter', sans-serif;
     color: var(--dark);
-    background-color: #fff;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     line-height: 1.5;
 }
 
