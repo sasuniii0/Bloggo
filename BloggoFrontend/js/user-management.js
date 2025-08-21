@@ -1,23 +1,33 @@
-const api = "https://localhost:8080/user";
+const api = "http://localhost:8080/user";
 
-/* ------------------ USERS ------------------ */
-let users = [
-    { id: 1, username: "alex", email: "alex@mail.com", role: "USER", status: "FREE" },
-    { id: 2, username: "maria", email: "maria@mail.com", role: "ADMIN", status: "PAID" }
-];
+let users = [];
 let editingId = null;
 
-function renderUsers() {
+// Fetch all users from the API
+async function fetchUsers() {
+    try {
+        const res = await fetch(`${api}/getAll`);
+        const data = await res.json();
+        users = data.data; // Assuming ApiResponseDTO.data contains users
+        renderUsers();
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+}
+
+// Render users with optional filtered list
+function renderUsers(list = users) {
     const tbody = document.getElementById("userTableBody");
+    console.log("Rendering users:", list);
     tbody.innerHTML = "";
-    users.forEach(user => {
+    list.forEach(user => {
         tbody.innerHTML += `
         <tr>
-          <td>${user.id}</td>
+          <td>${user.userId}</td>
           <td>${user.username}</td>
           <td>${user.email}</td>
           <td>${user.role}</td>
-          <td>${user.status}</td>
+          <td>${user.membershipStatus}</td>
           <td>
             <button class="btn btn-sm btn-outline-primary" onclick="openEditUserModal(${user.id})">Edit</button>
             <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">Delete</button>
@@ -26,119 +36,78 @@ function renderUsers() {
     });
 }
 
-function openAddUserModal() {
-    editingId = null;
-    document.getElementById("userForm").reset();
-    document.getElementById("userModalTitle").innerText = "Add User";
+// Search filter
+function searchUsers() {
+    const query = document.getElementById("userSearch").value.toLowerCase();
+    const filteredUsers = users.filter(user =>
+        user.username.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query) ||
+        user.role.toLowerCase().includes(query)
+    );
+    renderUsers(filteredUsers);
 }
 
-function openEditUserModal(id) {
-    const user = users.find(u => u.id === id);
-    if (!user) return;
-    editingId = id;
-    document.getElementById("userId").value = user.id;
-    document.getElementById("username").value = user.username;
-    document.getElementById("email").value = user.email;
-    document.getElementById("role").value = user.role;
-    document.getElementById("status").value = user.status;
-    document.getElementById("userModalTitle").innerText = "Edit User";
-    new bootstrap.Modal(document.getElementById("userModal")).show();
-}
-
-function saveUser(event) {
+// Save (Add/Edit) user
+async function saveUser(event) {
     event.preventDefault();
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const role = document.getElementById("role").value;
     const status = document.getElementById("status").value;
 
-    if (editingId) {
-        const user = users.find(u => u.id === editingId);
-        Object.assign(user, { username, email, role, status });
-    } else {
-        const newId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
-        users.push({ id: newId, username, email, role, status });
-    }
+    const payload = { id: editingId, username, email, role, status };
 
-    renderUsers();
-    bootstrap.Modal.getInstance(document.getElementById("userModal")).hide();
-}
+    try {
+        let url = editingId ? `${api}/edit` : `${api}/save`;
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        console.log(data.message);
 
-function deleteUser(id) {
-    if (confirm("Are you sure you want to delete this user?")) {
-        users = users.filter(u => u.id !== id);
-        renderUsers();
-    }
-}
-
-/* ------------------ ADMIN ACTIONS ------------------ */
-let actions = [
-    { id: 1, name: "BAN", targetUser: "alex", date: "2025-08-21" },
-    { id: 2, name: "PROMOTE", targetUser: "maria", date: "2025-08-20" }
-];
-let editingActionId = null;
-
-function renderActions() {
-    const tbody = document.getElementById("actionTableBody");
-    tbody.innerHTML = "";
-    actions.forEach(action => {
-        tbody.innerHTML += `
-        <tr>
-          <td>${action.id}</td>
-          <td>${action.name}</td>
-          <td>${action.targetUser}</td>
-          <td>${action.date}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary" onclick="openEditActionModal(${action.id})">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteAction(${action.id})">Delete</button>
-          </td>
-        </tr>`;
-    });
-}
-
-function openAddActionModal() {
-    editingActionId = null;
-    document.getElementById("actionForm").reset();
-    document.getElementById("actionModalTitle").innerText = "Add Admin Action";
-}
-
-function openEditActionModal(id) {
-    const action = actions.find(a => a.id === id);
-    if (!action) return;
-    editingActionId = id;
-    document.getElementById("actionId").value = action.id;
-    document.getElementById("actionName").value = action.name;
-    document.getElementById("targetUser").value = action.targetUser;
-    document.getElementById("actionDate").value = action.date;
-    document.getElementById("actionModalTitle").innerText = "Edit Admin Action";
-    new bootstrap.Modal(document.getElementById("actionModal")).show();
-}
-
-function saveAction(event) {
-    event.preventDefault();
-    const name = document.getElementById("actionName").value;
-    const targetUser = document.getElementById("targetUser").value;
-    const date = document.getElementById("actionDate").value;
-
-    if (editingActionId) {
-        const action = actions.find(a => a.id === editingActionId);
-        Object.assign(action, { name, targetUser, date });
-    } else {
-        const newId = actions.length ? Math.max(...actions.map(a => a.id)) + 1 : 1;
-        actions.push({ id: newId, name, targetUser, date });
-    }
-
-    renderActions();
-    bootstrap.Modal.getInstance(document.getElementById("actionModal")).hide();
-}
-
-function deleteAction(id) {
-    if (confirm("Are you sure you want to delete this action?")) {
-        actions = actions.filter(a => a.id !== id);
-        renderActions();
+        // Refresh user list
+        fetchUsers();
+        bootstrap.Modal.getInstance(document.getElementById("userModal")).hide();
+    } catch (error) {
+        console.error("Error saving user:", error);
     }
 }
 
-/* Initial Render */
-renderUsers();
-renderActions();
+// Delete user
+async function deleteUser(id) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+    try {
+        const res = await fetch(`${api}/delete?userId=${id}`, { method: "DELETE" });
+        const data = await res.json();
+        console.log(data.message);
+        fetchUsers();
+    } catch (error) {
+        console.error("Error deleting user:", error);
+    }
+}
+
+// Open edit modal
+function openEditUserModal(id) {
+    const user = users.find(u => u.id === id);
+    if (!user) return;
+    editingId = id;
+    document.getElementById("userId").value = user.userId;
+    document.getElementById("username").value = user.username;
+    document.getElementById("email").value = user.email;
+    document.getElementById("role").value = user.role;
+    document.getElementById("status").value = user.membershipStatus;
+    document.getElementById("userModalTitle").innerText = "Edit User";
+    new bootstrap.Modal(document.getElementById("userModal")).show();
+}
+
+// Open add modal
+function openAddUserModal() {
+    editingId = null;
+    document.getElementById("userForm").reset();
+    document.getElementById("userModalTitle").innerText = "Add User";
+}
+
+// Initial fetch
+fetchUsers();

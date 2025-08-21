@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(RoleName.USER)
                 .membershipStatus(MembershipStatus.FREE)
                 .createdAt(LocalDateTime.now())
-                .lastLogin(null)
+                .lastLogin(LocalDateTime.now())
                 .build();
         userRepository.save(user);
         return "User registered successfully";

@@ -42,6 +42,11 @@
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" onclick="openAddUserModal()">+ Add User</button>
   </div>
 
+  <!-- Search Bar -->
+  <div class="mb-3">
+    <input type="text" id="userSearch" class="form-control" placeholder="Search users..." onkeyup="searchUsers()">
+  </div>
+
   <div class="table-card">
     <table class="table table-hover align-middle">
       <thead class="table-light">
