@@ -112,57 +112,6 @@ header {
     box-shadow:var(--shadow)
 }
 
-/* Pricing Table */
-.pricing-section {
-    padding: 20px 0;
-    text-align: center;
-}
-
-.pricing-card {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 2rem;
-    transition: transform 0.2s ease;
-}
-
-.pricing-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-
-.pricing-card h3 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-.pricing-price {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 1rem 0;
-    color: var(--primary);
-}
-
-.pricing-features {
-    text-align: left;
-    margin-bottom: 1.5rem;
-}
-
-.pricing-features li {
-    margin-bottom: 0.5rem;
-}
-
-.btn-plan {
-    background: var(--primary);
-    color: #fff;
-    border-radius: 50px;
-    padding: 0.6rem 1.5rem;
-}
-
-.btn-plan:hover {
-    background: var(--primary-hover);
-    color: #fff;
-}
-
 /* Checkout Progress */
 .checkout-steps {
     display: flex;

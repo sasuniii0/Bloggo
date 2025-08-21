@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bloggo — Membership</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/membership.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Bloggo-Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/payment.css" rel="stylesheet">
 </head>
 <body>
-<!-- Navbar -->
+
 <header>
     <div class="container nav">
         <a class="brand" href="#" aria-label="Bloggo Home">
@@ -42,50 +41,22 @@
     </div>
 </header>
 
-<!-- Pricing Table -->
-<section class="pricing-section container text-center">
+<div class="container my-4">
+    <div class="card shadow-sm p-4 text-center">
+        <h3 class="mb-3">💳 Pay with PayPal</h3>
+        <p class="text-muted">Click below to complete your payment securely with PayPal</p>
 
-    <h2 class="mb-5">Want to become member? Choose Your Plan</h2>
-    <div class="row g-4 justify-content-center">
-
-        <!-- Free Plan -->
-        <div class="col-md-4">
-            <div class="pricing-card">
-                <h3>Free</h3>
-                <p class="pricing-price">$0 <small>/mo</small></p>
-                <ul class="pricing-features">
-                    <li>✔ Access to basic features</li>
-                    <li>✔ Community support</li>
-                    <li>✖ Limited customization</li>
-                </ul>
-                <a href="profile.html" class="btn btn-plan">Get Started</a>
-            </div>
-        </div>
-
-        <!-- Premium Plan -->
-        <div class="col-md-4">
-            <div class="pricing-card border-primary shadow">
-                <h3>Premium</h3>
-                <p class="pricing-price">$5 <small>/mo</small></p>
-                <ul class="pricing-features">
-                    <li>✔ All Free features</li>
-                    <li>✔ Advanced analytics</li>
-                    <li>✔ Priority support</li>
-                </ul>
-                <a href="payment.html" class="btn btn-plan">Upgrade</a>
-            </div>
-        </div>
-
+        <!-- PayPal button -->
+        <div id="paypal-button-container">Checkout</div>
     </div>
-</section>
-
+</div>
 
 <!-- Checkout Progress -->
 <div class="checkout-steps">
-    <div class="step active">
+    <div class="step ">
         <div class="step-circle">1</div> Plan
     </div>
-    <div class="step">
+    <div class="step active">
         <div class="step-circle">2</div> Payment
     </div>
     <div class="step">
@@ -96,5 +67,10 @@
 <div class="container text-center mb-5">
     <p class="text-muted">Secure checkout process — your data is protected 🔒</p>
 </div>
+
+<script src="../js/payment.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+
+
 </body>
 </html>
