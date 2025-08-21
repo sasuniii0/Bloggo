@@ -1,0 +1,37 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.navbar img {
+    border: 2px solid #fff;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+    font-weight:600;
+
+}
+
+.brand-logo {
+    max-width: 200px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
