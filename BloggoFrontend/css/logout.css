@@ -1,0 +1,48 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.logout-card {
+    background: #fff;
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 0.8s ease;
+}
+.logout-card h2 {
+    color: #4A4A4A;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.logout-card p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+.btn-login {
+    display: inline-block;
+    background: linear-gradient(90deg, #240a40 0%, #2575fc 100%);
+    color: #fff;
+    padding: 0.65rem 2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37,117,252,0.4);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
