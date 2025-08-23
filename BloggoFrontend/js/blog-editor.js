@@ -2,6 +2,56 @@ const editor = document.getElementById('editor');
 const autosave = document.getElementById('autosave');
 const titleInput = document.querySelector('.form-control');
 
+document.getElementById('btn-publish').addEventListener('click', async () => {
+    const title = titleInput.value.trim();
+    const content = editor.innerHTML.trim();
+
+    if (!title) {
+        alert('Please enter a title for your blog post.');
+        titleInput.focus();
+        return;
+    }
+    if (!content || content === '<br>') {
+        alert('Please enter some content for your blog post.');
+        editor.focus();
+        return;
+    }
+
+    const postData = {
+        title: title,
+        content: content,
+        status: 'PUBLISHED', // or 'DRAFT' if you want draft option
+        userId: 1 // replace with logged-in user's ID dynamically
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData),
+            credentials: 'include' // if using cookies/session
+        });
+
+        if (response.ok) {
+            alert('✅ Blog post published successfully!');
+            // Clear editor
+            titleInput.value = '';
+            editor.innerHTML = '<p><br></p>';
+            setSavingStatus();
+        } else {
+            const error = await response.text();
+            console.error(error);
+            alert('❌ Failed to publish blog post.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('⚠️ Error publishing blog post.');
+    }
+});
+
+
 function format(command, value = null) {
     document.execCommand(command, false, value);
     editor.focus();
