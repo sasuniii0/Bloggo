@@ -197,3 +197,7 @@ body {
 .dropdown-item:hover {
     background-color: #f8f9fa;
 }
+.tab-pane{
+    display: flex;
+    align-items: flex-start;
+}

@@ -119,3 +119,84 @@
 2025-08-24T02:01:34.519+05:30  INFO 20144 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-08-24T02:01:34.519+05:30  INFO 20144 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-08-24T02:01:34.520+05:30  INFO 20144 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-08-24T02:31:30.145+05:30  WARN 20144 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m7s494ms181µs99ns).
+2025-08-24T02:41:20.832+05:30  INFO 20144 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-24T02:41:20.838+05:30  INFO 20144 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-24T02:41:20.848+05:30  INFO 20144 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-24T02:41:20.852+05:30  INFO 20144 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-24T02:41:20.855+05:30  INFO 20144 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-08-24T02:41:24.608+05:30  INFO 20616 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 20616 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-08-24T02:41:24.610+05:30  INFO 20616 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-08-24T02:41:25.168+05:30  INFO 20616 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-24T02:41:25.208+05:30  INFO 20616 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 3 JPA repository interfaces.
+2025-08-24T02:41:25.559+05:30  INFO 20616 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-24T02:41:25.569+05:30  INFO 20616 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-24T02:41:25.569+05:30  INFO 20616 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-24T02:41:25.608+05:30  INFO 20616 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-24T02:41:25.608+05:30  INFO 20616 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 964 ms
+2025-08-24T02:41:25.710+05:30  INFO 20616 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-24T02:41:25.758+05:30  INFO 20616 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-24T02:41:25.788+05:30  INFO 20616 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-24T02:41:26.007+05:30  INFO 20616 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-24T02:41:26.031+05:30  INFO 20616 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-08-24T02:41:26.274+05:30  INFO 20616 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47c81e89
+2025-08-24T02:41:26.276+05:30  INFO 20616 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-08-24T02:41:26.350+05:30  WARN 20616 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-24T02:41:26.378+05:30  INFO 20616 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-24T02:41:27.459+05:30  INFO 20616 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-24T02:41:27.610+05:30  INFO 20616 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-24T02:41:27.888+05:30  INFO 20616 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-24T02:41:28.452+05:30  WARN 20616 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-24T02:41:28.485+05:30  INFO 20616 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-08-24T02:41:28.929+05:30  INFO 20616 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-24T02:41:28.934+05:30  INFO 20616 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.679 seconds (process running for 5.177)
+2025-08-24T02:41:30.310+05:30  INFO 20616 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-24T02:41:30.311+05:30  INFO 20616 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-08-24T02:41:30.312+05:30  INFO 20616 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-08-24T02:43:03.285+05:30  INFO 20616 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-24T02:43:03.291+05:30  INFO 20616 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-24T02:43:03.296+05:30  INFO 20616 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-24T02:43:03.297+05:30  INFO 20616 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-24T02:43:03.302+05:30  INFO 20616 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-08-24T02:43:05.242+05:30  INFO 2124 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 2124 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-08-24T02:43:05.244+05:30  INFO 2124 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-08-24T02:43:05.710+05:30  INFO 2124 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-24T02:43:05.758+05:30  INFO 2124 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 3 JPA repository interfaces.
+2025-08-24T02:43:06.135+05:30  INFO 2124 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-24T02:43:06.143+05:30  INFO 2124 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-24T02:43:06.143+05:30  INFO 2124 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-24T02:43:06.173+05:30  INFO 2124 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-24T02:43:06.173+05:30  INFO 2124 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 896 ms
+2025-08-24T02:43:06.265+05:30  INFO 2124 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-24T02:43:06.294+05:30  INFO 2124 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-24T02:43:06.310+05:30  INFO 2124 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-24T02:43:06.492+05:30  INFO 2124 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-24T02:43:06.508+05:30  INFO 2124 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-08-24T02:43:06.773+05:30  INFO 2124 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47c81e89
+2025-08-24T02:43:06.774+05:30  INFO 2124 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-08-24T02:43:06.810+05:30  WARN 2124 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-24T02:43:06.821+05:30  INFO 2124 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-24T02:43:07.751+05:30  INFO 2124 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-24T02:43:07.961+05:30  INFO 2124 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-24T02:43:08.250+05:30  INFO 2124 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-24T02:43:08.798+05:30  WARN 2124 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-24T02:43:08.835+05:30  INFO 2124 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-08-24T02:43:09.230+05:30  INFO 2124 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-24T02:43:09.235+05:30  INFO 2124 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.351 seconds (process running for 5.048)
+2025-08-24T02:43:11.382+05:30  INFO 2124 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-24T02:43:11.383+05:30  INFO 2124 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-08-24T02:43:11.384+05:30  INFO 2124 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

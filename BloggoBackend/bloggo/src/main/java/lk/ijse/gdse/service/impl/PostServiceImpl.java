@@ -36,7 +36,8 @@ public class PostServiceImpl implements PostService {
                 .map(post -> new PostDTO(
                         post.getTitle(),
                         post.getContent(),
-                        post.getUser().getUsername()
+                        post.getUser().getUsername(),
+                        post.getStatus()
                 ))
                 .toList();
     }
@@ -48,7 +49,8 @@ public class PostServiceImpl implements PostService {
                 .map(post -> new PostDTO(
                         post.getTitle(),
                         post.getContent(),
-                        post.getUser().getUsername()
+                        post.getUser().getUsername(),
+                        post.getStatus()
                 ))
                 .toList();
     }
