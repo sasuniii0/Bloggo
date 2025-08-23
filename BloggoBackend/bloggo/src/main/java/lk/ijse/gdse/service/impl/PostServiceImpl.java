@@ -41,5 +41,17 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
+    @Override
+    public List<PostDTO> getPostsByUser(String name) {
+        List<Post> posts = postRepository.findByUserUsername(name);
+        return posts.stream()
+                .map(post -> new PostDTO(
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getUser().getUsername()
+                ))
+                .toList();
+    }
+
 
 }

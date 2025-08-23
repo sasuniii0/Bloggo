@@ -9,4 +9,6 @@ public interface PostService {
     Post publishPost(Post post);
 
     List<PostDTO> getAllPosts();
+
+    List<PostDTO> getPostsByUser(String name);
 }

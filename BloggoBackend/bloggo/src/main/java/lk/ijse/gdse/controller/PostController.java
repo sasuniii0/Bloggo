@@ -9,6 +9,7 @@ import lk.ijse.gdse.service.PostService;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -23,6 +24,7 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping("/publish")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponseDTO> publishPost(@RequestBody Post post, Principal principal) {
         User user= userService.findByUsername(principal.getName());
         post.setUser(user);
@@ -38,9 +40,10 @@ public class PostController {
 
 
 
-    @GetMapping("/getAll")
-    public ResponseEntity<ApiResponseDTO> getAllPosts() {
-        List<PostDTO> posts = postService.getAllPosts();
+    @GetMapping("/my-posts")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {
+        List<PostDTO> posts = postService.getPostsByUser(principal.getName());
         return ResponseEntity.ok(
                 new ApiResponseDTO(
                         200,

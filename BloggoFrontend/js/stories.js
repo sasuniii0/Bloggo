@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const response = await fetch("http://localhost:8080/api/v1/post/getAll", {
+        const response = await fetch("http://localhost:8080/api/v1/post/my-posts", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -23,15 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
         console.log("API response:", data);
 
-        // Determine the actual posts array
-        let posts = [];
-        if (Array.isArray(data)) {
-            posts = data;                  // API returned array directly
-        } else if (Array.isArray(data.posts)) {
-            posts = data.posts;            // API wrapped array in 'posts'
-        } else if (Array.isArray(data.data)) {
-            posts = data.data;             // API wrapped array in 'data'
-        }
+        let posts = Array.isArray(data.data) ? data.data : [];
 
         if (!posts || posts.length === 0) {
             storiesContainer.innerHTML = `<p class="text-muted">No stories published yet.</p>`;
