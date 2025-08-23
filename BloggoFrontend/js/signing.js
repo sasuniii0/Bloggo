@@ -39,7 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;
 
                     alert("Sign in successful!");
-                    window.location.href = "dashboard.html";
+                    if (data.role=== 'ADMIN') {
+                        window.location.href = "admin-action.html";
+                    } else if (data.role === 'USER') {
+                        window.location.href = "dashboard.html";
+                    }
                 } else {
                     alert('Authentication failed: Token or role not found');
                 }
