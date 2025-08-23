@@ -10,12 +10,13 @@ import java.util.List;
 
 @Repository
 public interface DashboardRepository extends JpaRepository<Post,Long> {
-    @Query
-            ("SELECT DISTINCT p FROM Post p " +
-                    "JOIN p.user u " +
-                    "JOIN p.tags t " +
-                    "WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-                    "OR LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-                    "OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("""
+       SELECT DISTINCT p FROM Post p
+       JOIN p.user u
+       LEFT JOIN p.tags t
+       WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+          OR LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%'))
+          OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+       """)
     List<Post> findByKeyword(@Param("keyword") String keyword);
 }

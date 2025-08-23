@@ -50,3 +50,16 @@
     searchResults.style.display = "none";
 }
 });
+
+    let expanded = false;
+    function toggleTags() {
+        const extraTags = document.querySelectorAll(".extra-tag");
+        const link = document.querySelector("#tagList + .browse-link");
+
+        extraTags.forEach(tag => {
+            tag.classList.toggle("d-none");
+        });
+
+        expanded = !expanded;
+        link.textContent = expanded ? "Show less..." : "Load more...";
+    }

@@ -178,3 +178,31 @@ header {
     padding:10px 15px;
 }
 .dropdown-item:hover { background-color:#f8f9fa; }
+
+/* 🔗 Styled links */
+.follow-link, .tag-link {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+.follow-link:hover, .tag-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 🌐 "Browse more" / "Load more" links */
+.browse-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #28a745;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.browse-link:hover {
+    color: #1e7e34;
+    text-decoration: underline;
+}
