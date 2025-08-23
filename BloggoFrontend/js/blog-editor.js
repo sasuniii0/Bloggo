@@ -20,23 +20,28 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     const postData = {
         title: title,
         content: content,
-        status: 'PUBLISHED', // or 'DRAFT' if you want draft option
-        userId: 1 // replace with logged-in user's ID dynamically
+        status: 'PUBLISHED',
+        userId: 1 // replace dynamically with logged-in user's ID
     };
 
     try {
-        const response = await fetch('http://localhost:8080/api/v1/post', {
+        const token = sessionStorage.getItem('jwtToken');
+        if (!token) {
+            alert('You must be logged in to publish a post.');
+            return;
+        }
+
+        const response = await fetch('http://localhost:8080/api/v1/post/publish', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // ✅ important
             },
-            body: JSON.stringify(postData),
-            credentials: 'include' // if using cookies/session
+            body: JSON.stringify(postData)
         });
 
         if (response.ok) {
             alert('✅ Blog post published successfully!');
-            // Clear editor
             titleInput.value = '';
             editor.innerHTML = '<p><br></p>';
             setSavingStatus();
@@ -50,6 +55,7 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
         alert('⚠️ Error publishing blog post.');
     }
 });
+
 
 
 function format(command, value = null) {

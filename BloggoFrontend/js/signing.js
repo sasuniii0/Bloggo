@@ -32,11 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Login response:', result);
 
                 const data = result.data;
-                if (data && data.accessToken && data.role) {
-                    // Save token in sessionStorage & cookie
-                    sessionStorage.setItem('jwtToken', data.accessToken);
-                    sessionStorage.setItem('userRole', data.role);
+                const token = result.data.accessToken;
+                const role = result.data.role;
+
+                console.log('Login response:', result);
+
+                sessionStorage.setItem('jwtToken', token);
+                sessionStorage.setItem('userRole', role);
+
+                if (data && data.username && data.role) {
                     document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;
+                    sessionStorage.setItem('userRole', data.role);
 
                     alert("Sign in successful!");
                     if (data.role=== 'ADMIN') {

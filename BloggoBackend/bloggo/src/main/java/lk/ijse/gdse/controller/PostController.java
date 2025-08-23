@@ -4,10 +4,14 @@ import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
+import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.PostService;
+import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,9 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:63342",allowCredentials = "true")
 public class PostController {
     private final PostService postService;
+    private final UserService userService;
 
     @PostMapping("/publish")
-    public ResponseEntity<ApiResponseDTO> publishPost(@RequestBody Post post) {
+    public ResponseEntity<ApiResponseDTO> publishPost(@RequestBody Post post, Principal principal) {
+        User user= userService.findByUsername(principal.getName());
+        post.setUser(user);
         Post savedPost = postService.publishPost(post);
         return ResponseEntity.status(HTTPResponse.SC_CREATED).body(
                 new ApiResponseDTO(

@@ -58,10 +58,18 @@ async function saveUser(event) {
     const payload = { id: editingId, username, email, role, status };
 
     try {
+        const token = sessionStorage.getItem('jwtToken');
+        if (!token) {
+            alert('You must be logged in to perform this action.');
+            return;
+        }
         let url = editingId ? `${api}/edit` : `${api}/save`;
         const res = await fetch(url, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify(payload)
         });
         const data = await res.json();

@@ -39,5 +39,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public User findByUsername(String name) {
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 
 }
