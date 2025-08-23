@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +35,21 @@ public class PostController {
                 )
         );
     }
+
+
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ApiResponseDTO> getAllPosts() {
+        List<PostDTO> posts = postService.getAllPosts();
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Posts retrieved successfully",
+                        posts
+                )
+        );
+    }
+
     @GetMapping("/get")
     public String getString() {
         return "Hello, this is a test endpoint for PostController!";

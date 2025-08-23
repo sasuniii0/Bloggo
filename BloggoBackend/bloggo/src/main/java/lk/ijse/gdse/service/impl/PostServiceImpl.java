@@ -1,5 +1,6 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.PostRepository;
@@ -7,6 +8,9 @@ import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,23 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(post.getUser().getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         post.setUser(user);
+        post.setPublishedAt(LocalDateTime.now());
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
         return postRepository.save(post);
     }
+
+    @Override
+    public List<PostDTO> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream()
+                .map(post -> new PostDTO(
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getUser().getUsername()
+                ))
+                .toList();
+    }
+
+
 }

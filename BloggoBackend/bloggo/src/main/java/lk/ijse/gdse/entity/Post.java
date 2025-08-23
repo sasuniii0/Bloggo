@@ -28,7 +28,7 @@ public class Post {
 
     private String title;
 
-    @Lob
+    @Column(columnDefinition = "TEXT") // for MySQL/Postgres
     private String content;
     private String coverImageUrl;
 

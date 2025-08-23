@@ -35,7 +35,7 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // ✅ important
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(postData)
         });
@@ -45,6 +45,7 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
             titleInput.value = '';
             editor.innerHTML = '<p><br></p>';
             setSavingStatus();
+            window.location.href = 'stories.html';
         } else {
             const error = await response.text();
             console.error(error);
