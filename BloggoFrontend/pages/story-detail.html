@@ -2,9 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Story Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/story-details.css" rel="stylesheet">
+
 </head>
 <body>
 
+<header>
+    <div class="container nav">
+        <a class="brand" href="about-bloggo.html" aria-label="Bloggo Home">
+            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
+        </a>
+
+        <!-- Navbar Actions -->
+        <nav class="nav-actions">
+            <a class="btn" href="dashboard.html">Explore</a>
+            <a class="btn" href="notification.html">Notifications</a>
+            <a class="btn " id="btn-write" href="blog-editor.html">Write</a>
+
+            <!-- User Profile Menu -->
+            <div class="dropdown profile-menu">
+                <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
+                    <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
+                    <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
+                    <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="container mt-4">
+    <div class="row">
+        <!-- Story Detail Content Goes Here -->
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-3">Story Title</h1>
+            <p class="text-muted">By <strong>Author Name</strong> · Aug 24, 2025</p>
+            <img alt="Story Cover" class="img-fluid rounded mb-3">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is where your story content will go...</p>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
