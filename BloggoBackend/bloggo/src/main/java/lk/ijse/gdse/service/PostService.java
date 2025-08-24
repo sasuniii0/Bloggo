@@ -12,9 +12,9 @@ public interface PostService {
 
     List<PostDTO> getPostsByUser(String name);
 
-    Post editPost(Post post);
-
     void deletePost(Long postId, String name);
 
     Post getPostById(Long postId);
+
+    Post editPost(Post post, String name);
 }

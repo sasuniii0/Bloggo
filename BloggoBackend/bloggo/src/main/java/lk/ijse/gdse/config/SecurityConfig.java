@@ -4,6 +4,7 @@ import lk.ijse.gdse.util.JWTAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -36,7 +37,9 @@ public class SecurityConfig {
                     corsConfig.setAllowCredentials(true);
                     return corsConfig;
                 }))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**" ,"/user/**","/api/v1/dashboard/**","/api/v1/post/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                        .requestMatchers("/auth/**" ,"/user/**","/api/v1/dashboard/**","/api/v1/post/**").permitAll().anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

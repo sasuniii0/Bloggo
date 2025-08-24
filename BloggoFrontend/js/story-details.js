@@ -92,18 +92,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
                 const updatedPost = {
-                    id: currentPost.id,
+                    id: currentPost.postId,
                     title: editTitle.value,
                     content: editContent.value
                 };
 
-                const updateRes = await fetch(`http://localhost:8080/api/v1/post/edit`, {
+                const updateRes = await fetch(`http://localhost:8080/api/v1/post/edit/${postId}`, {
                     method: "PUT",
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(updatedPost)
+                    body: JSON.stringify({
+                        title: editTitle.value,
+                        content: editContent.value
+                    })
                 });
 
                 if (updateRes.ok) {
