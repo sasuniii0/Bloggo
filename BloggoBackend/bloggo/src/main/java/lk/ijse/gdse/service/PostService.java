@@ -1,5 +1,6 @@
 package lk.ijse.gdse.service;
 
+import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
 
@@ -17,4 +18,10 @@ public interface PostService {
     Post getPostById(Long postId);
 
     Post editPost(Post post, String name);
+
+    int boostPost(Long postId, String name);
+
+    CommentDTO addComment(Long postId, String name, String content);
+
+    List<CommentDTO> getCommentsByPost(Long postId);
 }

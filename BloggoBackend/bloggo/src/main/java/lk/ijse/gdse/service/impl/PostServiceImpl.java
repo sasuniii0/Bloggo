@@ -1,6 +1,8 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostDTO;
+import lk.ijse.gdse.entity.Comment;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.PostRepository;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,7 +42,9 @@ public class PostServiceImpl implements PostService {
                         post.getContent(),
                         post.getUser().getUsername(),
                         post.getStatus(),
-                        post.getPublishedAt()
+                        post.getPublishedAt(),
+                        post.getBoosts() != null ? post.getBoosts().size() : 0,
+                        post.getComments() != null ? post.getComments().size() : 0
                 ))
                 .toList();
     }
@@ -54,7 +59,9 @@ public class PostServiceImpl implements PostService {
                         post.getContent(),
                         post.getUser().getUsername(),
                         post.getStatus(),
-                        post.getPublishedAt())
+                        post.getPublishedAt(),
+                        post.getBoostCount(),
+                        post.getCommentsCount())
                 )
                 .toList();
     }
@@ -88,6 +95,70 @@ public class PostServiceImpl implements PostService {
         existingPost.setUpdatedAt(LocalDateTime.now());
         return postRepository.save(existingPost);
     }
+
+    @Override
+    public int boostPost(Long postId, String name) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        User user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (post.getBoosts() == null){
+            post.setBoosts(new ArrayList<>());
+        }
+
+        if (post.getBoosts().contains(user)) {
+            post.getBoosts().remove(user);
+        }
+        postRepository.save(post);
+        return post.getBoosts().size();
+    }
+
+    @Override
+    public CommentDTO addComment(Long postId, String username, String content) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setUser(user);
+        comment.setPost(post);
+        comment.setCreatedAt(LocalDateTime.now());
+
+        if (post.getComments() == null) {
+            post.setComments(new ArrayList<>());
+        }
+        post.getComments().add(comment);
+
+        postRepository.save(post); // Save post with new comment
+
+        return new CommentDTO(
+                comment.getCommentId(),
+                comment.getContent(),
+                comment.getUser().getUsername()
+        );
+    }
+
+
+    @Override
+    public List<CommentDTO> getCommentsByPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        if (post.getComments() == null) return List.of();
+
+        return post.getComments().stream()
+                .map(c -> new CommentDTO(
+                        c.getCommentId(),
+                        c.getContent(),
+                        c.getUser().getUsername()
+                ))
+                .toList();
+    }
+
 
 
 }
