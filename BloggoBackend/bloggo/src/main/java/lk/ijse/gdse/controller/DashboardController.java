@@ -1,12 +1,16 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.PostDTO;
+import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.Tag;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.DashboardService;
+import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,4 +33,44 @@ public class DashboardController {
                 )
         );
     }
+
+    @GetMapping("/all-users")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<ApiResponseDTO> getAllUsers() {
+        List<UserDTO> users = dashboardService.getAllUsers();
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "All users retrieved successfully",
+                        users
+                )
+        );
+    }
+
+    @GetMapping("/all-posts")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<ApiResponseDTO> getAllPosts() {
+        List<PostDTO> posts = dashboardService.getAllPosts();
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "All posts retrieved successfully",
+                        posts
+                )
+        );
+    }
+
+    @GetMapping("/post/{postId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<ApiResponseDTO> getPostById(@PathVariable Long postId) {
+        PostDTO post = dashboardService.getPostById(postId);
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Post retrieved successfully",
+                        post
+                )
+        );
+    }
+
 }

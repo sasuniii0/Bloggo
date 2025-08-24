@@ -38,8 +38,6 @@ public class PostController {
         );
     }
 
-
-
     @GetMapping("/my-posts")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {
@@ -51,10 +49,5 @@ public class PostController {
                         posts
                 )
         );
-    }
-
-    @GetMapping("/get")
-    public String getString() {
-        return "Hello, this is a test endpoint for PostController!";
     }
 }

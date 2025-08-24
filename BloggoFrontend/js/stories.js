@@ -33,15 +33,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
         posts.forEach(post => {
-            if (post.status === "PUBLISHED") {
-                grouped["PUBLISHED"].push(post);
-            } else if (post.status === "DRAFT") {
-                grouped["DRAFT"].push(post);
-            }
+            if (post.status === "PUBLISHED") grouped.PUBLISHED.push(post);
+            else if (post.status === "DRAFT") grouped.DRAFT.push(post);
+            else if (post.status === "ARCHIVED") grouped.ARCHIVED.push(post);
+            else if (post.status === "SCHEDULED") grouped.SCHEDULED.push(post);
         });
 
-
-        // Helper to render posts
+        // Render post cards
         function renderPosts(list) {
             if (!list.length) {
                 return `<p class="text-muted">No stories found.</p>`;
@@ -58,21 +56,37 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
                     <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
                     <a href="story-detail.html?id=${post.postId || post.id}" 
-                       class="btn btn-sm btn-outline-primary">
+                       class="btn btn-sm btn-outline-primary mb-2">
                         Read More
                     </a>
+
+                    <!-- Action bar -->
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-sm btn-outline-secondary like-btn" data-id="${post.id}">
+                                🚀 Boost <span class="like-count">${post.likes || 0}</span>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary comment-btn" data-id="${post.id}">
+                                💬 Comments (${post.commentsCount || 0})
+                            </button>
+                        </div>
+                        <button class="btn btn-sm btn-outline-warning bookmark-btn" data-id="${post.id}">
+                            🔖 Save
+                        </button>
+                    </div>
                 </div>
             `).join("");
         }
 
-        // Render Bootstrap tabs with content
+        // Build tab layout
         storiesContainer.innerHTML = `
+        <div class="container mt-4">
             <ul class="nav nav-tabs d-flex justify-content-start" id="storiesTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="published-tab" data-bs-toggle="tab" data-bs-target="#published" type="button" role="tab">Published</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link " id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">Draft</button>
+                    <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">Draft</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">Archived</button>
@@ -87,7 +101,55 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="tab-pane fade" id="archived" role="tabpanel">${renderPosts(grouped.ARCHIVED)}</div>
                 <div class="tab-pane fade" id="scheduled" role="tabpanel">${renderPosts(grouped.SCHEDULED)}</div>
             </div>
+        </div>
+            
         `;
+
+        // Event Handlers
+        function handleLike(postId, btn) {
+            fetch(`http://localhost:8080/api/v1/post/${postId}/like`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Like response:", data);
+                    const countSpan = btn.querySelector(".like-count");
+                    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                })
+                .catch(err => console.error("Error liking post:", err));
+        }
+
+        function handleBookmark(postId) {
+            fetch(`http://localhost:8080/api/v1/post/${postId}/bookmark`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Bookmark response:", data);
+                    alert("Post saved to bookmarks!");
+                })
+                .catch(err => console.error("Error bookmarking post:", err));
+        }
+
+        function handleComments(postId) {
+            window.location.href = `story-detail.html?id=${postId}#comments`;
+        }
+
+        // Attach event listeners
+        document.querySelectorAll(".like-btn").forEach(btn => {
+            btn.addEventListener("click", () => handleLike(btn.dataset.id, btn));
+        });
+
+        document.querySelectorAll(".bookmark-btn").forEach(btn => {
+            btn.addEventListener("click", () => handleBookmark(btn.dataset.id));
+        });
+
+        document.querySelectorAll(".comment-btn").forEach(btn => {
+            btn.addEventListener("click", () => handleComments(btn.dataset.id));
+        });
+
     } catch (err) {
         console.error("Error loading stories:", err);
         storiesContainer.innerHTML = `<p class="text-danger">⚠️ Error loading stories.</p>`;

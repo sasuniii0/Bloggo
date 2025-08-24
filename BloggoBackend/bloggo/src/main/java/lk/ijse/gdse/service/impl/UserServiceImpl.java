@@ -45,5 +45,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    @Override
+    public List<String> getAllUsernames() {
+        return userRepository.getAllUsernames();
+    }
+
+
 
 }

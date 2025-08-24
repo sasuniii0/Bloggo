@@ -24,4 +24,9 @@ public class UserDTO {
     private MembershipStatus membershipStatus;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
+
+    public UserDTO(Long userId, String username) {
+        this.userId = userId;
+        this.username = username;
+    }
 }

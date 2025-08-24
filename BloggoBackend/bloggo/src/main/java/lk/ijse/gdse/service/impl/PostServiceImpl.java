@@ -34,10 +34,12 @@ public class PostServiceImpl implements PostService {
         List<Post> posts = postRepository.findAll();
         return posts.stream()
                 .map(post -> new PostDTO(
+                        post.getPostId(),
                         post.getTitle(),
                         post.getContent(),
                         post.getUser().getUsername(),
-                        post.getStatus()
+                        post.getStatus(),
+                        post.getPublishedAt()
                 ))
                 .toList();
     }
@@ -47,11 +49,13 @@ public class PostServiceImpl implements PostService {
         List<Post> posts = postRepository.findByUserUsername(name);
         return posts.stream()
                 .map(post -> new PostDTO(
+                        post.getPostId(),
                         post.getTitle(),
                         post.getContent(),
                         post.getUser().getUsername(),
-                        post.getStatus()
-                ))
+                        post.getStatus(),
+                        post.getPublishedAt())
+                )
                 .toList();
     }
 

@@ -6,29 +6,32 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const profileUpload = document.getElementById('profile-upload');
 const profilePreview = document.getElementById('profile-preview');
 
+let base64Image = ""; // store Base64
+
 profileUpload.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-            profilePreview.src = event.target.result;
+            base64Image = event.target.result; // store image as Base64
+            profilePreview.src = base64Image;
         };
         reader.readAsDataURL(file);
     }
 });
 
+// Signup form submission
 const signupForm = document.getElementById('signup-form');
-signupForm.addEventListener('submit', async function (e) {
+signupForm.addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const userDTO = {
-        pic: document.getElementById('profile-upload').value.trim(),
         username: document.getElementById('username').value.trim(),
         email: document.getElementById('email').value.trim(),
         password: document.getElementById('password').value.trim(),
-        bio: document.getElementById('bio').value.trim()
-    }
-    console.log(userDTO)
+        bio: document.getElementById('bio').value.trim(),
+        profileImage: base64Image // send Base64 string
+    };
 
     try {
         const response = await fetch(`${api}/signup`, {
@@ -38,53 +41,34 @@ signupForm.addEventListener('submit', async function (e) {
             },
             body: JSON.stringify(userDTO)
         });
-        const result = await response.json()
-        console.log('Response', result)
 
-        if (response.ok){
-            alert('Sign up Successful! now you can signing')
-            window.location.href='signing.html';
-        }else{
-            alert(`Signup Failed: ${result.message || 'Unknown Error'}`)
+        // Handle empty or non-JSON responses
+        let result;
+        try {
+            result = await response.json();
+        } catch {
+            result = { message: response.statusText || "No response" };
         }
-    }catch (error){
-        console.error(error);
-        alert("Error during signup");
-    }
 
+        if (response.ok) {
+            alert('Sign up successful! Now you can log in.');
+            window.location.href = 'signing.html';
+        } else {
+            alert(`Signup failed: ${result.message || 'Unknown error'}`);
+        }
+    } catch (error) {
+        console.error("Signup error:", error);
+        alert("Error during signup. Check console for details.");
+    }
 });
 
 // OAuth button handlers
 document.getElementById('google-auth').addEventListener('click', () => {
     alert('Google OAuth would be implemented here');
-    // Implement Google OAuth flow
 });
-
 document.getElementById('facebook-auth').addEventListener('click', () => {
     alert('Facebook OAuth would be implemented here');
-    // Implement Facebook OAuth flow
 });
-
 document.getElementById('linkedin-auth').addEventListener('click', () => {
     alert('LinkedIn OAuth would be implemented here');
-    // Implement LinkedIn OAuth flow
 });
-
-
-/* const formData = new FormData();
-    formData.append('username', document.getElementById('username').value);
-    formData.append('email', document.getElementById('email').value);
-    formData.append('password', password);
-    formData.append('bio', document.getElementById('bio').value);
-
-    // Include profile image if uploaded
-    if (profileUpload.files[0]) {
-        formData.append('profileImage', profileUpload.files[0]);
-    }
-
-    // Here you would typically send the data to your server
-    console.log('Form data:', Object.fromEntries(formData));
-
-    // Simulate successful submission
-    alert('Account created successfully! Redirecting to dashboard...');
-    // window.location.href = 'dashboard.html';*/
