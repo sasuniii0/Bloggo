@@ -30,6 +30,8 @@ public class Post {
 
     @Column(columnDefinition = "TEXT") // for MySQL/Postgres
     private String content;
+
+    @Column(columnDefinition = "LONGTEXT") // for MySQL/Postgres
     private String coverImageUrl;
 
     @Enumerated(EnumType.STRING)
