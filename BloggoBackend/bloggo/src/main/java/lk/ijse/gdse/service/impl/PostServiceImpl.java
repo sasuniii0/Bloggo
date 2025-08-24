@@ -59,5 +59,32 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
+    @Override
+    public Post editPost(Post post) {
+        Post existingPost = postRepository.findById(post.getPostId())
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        existingPost.setTitle(post.getTitle());
+        existingPost.setContent(post.getContent());
+        existingPost.setCoverImageUrl(post.getCoverImageUrl());
+        existingPost.setStatus(post.getStatus());
+        existingPost.setUpdatedAt(LocalDateTime.now());
+        return postRepository.save(existingPost);
+    }
+
+    @Override
+    public void deletePost(Long postId, String name) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        if (!post.getUser().getUsername().equals(name)) {
+            throw new RuntimeException("You are not authorized to delete this post");
+        }
+        postRepository.delete(post);
+    }
+
+    @Override
+    public Post getPostById(Long postId) {
+        return postRepository.findByPostId(postId);
+    }
+
 
 }

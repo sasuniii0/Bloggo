@@ -50,4 +50,48 @@ public class PostController {
                 )
         );
     }
+
+    @PutMapping("/edit")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> editPost(@RequestBody Post post, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+
+        Post existingPost = postService.getPostById(post.getPostId());
+        if (existingPost == null) {
+            return ResponseEntity.status(404)
+                    .body(new ApiResponseDTO(404, "Post not found", null));
+        }
+
+        if (!existingPost.getUser().getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(403)
+                    .body(new ApiResponseDTO(403, "You are not allowed to edit this post", null));
+        }
+
+        existingPost.setTitle(post.getTitle());
+        existingPost.setContent(post.getContent());
+        Post updatedPost = postService.editPost(existingPost);
+
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Post updated successfully", updatedPost));
+    }
+
+    // ✅ Delete post only if owner
+    @DeleteMapping("/delete/{postId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
+        Post existingPost = postService.getPostById(postId);
+        if (existingPost == null) {
+            return ResponseEntity.status(404)
+                    .body(new ApiResponseDTO(404, "Post not found", null));
+        }
+
+        if (!existingPost.getUser().getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(403)
+                    .body(new ApiResponseDTO(403, "You are not allowed to delete this post", null));
+        }
+
+        postService.deletePost(postId, principal.getName());
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Post deleted successfully", null));
+    }
 }
+
+

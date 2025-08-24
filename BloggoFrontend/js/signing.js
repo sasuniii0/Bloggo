@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 sessionStorage.setItem('jwtToken', token);
                 sessionStorage.setItem('userRole', role);
+                sessionStorage.setItem('username', data.username);
 
                 if (data && data.username && data.role) {
                     document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;
