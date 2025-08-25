@@ -39,7 +39,7 @@ public class SecurityConfig {
                 }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/auth/**" ,"/user/**","/api/v1/dashboard/**","/api/v1/post/**","/api/v1/boost/**","/api/v1/comment/**").permitAll().anyRequest().authenticated())
+                        .requestMatchers("/auth/**" ,"/user/**","/api/v1/dashboard/**","/api/v1/post/**","/api/v1/boost/**","/api/v1/comment/**", "/api/v1/tag/**").permitAll().anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -179,8 +179,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             try {
                 const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`);
                 const data = await res.json();
+                console.log("Comments data:", data);
                 commentsList.innerHTML = data.data.length
-                    ? data.data.map(c => `<div class="p-2 mb-1 rounded shadow-sm bg-light"><strong>${c.username}:</strong> ${c.content}</div>`).join("")
+                    ? data.data.map(c => `<div class="p-2 mb-1 rounded shadow-sm bg-light"><strong>${c.userId}:</strong> ${c.content}</div>`).join("")
                     : "<div class='text-muted'>No comments yet</div>";
             } catch (err) {
                 console.error("Load comments failed", err);

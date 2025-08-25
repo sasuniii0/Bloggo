@@ -7,6 +7,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // Load posts, users, and tags simultaneously
+    await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
+});
+
+// ========================
+// Load Posts
+// ========================
+async function loadPosts(token) {
+    const feedContainer = document.querySelector(".feed");
+
     try {
         const postsRes = await fetch("http://localhost:8080/api/v1/dashboard/all-posts", {
             method: "GET",
@@ -49,12 +59,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </article>
             `).join("")
             : `<p class="text-muted">No posts available.</p>`;
-
     } catch (err) {
         console.error("Dashboard error:", err);
         feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
     }
-});
+}
 
 // ========================
 // Navigate to Story Detail
@@ -62,13 +71,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.querySelector(".feed").addEventListener("click", (e) => {
     const card = e.target.closest(".blog-card");
 
-    // ignore clicks on boost/comment buttons
+    // ignore clicks on buttons
     if (e.target.classList.contains("boost-btn") ||
         e.target.classList.contains("comment-toggle-btn") ||
         e.target.classList.contains("add-comment-btn") ||
-        e.target.classList.contains("comment-input")) {
-        return;
-    }
+        e.target.classList.contains("comment-input")) return;
 
     if (card) {
         const postId = card.dataset.id;
@@ -80,38 +87,36 @@ document.querySelector(".feed").addEventListener("click", (e) => {
 // Boost
 // ========================
 document.querySelector(".feed").addEventListener("click", async (e) => {
-    if (e.target.classList.contains("boost-btn")) {
-        const postId = e.target.dataset.id;
-        const token = sessionStorage.getItem("jwtToken");
+    if (!e.target.classList.contains("boost-btn")) return;
+    const postId = e.target.dataset.id;
+    const token = sessionStorage.getItem("jwtToken");
 
-        try {
-            const res = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            const data = await res.json();
-            e.target.textContent = `🚀 Boost (${data.data})`;
-        } catch (err) {
-            console.error("Boost failed", err);
-        }
+    try {
+        const res = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await res.json();
+        e.target.textContent = `🚀 Boost (${data.data})`;
+    } catch (err) {
+        console.error("Boost failed", err);
     }
 });
 
 // ========================
-// Toggle Comments Section
+// Toggle Comments
 // ========================
 document.querySelector(".feed").addEventListener("click", (e) => {
-    if (e.target.classList.contains("comment-toggle-btn")) {
-        const postId = e.target.dataset.id;
-        const section = document.getElementById(`comments-${postId}`);
-        section.classList.toggle("d-none");
+    if (!e.target.classList.contains("comment-toggle-btn")) return;
+    const postId = e.target.dataset.id;
+    const section = document.getElementById(`comments-${postId}`);
+    section.classList.toggle("d-none");
 
-        if (!section.classList.contains("d-none")) {
-            loadComments(postId, section.querySelector(".existing-comments"));
-        }
+    if (!section.classList.contains("d-none")) {
+        loadComments(postId, section.querySelector(".existing-comments"));
     }
 });
 
@@ -119,28 +124,27 @@ document.querySelector(".feed").addEventListener("click", (e) => {
 // Add Comment
 // ========================
 document.querySelector(".feed").addEventListener("click", async (e) => {
-    if (e.target.classList.contains("add-comment-btn")) {
-        const postId = e.target.closest(".comments-section").id.split("-")[1];
-        const input = e.target.closest(".comments-section").querySelector(".comment-input");
-        const content = input.value.trim();
-        const token = sessionStorage.getItem("jwtToken");
+    if (!e.target.classList.contains("add-comment-btn")) return;
 
-        if (!content) return;
+    const postId = e.target.closest(".comments-section").id.split("-")[1];
+    const input = e.target.closest(".comments-section").querySelector(".comment-input");
+    const content = input.value.trim();
+    const token = sessionStorage.getItem("jwtToken");
+    if (!content) return;
 
-        try {
-            await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(content)
-            });
-            input.value = "";
-            loadComments(postId, e.target.closest(".comments-section").querySelector(".existing-comments"));
-        } catch (err) {
-            console.error("Add comment failed", err);
-        }
+    try {
+        await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(content)
+        });
+        input.value = "";
+        loadComments(postId, e.target.closest(".comments-section").querySelector(".existing-comments"));
+    } catch (err) {
+        console.error("Add comment failed", err);
     }
 });
 
@@ -152,9 +156,54 @@ async function loadComments(postId, container) {
         const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`);
         const data = await res.json();
         container.innerHTML = data.data.length
-            ? data.data.map(c => `<div class="p-2 mb-1 rounded shadow-sm bg-light"><strong>${c.username}:</strong> ${c.content}</div>`).join("")
+            ? data.data.map(c => `<div class="p-2 mb-1 rounded shadow-sm bg-light"><strong>${c.userId}:</strong> ${c.content}</div>`).join("")
             : "<div class='text-muted'>No comments yet</div>";
     } catch (err) {
         console.error("Load comments failed", err);
+    }
+}
+
+// Load Users
+async function loadUsers() {
+    const token = sessionStorage.getItem("jwtToken");
+    try {
+        const res = await fetch("http://localhost:8080/user?offset=0&limit=3", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const users = data.users || []; // <-- matches your endpoint response
+        const userList = document.getElementById("userList");
+
+        users.forEach(user => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="profile.html?id=${user.id}" class="follow-link">${user.username}</a>`;
+            userList.appendChild(li);
+        });
+    } catch (err) {
+        console.error("Load users failed", err);
+    }
+}
+
+// Load Tags
+let tagOffset = 0;
+const tagLimit = 5;
+
+async function loadTags() {
+    try {
+        const res = await fetch(`http://localhost:8080/api/v1/tag?offset=${tagOffset}&limit=${tagLimit}`);
+        const data = await res.json();
+        const tags = data.tags || []; // <-- matches your endpoint response
+        const tagList = document.getElementById("tagList");
+
+        tags.forEach(tag => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="tag.html?name=${tag.name}" class="tag-link">#${tag.name}</a>`;
+            tagList.appendChild(li);
+        });
+
+        tagOffset += tagLimit;
+        if (tags.length < tagLimit) document.getElementById("loadMoreTags").style.display = "none";
+    } catch (err) {
+        console.error("Load tags failed", err);
     }
 }

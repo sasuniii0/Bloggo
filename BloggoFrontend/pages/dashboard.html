@@ -91,15 +91,12 @@
         </article>
     </section>
 
-    <!-- Right Sidebar -->
     <aside class="rightbar">
         <!-- People to Follow -->
         <div class="card p-3 mb-3 shadow-sm rounded">
             <h4 class="mb-3">👥 People to Follow</h4>
-            <ul class="list-unstyled">
-                <li><a href="profile.html?id=1" class="follow-link">Emma Johnson</a></li>
-                <li><a href="profile.html?id=2" class="follow-link">Michael Brown</a></li>
-                <li><a href="profile.html?id=3" class="follow-link">Sophia Davis</a></li>
+            <ul id="userList" class="list-unstyled">
+                <!-- Users will be loaded here -->
             </ul>
             <a href="members.html" class="browse-link">Browse more →</a>
         </div>
@@ -108,18 +105,12 @@
         <div class="card p-3 shadow-sm rounded">
             <h4 class="mb-3">🔥 Trending Tags</h4>
             <ul id="tagList" class="list-unstyled">
-                <li><a href="tag.html?name=AI" class="tag-link">#AI</a></li>
-                <li><a href="tag.html?name=Travel" class="tag-link">#Travel</a></li>
-                <li><a href="tag.html?name=WritingTips" class="tag-link">#WritingTips</a></li>
-                <li><a href="tag.html?name=Productivity" class="tag-link">#Productivity</a></li>
-                <li class="extra-tag d-none"><a href="tag.html?name=Design" class="tag-link">#Design</a></li>
-                <li class="extra-tag d-none"><a href="tag.html?name=Health" class="tag-link">#Health</a></li>
-                <li class="extra-tag d-none"><a href="tag.html?name=Startup" class="tag-link">#Startup</a></li>
-                <li class="extra-tag d-none"><a href="tag.html?name=Mindset" class="tag-link">#Mindset</a></li>
+                <!-- Tags will be loaded here -->
             </ul>
-            <a href="javascript:void(0)" class="browse-link" onclick="toggleTags()">Load more...</a>
+            <a href="javascript:void(0)" class="browse-link" id="loadMoreTags">Load more...</a>
         </div>
     </aside>
+
 
 </main>
 

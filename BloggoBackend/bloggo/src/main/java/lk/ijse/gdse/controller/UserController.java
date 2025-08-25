@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -67,5 +69,16 @@ public class UserController {
                         null
                 ), HttpStatus.OK
         );
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<String,Object>> getUsers(
+            @RequestParam(defaultValue = "0")int offset,
+            @RequestParam (defaultValue = "3") int limit
+    ){
+        List<UserDTO> users = userService.getUsers(offset,limit);
+        Map<String,Object> response = new HashMap<>();
+        response.put("users", users);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,9 +1,12 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +53,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.getAllUsernames();
     }
 
+    @Override
+    public List<UserDTO> getUsers(int offset, int limit) {
+        Pageable pageable = PageRequest.of(offset,limit);
+        return userRepository.findAll(pageable)
+                .stream()
+                .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
+                .toList();
+    }
 
 
 }
