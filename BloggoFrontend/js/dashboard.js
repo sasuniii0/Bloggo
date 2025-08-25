@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         feedContainer.innerHTML = posts.length
             ? posts.map(post => `
-                <article class="blog-card mb-3 p-3 shadow-sm rounded">
-                    <h3>${post.title || "Untitled"}</h3>
+                <article class="blog-card mb-3 p-3 shadow-sm rounded" style="cursor: pointer;" data-id="${post.id}">
+                    <h3 class="mb-2">${post.title || "Untitled"}</h3>
                     <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
                     <div class="blog-meta d-flex justify-content-between">
                         <span>by ${post.username || "Unknown"}</span>
@@ -53,6 +53,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
         console.error("Dashboard error:", err);
         feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
+    }
+});
+
+// ========================
+// Navigate to Story Detail
+// ========================
+document.querySelector(".feed").addEventListener("click", (e) => {
+    const card = e.target.closest(".blog-card");
+
+    // ignore clicks on boost/comment buttons
+    if (e.target.classList.contains("boost-btn") ||
+        e.target.classList.contains("comment-toggle-btn") ||
+        e.target.classList.contains("add-comment-btn") ||
+        e.target.classList.contains("comment-input")) {
+        return;
+    }
+
+    if (card) {
+        const postId = card.dataset.id;
+        window.location.href = `story-detail.html?id=${postId}`;
     }
 });
 
