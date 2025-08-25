@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const contentEl = document.querySelector("main p:last-of-type");
     const actionsEl = document.getElementById("story-actions");
 
+    const boostBtn = document.getElementById("boostBtn");
+    const commentsList = document.getElementById("commentsList");
+    const commentInput = document.getElementById("commentInput");
+    const addCommentBtn = document.getElementById("addCommentBtn");
+
     if (!token) {
         titleEl.textContent = "⚠️ Please log in to view the story.";
         return;
@@ -19,7 +24,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     let currentPost = null;
 
     try {
-        // Fetch post
+        // ========================
+        // Fetch Post
+        // ========================
         const res = await fetch(`http://localhost:8080/api/v1/dashboard/post/${postId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -41,7 +48,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const plainText = post.content ? post.content.replace(/<[^>]+>/g, '') : "No content available.";
         contentEl.textContent = plainText;
 
-        // Show buttons if user is author
+        // Render boost count
+        boostBtn.textContent = `🚀 Boost (${post.boostCount || 0})`;
+
+        // Show edit/delete if author
         const loggedInUser = sessionStorage.getItem("username");
         if (loggedInUser && loggedInUser === post.username) {
             const editBtn = document.createElement("button");
@@ -89,14 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const editForm = document.getElementById("editForm");
         editForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-
             try {
-                const updatedPost = {
-                    id: currentPost.postId,
-                    title: editTitle.value,
-                    content: editContent.value
-                };
-
                 const updateRes = await fetch(`http://localhost:8080/api/v1/post/edit/${postId}`, {
                     method: "PUT",
                     headers: {
@@ -121,6 +124,68 @@ document.addEventListener("DOMContentLoaded", async () => {
                 alert("⚠️ Error updating post");
             }
         });
+
+        // ========================
+        // Load comments
+        // ========================
+        await loadComments();
+
+        // ========================
+        // Boost handler
+        // ========================
+        boostBtn.addEventListener("click", async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                const result = await res.json();
+                boostBtn.textContent = `🚀 Boost (${result.data})`;
+            } catch (err) {
+                console.error("Boost failed:", err);
+            }
+        });
+
+        // ========================
+        // Add comment
+        // ========================
+        addCommentBtn.addEventListener("click", async () => {
+            const content = commentInput.value.trim();
+            if (!content) return;
+
+            try {
+                await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(content)
+                });
+                commentInput.value = "";
+                await loadComments();
+            } catch (err) {
+                console.error("Add comment failed:", err);
+            }
+        });
+
+        // ========================
+        // Function: Load comments
+        // ========================
+        async function loadComments() {
+            try {
+                const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`);
+                const data = await res.json();
+                commentsList.innerHTML = data.data.length
+                    ? data.data.map(c => `<div class="p-2 mb-1 rounded shadow-sm bg-light"><strong>${c.username}:</strong> ${c.content}</div>`).join("")
+                    : "<div class='text-muted'>No comments yet</div>";
+            } catch (err) {
+                console.error("Load comments failed", err);
+            }
+        }
 
     } catch (err) {
         console.error("Failed to load post:", err);

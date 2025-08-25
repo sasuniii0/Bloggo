@@ -47,7 +47,44 @@
             <p class="text-muted">By <strong>Author Name</strong> · Aug 24, 2025</p>
             <img alt="Story Cover" class="img-fluid rounded mb-3">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is where your story content will go...</p>
+
+            <!-- 🚀 Support & Comments -->
+            <section class="story-engagement mt-5">
+
+                <!-- Boost Box -->
+                <div class="boost-box text-center p-4 mb-4 rounded shadow-sm border">
+                    <h5 class="fw-bold mb-2">Enjoyed this story? 💡</h5>
+                    <p class="text-muted small mb-3">Show your support with a boost</p>
+                    <button id="boostBtn" class="btn btn-success px-4 py-2 fw-semibold rounded-pill">
+                        🚀 Boost (0)
+                    </button>
+                </div>
+
+                <!-- Comments -->
+                <div class="comments-box p-4 rounded shadow-sm border">
+                    <h5 class="fw-bold mb-4">💬 Join the Discussion</h5>
+
+                    <!-- Comments List -->
+                    <div id="commentsList" class="d-flex flex-column gap-3 mb-4">
+                        <!-- Dynamic comments will be injected here -->
+                    </div>
+
+                    <!-- Add Comment -->
+                    <div class="add-comment-box d-flex align-items-start gap-2">
+                        <img src="../assets/boy%20(1).png" alt="User Avatar" class="comment-avatar">
+                        <div class="flex-grow-1">
+                            <div class="input-group">
+                                <input type="text" id="commentInput" class="form-control" placeholder="Write a comment...">
+                                <button id="addCommentBtn" class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
         </div>
+
 
         <!-- Right Column: Edit/Delete Actions -->
         <div class="col-lg-4 d-flex flex-column align-items-start mt-3 mt-lg-0">

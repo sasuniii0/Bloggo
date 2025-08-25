@@ -1,297 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Bloggo - Admin Actions</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bloggo — Story Details</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { background: #f9f9f9; }
-    header { border-bottom: 1px solid #ddd; background: #fff; }
-    .brand-logo { height: 40px; }
-    .table-card {
+    body {
+      background-color: #f9f9fb;
+      font-family: "Inter", sans-serif;
+    }
+    .story-card {
       background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+    .author-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .boost-btn {
+      border: none;
+      background: #f3f6ff;
+      color: #3b82f6;
+      border-radius: 25px;
+      padding: 8px 16px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .boost-btn:hover {
+      background: #3b82f6;
+      color: #fff;
+    }
+    .comment-box {
+      margin-top: 2rem;
+    }
+    .comment {
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+    }
+    .comment img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .reply {
+      margin-left: 3rem;
+      border-left: 2px solid #f0f0f0;
+      padding-left: 1rem;
+      margin-top: 1rem;
+    }
+    .add-comment textarea {
       border-radius: 12px;
-      padding: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      margin-bottom: 2rem;
+      resize: none;
     }
   </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<header>
-  <div class="container d-flex justify-content-between align-items-center py-2">
-    <a class="brand" href="#" aria-label="Bloggo Home">
-      <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
-    </a>
-    <nav class="d-flex align-items-center gap-2">
-      <div class="d-flex align-items-center">
-        <span class="text-black me-3">Welcome, Admin</span>
-        <img src="../assets/boy%20(1).png" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+<div class="container">
+  <!-- Story Card -->
+  <div class="story-card">
+    <!-- Author + Date -->
+    <div class="d-flex align-items-center author-info mb-3">
+      <img src="https://via.placeholder.com/50" alt="Author">
+      <div class="ms-3">
+        <h6 class="mb-0">John Doe</h6>
+        <small class="text-muted">Published on Aug 24, 2025</small>
       </div>
-    </nav>
-  </div>
-</header>
+    </div>
 
-<div class="container my-5">
+    <!-- Title -->
+    <h2 class="fw-bold mb-3">The Future of AI in Everyday Life</h2>
 
-  <!-- USERS MANAGEMENT -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>User Management</h3>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" onclick="openAddUserModal()">+ Add User</button>
-  </div>
+    <!-- Story Content -->
+    <p class="text-muted">
+      Artificial Intelligence (AI) is no longer just a concept for research labs.
+      It has become a part of our daily lives, from voice assistants to smart
+      recommendations. The next decade will redefine how humans and AI interact.
+    </p>
 
-  <div class="table-card">
-    <table class="table table-hover align-middle">
-      <thead class="table-light">
-      <tr>
-        <th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th>
-      </tr>
-      </thead>
-      <tbody id="userTableBody"></tbody>
-    </table>
+    <!-- Boost Button -->
+    <div class="d-flex align-items-center mt-4">
+      <button class="boost-btn" id="boostBtn">🚀 Boost <span id="boostCount">23</span></button>
+    </div>
   </div>
 
-  <!-- ADMIN ACTIONS MANAGEMENT -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Admin Actions</h3>
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actionModal" onclick="openAddActionModal()">+ Add Action</button>
-  </div>
+  <!-- Comments Section -->
+  <div class="comment-box">
+    <h5 class="fw-bold mb-3">💬 Comments</h5>
 
-  <div class="table-card">
-    <table class="table table-hover align-middle">
-      <thead class="table-light">
-      <tr>
-        <th>ID</th><th>Action</th><th>Target User</th><th>Date</th><th>Actions</th>
-      </tr>
-      </thead>
-      <tbody id="actionTableBody"></tbody>
-    </table>
-  </div>
+    <!-- Add Comment -->
+    <div class="add-comment mb-4">
+      <textarea class="form-control mb-2" rows="3" placeholder="Write a comment..."></textarea>
+      <button class="btn btn-primary btn-sm">Post Comment</button>
+    </div>
 
-</div>
-
-<!-- User Modal -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" id="userForm" onsubmit="saveUser(event)">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userModalTitle">Add User</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="userId">
-        <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input type="text" id="username" class="form-control" required>
+    <!-- Comment -->
+    <div class="comment d-flex">
+      <img src="https://via.placeholder.com/40" alt="User">
+      <div class="ms-3 w-100">
+        <div class="d-flex justify-content-between">
+          <h6 class="mb-1">Alice</h6>
+          <small class="text-muted">2h ago</small>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" id="email" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Role</label>
-          <select id="role" class="form-select" required>
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Membership</label>
-          <select id="status" class="form-select" required>
-            <option value="FREE">Free</option>
-            <option value="PAID">Paid</option>
-          </select>
+        <p>Great insights! I think AI will impact healthcare the most.</p>
+        <button class="btn btn-link btn-sm text-decoration-none">Reply</button>
+
+        <!-- Reply -->
+        <div class="reply d-flex">
+          <img src="https://via.placeholder.com/40" alt="User">
+          <div class="ms-3">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-1">John Doe</h6>
+              <small class="text-muted">1h ago</small>
+            </div>
+            <p>Absolutely! Healthcare will be revolutionized by predictive AI.</p>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    </div>
+
+    <!-- Another Comment -->
+    <div class="comment d-flex">
+      <img src="https://via.placeholder.com/40" alt="User">
+      <div class="ms-3 w-100">
+        <div class="d-flex justify-content-between">
+          <h6 class="mb-1">Michael</h6>
+          <small class="text-muted">5h ago</small>
+        </div>
+        <p>I’m excited to see how AI can transform education too.</p>
+        <button class="btn btn-link btn-sm text-decoration-none">Reply</button>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 
-<!-- Action Modal -->
-<div class="modal fade" id="actionModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" id="actionForm" onsubmit="saveAction(event)">
-      <div class="modal-header">
-        <h5 class="modal-title" id="actionModalTitle">Add Admin Action</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="actionId">
-        <div class="mb-3">
-          <label class="form-label">Action</label>
-          <select id="actionName" class="form-select" required>
-            <option value="BAN">Ban User</option>
-            <option value="PROMOTE">Promote to Admin</option>
-            <option value="DEACTIVATE">Deactivate User</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Target User</label>
-          <input type="text" id="targetUser" class="form-control" placeholder="Username or ID" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date</label>
-          <input type="date" id="actionDate" class="form-control" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
-
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  /* ------------------ USERS ------------------ */
-  let users = [
-    { id: 1, username: "alex", email: "alex@mail.com", role: "USER", status: "FREE" },
-    { id: 2, username: "maria", email: "maria@mail.com", role: "ADMIN", status: "PAID" }
-  ];
-  let editingId = null;
+  // Boost button logic
+  const boostBtn = document.getElementById("boostBtn");
+  const boostCount = document.getElementById("boostCount");
+  let boosted = false;
 
-  function renderUsers() {
-    const tbody = document.getElementById("userTableBody");
-    tbody.innerHTML = "";
-    users.forEach(user => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${user.id}</td>
-          <td>${user.username}</td>
-          <td>${user.email}</td>
-          <td>${user.role}</td>
-          <td>${user.status}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary" onclick="openEditUserModal(${user.id})">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">Delete</button>
-          </td>
-        </tr>`;
-    });
-  }
-
-  function openAddUserModal() {
-    editingId = null;
-    document.getElementById("userForm").reset();
-    document.getElementById("userModalTitle").innerText = "Add User";
-  }
-
-  function openEditUserModal(id) {
-    const user = users.find(u => u.id === id);
-    if (!user) return;
-    editingId = id;
-    document.getElementById("userId").value = user.id;
-    document.getElementById("username").value = user.username;
-    document.getElementById("email").value = user.email;
-    document.getElementById("role").value = user.role;
-    document.getElementById("status").value = user.status;
-    document.getElementById("userModalTitle").innerText = "Edit User";
-    new bootstrap.Modal(document.getElementById("userModal")).show();
-  }
-
-  function saveUser(event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const role = document.getElementById("role").value;
-    const status = document.getElementById("status").value;
-
-    if (editingId) {
-      const user = users.find(u => u.id === editingId);
-      Object.assign(user, { username, email, role, status });
+  boostBtn.addEventListener("click", () => {
+    let count = parseInt(boostCount.innerText);
+    if (boosted) {
+      boostCount.innerText = count - 1;
+      boosted = false;
+      boostBtn.style.background = "#f3f6ff";
+      boostBtn.style.color = "#3b82f6";
     } else {
-      const newId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
-      users.push({ id: newId, username, email, role, status });
+      boostCount.innerText = count + 1;
+      boosted = true;
+      boostBtn.style.background = "#3b82f6";
+      boostBtn.style.color = "#fff";
     }
-
-    renderUsers();
-    bootstrap.Modal.getInstance(document.getElementById("userModal")).hide();
-  }
-
-  function deleteUser(id) {
-    if (confirm("Are you sure you want to delete this user?")) {
-      users = users.filter(u => u.id !== id);
-      renderUsers();
-    }
-  }
-
-  /* ------------------ ADMIN ACTIONS ------------------ */
-  let actions = [
-    { id: 1, name: "BAN", targetUser: "alex", date: "2025-08-21" },
-    { id: 2, name: "PROMOTE", targetUser: "maria", date: "2025-08-20" }
-  ];
-  let editingActionId = null;
-
-  function renderActions() {
-    const tbody = document.getElementById("actionTableBody");
-    tbody.innerHTML = "";
-    actions.forEach(action => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${action.id}</td>
-          <td>${action.name}</td>
-          <td>${action.targetUser}</td>
-          <td>${action.date}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary" onclick="openEditActionModal(${action.id})">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteAction(${action.id})">Delete</button>
-          </td>
-        </tr>`;
-    });
-  }
-
-  function openAddActionModal() {
-    editingActionId = null;
-    document.getElementById("actionForm").reset();
-    document.getElementById("actionModalTitle").innerText = "Add Admin Action";
-  }
-
-  function openEditActionModal(id) {
-    const action = actions.find(a => a.id === id);
-    if (!action) return;
-    editingActionId = id;
-    document.getElementById("actionId").value = action.id;
-    document.getElementById("actionName").value = action.name;
-    document.getElementById("targetUser").value = action.targetUser;
-    document.getElementById("actionDate").value = action.date;
-    document.getElementById("actionModalTitle").innerText = "Edit Admin Action";
-    new bootstrap.Modal(document.getElementById("actionModal")).show();
-  }
-
-  function saveAction(event) {
-    event.preventDefault();
-    const name = document.getElementById("actionName").value;
-    const targetUser = document.getElementById("targetUser").value;
-    const date = document.getElementById("actionDate").value;
-
-    if (editingActionId) {
-      const action = actions.find(a => a.id === editingActionId);
-      Object.assign(action, { name, targetUser, date });
-    } else {
-      const newId = actions.length ? Math.max(...actions.map(a => a.id)) + 1 : 1;
-      actions.push({ id: newId, name, targetUser, date });
-    }
-
-    renderActions();
-    bootstrap.Modal.getInstance(document.getElementById("actionModal")).hide();
-  }
-
-  function deleteAction(id) {
-    if (confirm("Are you sure you want to delete this action?")) {
-      actions = actions.filter(a => a.id !== id);
-      renderActions();
-    }
-  }
-
-  /* Initial Render */
-  renderUsers();
-  renderActions();
+  });
 </script>
+
 </body>
 </html>
