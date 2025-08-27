@@ -3,6 +3,7 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.Post;
+import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.DashboardRepository;
 import lk.ijse.gdse.repository.PostRepository;
@@ -11,6 +12,7 @@ import lk.ijse.gdse.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,11 +48,15 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findUserByRole(RoleName.USER);
+        if (users == null) {
+            return Collections.emptyList();
+        }
         return users.stream()
                 .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public PostDTO getPostById(Long postId) {

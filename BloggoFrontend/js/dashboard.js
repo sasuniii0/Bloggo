@@ -171,7 +171,8 @@ async function loadUsers() {
             headers: { "Authorization": `Bearer ${token}` }
         });
         const data = await res.json();
-        const users = data.users || []; // <-- matches your endpoint response
+        const users = data.user || []; // <-- matches your endpoint response
+        console.log(data)
         const userList = document.getElementById("userList");
 
         users.forEach(user => {
