@@ -1,6 +1,5 @@
 const api = "http://localhost:8080/auth";
 
-document.getElementById('year').textContent = new Date().getFullYear();
 
 // Profile image upload preview
 const profileUpload = document.getElementById('profile-upload');
@@ -8,7 +7,7 @@ const profilePreview = document.getElementById('profile-preview');
 
 let base64Image = ""; // store Base64
 
-profileUpload.addEventListener('change', function(e) {
+/*profileUpload.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
@@ -18,7 +17,7 @@ profileUpload.addEventListener('change', function(e) {
         };
         reader.readAsDataURL(file);
     }
-});
+});*/
 
 // Signup form submission
 const signupForm = document.getElementById('signup-form');
@@ -29,8 +28,8 @@ signupForm.addEventListener('submit', async function(e) {
         username: document.getElementById('username').value.trim(),
         email: document.getElementById('email').value.trim(),
         password: document.getElementById('password').value.trim(),
-        bio: document.getElementById('bio').value.trim(),
-        profileImage: base64Image // send Base64 string
+        /*bio: document.getElementById('bio').value.trim(),
+        profileImage: base64Image // send Base64 string*/
     };
 
     try {

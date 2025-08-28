@@ -63,8 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Footer year auto update
-document.getElementById('year').textContent = new Date().getFullYear();
 
 // OAuth button alerts (placeholder)
 document.getElementById('google-auth').addEventListener('click', () => {
