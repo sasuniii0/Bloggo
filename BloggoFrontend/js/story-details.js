@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const data = await res.json();
         const post = data.data;
+        console.log(post)
         currentPost = post;
 
         // Render post

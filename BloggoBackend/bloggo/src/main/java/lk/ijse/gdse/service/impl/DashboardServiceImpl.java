@@ -69,6 +69,8 @@ public class DashboardServiceImpl implements DashboardService {
                 .username(post.getUser().getUsername())
                 .status(post.getStatus())
                 .publishedAt(post.getPublishedAt())
+                .boostCount(post.getBoosts() != null ? post.getBoosts().size() : 0)
+                .commentsCount(post.getComments() != null ? post.getComments().size() : 0)
                 .build();
     }
 
