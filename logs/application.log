@@ -199,3 +199,8 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired at 2025-08-28T00:01:50Z. Curren
 2025-08-28T17:33:43.551+05:30  WARN 5916 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m39s489ms818µs700ns).
 2025-08-28T18:07:18.625+05:30  WARN 5916 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m34s851ms130µs100ns).
 2025-08-28T19:05:04.879+05:30  WARN 5916 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m15s546ms566µs900ns).
+2025-08-28T19:30:36.096+05:30  INFO 5916 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-28T19:30:36.116+05:30  INFO 5916 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-28T19:30:36.130+05:30  INFO 5916 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-28T19:30:36.144+05:30  INFO 5916 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-28T19:30:36.150+05:30  INFO 5916 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
