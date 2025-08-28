@@ -13,37 +13,55 @@
 </head>
 <body>
 
-<header>
-    <div class="container nav">
-        <a class="brand" href="about-bloggo.html" aria-label="Bloggo Home">
-            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
-        </a>
+<header class="sticky-top">
+    <nav class="glass-navbar align-items-center">
+        <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
 
-        <nav class="nav-actions">
-            <a class="btn" href="dashboard.html">Home</a>
-            <a class="btn" href="notification.html">Notifications</a>
-            <a class="btn " href="membership.html">Membership</a>
-            <div class="profile-menu">
-                <!-- User Profile (visible after login) -->
-                <div class="profile-menu">
-                    <!-- User Profile Menu -->
-                    <div class="dropdown profile-menu">
-                        <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.html">👤 Profile</a></li>
-                            <li><a class="dropdown-item" href="stories.html">✍️ Stories</a></li>
-                            <li><a class="dropdown-item" href="membership.html">⭐ Become a Member</a></li>
-                            <li><a class="dropdown-item" href="settings.html">⚙️ Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="logout.html">🚪 Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a href="#"><i class="fas fa-home me-1"></i> Home</a>
+        <a href="#"><i class="fas fa-bell me-1"></i> Notifications</a>
+        <a href="#"><i class="fas fa-star me-1"></i> Membership</a>
+
+
+        <!-- User Profile Menu -->
+        <div class="dropdown profile-menu">
+            <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <li>
+                    <a class="dropdown-item" href="profile.html">
+                        <i class="fas fa-user me-2"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="stories.html">
+                        <i class="fas fa-pen-nib me-2"></i> Stories
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="membership.html">
+                        <i class="fas fa-star me-2"></i> Become a Member
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="settings.html">
+                        <i class="fas fa-cog me-2"></i> Settings
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item text-danger" href="logout.html">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
 </header>
 
 <div class="container my-4">

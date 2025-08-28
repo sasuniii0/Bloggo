@@ -2,14 +2,78 @@ body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-header {
-    border-bottom: 1px solid #ddd;
-    background: #fff;
-    padding: 1rem 0;
+/* ===== Navbar Styles ===== */
+.glass-navbar {
+    position: sticky;
+    top: 1rem;
+    z-index: 1050;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+    width: 60%;
+    border-radius: 20px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.brand-logo {
-    height: 40px;
+.glass-navbar a {
+    color: #000000;
+    font-weight: 500;
+    margin: 0 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+}
+
+.glass-navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.navbar-brand{
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #000000;
+    letter-spacing: 2px;
+    margin-right: 2rem;
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 8px 0;
+    font-size: 0.95rem;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
 }
 
 .checkout-steps {

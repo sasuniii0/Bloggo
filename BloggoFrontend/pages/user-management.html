@@ -11,8 +11,55 @@
 
   <style>
     body { background: #f9f9f9; }
-    header { border-bottom: 1px solid #ddd; background: #fff; }
-    .brand-logo { height: 40px; }
+
+    /* ===== Navbar Styles ===== */
+    .glass-navbar {
+      position: sticky;
+      top: 1rem;
+      z-index: 1050;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      margin: 0 auto;
+      width: 60%;
+      border-radius: 20px;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-navbar a {
+      color: #000000;
+      font-weight: 500;
+      margin: 0 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+
+    .glass-navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .navbar-brand{
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #131212;
+      letter-spacing: 2px;
+      margin-right: 2rem;
+      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    /*header { border-bottom: 1px solid #ddd; background: #fff; }
+    .brand-logo { height: 40px; }*/
     .table-card {
       background: #fff;
       border-radius: 12px;
@@ -20,12 +67,14 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       margin-bottom: 2rem;
     }
+
+
   </style>
 </head>
 <body>
 
 <!-- Navbar -->
-<header>
+<!--<header>
   <div class="container d-flex justify-content-between align-items-center py-2">
     <a class="brand" href="#" aria-label="Bloggo Home">
       <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
@@ -37,6 +86,21 @@
       </div>
     </nav>
   </div>
+</header>-->
+
+<header class="sticky-top">
+  <nav class="glass-navbar align-items-center">
+    <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="d-flex align-items-center">
+      <span class="text-black me-3">Welcome, Admin</span>
+      <img src="../assets/boy%20(1).png" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+    </div>
+  </nav>
 </header>
 
 <div class="container my-5">
