@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -85,4 +86,6 @@ public class User {
 
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
+
+
 }

@@ -2,6 +2,7 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostDTO;
+import lk.ijse.gdse.entity.Boost;
 import lk.ijse.gdse.entity.Comment;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
@@ -97,22 +98,38 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int boostPost(Long postId, String name) {
+    public int boostPost(Long postId, String username) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        User user = userRepository.findByUsername(name)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (post.getBoosts() == null){
+        if (post.getBoosts() == null) {
             post.setBoosts(new ArrayList<>());
         }
 
-        if (post.getBoosts().contains(user)) {
-            post.getBoosts().remove(user);
+        // check if this user already boosted
+        Boost existingBoost = post.getBoosts().stream()
+                .filter(b -> b.getUser().equals(user))
+                .findFirst()
+                .orElse(null);
+
+        if (existingBoost != null) {
+            // user already boosted → remove
+            post.getBoosts().remove(existingBoost);
+        } else {
+            // user has not boosted → add
+            Boost newBoost = new Boost();
+            newBoost.setUser(user);
+            newBoost.setPost(post);
+            post.getBoosts().add(newBoost);
         }
+
         postRepository.save(post);
         return post.getBoosts().size();
     }
+
+
 
     @Override
     public CommentDTO addComment(Long postId, String username, String content) {
