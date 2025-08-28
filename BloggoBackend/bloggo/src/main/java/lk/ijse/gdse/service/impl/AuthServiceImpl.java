@@ -1,5 +1,7 @@
 package lk.ijse.gdse.service.impl;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lk.ijse.gdse.dto.AuthDTO;
 import lk.ijse.gdse.dto.AuthResponseDTO;
 import lk.ijse.gdse.dto.UserDTO;
@@ -10,17 +12,27 @@ import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AuthService;
 import lk.ijse.gdse.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+    private final Map<String, String> tokenStorage = new HashMap<>(); // token -> email
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SendGridEmailServiceImpl emailService;
     private final JWTUtil jwtUtil;
+    private final JavaMailSenderImpl mailSender;
 
     @Override
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
@@ -56,4 +68,35 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         return "User registered successfully";
     }
+
+    @Override
+    public void sendResetPwdLink(String email) {
+        // Generate token
+        String token = UUID.randomUUID().toString();
+        tokenStorage.put(token, email);
+
+        // Send email via SendGrid
+        // Handle exception: expired, invalid, or max credits
+        try {
+            SendGridEmailServiceImpl.sendPasswordResetEmail(email, token);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean resetPassword(String token, String newPassword) {
+        String email = tokenStorage.get(token);
+        if (email == null) return false;
+
+        // TODO: Update user password in DB (encode first)
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        System.out.println("Reset password for: " + email + " -> " + encodedPassword);
+
+        tokenStorage.remove(token); // invalidate token
+        return true;
+    }
+
 }

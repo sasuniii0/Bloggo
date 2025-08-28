@@ -44,6 +44,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private MembershipStatus membershipStatus;
 
+    private String resetToken;
+
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
 

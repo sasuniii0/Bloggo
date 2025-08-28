@@ -7,4 +7,8 @@ import lk.ijse.gdse.dto.UserDTO;
 public interface AuthService {
     AuthResponseDTO authenticate(AuthDTO authDTO);
     String register(UserDTO userDTO);
+
+    void sendResetPwdLink(String email);
+
+    boolean resetPassword(String token, String newPassword);
 }

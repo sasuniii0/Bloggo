@@ -1,12 +1,14 @@
 package lk.ijse.gdse.controller;
 
-import lk.ijse.gdse.dto.ApiResponseDTO;
-import lk.ijse.gdse.dto.AuthDTO;
-import lk.ijse.gdse.dto.UserDTO;
+import jakarta.mail.MessagingException;
+import lk.ijse.gdse.dto.*;
 import lk.ijse.gdse.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -34,5 +36,21 @@ public class AuthController {
                 "User authenticated successfully",
                 authService.authenticate(authDTO)
         ));
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
+        authService.sendResetPwdLink(request.getEmail());
+        return ResponseEntity.ok("Password reset link sent if the email exists.");
+    }
+
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
+        boolean success = authService.resetPassword(request.getToken(), request.getNewPassword());
+        if (success) {
+            return ResponseEntity.ok("Password reset successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid or expired token.");
+        }
     }
 }
