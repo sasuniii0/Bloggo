@@ -7,137 +7,490 @@
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    :root {
+      --glass-light: rgba(255, 255, 255, 0.2);
+      --glass-medium: rgba(255, 255, 255, 0.15);
+      --glass-dark: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --accent-color: #7c3aed;
+    }
+
     body {
-      background-color: #f9f9fb;
+      background: var(--primary-gradient);
       font-family: "Inter", sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      padding-bottom: 2rem;
     }
-    .story-card {
-      background: #fff;
+
+    /* ===== Enhanced Glass Effects ===== */
+    .glass-container {
+      background: var(--glass-light);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--glass-shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .glass-thin {
+      background: var(--glass-medium);
+      backdrop-filter: blur(10px) saturate(160%);
+      -webkit-backdrop-filter: blur(10px) saturate(160%);
+      border: 1px solid var(--glass-border);
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      padding: 2rem;
-      margin-top: 2rem;
+      box-shadow: var(--glass-shadow);
     }
+
+    .glass-thick {
+      background: var(--glass-dark);
+      backdrop-filter: blur(16px) saturate(200%);
+      -webkit-backdrop-filter: blur(16px) saturate(200%);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== Navbar Styles ===== */
+    .glass-navbar {
+      position: sticky;
+      top: 1rem;
+      z-index: 1050;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 2rem;
+      margin: 0 auto;
+      width: 60%;
+      border-radius: 20px;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-navbar a {
+      color: #fff;
+      font-weight: 500;
+      margin: 0 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+
+    .glass-navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Story Content ===== */
+    .story-header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .story-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .story-meta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
     .author-info img {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
-    .boost-btn {
-      border: none;
-      background: #f3f6ff;
-      color: #3b82f6;
-      border-radius: 25px;
-      padding: 8px 16px;
-      font-weight: 600;
-      transition: 0.2s;
+
+    .story-stats {
+      display: flex;
+      gap: 1.2rem;
     }
-    .boost-btn:hover {
-      background: #3b82f6;
-      color: #fff;
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
     }
-    .comment-box {
-      margin-top: 2rem;
+
+    .story-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 1.5rem 0;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
     }
+
+    .story-content {
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .story-content p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== Interactions ===== */
+    .interactions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .interaction-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .interaction-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* ===== Comments Section ===== */
+    .comments-header {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
     .comment {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
+
     .comment img {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
-    .reply {
-      margin-left: 3rem;
-      border-left: 2px solid #f0f0f0;
-      padding-left: 1rem;
-      margin-top: 1rem;
+
+    .comment-content {
+      flex: 1;
     }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .comment-action {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      transition: color 0.2s;
+    }
+
+    .comment-action:hover {
+      color: white;
+    }
+
+    .add-comment {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .add-comment img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
     .add-comment textarea {
-      border-radius: 12px;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 1rem;
+      color: white;
       resize: none;
     }
+
+    .add-comment textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .add-comment button {
+      align-self: flex-end;
+      background: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .add-comment button:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+      .glass-navbar {
+        flex-wrap: wrap;
+        padding: 0.8rem;
+      }
+
+      .glass-navbar a {
+        margin: 0.3rem;
+        font-size: 0.9rem;
+      }
+
+      .story-title {
+        font-size: 2rem;
+      }
+
+      .story-meta {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .story-image {
+        height: 250px;
+      }
+
+      .add-comment {
+        flex-direction: column;
+      }
+    }
+
+    /* ===== Navbar Styles ===== */
+    .glass-navbar {
+      position: sticky;
+      top: 1rem;
+      z-index: 1050;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 2rem;
+      margin: 0 auto;
+      width: 60%;
+      border-radius: 20px;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-navbar a {
+      color: #fff;
+      font-weight: 500;
+      margin: 0 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+
+    .glass-navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .navbar-brand{
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: white;
+        letter-spacing: 2px;
+        margin-right: 2rem;
+        user-select: none;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+
   </style>
 </head>
 <body>
 
+<!-- Glass Navbar -->
+<header class="sticky-top">
+  <nav class="glass-navbar">
+    <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a href="#"><i class="fas fa-home me-1"></i> Home</a>
+    <a href="#"><i class="fas fa-book-open me-1"></i> Stories</a>
+    <a href="#"><i class="fas fa-fire me-1"></i> Trending</a>
+    <a href="#"><i class="fas fa-user me-1"></i> Profile</a>
+  </nav>
+</header>
+
+
 <div class="container">
-  <!-- Story Card -->
-  <div class="story-card">
-    <!-- Author + Date -->
-    <div class="d-flex align-items-center author-info mb-3">
-      <img src="https://via.placeholder.com/50" alt="Author">
-      <div class="ms-3">
-        <h6 class="mb-0">John Doe</h6>
-        <small class="text-muted">Published on Aug 24, 2025</small>
+  <!-- Story Header -->
+  <div class="glass-container">
+    <div class="story-header">
+      <h1 class="story-title">Designing for Focus: Minimal UI that Amplifies Reading</h1>
+
+      <div class="story-meta">
+        <div class="author-info">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Author">
+          <div>
+            <div class="fw-semibold">Sarah Johnson</div>
+            <div class="small">UX Designer at CreativeMinds</div>
+          </div>
+        </div>
+
+        <div class="story-stats">
+          <div class="stat"><i class="far fa-clock"></i> 8 min read</div>
+          <div class="stat"><i class="far fa-eye"></i> 12.4k views</div>
+          <div class="stat"><i class="far fa-calendar"></i> Apr 12, 2023</div>
+        </div>
       </div>
     </div>
 
-    <!-- Title -->
-    <h2 class="fw-bold mb-3">The Future of AI in Everyday Life</h2>
+    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop" class="story-image" alt="Story image">
 
-    <!-- Story Content -->
-    <p class="text-muted">
-      Artificial Intelligence (AI) is no longer just a concept for research labs.
-      It has become a part of our daily lives, from voice assistants to smart
-      recommendations. The next decade will redefine how humans and AI interact.
-    </p>
+    <div class="story-content">
+      <p>In a world saturated with visual noise, the ability to focus has become a rare commodity. As designers, we have a responsibility to create interfaces that respect the user's attention and facilitate deep engagement with content.</p>
 
-    <!-- Boost Button -->
-    <div class="d-flex align-items-center mt-4">
-      <button class="boost-btn" id="boostBtn">🚀 Boost <span id="boostCount">23</span></button>
+      <p>The minimalist approach to UI design isn't just an aesthetic choice—it's a functional one. By stripping away unnecessary elements, we reduce cognitive load and allow the content to take center stage. This is especially crucial in reading environments where sustained attention is required.</p>
+
+      <p>Research in cognitive psychology tells us that every additional visual element competes for the user's attention. The more clutter we remove, the more mental bandwidth becomes available for processing the actual content.</p>
+
+      <h3>Key Principles of Minimal Reading Design</h3>
+
+      <p>1. <strong>Generous Whitespace</strong>: Ample spacing between elements creates visual breathing room and improves readability. It's not empty space—it's a powerful design element that guides the eye and emphasizes what matters.</p>
+
+      <p>2. <strong>Limited Color Palette</strong>: Restricting your color scheme to 2-3 primary colors reduces visual noise and creates harmony. Use color purposefully to highlight important elements rather than as mere decoration.</p>
+
+      <p>3. <strong>Typography Hierarchy</strong>: Establish a clear typographic system with distinct levels for headings, subheadings, and body text. Consistent typography creates rhythm and helps users navigate content effortlessly.</p>
+    </div>
+
+    <div class="interactions">
+      <button class="interaction-btn"><i class="far fa-heart"></i> 428</button>
+      <button class="interaction-btn"><i class="far fa-bookmark"></i> Save</button>
+      <button class="interaction-btn"><i class="fas fa-share-alt"></i> Share</button>
     </div>
   </div>
 
   <!-- Comments Section -->
-  <div class="comment-box">
-    <h5 class="fw-bold mb-3">💬 Comments</h5>
-
-    <!-- Add Comment -->
-    <div class="add-comment mb-4">
-      <textarea class="form-control mb-2" rows="3" placeholder="Write a comment..."></textarea>
-      <button class="btn btn-primary btn-sm">Post Comment</button>
+  <div class="glass-container">
+    <div class="comments-header">
+      <h3><i class="far fa-comments me-2"></i> Comments</h3>
+      <span class="badge glass-thin">24</span>
     </div>
 
-    <!-- Comment -->
-    <div class="comment d-flex">
-      <img src="https://via.placeholder.com/40" alt="User">
-      <div class="ms-3 w-100">
-        <div class="d-flex justify-content-between">
-          <h6 class="mb-1">Alice</h6>
-          <small class="text-muted">2h ago</small>
+    <div class="comment">
+      <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+      <div class="comment-content">
+        <div class="comment-header">
+          <div class="fw-semibold">Michael Chen</div>
+          <div class="small text-light">2 hours ago</div>
         </div>
-        <p>Great insights! I think AI will impact healthcare the most.</p>
-        <button class="btn btn-link btn-sm text-decoration-none">Reply</button>
-
-        <!-- Reply -->
-        <div class="reply d-flex">
-          <img src="https://via.placeholder.com/40" alt="User">
-          <div class="ms-3">
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-1">John Doe</h6>
-              <small class="text-muted">1h ago</small>
-            </div>
-            <p>Absolutely! Healthcare will be revolutionized by predictive AI.</p>
-          </div>
+        <p>Great article! I've been implementing these principles in our product and the user feedback has been incredibly positive. The part about typography hierarchy was especially insightful.</p>
+        <div class="comment-actions">
+          <a href="#" class="comment-action"><i class="far fa-heart"></i> 12</a>
+          <a href="#" class="comment-action">Reply</a>
         </div>
       </div>
     </div>
 
-    <!-- Another Comment -->
-    <div class="comment d-flex">
-      <img src="https://via.placeholder.com/40" alt="User">
-      <div class="ms-3 w-100">
-        <div class="d-flex justify-content-between">
-          <h6 class="mb-1">Michael</h6>
-          <small class="text-muted">5h ago</small>
+    <div class="comment">
+      <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+      <div class="comment-content">
+        <div class="comment-header">
+          <div class="fw-semibold">Jessica Williams</div>
+          <div class="small text-light">5 hours ago</div>
         </div>
-        <p>I’m excited to see how AI can transform education too.</p>
-        <button class="btn btn-link btn-sm text-decoration-none">Reply</button>
+        <p>I appreciate how you connected cognitive psychology with design principles. It's so important to understand why minimalism works rather than just following trends.</p>
+        <div class="comment-actions">
+          <a href="#" class="comment-action"><i class="far fa-heart"></i> 8</a>
+          <a href="#" class="comment-action">Reply</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-comment">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Your avatar">
+      <textarea placeholder="Add a comment..." rows="3"></textarea>
+      <button>Post Comment</button>
+    </div>
+  </div>
+
+  <!-- Related Stories -->
+  <div class="glass-container">
+    <h3><i class="fas fa-layer-group me-2"></i> Related Stories</h3>
+    <div class="row mt-4">
+      <div class="col-md-4 mb-3">
+        <div class="glass-thin p-3 h-100">
+          <div class="fw-semibold">The Psychology of White Space</div>
+          <div class="small mt-2">5 min read • 4.2k views</div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="glass-thin p-3 h-100">
+          <div class="fw-semibold">Typography for Digital Reading</div>
+          <div class="small mt-2">7 min read • 6.8k views</div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="glass-thin p-3 h-100">
+          <div class="fw-semibold">Color Theory in UI Design</div>
+          <div class="small mt-2">9 min read • 8.5k views</div>
+        </div>
       </div>
     </div>
   </div>
@@ -145,27 +498,6 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Boost button logic
-  const boostBtn = document.getElementById("boostBtn");
-  const boostCount = document.getElementById("boostCount");
-  let boosted = false;
-
-  boostBtn.addEventListener("click", () => {
-    let count = parseInt(boostCount.innerText);
-    if (boosted) {
-      boostCount.innerText = count - 1;
-      boosted = false;
-      boostBtn.style.background = "#f3f6ff";
-      boostBtn.style.color = "#3b82f6";
-    } else {
-      boostCount.innerText = count + 1;
-      boosted = true;
-      boostBtn.style.background = "#3b82f6";
-      boostBtn.style.color = "#fff";
-    }
-  });
-</script>
 
 </body>
 </html>
