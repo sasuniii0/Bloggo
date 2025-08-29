@@ -1,15 +1,12 @@
 package lk.ijse.gdse.controller;
 
-import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.entity.Bookmark;
 import lk.ijse.gdse.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

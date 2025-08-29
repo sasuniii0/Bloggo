@@ -119,9 +119,12 @@ public class PostServiceImpl implements PostService {
             post.getBoosts().remove(existingBoost);
         } else {
             // user has not boosted → add
-            Boost newBoost = new Boost();
-            newBoost.setUser(user);
-            newBoost.setPost(post);
+            Boost newBoost = Boost.builder()
+                            .user(user)
+                                    .post(post)
+                                            .createdAt(LocalDateTime.now())
+                                                    .build();
+
             post.getBoosts().add(newBoost);
         }
 

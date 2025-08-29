@@ -1,8 +1,10 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.service.BoostService;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.security.Principal;
 
 public class BoostController {
     private final PostService postService;
+    private final BoostService boostService;
 
     @PostMapping("/{postId}")
     @PreAuthorize("hasRole('USER')") // Only users with the USER role can access this endpoint
@@ -28,5 +31,16 @@ public class BoostController {
                         newBoostCount
                 )
         );
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
+        boostService.deleteBoost(postId, principal.getName());
+        return new ResponseEntity<>(new ApiResponseDTO(
+                200,
+                "removed boost successfully",
+                null
+        ), HttpStatus.OK);
     }
 }
