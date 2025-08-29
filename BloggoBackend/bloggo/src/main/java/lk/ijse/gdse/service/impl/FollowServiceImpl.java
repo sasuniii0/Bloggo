@@ -1,10 +1,87 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.repository.EarningRepository;
+import lk.ijse.gdse.repository.FollowRepository;
+import lk.ijse.gdse.repository.UserRepository;
+import lk.ijse.gdse.repository.WalletRepository;
 import lk.ijse.gdse.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class FollowServiceImpl implements FollowService {
+
+    private static final double FOLLOW_EARNING_AMOUNT = 0.5;
+
+    private final FollowRepository followRepository;
+    private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
+    private final EarningRepository earningRepository;
+
+    @Transactional
+    @Override
+    public ApiResponseDTO followUser(Long followedId, Long followerId) {
+        if (followedId.equals(followerId)) {
+            return new ApiResponseDTO(400, "You cannot follow yourself", null);
+        }
+
+        User follower = userRepository.findById(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+
+        User followed = userRepository.findById(followedId)
+                .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
+
+        if (followRepository.existByFollowerAndFollower(follower, followed)) {
+            return new ApiResponseDTO(400, "Already followed", null);
+        }
+
+        // Save follow
+        Follow follow = Follow.builder()
+                .follower(follower)
+                .followed(followed)
+                .createdAt(LocalDateTime.now())
+                .build();
+        followRepository.save(follow);
+
+        // Reward followed user if MEMBER
+        if (isMember(followed)) {
+            Wallet wallet = walletRepository.findByUserId_UserId(followed.getUserId())
+                    .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+
+            Earning earning = Earning.builder()
+                    .walletId(wallet)
+                    .post(null) // no post associated
+                    .amount(FOLLOW_EARNING_AMOUNT)
+                    .source(Source.FOLLOW)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            earningRepository.save(earning);
+
+            // Update wallet balance
+            wallet.setBalance(wallet.getBalance() + FOLLOW_EARNING_AMOUNT);
+            walletRepository.save(wallet);
+        }
+
+        return new ApiResponseDTO(200, "Follow successful", null);
+    }
+
+    @Override
+    public ApiResponseDTO getFollowerCount(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        long count = followRepository.countByFollowed(user);
+        return new ApiResponseDTO(200, "Follower count fetched", count);
+    }
+
+    private boolean isMember(User user) {
+        return user.getRole() == RoleName.MEMBER;
+    }
 }
