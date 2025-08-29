@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bloggo — Story Details</title>
-
-  <!-- Bootstrap -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Detail | Bloggo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
     :root {
       --glass-light: rgba(255, 255, 255, 0.2);
@@ -31,7 +26,7 @@
       padding-bottom: 2rem;
     }
 
-    /* ===== Enhanced Glass Effects ===== */
+    /* Glass Effects */
     .glass-container {
       background: var(--glass-light);
       backdrop-filter: blur(12px) saturate(180%);
@@ -52,22 +47,14 @@
       box-shadow: var(--glass-shadow);
     }
 
-    .glass-thick {
-      background: var(--glass-dark);
-      backdrop-filter: blur(16px) saturate(200%);
-      -webkit-backdrop-filter: blur(16px) saturate(200%);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    /* ===== Navbar Styles ===== */
+    /* Navbar */
     .glass-navbar {
       position: sticky;
       top: 1rem;
       z-index: 1050;
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 1rem 2rem;
       margin: 0 auto;
       width: 60%;
@@ -96,7 +83,19 @@
       transform: translateY(-2px);
     }
 
-    /* ===== Story Content ===== */
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: white;
+      letter-spacing: 2px;
+      margin-right: 2rem;
+      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    /* Story Content */
     .story-header {
       text-align: center;
       padding: 2rem 0;
@@ -162,7 +161,7 @@
       margin-bottom: 1.5rem;
     }
 
-    /* ===== Interactions ===== */
+    /* Interactions */
     .interactions {
       display: flex;
       justify-content: center;
@@ -180,14 +179,23 @@
       align-items: center;
       gap: 0.5rem;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .interaction-btn:hover {
+    .interaction-btn:hover, .interaction-btn.active {
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-3px);
     }
 
-    /* ===== Comments Section ===== */
+    .interaction-btn.active.like-btn {
+      color: #ff6b6b;
+    }
+
+    .interaction-btn.active.bookmark-btn {
+      color: #ffe066;
+    }
+
+    /* Comments Section */
     .comments-header {
       margin-bottom: 1.5rem;
       display: flex;
@@ -229,10 +237,15 @@
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.7);
       transition: color 0.2s;
+      cursor: pointer;
     }
 
     .comment-action:hover {
       color: white;
+    }
+
+    .comment-action.active {
+      color: #ff6b6b;
     }
 
     .add-comment {
@@ -249,7 +262,7 @@
       border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
-    .add-comment textarea {
+    .add-comment-input {
       flex: 1;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -259,11 +272,11 @@
       resize: none;
     }
 
-    .add-comment textarea::placeholder {
+    .add-comment-input::placeholder {
       color: rgba(255, 255, 255, 0.6);
     }
 
-    .add-comment button {
+    .add-comment-btn {
       align-self: flex-end;
       background: var(--accent-color);
       border: none;
@@ -274,16 +287,27 @@
       transition: all 0.3s ease;
     }
 
-    .add-comment button:hover {
+    .add-comment-btn:hover {
       background: #6d28d9;
       transform: translateY(-2px);
     }
 
-    /* ===== Responsive Design ===== */
+    /* Boost Section */
+    .boost-box {
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
       .glass-navbar {
         flex-wrap: wrap;
         padding: 0.8rem;
+        width: 90%;
       }
 
       .glass-navbar a {
@@ -307,79 +331,64 @@
       .add-comment {
         flex-direction: column;
       }
+
+      .interactions {
+        flex-wrap: wrap;
+      }
     }
-
-    /* ===== Navbar Styles ===== */
-    .glass-navbar {
-      position: sticky;
-      top: 1rem;
-      z-index: 1050;
-      display: flex;
-      justify-content: center;
-      padding: 1rem 2rem;
-      margin: 0 auto;
-      width: 60%;
-      border-radius: 20px;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-
-    .glass-navbar a {
-      color: #fff;
-      font-weight: 500;
-      margin: 0 1.2rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-    }
-
-    .glass-navbar a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .navbar-brand{
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: white;
-        letter-spacing: 2px;
-        margin-right: 2rem;
-        user-select: none;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-
-
   </style>
 </head>
 <body>
 
 <!-- Glass Navbar -->
 <header class="sticky-top">
-  <nav class="glass-navbar">
+  <nav class="glass-navbar align-items-center">
     <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
     <a href="#"><i class="fas fa-home me-1"></i> Home</a>
     <a href="#"><i class="fas fa-book-open me-1"></i> Stories</a>
-    <a href="#"><i class="fas fa-fire me-1"></i> Trending</a>
+    <a href="#"><i class="fas fa-pen me-1"></i> Write</a>
     <a href="#"><i class="fas fa-user me-1"></i> Profile</a>
+
+    <!-- User Profile Menu -->
+    <div class="dropdown profile-menu ms-auto">
+      <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" class="avatar" alt="Profile Avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+        <li>
+          <a class="dropdown-item" href="profile.html">
+            <i class="fas fa-user me-2"></i> Profile
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="stories.html">
+            <i class="fas fa-pen-nib me-2"></i> Stories
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="membership.html">
+            <i class="fas fa-star me-2"></i> Become a Member
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="settings.html">
+            <i class="fas fa-cog me-2"></i> Settings
+          </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item text-danger" href="logout.html">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
   </nav>
 </header>
 
-
-<div class="container">
-  <!-- Story Header -->
+<main class="container">
+  <!-- Story Content -->
   <div class="glass-container">
     <div class="story-header">
       <h1 class="story-title">Designing for Focus: Minimal UI that Amplifies Reading</h1>
@@ -419,54 +428,75 @@
       <p>3. <strong>Typography Hierarchy</strong>: Establish a clear typographic system with distinct levels for headings, subheadings, and body text. Consistent typography creates rhythm and helps users navigate content effortlessly.</p>
     </div>
 
+    <!-- Interactions -->
     <div class="interactions">
-      <button class="interaction-btn"><i class="far fa-heart"></i> 428</button>
-      <button class="interaction-btn"><i class="far fa-bookmark"></i> Save</button>
-      <button class="interaction-btn"><i class="fas fa-share-alt"></i> Share</button>
+      <button class="interaction-btn like-btn" id="likeBtn">
+        <i class="far fa-heart"></i> <span id="likeCount">428</span>
+      </button>
+      <button class="interaction-btn bookmark-btn" id="bookmarkBtn">
+        <i class="far fa-bookmark"></i> Save
+      </button>
+      <button class="interaction-btn" id="shareBtn">
+        <i class="fas fa-share-alt"></i> Share
+      </button>
     </div>
+  </div>
+
+  <!-- Boost Section -->
+  <div class="boost-box">
+    <h5 class="fw-bold mb-2">Enjoyed this story? 💡</h5>
+    <p class="text-light small mb-3">Show your support with a boost</p>
+    <button id="boostBtn" class="btn btn-light px-4 py-2 fw-semibold rounded-pill">
+      🚀 Boost (<span id="boostCount">12</span>)
+    </button>
   </div>
 
   <!-- Comments Section -->
   <div class="glass-container">
     <div class="comments-header">
       <h3><i class="far fa-comments me-2"></i> Comments</h3>
-      <span class="badge glass-thin">24</span>
+      <span class="badge glass-thin" id="commentsCount">24</span>
     </div>
 
-    <div class="comment">
-      <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
-      <div class="comment-content">
-        <div class="comment-header">
-          <div class="fw-semibold">Michael Chen</div>
-          <div class="small text-light">2 hours ago</div>
+    <div id="commentsList">
+      <!-- Comment 1 -->
+      <div class="comment">
+        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+        <div class="comment-content">
+          <div class="comment-header">
+            <div class="fw-semibold">Michael Chen</div>
+            <div class="small text-light">2 hours ago</div>
+          </div>
+          <p>Great article! I've been implementing these principles in our product and the user feedback has been incredibly positive. The part about typography hierarchy was especially insightful.</p>
+          <div class="comment-actions">
+            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>12</span></a>
+            <a class="comment-action reply-comment">Reply</a>
+          </div>
         </div>
-        <p>Great article! I've been implementing these principles in our product and the user feedback has been incredibly positive. The part about typography hierarchy was especially insightful.</p>
-        <div class="comment-actions">
-          <a href="#" class="comment-action"><i class="far fa-heart"></i> 12</a>
-          <a href="#" class="comment-action">Reply</a>
+      </div>
+
+      <!-- Comment 2 -->
+      <div class="comment">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+        <div class="comment-content">
+          <div class="comment-header">
+            <div class="fw-semibold">Jessica Williams</div>
+            <div class="small text-light">5 hours ago</div>
+          </div>
+          <p>I appreciate how you connected cognitive psychology with design principles. It's so important to understand why minimalism works rather than just following trends.</p>
+          <div class="comment-actions">
+            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>8</span></a>
+            <a class="comment-action reply-comment">Reply</a>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="comment">
-      <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
-      <div class="comment-content">
-        <div class="comment-header">
-          <div class="fw-semibold">Jessica Williams</div>
-          <div class="small text-light">5 hours ago</div>
-        </div>
-        <p>I appreciate how you connected cognitive psychology with design principles. It's so important to understand why minimalism works rather than just following trends.</p>
-        <div class="comment-actions">
-          <a href="#" class="comment-action"><i class="far fa-heart"></i> 8</a>
-          <a href="#" class="comment-action">Reply</a>
-        </div>
-      </div>
-    </div>
-
+    <!-- Add Comment -->
     <div class="add-comment">
       <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Your avatar">
-      <textarea placeholder="Add a comment..." rows="3"></textarea>
-      <button>Post Comment</button>
+      <textarea class="add-comment-input" placeholder="Add a comment..." rows="3" id="commentInput"></textarea>
+      <button class="add-comment-btn" id="addCommentBtn">Post Comment</button>
     </div>
   </div>
 
@@ -494,10 +524,154 @@
       </div>
     </div>
   </div>
-</div>
+</main>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Like functionality
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCount = document.getElementById('likeCount');
+    let likes = 428;
+    let isLiked = false;
+
+    likeBtn.addEventListener('click', function() {
+      isLiked = !isLiked;
+      if (isLiked) {
+        likes++;
+        likeBtn.classList.add('active');
+        likeBtn.querySelector('i').classList.replace('far', 'fas');
+      } else {
+        likes--;
+        likeBtn.classList.remove('active');
+        likeBtn.querySelector('i').classList.replace('fas', 'far');
+      }
+      likeCount.textContent = likes;
+    });
+
+    // Bookmark functionality
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    let isBookmarked = false;
+
+    bookmarkBtn.addEventListener('click', function() {
+      isBookmarked = !isBookmarked;
+      if (isBookmarked) {
+        bookmarkBtn.classList.add('active');
+        bookmarkBtn.querySelector('i').classList.replace('far', 'fas');
+        bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+      } else {
+        bookmarkBtn.classList.remove('active');
+        bookmarkBtn.querySelector('i').classList.replace('fas', 'far');
+        bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Save';
+      }
+    });
+
+    // Boost functionality
+    const boostBtn = document.getElementById('boostBtn');
+    const boostCount = document.getElementById('boostCount');
+    let boosts = 12;
+
+    boostBtn.addEventListener('click', function() {
+      boosts++;
+      boostCount.textContent = boosts;
+      boostBtn.classList.add('disabled');
+      boostBtn.innerHTML = '🚀 Boosted!';
+    });
+
+    // Comment functionality
+    const addCommentBtn = document.getElementById('addCommentBtn');
+    const commentInput = document.getElementById('commentInput');
+    const commentsList = document.getElementById('commentsList');
+    const commentsCount = document.getElementById('commentsCount');
+    let commentId = 2;
+
+    addCommentBtn.addEventListener('click', function() {
+      const commentText = commentInput.value.trim();
+      if (commentText) {
+        const newComment = document.createElement('div');
+        newComment.className = 'comment';
+        newComment.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <div class="fw-semibold">You</div>
+                            <div class="small text-light">Just now</div>
+                        </div>
+                        <p>${commentText}</p>
+                        <div class="comment-actions">
+                            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>0</span></a>
+                            <a class="comment-action reply-comment">Reply</a>
+                        </div>
+                    </div>
+                `;
+        commentsList.appendChild(newComment);
+        commentInput.value = '';
+
+        // Update comment count
+        commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
+
+        // Add event listener to the new comment's like button
+        const likeCommentBtn = newComment.querySelector('.like-comment');
+        likeCommentBtn.addEventListener('click', function() {
+          const likeSpan = this.querySelector('span');
+          const icon = this.querySelector('i');
+          let count = parseInt(likeSpan.textContent);
+
+          if (this.classList.contains('active')) {
+            count--;
+            this.classList.remove('active');
+            icon.classList.replace('fas', 'far');
+          } else {
+            count++;
+            this.classList.add('active');
+            icon.classList.replace('far', 'fas');
+          }
+
+          likeSpan.textContent = count;
+        });
+      }
+    });
+
+    // Add event listeners to existing comment like buttons
+    document.querySelectorAll('.like-comment').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const likeSpan = this.querySelector('span');
+        const icon = this.querySelector('i');
+        let count = parseInt(likeSpan.textContent);
+
+        if (this.classList.contains('active')) {
+          count--;
+          this.classList.remove('active');
+          icon.classList.replace('fas', 'far');
+        } else {
+          count++;
+          this.classList.add('active');
+          icon.classList.replace('far', 'fas');
+        }
+
+        likeSpan.textContent = count;
+      });
+    });
+
+    // Share functionality
+    const shareBtn = document.getElementById('shareBtn');
+    shareBtn.addEventListener('click', function() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Designing for Focus: Minimal UI that Amplifies Reading',
+          text: 'Check out this interesting article on Bloggo',
+          url: window.location.href
+        })
+                .catch(error => {
+                  console.log('Error sharing:', error);
+                });
+      } else {
+        alert('Web Share API not supported in your browser. You can manually copy the URL to share.');
+      }
+    });
+  });
+</script>
 </body>
 </html>

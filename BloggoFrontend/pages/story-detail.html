@@ -2,50 +2,398 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Story Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Detail | Bloggo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --glass-light: rgba(255, 255, 255, 0.2);
+            --glass-medium: rgba(255, 255, 255, 0.15);
+            --glass-dark: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --primary-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --accent-color: #7c3aed;
+            --text:#1f2937;
+            --border:#e5e7eb; /* gray-200 */
+            --shadow: 0 10px 30px rgba(2,6,23,.08);
+        }
 
-    <link href="../css/story-details.css" rel="stylesheet">
+        body {
+            background: var(--primary-gradient);
+            font-family: "Inter", sans-serif;
+            color: #010205;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
 
+        /* Glass Effects */
+        .glass-container {
+            background: var(--glass-light);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-thin {
+            background: var(--glass-medium);
+            backdrop-filter: blur(10px) saturate(160%);
+            -webkit-backdrop-filter: blur(10px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* Navbar */
+        .glass-navbar {
+            position: sticky;
+            top: 1rem;
+            z-index: 1050;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin: 0 auto;
+            width: 60%;
+            border-radius: 20px;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-navbar a {
+            color: #000000;
+            font-weight: 500;
+            margin: 0 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
+
+        .glass-navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #000000;
+            letter-spacing: 2px;
+            margin-right: 2rem;
+            user-select: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        /* Story Content */
+        .story-header {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .story-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .author-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .story-stats {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 1.5rem 0;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .story-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Interactions */
+        .interactions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .interaction-btn {
+            background:#fff;
+            border:1px solid var(--border);
+            color:var(--text);
+            padding:10px 16px;
+            border-radius:999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interaction-btn:hover, .interaction-btn.active {
+            transform:translateY(-1px);
+            box-shadow:var(--shadow)
+        }
+
+        .interaction-btn.active.like-btn {
+            color: #ff6b6b;
+        }
+
+        .interaction-btn.active.bookmark-btn {
+            color: #ffe066;
+        }
+
+        .interaction-btn.active.boost-btn {
+            color: #7c3aed;
+        }
+
+        /* Comments Section */
+        .comments-header {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .comment {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .comment-action {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .comment-action:hover {
+            color: white;
+        }
+
+        .comment-action.active {
+            color: #ff6b6b;
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .add-comment img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+
+        }
+
+        .add-comment-input {
+            flex: 1;
+            border:1px solid var(--border);
+            background:#fff;
+            border-radius: 16px;
+            padding: 1rem;
+            color: #000000;
+            resize: none;
+        }
+
+        .add-comment-input::placeholder {
+            color: rgb(1, 2, 5);
+        }
+
+        .add-comment-btn {
+            align-self: flex-end;
+            background:#fff;
+            border:1px solid var(--border);
+            color:var(--text);
+            padding:10px 16px;
+            border-radius:999px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .add-comment-btn:hover {
+            transform:translateY(-1px);
+            box-shadow:var(--shadow)
+        }
+
+        /* Story Actions */
+        .story-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 500;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .edit-btn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-navbar {
+                flex-wrap: wrap;
+                padding: 0.8rem;
+                width: 90%;
+            }
+
+            .glass-navbar a {
+                margin: 0.3rem;
+                font-size: 0.9rem;
+            }
+
+            .story-title {
+                font-size: 2rem;
+            }
+
+            .story-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .story-image {
+                height: 250px;
+            }
+
+            .add-comment {
+                flex-direction: column;
+            }
+
+            .interactions {
+                flex-wrap: wrap;
+            }
+
+            .story-actions {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!--<header>
-    <div class="container nav">
-        <a class="brand" href="about-bloggo.html" aria-label="Bloggo Home">
-            <img src="../assets/blogg.png" alt="Bloggo Logo" class="brand-logo">
-        </a>
-
-        &lt;!&ndash; Navbar Actions &ndash;&gt;
-        <nav class="nav-actions">
-            <a class="btn" href="dashboard.html">Explore</a>
-            <a class="btn" href="notification.html">Notifications</a>
-            <a class="btn " id="btn-write" href="blog-editor.html">Write</a>
-        </nav>
-    </div>
-</header>-->
-
+<!-- Glass Navbar -->
 <header class="sticky-top">
     <nav class="glass-navbar align-items-center">
         <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <a href="#"><i class="fas fa-home me-1"></i> Home</a>
-        <a href="#"><i class="fas fa-book-open me-1"></i> Stories</a>
-        <a href="#"><i class="fas fa-pen me-1"></i> Write</a>
-        <a href="#"><i class="fas fa-user me-1"></i> Profile</a>
+        <a href="dashboard.html"><i class="fas fa-home me-1"></i> Home</a>
+        <a href="stories.html"><i class="fas fa-book-open me-1"></i> Stories</a>
+        <a href="blog-editor.html"><i class="fas fa-pen me-1"></i> Write</a>
+        <a href="profile.html"><i class="fas fa-user me-1"></i> Profile</a>
 
         <!-- User Profile Menu -->
-        <div class="dropdown profile-menu">
+        <div class="dropdown profile-menu ms-auto">
             <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" class="avatar" alt="Profile Avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                 <li>
@@ -75,69 +423,86 @@
                     </a>
                 </li>
             </ul>
-
         </div>
     </nav>
 </header>
 
 <main class="container mt-4">
     <div class="row">
-        <!-- Left Column: Story Content -->
-        <div class="col-lg-8">
-            <h1 class="mb-3">Story Title</h1>
-            <p class="text-muted">By <strong>Author Name</strong> · Aug 24, 2025</p>
-            <img alt="Story Cover" class="img-fluid rounded mb-3">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is where your story content will go...</p>
+        <!-- Story Content Column -->
+        <div class="col-12">
+            <!-- Story Actions (Edit/Delete) -->
+            <div class="story-actions" id="story-actions">
+                <!-- Edit & Delete buttons will be injected here -->
+            </div>
 
-            <!-- 🚀 Support & Comments -->
-            <section class="story-engagement mt-5">
+            <!-- Story Content -->
+            <div class="glass-container">
+                <div class="story-header">
+                    <h1 class="story-title" id="storyTitle">Story Title</h1>
 
-                <!-- Boost Box -->
-                <div class="boost-box text-center p-4 mb-4 rounded shadow-sm border">
-                    <h5 class="fw-bold mb-2">Enjoyed this story? 💡</h5>
-                    <p class="text-muted small mb-3">Show your support with a boost</p>
-                    <button id="boostBtn" class="btn btn-success px-4 py-2 fw-semibold rounded-pill">
-                        🚀 Boost (0)
-                    </button>
-                </div>
-
-                <!-- Comments -->
-                <div class="comments-box p-4 rounded shadow-sm border">
-                    <h5 class="fw-bold mb-4">💬 Join the Discussion</h5>
-
-                    <!-- Comments List -->
-                    <div id="commentsList" class="d-flex flex-column gap-3 mb-4">
-                        <!-- Dynamic comments will be injected here -->
-                    </div>
-
-                    <!-- Add Comment -->
-                    <div class="add-comment-box d-flex align-items-start gap-2">
-                        <img src="../assets/boy%20(1).png" alt="User Avatar" class="comment-avatar">
-                        <div class="flex-grow-1">
-                            <div class="input-group">
-                                <input type="text" id="commentInput" class="form-control" placeholder="Write a comment...">
-                                <button id="addCommentBtn" class="btn btn-primary">Send</button>
+                    <div class="story-meta">
+                        <div class="author-info">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Author" id="authorImage">
+                            <div>
+                                <div class="fw-semibold" id="authorName">Author Name</div>
+                                <div class="small" id="authorTitle">Bloggo Writer</div>
                             </div>
+                        </div>
+
+                        <div class="story-stats">
+                            <div class="stat"><i class="far fa-clock"></i> <span id="readingTime">5 min</span> read</div>
+                            <div class="stat"><i class="far fa-eye"></i> <span id="viewCount">1.2k</span> views</div>
+                            <div class="stat"><i class="far fa-calendar"></i> <span id="publishDate">Aug 24, 2025</span></div>
                         </div>
                     </div>
                 </div>
-            </section>
 
+                <img src="" class="story-image" alt="Story image" id="storyImage">
 
-        </div>
+                <div class="story-content" id="storyContent">
+                    <p>Loading story content...</p>
+                </div>
 
+                <!-- Interactions -->
+                <div class="interactions">
+                    <button class="interaction-btn boost-btn" id="boostBtn">
+                        <i class="fas fa-rocket"></i>
+                        <span id="boostCount">0</span> Boosts
+                    </button>
+                    <button class="interaction-btn bookmark-btn" id="bookmarkBtn">
+                        <i class="far fa-bookmark"></i> Save
+                    </button>
+                    <button class="interaction-btn like-btn" id="likeBtn">
+                        <i class="far fa-heart"></i>
+                        <span id="likeCount">0</span>
+                    </button>
+                </div>
+            </div>
 
-        <!-- Right Column: Edit/Delete Actions -->
-        <div class="col-lg-4 d-flex flex-column align-items-start mt-3 mt-lg-0">
-            <div id="story-actions" class="d-grid gap-2 w-100">
-                <!-- Edit & Delete buttons injected by JS -->
+            <!-- Comments Section -->
+            <div class="glass-container">
+                <div class="comments-header">
+                    <h3><i class="far fa-comments me-2"></i> Comments</h3>
+                    <span class="badge glass-thin" id="commentsCount">0</span>
+                </div>
+
+                <div id="commentsList">
+                    <!-- Comments will be loaded here -->
+                </div>
+
+                <!-- Add Comment -->
+                <div class="add-comment">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Your avatar" id="userAvatar">
+                    <textarea class="add-comment-input" placeholder="Add a comment..." rows="3" id="commentInput"></textarea>
+                    <button class="add-comment-btn" id="addCommentBtn">Post Comment</button>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
-
-<!-- ✅ Edit Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -164,7 +529,337 @@
     </div>
 </div>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/story-details.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get("id");
+        const token = sessionStorage.getItem("jwtToken");
+
+        if (!postId) {
+            document.getElementById("storyTitle").textContent = "⚠️ Story not found";
+            return;
+        }
+
+        // DOM Elements
+        const titleEl = document.getElementById("storyTitle");
+        const authorNameEl = document.getElementById("authorName");
+        const authorTitleEl = document.getElementById("authorTitle");
+        const authorImageEl = document.getElementById("authorImage");
+        const readingTimeEl = document.getElementById("readingTime");
+        const viewCountEl = document.getElementById("viewCount");
+        const publishDateEl = document.getElementById("publishDate");
+        const storyImageEl = document.getElementById("storyImage");
+        const contentEl = document.getElementById("storyContent");
+        const actionsEl = document.getElementById("story-actions");
+
+        const boostBtn = document.getElementById("boostBtn");
+        const boostCountEl = document.getElementById("boostCount");
+        const likeBtn = document.getElementById("likeBtn");
+        const likeCountEl = document.getElementById("likeCount");
+        const commentsList = document.getElementById("commentsList");
+        const commentsCountEl = document.getElementById("commentsCount");
+        const commentInput = document.getElementById("commentInput");
+        const addCommentBtn = document.getElementById("addCommentBtn");
+        const bookmarkBtn = document.getElementById("bookmarkBtn");
+
+        if (!token) {
+            titleEl.textContent = "⚠️ Please log in to view the story.";
+            return;
+        }
+
+        let currentPost = null;
+        let isLiked = false;
+        let isBookmarked = false;
+
+        try {
+            // ========================
+            // Fetch Post
+            // ========================
+            const res = await fetch(`http://localhost:8080/api/v1/dashboard/post/${postId}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!res.ok) throw new Error("Failed to fetch post");
+
+            const data = await res.json();
+            const post = data.data;
+            console.log(post);
+            currentPost = post;
+
+            // Render post
+            titleEl.textContent = post.title || "Untitled";
+            authorNameEl.textContent = post.username || "Unknown";
+            publishDateEl.textContent = new Date(post.publishedAt).toLocaleDateString();
+
+            // Calculate reading time (approx 200 words per minute)
+            const wordCount = post.content ? post.content.split(/\s+/).length : 0;
+            const readingTime = Math.max(1, Math.round(wordCount / 200));
+            readingTimeEl.textContent = readingTime;
+
+            // Set view count if available
+            if (post.viewCount !== undefined) {
+                viewCountEl.textContent = post.viewCount >= 1000
+                    ? `${(post.viewCount / 1000).toFixed(1)}k`
+                    : post.viewCount;
+            }
+
+            // Set content - preserving any HTML formatting
+            if (post.content) {
+                contentEl.innerHTML = post.content;
+            } else {
+                contentEl.textContent = "No content available.";
+            }
+
+            // Set boost count
+            boostCountEl.textContent = post.boostCount || 0;
+
+            // Set like count
+            likeCountEl.textContent = post.likeCount || 0;
+
+            // Show edit/delete if author
+            const loggedInUser = sessionStorage.getItem("username");
+            if (loggedInUser && loggedInUser === post.username) {
+                const editBtn = document.createElement("button");
+                editBtn.className = "action-btn edit-btn";
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                editBtn.setAttribute("data-bs-toggle", "modal");
+                editBtn.setAttribute("data-bs-target", "#editModal");
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "action-btn delete-btn";
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                deleteBtn.onclick = async () => {
+                    if (confirm("Are you sure you want to delete this post?")) {
+                        try {
+                            const delRes = await fetch(`http://localhost:8080/api/v1/post/delete/${postId}`, {
+                                method: "DELETE",
+                                headers: { "Authorization": `Bearer ${token}` }
+                            });
+
+                            if (delRes.ok) {
+                                alert("✅ Post deleted successfully!");
+                                window.location.href = "dashboard.html";
+                            } else {
+                                const errData = await delRes.json().catch(() => ({}));
+                                alert(`❌ ${errData.message || delRes.status}`);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            alert("⚠️ Error deleting post");
+                        }
+                    }
+                };
+
+                actionsEl.appendChild(editBtn);
+                actionsEl.appendChild(deleteBtn);
+            }
+
+            // Prefill modal
+            const editTitle = document.getElementById("editTitle");
+            const editContent = document.getElementById("editContent");
+            editTitle.value = post.title;
+            editContent.value = post.content;
+
+            // Handle edit
+            const editForm = document.getElementById("editForm");
+            editForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                try {
+                    const updateRes = await fetch(`http://localhost:8080/api/v1/post/edit/${postId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            title: editTitle.value,
+                            content: editContent.value
+                        })
+                    });
+
+                    if (updateRes.ok) {
+                        alert("✅ Post updated successfully!");
+                        location.reload();
+                    } else {
+                        const errData = await updateRes.json().catch(() => ({}));
+                        alert(`❌ ${errData.message || updateRes.status}`);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("⚠️ Error updating post");
+                }
+            });
+
+            // ========================
+            // Load comments
+            // ========================
+            await loadComments();
+
+            // ========================
+            // Boost handler
+            // ========================
+            boostBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (res.ok) {
+                        const result = await res.json();
+                        boostCountEl.textContent = result.data;
+                        boostBtn.classList.add("active");
+                        boostBtn.disabled = true;
+                    } else {
+                        console.error("Boost failed with status:", res.status);
+                    }
+                } catch (err) {
+                    console.error("Boost failed:", err);
+                }
+            });
+
+            // ========================
+            // Add comment
+            // ========================
+            addCommentBtn.addEventListener("click", async () => {
+                const content = commentInput.value.trim();
+                if (!content) return;
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ content: content })
+                    });
+
+                    if (res.ok) {
+                        commentInput.value = "";
+                        await loadComments();
+                    } else {
+                        console.error("Failed to add comment:", res.status);
+                    }
+                } catch (err) {
+                    console.error("Add comment failed:", err);
+                }
+            });
+
+            // ========================
+            // Like handler
+            // ========================
+            likeBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch(`http://localhost:8080/api/v1/like/${postId}`, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (res.ok) {
+                        const result = await res.json();
+                        isLiked = !isLiked;
+                        likeCountEl.textContent = result.data;
+
+                        if (isLiked) {
+                            likeBtn.classList.add('active');
+                            likeBtn.querySelector('i').classList.replace('far', 'fas');
+                        } else {
+                            likeBtn.classList.remove('active');
+                            likeBtn.querySelector('i').classList.replace('fas', 'far');
+                        }
+                    }
+                } catch (err) {
+                    console.error("Like action failed:", err);
+                }
+            });
+
+            // ========================
+            // Bookmark handler
+            // ========================
+            bookmarkBtn.addEventListener("click", async () => {
+                try {
+                    const res = await fetch(`http://localhost:8080/api/v1/bookmark/${postId}`, {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    if (res.ok) {
+                        isBookmarked = !isBookmarked;
+
+                        if (isBookmarked) {
+                            bookmarkBtn.classList.add('active');
+                            bookmarkBtn.querySelector('i').classList.replace('far', 'fas');
+                            bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                        } else {
+                            bookmarkBtn.classList.remove('active');
+                            bookmarkBtn.querySelector('i').classList.replace('fas', 'far');
+                            bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Save';
+                        }
+                    }
+                } catch (err) {
+                    console.error("Bookmark action failed:", err);
+                }
+            });
+
+            // ========================
+            // Function: Load comments
+            // ========================
+            async function loadComments() {
+                try {
+                    const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`);
+                    const data = await res.json();
+                    console.log("Comments data:", data);
+
+                    if (data.data && data.data.length) {
+                        commentsList.innerHTML = data.data.map(comment => `
+                            <div class="comment">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <div class="fw-semibold">${comment.userId || 'Anonymous'}</div>
+                                        <div class="small text-light">${new Date(comment.createdAt).toLocaleDateString()}</div>
+                                    </div>
+                                    <p>${comment.content}</p>
+                                    <div class="comment-actions">
+                                        <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>${comment.likes || 0}</span></a>
+                                        <a class="comment-action reply-comment">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join("");
+
+                        commentsCountEl.textContent = data.data.length;
+                    } else {
+                        commentsList.innerHTML = "<div class='text-center py-3 text-muted'>No comments yet. Be the first to comment!</div>";
+                        commentsCountEl.textContent = "0";
+                    }
+                } catch (err) {
+                    console.error("Load comments failed", err);
+                    commentsList.innerHTML = "<div class='text-center py-3 text-muted'>Error loading comments</div>";
+                }
+            }
+
+        } catch (err) {
+            console.error("Failed to load post:", err);
+            titleEl.textContent = "⚠️ Error loading story.";
+        }
+    });
+</script>
 </body>
 </html>
