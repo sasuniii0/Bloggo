@@ -2,12 +2,11 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostDTO;
-import lk.ijse.gdse.entity.Boost;
-import lk.ijse.gdse.entity.Comment;
-import lk.ijse.gdse.entity.Post;
-import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.repository.EarningRepository;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
+import lk.ijse.gdse.repository.WalletRepository;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,8 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
+    private final EarningRepository earningRepository;
 
     @Override
     public Post publishPost(Post post) {
@@ -101,6 +102,57 @@ public class PostServiceImpl implements PostService {
     public int boostPost(Long postId, String username) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        User boostinguser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (post.getBoosts()== null){
+            post.setBoosts(new ArrayList<>());
+        }
+
+        Boost existingBoost = post.getBoosts().stream()
+                .filter(b -> b.getUser().equals(boostinguser))
+                .findFirst().orElse(null);
+
+        if (existingBoost != null) {
+            post.getBoosts().remove(existingBoost);
+        }else{
+            Boost newBoost =Boost.builder()
+                    .user(boostinguser)
+                    .post(post)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            post.getBoosts().add(newBoost);
+
+            // create earnings
+            Wallet postOwnerWallet = post.getUser().getWallet();
+            if (postOwnerWallet == null) {
+                throw new RuntimeException("post owner has no wallet");
+            }
+
+            Earning earning = Earning.builder()
+                    .walletId(postOwnerWallet)
+                    .source(Source.BOOST)
+                    .amount(1.0)
+                    .post(post)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
+            postOwnerWallet.getEarnings().add(earning);
+
+            walletRepository.save(postOwnerWallet);
+            earningRepository.save(earning);
+
+        }
+
+        postRepository.save(post);
+        return post.getBoosts().size();
+
+
+
+       /* Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -129,7 +181,7 @@ public class PostServiceImpl implements PostService {
         }
 
         postRepository.save(post);
-        return post.getBoosts().size();
+        return post.getBoosts().size();*/
     }
 
 

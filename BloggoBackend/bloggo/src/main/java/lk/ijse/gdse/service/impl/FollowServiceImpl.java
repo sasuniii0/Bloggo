@@ -37,7 +37,7 @@ public class FollowServiceImpl implements FollowService {
         User followed = userRepository.findById(followedId)
                 .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
 
-        if (followRepository.existByFollowerAndFollower(follower, followed)) {
+        if (followRepository.existsByFollowerAndFollowed(follower, followed)) {
             return new ApiResponseDTO(400, "Already followed", null);
         }
 

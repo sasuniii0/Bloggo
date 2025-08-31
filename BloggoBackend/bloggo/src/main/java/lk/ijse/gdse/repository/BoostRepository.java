@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface BoostRepository extends JpaRepository<Boost, Long> {
-    boolean existByUserAndPost(User user, Post post);
+    boolean existsByUserAndPost(User user, Post post);
     Long countByPost(Post post);
     Optional<Boost> findByUserAndPost(User user, Post post);
 }
