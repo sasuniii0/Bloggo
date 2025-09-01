@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const postId = urlParams.get("id");
     const token = sessionStorage.getItem("jwtToken");
     const loggedInUser = sessionStorage.getItem("username");
+    const loggedUserId = sessionStorage.getItem('userId');
 
     if (!postId) return alert("⚠️ Story not found");
 
@@ -119,16 +120,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     editForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("title", editTitle.value);
-        formData.append("content", editContent.value);
-        if (coverInput.files[0]) formData.append("coverPicture", coverInput.files[0]);
-
+        const payload = {
+            title: editTitle.value,
+            content: editContent.value
+        };
         try {
             const res = await fetch(`http://localhost:8080/api/v1/post/edit/${postId}`, {
                 method: "PUT",
-                headers: { "Authorization": `Bearer ${token}` },
-                body: formData
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             });
             if (res.ok) {
                 alert("✅ Post updated successfully!");
@@ -142,6 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("⚠️ Error updating post");
         }
     });
+
 
     // --- Boost ---
     boostBtn.addEventListener("click", async () => {
@@ -179,10 +183,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });*/
 
 
-    let isBookmarked = false;
+    /*let isBookmarked = false;*/
 
 // First check if post is already bookmarked
-    const checkBookmarkStatus = async () => {
+    /*const checkBookmarkStatus = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/v1/bookmarks/check/${postId}`, {
                 headers: {
@@ -194,9 +198,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (err) {
             console.error("Failed to check bookmark status:", err);
         }
-    };
+    };*/
 
-    const updateBookmarkButton = () => {
+    /*const updateBookmarkButton = () => {
         toggleClass(bookmarkBtn, "active", isBookmarked);
         bookmarkBtn.innerHTML = isBookmarked
             ? '<i class="fas fa-bookmark"></i> Saved'
@@ -225,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
 // Initialize bookmark status
-    checkBookmarkStatus();
+    checkBookmarkStatus();*/
 
 
 
