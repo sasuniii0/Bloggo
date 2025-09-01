@@ -3,17 +3,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const postId = urlParams.get("id");
     const token = sessionStorage.getItem("jwtToken");
     const loggedInUser = sessionStorage.getItem("username");
-    const loggedUserId = sessionStorage.getItem('userId');
 
     if (!postId) return alert("⚠️ Story not found");
 
     // --- DOM Elements ---
     const titleEl = document.getElementById("storyTitle");
     const authorNameEl = document.getElementById("authorName");
-    const authorTitleEl = document.getElementById("authorTitle");
-    const authorImageEl = document.getElementById("authorImage");
-    const readingTimeEl = document.getElementById("readingTime");
-    const viewCountEl = document.getElementById("viewCount");
     const publishDateEl = document.getElementById("publishDate");
     const storyImageEl = document.getElementById("storyImage");
     const contentEl = document.getElementById("storyContent");
@@ -24,9 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const likeCountEl = document.getElementById("likeCount");
     const commentsList = document.getElementById("commentsList");
     const commentsCountEl = document.getElementById("commentsCount");
-    const commentInput = document.getElementById("commentInput");
-    const addCommentBtn = document.getElementById("addCommentBtn");
-    const bookmarkBtn = document.getElementById("bookmarkBtn");
 
     const editForm = document.getElementById("editForm");
     const editTitle = document.getElementById("editTitle");
@@ -56,17 +48,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const post = data.data;
         currentPost = post;
 
+        console.log(post);
+
         // Render post
         titleEl.textContent = post.title || "Untitled";
         authorNameEl.textContent = post.username || "Unknown";
         publishDateEl.textContent = new Date(post.publishedAt).toLocaleDateString();
-
-        const wordCount = post.content ? post.content.split(/\s+/).length : 0;
-        readingTimeEl.textContent = Math.max(1, Math.round(wordCount / 200));
-
         contentEl.innerHTML = post.content || "No content available.";
-        storyImageEl.src = post.coverPicture || "";
-
         boostCountEl.textContent = post.boostCount || 0;
         likeCountEl.textContent = post.likeCount || 0;
 
@@ -77,13 +65,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         editTitle.value = post.title;
         editContent.value = post.content;
 
+// const coverUrl = post.coverImageUrl || "";
+
+        const coverUrl = post.imageUrl || "";
+        storyImageEl.src = coverUrl;
+        coverPreview.src = coverUrl;
+        coverPreview.style.display = coverUrl ? "block" : "none";
+
+
         // Load comments
         await loadComments();
-
     } catch (err) {
         console.error("Error loading post:", err);
         titleEl.textContent = "⚠️ Error loading story.";
     }
+
+// --- Cover Input Preview ---
+    coverInput.addEventListener("change", () => {
+        const file = coverInput.files[0];
+        if (file) {
+            const previewUrl = URL.createObjectURL(file);
+            coverPreview.src = previewUrl;
+            coverPreview.style.display = "block";
+            storyImageEl.src = previewUrl;
+        } else {
+            coverPreview.src = currentPost.coverImageUrl || "";
+            coverPreview.style.display = currentPost.coverImageUrl ? "block" : "none";
+            storyImageEl.src = currentPost.coverImageUrl || "";
+        }
+    });
+
 
     // --- Create Edit/Delete buttons ---
     function createPostActions() {
@@ -110,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         actionsEl.append(editBtn, deleteBtn);
     }
 
-    // --- Edit form submission ---
+    // --- Cover Image Preview ---
     coverInput.addEventListener("change", () => {
         const file = coverInput.files[0];
         coverPreview.src = file ? URL.createObjectURL(file) : "";
@@ -118,12 +129,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (file) storyImageEl.src = URL.createObjectURL(file);
     });
 
+    // --- Edit Form Submission ---
     editForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        // Determine cover image
+        let coverImageUrl = currentPost.coverPicture;
+        const file = coverInput.files[0];
+
+        if (file) {
+            coverImageUrl = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = err => reject(err);
+                reader.readAsDataURL(file);
+            });
+        }
+
         const payload = {
             title: editTitle.value,
-            content: editContent.value
+            content: editContent.value,
+            coverImageUrl
         };
+
         try {
             const res = await fetch(`http://localhost:8080/api/v1/post/edit/${postId}`, {
                 method: "PUT",
@@ -145,7 +173,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("⚠️ Error updating post");
         }
     });
-
 
     // --- Boost ---
     boostBtn.addEventListener("click", async () => {
@@ -169,85 +196,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (err) { console.error("Like failed:", err); }
     });
 
-    /*// --- Bookmark ---
-    let isBookmarked = false;
-    bookmarkBtn.addEventListener("click", async () => {
-        try {
-            await fetchJSON(`http://localhost:8080/api/v1/bookmarks/save/${postId}`, { method: "POST" });
-            isBookmarked = !isBookmarked;
-            toggleClass(bookmarkBtn, "active", isBookmarked);
-            bookmarkBtn.innerHTML = isBookmarked
-                ? '<i class="fas fa-bookmark"></i> Saved'
-                : '<i class="far fa-bookmark"></i> Save';
-        } catch (err) { console.error("Bookmark failed:", err); }
-    });*/
-
-
-    /*let isBookmarked = false;*/
-
-// First check if post is already bookmarked
-    /*const checkBookmarkStatus = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/v1/bookmarks/check/${postId}`, {
-                headers: {
-                    'X-User-Id': userId // You need to get userId from your auth system
-                }
-            });
-            isBookmarked = await response.json();
-            updateBookmarkButton();
-        } catch (err) {
-            console.error("Failed to check bookmark status:", err);
-        }
-    };*/
-
-    /*const updateBookmarkButton = () => {
-        toggleClass(bookmarkBtn, "active", isBookmarked);
-        bookmarkBtn.innerHTML = isBookmarked
-            ? '<i class="fas fa-bookmark"></i> Saved'
-            : '<i class="far fa-bookmark"></i> Save';
-    };
-
-    bookmarkBtn.addEventListener("click", async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/v1/bookmarks/toggle/${postId}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-User-Id': userId
-                }
-            });
-
-            if (response.ok) {
-                isBookmarked = await response.json();
-                updateBookmarkButton();
-            } else {
-                console.error("Bookmark toggle failed");
-            }
-        } catch (err) {
-            console.error("Bookmark failed:", err);
-        }
-    });
-
-// Initialize bookmark status
-    checkBookmarkStatus();*/
-
-
-
-    // --- Add Comment ---
-    addCommentBtn.addEventListener("click", async () => {
-        const content = commentInput.value.trim();
-        if (!content) return;
-        try {
-            await fetchJSON(`http://localhost:8080/api/v1/comment/${postId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content })
-            });
-            commentInput.value = "";
-            await loadComments();
-        } catch (err) { console.error("Add comment failed:", err); }
-    });
-
     // --- Load Comments ---
     async function loadComments() {
         try {
@@ -264,10 +212,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <div class="small text-light">${new Date(c.createdAt).toLocaleDateString()}</div>
                             </div>
                             <p>${c.content}</p>
-                            <div class="comment-actions">
-                                <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>${c.likes || 0}</span></a>
-                                <a class="comment-action reply-comment">Reply</a>
-                            </div>
                         </div>
                     </div>
                 `).join("")

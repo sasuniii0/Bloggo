@@ -16,14 +16,37 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
         editor.focus();
         return;
     }
+    let coverImageUrl = null;
+    const file = coverInput.files[0];
+    if (file){
+        const reader = new FileReader();
+        reader.onload = async function(e){
+            coverImageUrl = e.target.result;
 
-    const postData = {
-        title: title,
-        content: content,
-        status: 'PUBLISHED',
-        userId: 1 // replace dynamically with logged-in user's ID
-    };
+            const postData = {
+                title: title,
+                content: content,
+                status: 'PUBLISHED',
+                coverImageUrl, // ✅ include here
+                userId: 1 // replace dynamically with logged-in user's ID
+            };
 
+            await sendPost(postData);
+        };
+        reader.readAsDataURL(file);
+    }else{
+        const  postData = {
+            title,
+            content,
+            status: 'PUBLISHED',
+            userId: 1
+        };
+        await sendPost(postData);
+    }
+
+});
+
+async function sendPost(postData){
     try {
         const token = sessionStorage.getItem('jwtToken');
         if (!token) {
@@ -55,8 +78,22 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
         console.error(err);
         alert('⚠️ Error publishing blog post.');
     }
-});
+}
 
+const coverInput = document.getElementById('coverImageInput');
+const coverPreview = document.getElementById('coverPreview');
+
+coverInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            coverPreview.src = e.target.result;
+            coverPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
 
 function format(command, value = null) {

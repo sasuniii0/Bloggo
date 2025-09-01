@@ -68,6 +68,7 @@ public class PostController {
 
         existing.setTitle(post.getTitle());
         existing.setContent(post.getContent());
+        existing.setCoverImageUrl(post.getCoverImageUrl());
 
         Post updated = postService.editPost(existing, principal.getName());
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post updated successfully", updated));

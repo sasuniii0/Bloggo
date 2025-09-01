@@ -28,6 +28,8 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(post.getUser().getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         post.setUser(user);
+        post.setCoverImageUrl(post.getCoverImageUrl());
+        post.setTitle(post.getTitle());
         post.setPublishedAt(LocalDateTime.now());
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
@@ -43,6 +45,7 @@ public class PostServiceImpl implements PostService {
                         post.getTitle(),
                         post.getContent(),
                         post.getUser().getUsername(),
+                        post.getCoverImageUrl(),
                         post.getStatus(),
                         post.getPublishedAt(),
                         post.getBoosts() != null ? post.getBoosts().size() : 0,
@@ -60,6 +63,7 @@ public class PostServiceImpl implements PostService {
                         post.getTitle(),
                         post.getContent(),
                         post.getUser().getUsername(),
+                        post.getCoverImageUrl(),
                         post.getStatus(),
                         post.getPublishedAt(),
                         post.getBoostCount(),

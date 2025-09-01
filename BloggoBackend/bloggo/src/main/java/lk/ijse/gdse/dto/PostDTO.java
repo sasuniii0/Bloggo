@@ -17,6 +17,7 @@ public class PostDTO {
     private String title;
     private String content;
     private String username;
+    private String imageUrl;
     private PostStatus status;
     private LocalDateTime publishedAt;
 

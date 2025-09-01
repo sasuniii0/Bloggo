@@ -94,11 +94,20 @@
                 <a id="btn-publish" class="btn" href="#">Publish</a>
             </div>
         </div>
+        <!-- Cover Image Upload -->
+        <div class="mb-3  p-3">
+            <label for="coverImageInput" class="form-label fw-bold">Cover Image</label>
+            <input type="file" class="form-control" id="coverImageInput" accept="image/*">
+            <img id="coverPreview" src="" alt="Cover Preview" class="img-fluid mt-2" style="max-height: 300px; display: none;">
+        </div>
 
         <!-- Editor -->
         <div class="editor-wrapper position-relative">
             <div class="editor" id="editor" contenteditable="true" placeholder="Start writing your story..."></div>
         </div>
+
+
+
 
         <!-- Autosave -->
         <div class="autosave d-flex align-items-center gap-2" id="autosave">

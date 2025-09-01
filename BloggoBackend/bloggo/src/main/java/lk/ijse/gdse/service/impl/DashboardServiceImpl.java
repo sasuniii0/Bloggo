@@ -38,6 +38,7 @@ public class DashboardServiceImpl implements DashboardService {
                         post.getTitle(),
                         post.getContent(),
                         post.getUser().getUsername(),
+                        post.getCoverImageUrl(),
                         post.getStatus(),
                         post.getPublishedAt(),
                         post.getBoosts() != null ? post.getBoosts().size() : 0,
@@ -67,6 +68,7 @@ public class DashboardServiceImpl implements DashboardService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .username(post.getUser().getUsername())
+                .imageUrl(post.getCoverImageUrl())
                 .status(post.getStatus())
                 .publishedAt(post.getPublishedAt())
                 .boostCount(post.getBoosts() != null ? post.getBoosts().size() : 0)

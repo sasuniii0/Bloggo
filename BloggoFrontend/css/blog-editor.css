@@ -176,3 +176,8 @@ body {
 .dropdown-item:hover {
     background-color: #f8f9fa;
 }
+
+#coverPreview{
+    padding: 10px;
+
+}
