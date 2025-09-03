@@ -2,6 +2,7 @@ package lk.ijse.gdse.service;
 
 
 import lk.ijse.gdse.dto.UserDTO;
+import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService {
     List<String> getAllUsernames();
 
     List<UserDTO> getUsers(int offset, int limit);
+
+    UserProfileDTO getCurrentUser(String username);
 }

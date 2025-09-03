@@ -3,11 +3,17 @@ package lk.ijse.gdse.controller;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.AuthDTO;
 import lk.ijse.gdse.dto.UserDTO;
+import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,6 +28,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping("/save")
     public ResponseEntity<ApiResponseDTO> saveUser(@RequestBody User user) {
@@ -80,5 +87,11 @@ public class UserController {
         Map<String,Object> response = new HashMap<>();
         response.put("users", users);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileDTO> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(userService.getCurrentUser(userDetails.getUsername()));
+
     }
 }

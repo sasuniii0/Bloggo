@@ -105,6 +105,30 @@ document.addEventListener("DOMContentLoaded", async () => {
             
         `;
 
+        if (!token) return;
+
+        try{
+            const res = await fetch("http://localhost:8080/user/me",{
+                headers:{
+                    "Authorization" : `Bearer ${token}`
+                }
+            });
+            if (!res.ok) throw new Error("Failed to load user...")
+
+            const user = await res.json();
+
+            // Fill sidebar
+            document.querySelector(".profile-avatar").src = user.profileImage || "default.png";
+            document.querySelector(".profile-name").textContent = user.username;
+            document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+
+            // Followers count
+            const followersLink = document.querySelector("#edit-profile-card p a");
+            followersLink.textContent = `${user.followers.length} Followers`;
+        } catch (err){
+            console.error("Error loading user...")
+        }
+
         // Event Handlers
         function handleLike(postId, btn) {
             fetch(`http://localhost:8080/api/v1/post/${postId}/like`, {

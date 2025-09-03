@@ -1,6 +1,7 @@
 package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.UserDTO;
+import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.UserService;
@@ -60,6 +61,22 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
                 .toList();
+    }
+
+    @Override
+    public UserProfileDTO getCurrentUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new UserProfileDTO(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getProfileImage(),
+                user.getBio(),
+                user.getFollowers().size(),
+                user.getFollowing().size()
+        );
     }
 
 
