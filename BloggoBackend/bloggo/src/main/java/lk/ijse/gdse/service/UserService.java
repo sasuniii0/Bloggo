@@ -4,7 +4,9 @@ package lk.ijse.gdse.service;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -23,4 +25,6 @@ public interface UserService {
     List<UserDTO> getUsers(int offset, int limit);
 
     UserProfileDTO getCurrentUser(String username);
+
+    User updateProfile(String loggedUsername, String username, String email, String bio, MultipartFile profileImage) throws IOException;
 }

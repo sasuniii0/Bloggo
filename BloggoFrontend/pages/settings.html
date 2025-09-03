@@ -83,24 +83,38 @@
 
             <div class="text-center mb-3">
                 <!-- Avatar Preview (clickable) -->
-                <img src="../assets/boy%20(1).png" alt="Avatar" class="avatar-preview" id="avatarPreview" style="cursor: pointer; border-radius: 50%; width: 100px; height: 100px; object-fit: cover;" title="Click to change avatar">
+                <img src="../assets/boy%20(1).png"
+                     alt="Avatar"
+                     class="avatar-preview"
+                     id="avatarPreview"
+                     style="cursor: pointer; border-radius: 50%; width: 100px; height: 100px; object-fit: cover;"
+                     title="Click to change avatar">
 
                 <!-- Hidden File Input -->
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
 
-            <form>
+            <!-- 🔥 Add ID here -->
+            <form id="profileForm">
                 <div class="mb-3">
                     <label class="form-label">Username</label>
-                    <input type="text" class="form-control" value="alex">
+                    <!-- 🔥 Add ID -->
+                    <input type="text" class="form-control" id="username" value="alex">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control" value="alex@mail.com">
+                    <!-- 🔥 Add ID -->
+                    <input type="email" class="form-control" id="email" value="alex@mail.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Bio</label>
+                    <!-- 🔥 Add ID -->
+                    <input type="text" class="form-control" id="bio" value="alex">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Profile</button>
             </form>
         </section>
+
 
         <!-- Preferences -->
         <section class="settings-section" id="preferences">
@@ -147,39 +161,10 @@
     </div>
 </div>
 <script src="../js/profile.js"></script>
+<script src="../js/settings.js"></script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Smooth scroll for sidebar links
-    const links = document.querySelectorAll('.settings-sidebar a');
-    links.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            links.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-        });
-    });
 
-    const avatarInput = document.getElementById('avatarInput');
-    const avatarPreview = document.getElementById('avatarPreview');
-
-    // Click on avatar opens file input
-    avatarPreview.addEventListener('click', () => {
-        avatarInput.click();
-    });
-
-    // Update preview when a file is selected
-    avatarInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                avatarPreview.src = e.target.result;
-            }
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
-</script>
 </body>
 </html>

@@ -15,7 +15,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,5 +95,28 @@ public class UserController {
     public ResponseEntity<UserProfileDTO> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userService.getCurrentUser(userDetails.getUsername()));
 
+    }
+
+    @PostMapping("/profileUpdate")
+    public ResponseEntity<ApiResponseDTO> updateProfile(
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String bio,
+            @RequestParam(required = false) MultipartFile profileImage,
+            Authentication authentication
+    ) throws IOException {
+
+        // get logged-in username from Spring Security
+        String loggedUsername = authentication.getName();
+
+        User updatedUser = userService.updateProfile(loggedUsername, username, email, bio, profileImage);
+
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Profile updated successfully",
+                        updatedUser
+                )
+        );
     }
 }

@@ -9,7 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -79,5 +85,32 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+    @Override
+    public User updateProfile(String loggedUsername, String username, String email, String bio, MultipartFile profileImage) throws IOException {
+        User user = userRepository.findByUsername(loggedUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setBio(bio);
+
+        if (profileImage != null && !profileImage.isEmpty()) {
+            // Ensure directory exists
+            String uploadDir = "uploads/profile_images";
+            File uploadPath = new File(uploadDir);
+            if (!uploadPath.exists()) {
+                uploadPath.mkdirs();
+            }
+
+            // Save file
+            String fileName = System.currentTimeMillis() + "_" + profileImage.getOriginalFilename();
+            File destinationFile = new File(uploadPath, fileName);
+            profileImage.transferTo(destinationFile);
+
+            // Update user profileImage path (relative or absolute as needed)
+            user.setProfileImage(uploadDir + "/" + fileName);
+        }
+
+        return userRepository.save(user);
+    }
 }
