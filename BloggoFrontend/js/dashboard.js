@@ -33,8 +33,8 @@ async function loadPosts(token) {
         feedContainer.innerHTML = posts.length
             ? posts.map(post => `
                 <article class="blog-card mb-3 p-3 shadow-sm rounded" style="cursor: pointer;" data-id="${post.id}">
-                    <h3 class="mb-2">${post.title || "Untitled"}</h3>
-                    <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
+                    <h3 class="mb-2" style="font-size: 20px; font-weight: bold">${post.title || "Untitled"}</h3>
+                    <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
                     <div class="blog-meta d-flex justify-content-between">
                         <span>by ${post.username || "Unknown"}</span>
                         <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>

@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Build tab layout
         storiesContainer.innerHTML = `
-        <div class="container mt-4">
+        <div class="container mt-8">
             <ul class="nav nav-tabs d-flex justify-content-start" id="storiesTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="published-tab" data-bs-toggle="tab" data-bs-target="#published" type="button" role="tab">Published</button>
