@@ -1,27 +1,3 @@
-paypal.Buttons({
-    style: {
-        color: 'blue',
-        shape: 'pill',
-        label: 'pay',
-        height: 40
-    },
-    createOrder: function(data, actions) {
-        return actions.order.create({
-            purchase_units: [{
-                amount: {
-                    value: '10.00' // 👉 Replace with your plan price dynamically
-                }
-            }]
-        });
-    },
-    onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-            alert('✅ Payment completed by ' + details.payer.name.given_name);
-            window.location.href = "confirmation.html"; // redirect to step 3
-        });
-    }
-}).render('#paypal-button-container');
-
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
 
@@ -38,8 +14,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = await res.json();
 
+        // Fill sidebar
+        document.querySelector(".profile-avatar").src = user.profileImage || "../assets/default.png";
+        document.querySelector(".profile-name").textContent = user.username;
+        document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+
         // Top navbar avatar
         document.querySelector(".avatar").src = user.profileImage || "../assets/default.png";
+
+        // Followers count
+        const followersLink = document.querySelector("#edit-profile-card p a");
+        followersLink.textContent = `${user.followersCount} Followers`;
     } catch (err) {
         console.error("Error loading user:", err);
     }

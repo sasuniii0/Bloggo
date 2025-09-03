@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const followersLink = document.querySelector("#edit-profile-card p a");
             followersLink.textContent = `${user.followers.length} Followers`;
         } catch (err){
-            console.error("Error loading user...")
+            console.error()
         }
 
         // Event Handlers
@@ -179,3 +179,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         storiesContainer.innerHTML = `<p class="text-danger">⚠️ Error loading stories.</p>`;
     }
 });
+
+function logout() {
+    // Clear stored token and user info
+    sessionStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('userId');
+
+    // Redirect to login page
+    window.location.href = 'login.html';
+}

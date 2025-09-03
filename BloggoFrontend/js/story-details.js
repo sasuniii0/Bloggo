@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const actionsEl = document.getElementById("story-actions");
     const boostBtn = document.getElementById("boostBtn");
     const boostCountEl = document.getElementById("boostCount");
-    const likeBtn = document.getElementById("likeBtn");
-    const likeCountEl = document.getElementById("likeCount");
     const commentsList = document.getElementById("commentsList");
     const commentsCountEl = document.getElementById("commentsCount");
 
@@ -56,7 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         publishDateEl.textContent = new Date(post.publishedAt).toLocaleDateString();
         contentEl.innerHTML = post.content || "No content available.";
         boostCountEl.textContent = post.boostCount || 0;
-        likeCountEl.textContent = post.likeCount || 0;
 
         // Show Edit/Delete buttons if author
         if (loggedInUser && loggedInUser === post.username) createPostActions();
@@ -184,18 +181,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (err) { console.error("Boost failed:", err); }
     });
 
-    // --- Like ---
-    let isLiked = false;
-    likeBtn.addEventListener("click", async () => {
-        try {
-            const data = await fetchJSON(`http://localhost:8080/api/v1/like/${postId}`, { method: "POST" });
-            isLiked = !isLiked;
-            likeCountEl.textContent = data.data;
-            toggleClass(likeBtn, "active", isLiked);
-            toggleIcon(likeBtn.querySelector("i"), "far", "fas", isLiked);
-        } catch (err) { console.error("Like failed:", err); }
-    });
-
     // --- Load Comments ---
     async function loadComments() {
         try {
@@ -233,3 +218,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         else el.classList.replace(addClass, removeClass);
     }
 });
+
+function logout() {
+    // Clear stored token and user info
+    sessionStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('userId');
+
+    // Redirect to login page
+    window.location.href = 'login.html';
+}

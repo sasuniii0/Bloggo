@@ -41,7 +41,40 @@ bookmarkBtn.addEventListener("click", async () => {
     } catch (err) {
         console.error("Bookmark failed:", err);
     }
+
+    const token = sessionStorage.getItem("jwtToken");
+    if (!token) return;
+
+    try{
+        const res = await fetch("http://localhost:8080/user/me",{
+            headers:{
+                "Authorization" : `Bearer ${token}`
+            }
+        });
+        if (!res.ok) throw new Error("Failed to load user...")
+
+        const user = await res.json();
+
+        // Fill sidebar
+        document.querySelector(".avatar").src = user.profileImage || "default.png";
+
+        // Followers count
+        const followersLink = document.querySelector("#edit-profile-card p a");
+        followersLink.textContent = `${user.followers.length} Followers`;
+    }catch (err){
+        console.error("Error loading user...")
+    }
 });
 
 // Initialize bookmark status
 checkBookmarkStatus();
+
+function logout() {
+    // Clear stored token and user info
+    sessionStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('userId');
+
+    // Redirect to login page
+    window.location.href = 'login.html';
+}
