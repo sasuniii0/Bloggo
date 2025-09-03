@@ -3,674 +3,348 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Story Detail | Bloggo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>JWT Authentication System</title>
   <style>
-    :root {
-      --glass-light: rgba(255, 255, 255, 0.2);
-      --glass-medium: rgba(255, 255, 255, 0.15);
-      --glass-dark: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.3);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      --primary-gradient: linear-gradient(135deg, #667eea 0%, #ece8ef 100%);
-      --accent-color: #7c3aed;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background: var(--primary-gradient);
-      font-family: "Inter", sans-serif;
-      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      padding-bottom: 2rem;
-    }
-
-    /* Glass Effects */
-    .glass-container {
-      background: var(--glass-light);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      box-shadow: var(--glass-shadow);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .glass-thin {
-      background: var(--glass-medium);
-      backdrop-filter: blur(10px) saturate(160%);
-      -webkit-backdrop-filter: blur(10px) saturate(160%);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      box-shadow: var(--glass-shadow);
-    }
-
-    /* Navbar */
-    .glass-navbar {
-      position: sticky;
-      top: 1rem;
-      z-index: 1050;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1rem 2rem;
-      margin: 0 auto;
-      width: 60%;
-      border-radius: 20px;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
 
-    .glass-navbar a {
-      color: #fff;
-      font-weight: 500;
-      margin: 0 1.2rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-    }
-
-    .glass-navbar a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: white;
-      letter-spacing: 2px;
-      margin-right: 2rem;
-      user-select: none;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-
-    /* Story Content */
-    .story-header {
-      text-align: center;
-      padding: 2rem 0;
-    }
-
-    .story-title {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .story-meta {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .author-info {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .author-info img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .story-stats {
-      display: flex;
-      gap: 1.2rem;
-    }
-
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.9rem;
-    }
-
-    .story-image {
+    .container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       width: 100%;
-      height: 400px;
-      object-fit: cover;
-      border-radius: 20px;
-      margin: 1.5rem 0;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      overflow: hidden;
     }
 
-    .story-content {
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-
-    .story-content p {
-      margin-bottom: 1.5rem;
-    }
-
-    /* Interactions */
-    .interactions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .interaction-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
       color: white;
-      padding: 0.7rem 1.5rem;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .interaction-btn:hover, .interaction-btn.active {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-    }
-
-    .interaction-btn.active.like-btn {
-      color: #ff6b6b;
-    }
-
-    .interaction-btn.active.bookmark-btn {
-      color: #ffe066;
-    }
-
-    /* Comments Section */
-    .comments-header {
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .comment {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .comment img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .comment-content {
-      flex: 1;
-    }
-
-    .comment-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-
-    .comment-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .comment-action {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.7);
-      transition: color 0.2s;
-      cursor: pointer;
-    }
-
-    .comment-action:hover {
-      color: white;
-    }
-
-    .comment-action.active {
-      color: #ff6b6b;
-    }
-
-    .add-comment {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .add-comment img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .add-comment-input {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 1rem;
-      color: white;
-      resize: none;
-    }
-
-    .add-comment-input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .add-comment-btn {
-      align-self: flex-end;
-      background: var(--accent-color);
-      border: none;
-      color: white;
-      padding: 0.6rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .add-comment-btn:hover {
-      background: #6d28d9;
-      transform: translateY(-2px);
-    }
-
-    /* Boost Section */
-    .boost-box {
-      background: rgba(124, 58, 237, 0.15);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 16px;
-      padding: 1.5rem;
+      padding: 25px;
       text-align: center;
-      margin-bottom: 2rem;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .glass-navbar {
-        flex-wrap: wrap;
-        padding: 0.8rem;
-        width: 90%;
-      }
+    .content {
+      padding: 30px;
+    }
 
-      .glass-navbar a {
-        margin: 0.3rem;
-        font-size: 0.9rem;
-      }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-      .story-title {
-        font-size: 2rem;
-      }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
 
-      .story-meta {
-        flex-direction: column;
-        gap: 1rem;
-      }
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
 
-      .story-image {
-        height: 250px;
-      }
+    input:focus {
+      border-color: #4b6cb7;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+    }
 
-      .add-comment {
-        flex-direction: column;
-      }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
 
-      .interactions {
-        flex-wrap: wrap;
-      }
+    .login-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .login-btn:hover {
+      background-color: #27ae60;
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .status {
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+
+    .logged-in {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .logged-out {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #4b6cb7;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .jwt-display {
+      background-color: #f1f1f1;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-family: monospace;
+      word-break: break-all;
+      font-size: 14px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-
-<!-- Glass Navbar -->
-<header class="sticky-top">
-  <nav class="glass-navbar align-items-center">
-    <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
-
-    <a href="#"><i class="fas fa-home me-1"></i> Home</a>
-    <a href="#"><i class="fas fa-book-open me-1"></i> Stories</a>
-    <a href="#"><i class="fas fa-pen me-1"></i> Write</a>
-    <a href="#"><i class="fas fa-user me-1"></i> Profile</a>
-
-    <!-- User Profile Menu -->
-    <div class="dropdown profile-menu ms-auto">
-      <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" class="avatar" alt="Profile Avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-        <li>
-          <a class="dropdown-item" href="profile.html">
-            <i class="fas fa-user me-2"></i> Profile
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="stories.html">
-            <i class="fas fa-pen-nib me-2"></i> Stories
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="membership.html">
-            <i class="fas fa-star me-2"></i> Become a Member
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="settings.html">
-            <i class="fas fa-cog me-2"></i> Settings
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <a class="dropdown-item text-danger" href="logout.html">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</header>
-
-<main class="container">
-  <!-- Story Content -->
-  <div class="glass-container">
-    <div class="story-header">
-      <h1 class="story-title">Designing for Focus: Minimal UI that Amplifies Reading</h1>
-
-      <div class="story-meta">
-        <div class="author-info">
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Author">
-          <div>
-            <div class="fw-semibold">Sarah Johnson</div>
-            <div class="small">UX Designer at CreativeMinds</div>
-          </div>
-        </div>
-
-        <div class="story-stats">
-          <div class="stat"><i class="far fa-clock"></i> 8 min read</div>
-          <div class="stat"><i class="far fa-eye"></i> 12.4k views</div>
-          <div class="stat"><i class="far fa-calendar"></i> Apr 12, 2023</div>
-        </div>
-      </div>
-    </div>
-
-    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop" class="story-image" alt="Story image">
-
-    <div class="story-content">
-      <p>In a world saturated with visual noise, the ability to focus has become a rare commodity. As designers, we have a responsibility to create interfaces that respect the user's attention and facilitate deep engagement with content.</p>
-
-      <p>The minimalist approach to UI design isn't just an aesthetic choice—it's a functional one. By stripping away unnecessary elements, we reduce cognitive load and allow the content to take center stage. This is especially crucial in reading environments where sustained attention is required.</p>
-
-      <p>Research in cognitive psychology tells us that every additional visual element competes for the user's attention. The more clutter we remove, the more mental bandwidth becomes available for processing the actual content.</p>
-
-      <h3>Key Principles of Minimal Reading Design</h3>
-
-      <p>1. <strong>Generous Whitespace</strong>: Ample spacing between elements creates visual breathing room and improves readability. It's not empty space—it's a powerful design element that guides the eye and emphasizes what matters.</p>
-
-      <p>2. <strong>Limited Color Palette</strong>: Restricting your color scheme to 2-3 primary colors reduces visual noise and creates harmony. Use color purposefully to highlight important elements rather than as mere decoration.</p>
-
-      <p>3. <strong>Typography Hierarchy</strong>: Establish a clear typographic system with distinct levels for headings, subheadings, and body text. Consistent typography creates rhythm and helps users navigate content effortlessly.</p>
-    </div>
-
-    <!-- Interactions -->
-    <div class="interactions">
-      <button class="interaction-btn like-btn" id="likeBtn">
-        <i class="far fa-heart"></i> <span id="likeCount">428</span>
-      </button>
-      <button class="interaction-btn bookmark-btn" id="bookmarkBtn">
-        <i class="far fa-bookmark"></i> Save
-      </button>
-      <button class="interaction-btn" id="shareBtn">
-        <i class="fas fa-share-alt"></i> Share
-      </button>
-    </div>
+<div class="container">
+  <div class="header">
+    <h1>JWT Authentication System</h1>
+    <p>Secure login and logout with token management</p>
   </div>
 
-  <!-- Boost Section -->
-  <div class="boost-box">
-    <h5 class="fw-bold mb-2">Enjoyed this story? 💡</h5>
-    <p class="text-light small mb-3">Show your support with a boost</p>
-    <button id="boostBtn" class="btn btn-light px-4 py-2 fw-semibold rounded-pill">
-      🚀 Boost (<span id="boostCount">12</span>)
-    </button>
-  </div>
-
-  <!-- Comments Section -->
-  <div class="glass-container">
-    <div class="comments-header">
-      <h3><i class="far fa-comments me-2"></i> Comments</h3>
-      <span class="badge glass-thin" id="commentsCount">24</span>
+  <div class="content">
+    <!-- Login Form -->
+    <div id="loginSection">
+      <h2>Please Login</h2>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username" value="admin">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" value="password">
+      </div>
+      <button id="loginBtn" class="btn login-btn">Login</button>
     </div>
 
-    <div id="commentsList">
-      <!-- Comment 1 -->
-      <div class="comment">
-        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
-        <div class="comment-content">
-          <div class="comment-header">
-            <div class="fw-semibold">Michael Chen</div>
-            <div class="small text-light">2 hours ago</div>
-          </div>
-          <p>Great article! I've been implementing these principles in our product and the user feedback has been incredibly positive. The part about typography hierarchy was especially insightful.</p>
-          <div class="comment-actions">
-            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>12</span></a>
-            <a class="comment-action reply-comment">Reply</a>
-          </div>
-        </div>
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="hidden">
+      <h2>Welcome to your Dashboard!</h2>
+      <p>You have successfully logged in and your JWT token is stored.</p>
+
+      <div class="jwt-display">
+        <strong>JWT Token:</strong> <span id="jwtToken"></span>
       </div>
 
-      <!-- Comment 2 -->
-      <div class="comment">
-        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
-        <div class="comment-content">
-          <div class="comment-header">
-            <div class="fw-semibold">Jessica Williams</div>
-            <div class="small text-light">5 hours ago</div>
-          </div>
-          <p>I appreciate how you connected cognitive psychology with design principles. It's so important to understand why minimalism works rather than just following trends.</p>
-          <div class="comment-actions">
-            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>8</span></a>
-            <a class="comment-action reply-comment">Reply</a>
-          </div>
-        </div>
+      <button id="logoutBtn" class="btn logout-btn">Logout</button>
+
+      <div class="status logged-in">
+        Status: You are logged in
       </div>
     </div>
 
-    <!-- Add Comment -->
-    <div class="add-comment">
-      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Your avatar">
-      <textarea class="add-comment-input" placeholder="Add a comment..." rows="3" id="commentInput"></textarea>
-      <button class="add-comment-btn" id="addCommentBtn">Post Comment</button>
+    <!-- Logout Message -->
+    <div id="logoutSection" class="hidden">
+      <h2>You have been logged out</h2>
+      <p>Your JWT token has been removed from storage.</p>
+
+      <div class="status logged-out">
+        Status: You are logged out
+      </div>
+
+      <button id="backToLoginBtn" class="btn login-btn">Back to Login</button>
+    </div>
+
+    <div class="info-box">
+      <h3>Security Information</h3>
+      <p>After logout, your JWT token is removed and browser history is manipulated to prevent going back to the protected dashboard.</p>
+      <p>Try logging out and then using the browser's back button to test this security feature.</p>
     </div>
   </div>
-
-  <!-- Related Stories -->
-  <div class="glass-container">
-    <h3><i class="fas fa-layer-group me-2"></i> Related Stories</h3>
-    <div class="row mt-4">
-      <div class="col-md-4 mb-3">
-        <div class="glass-thin p-3 h-100">
-          <div class="fw-semibold">The Psychology of White Space</div>
-          <div class="small mt-2">5 min read • 4.2k views</div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="glass-thin p-3 h-100">
-          <div class="fw-semibold">Typography for Digital Reading</div>
-          <div class="small mt-2">7 min read • 6.8k views</div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="glass-thin p-3 h-100">
-          <div class="fw-semibold">Color Theory in UI Design</div>
-          <div class="small mt-2">9 min read • 8.5k views</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Like functionality
-    const likeBtn = document.getElementById('likeBtn');
-    const likeCount = document.getElementById('likeCount');
-    let likes = 428;
-    let isLiked = false;
+    // DOM Elements
+    const loginSection = document.getElementById('loginSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    const logoutSection = document.getElementById('logoutSection');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const backToLoginBtn = document.getElementById('backToLoginBtn');
+    const jwtTokenElement = document.getElementById('jwtToken');
 
-    likeBtn.addEventListener('click', function() {
-      isLiked = !isLiked;
-      if (isLiked) {
-        likes++;
-        likeBtn.classList.add('active');
-        likeBtn.querySelector('i').classList.replace('far', 'fas');
+    // Check if user is already logged in (has a JWT)
+    if (isLoggedIn()) {
+      showDashboard();
+    } else {
+      showLogin();
+    }
+
+    // Login button event
+    loginBtn.addEventListener('click', function() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Simple validation
+      if (username && password) {
+        // In a real application, you would send this to your server
+        // For demo, we'll simulate a successful login
+        simulateLogin(username);
       } else {
-        likes--;
-        likeBtn.classList.remove('active');
-        likeBtn.querySelector('i').classList.replace('fas', 'far');
-      }
-      likeCount.textContent = likes;
-    });
-
-    // Bookmark functionality
-    const bookmarkBtn = document.getElementById('bookmarkBtn');
-    let isBookmarked = false;
-
-    bookmarkBtn.addEventListener('click', function() {
-      isBookmarked = !isBookmarked;
-      if (isBookmarked) {
-        bookmarkBtn.classList.add('active');
-        bookmarkBtn.querySelector('i').classList.replace('far', 'fas');
-        bookmarkBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
-      } else {
-        bookmarkBtn.classList.remove('active');
-        bookmarkBtn.querySelector('i').classList.replace('fas', 'far');
-        bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Save';
+        alert('Please enter both username and password');
       }
     });
 
-    // Boost functionality
-    const boostBtn = document.getElementById('boostBtn');
-    const boostCount = document.getElementById('boostCount');
-    let boosts = 12;
-
-    boostBtn.addEventListener('click', function() {
-      boosts++;
-      boostCount.textContent = boosts;
-      boostBtn.classList.add('disabled');
-      boostBtn.innerHTML = '🚀 Boosted!';
+    // Logout button event
+    logoutBtn.addEventListener('click', function() {
+      performLogout();
     });
 
-    // Comment functionality
-    const addCommentBtn = document.getElementById('addCommentBtn');
-    const commentInput = document.getElementById('commentInput');
-    const commentsList = document.getElementById('commentsList');
-    const commentsCount = document.getElementById('commentsCount');
-    let commentId = 2;
-
-    addCommentBtn.addEventListener('click', function() {
-      const commentText = commentInput.value.trim();
-      if (commentText) {
-        const newComment = document.createElement('div');
-        newComment.className = 'comment';
-        newComment.innerHTML = `
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Commenter">
-                    <div class="comment-content">
-                        <div class="comment-header">
-                            <div class="fw-semibold">You</div>
-                            <div class="small text-light">Just now</div>
-                        </div>
-                        <p>${commentText}</p>
-                        <div class="comment-actions">
-                            <a class="comment-action like-comment"><i class="far fa-heart"></i> <span>0</span></a>
-                            <a class="comment-action reply-comment">Reply</a>
-                        </div>
-                    </div>
-                `;
-        commentsList.appendChild(newComment);
-        commentInput.value = '';
-
-        // Update comment count
-        commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
-
-        // Add event listener to the new comment's like button
-        const likeCommentBtn = newComment.querySelector('.like-comment');
-        likeCommentBtn.addEventListener('click', function() {
-          const likeSpan = this.querySelector('span');
-          const icon = this.querySelector('i');
-          let count = parseInt(likeSpan.textContent);
-
-          if (this.classList.contains('active')) {
-            count--;
-            this.classList.remove('active');
-            icon.classList.replace('fas', 'far');
-          } else {
-            count++;
-            this.classList.add('active');
-            icon.classList.replace('far', 'fas');
-          }
-
-          likeSpan.textContent = count;
-        });
-      }
+    // Back to login button event
+    backToLoginBtn.addEventListener('click', function() {
+      showLogin();
     });
 
-    // Add event listeners to existing comment like buttons
-    document.querySelectorAll('.like-comment').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const likeSpan = this.querySelector('span');
-        const icon = this.querySelector('i');
-        let count = parseInt(likeSpan.textContent);
+    // Simulate login function (would be replaced with actual API call)
+    function simulateLogin(username) {
+      // Generate a mock JWT token
+      const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+      const payload = btoa(JSON.stringify({
+        sub: '1234567890',
+        name: username,
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour expiration
+      }));
+      const signature = 'simulated-signature';
 
-        if (this.classList.contains('active')) {
-          count--;
-          this.classList.remove('active');
-          icon.classList.replace('fas', 'far');
-        } else {
-          count++;
-          this.classList.add('active');
-          icon.classList.replace('far', 'fas');
-        }
+      const token = `${header}.${payload}.${signature}`;
 
-        likeSpan.textContent = count;
-      });
-    });
+      // Store the token
+      localStorage.setItem('jwtToken', token);
 
-    // Share functionality
-    const shareBtn = document.getElementById('shareBtn');
-    shareBtn.addEventListener('click', function() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Designing for Focus: Minimal UI that Amplifies Reading',
-          text: 'Check out this interesting article on Bloggo',
-          url: window.location.href
-        })
-                .catch(error => {
-                  console.log('Error sharing:', error);
-                });
-      } else {
-        alert('Web Share API not supported in your browser. You can manually copy the URL to share.');
-      }
-    });
+      // Show dashboard
+      showDashboard();
+    }
+
+    // Check if user is logged in
+    function isLoggedIn() {
+      const token = localStorage.getItem('jwtToken');
+      return token !== null;
+    }
+
+    // Show login section
+    function showLogin() {
+      loginSection.classList.remove('hidden');
+      dashboardSection.classList.add('hidden');
+      logoutSection.classList.add('hidden');
+    }
+
+    // Show dashboard section
+    function showDashboard() {
+      const token = localStorage.getItem('jwtToken');
+
+      loginSection.classList.add('hidden');
+      dashboardSection.classList.remove('hidden');
+      logoutSection.classList.add('hidden');
+
+      // Display the JWT token
+      jwtTokenElement.textContent = token;
+    }
+
+    // Show logout section
+    function showLogout() {
+      loginSection.classList.add('hidden');
+      dashboardSection.classList.add('hidden');
+      logoutSection.classList.remove('hidden');
+    }
+
+    // Perform logout
+    function performLogout() {
+      // Remove the JWT token from storage
+      localStorage.removeItem('jwtToken');
+
+      // Show logout message
+      showLogout();
+
+      // Prevent back navigation after logout
+      preventBackNavigation();
+
+      // Replace history to prevent back navigation
+    }
+
+    function preventBackNavigation() {
+      // Replace current history entry
+      window.history.replaceState(null, null, window.location.href);
+
+      // Add new history entry
+      window.history.pushState(null, null, window.location.href);
+
+      // Handle back button press
+      window.onpopstate = function() {
+        window.history.go(1);
+        alert("Access denied. Your session has been terminated after logout.");
+      };
+    }
   });
 </script>
 </body>

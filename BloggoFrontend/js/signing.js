@@ -76,3 +76,4 @@ document.getElementById('facebook-auth').addEventListener('click', () => {
 document.getElementById('linkedin-auth').addEventListener('click', () => {
     alert('LinkedIn OAuth would be implemented here');
 });
+
