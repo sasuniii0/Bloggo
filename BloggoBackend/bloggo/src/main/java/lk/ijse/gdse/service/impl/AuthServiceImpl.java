@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
-        System.out.println(authDTO);
+        System.out.println(authDTO.getUsername());
         User user = userRepository.findByUsername(authDTO.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if (!passwordEncoder.matches(authDTO.getPassword(), user.getPassword())) {
@@ -46,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtil.generateToken(authDTO.getUsername());
         String role = user.getRole().name(); // Get the user's role
         String username = user.getUsername(); // Get the user's username
+        //Long id = user.getUserId();
         return new AuthResponseDTO(token, role, username);
     }
 

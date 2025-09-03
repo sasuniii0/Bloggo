@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
                 console.log('Login response:', result);
 
+
                 const data = result.data;
+                console.log(data)
+
                 const token = result.data.accessToken;
                 const role = result.data.role;
 
@@ -40,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionStorage.setItem('jwtToken', token);
                 sessionStorage.setItem('userRole', role);
                 sessionStorage.setItem('username', data.username);
+
 
                 if (data && data.username && data.role) {
                     document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;

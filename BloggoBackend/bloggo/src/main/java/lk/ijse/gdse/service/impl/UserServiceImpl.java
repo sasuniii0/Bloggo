@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -112,5 +114,30 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User updateProfileUser(User existing, String name) {
+        User existingUser = userRepository.findById(existing.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Only prevent duplicate usernames if another user has it
+        Optional<User> userWithSameUsername = userRepository.findByUsername(existing.getUsername());
+        if (userWithSameUsername.isPresent() && !userWithSameUsername.get().getUserId().equals(existing.getUserId())) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        existingUser.setUsername(existing.getUsername());
+        existingUser.setEmail(existing.getEmail());
+        existingUser.setBio(existing.getBio());
+        existingUser.setProfileImage(existing.getProfileImage());
+        // Do not reset createdAt here
+        return userRepository.save(existingUser);
     }
 }

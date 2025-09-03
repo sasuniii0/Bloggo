@@ -10,6 +10,7 @@ import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,26 +99,23 @@ public class UserController {
 
     }
 
-    @PostMapping("/profileUpdate")
+    @PutMapping("/profileUpdate/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponseDTO> updateProfile(
-            @RequestParam String username,
-            @RequestParam String email,
-            @RequestParam String bio,
-            @RequestParam(required = false) MultipartFile profileImage,
-            Authentication authentication
-    ) throws IOException {
+            @PathVariable Long id,
+            @RequestBody User user,
+            Principal principal
+            ){
+        User existing = userService.getUserById(id);
+        if (existing == null) {
+            return ResponseEntity.status(404).body(new ApiResponseDTO(404, "User not found", null));
+        }
+        existing.setUsername(user.getUsername());
+        existing.setEmail(user.getEmail());
+        existing.setBio(user.getBio());
+        existing.setProfileImage(user.getProfileImage());
 
-        // get logged-in username from Spring Security
-        String loggedUsername = authentication.getName();
-
-        User updatedUser = userService.updateProfile(loggedUsername, username, email, bio, profileImage);
-
-        return ResponseEntity.ok(
-                new ApiResponseDTO(
-                        200,
-                        "Profile updated successfully",
-                        updatedUser
-                )
-        );
+        User updated = userService.updateProfileUser(existing,principal.getName());
+        return ResponseEntity.ok(new ApiResponseDTO(200, "User updated successfully", updated));
     }
 }

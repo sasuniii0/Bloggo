@@ -12,50 +12,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const avatarInput = document.getElementById("avatarInput");
     const avatarPreview = document.getElementById("avatarPreview");
-    const profileForm = document.querySelector("#profile form"); // profile section form
+    const profileForm = document.querySelector("#profile form");
 
-    // ✅ Preview avatar when clicked
-    avatarPreview.addEventListener("click", () => {
-        avatarInput.click();
-    });
+    // Preview avatar when clicked
+    avatarPreview.addEventListener("click", () => avatarInput.click());
 
-    // ✅ Show selected image preview
+    // Show selected image preview
+    let profileImageBase64 = null; // ✅ define globally
+
     avatarInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = e => avatarPreview.src = e.target.result;
+            reader.onload = e => {
+                avatarPreview.src = e.target.result;
+                profileImageBase64 = e.target.result; // ✅ save Base64
+            };
             reader.readAsDataURL(file);
         }
     });
 
-    // ✅ Handle profile form submit
+    // Handle profile form submit
     profileForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("username", document.querySelector("#profile input[type='text']").value);
-        formData.append("email", document.querySelector("#profile input[type='email']").value);
-        formData.append("bio", document.querySelector("#profile input[type='text'][value='alex']").value);
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const bio = document.getElementById("bio").value;
 
-        if (avatarInput.files[0]) {
-            formData.append("profileImage", avatarInput.files[0]);
-        }
+        const payload = {
+            username,
+            email,
+            bio,
+            profileImage: profileImageBase64 // can be null
+        };
+
+        console.log(payload)
+
+        const token = sessionStorage.getItem("jwtToken");
 
         try {
-            const response = await fetch("http://localhost:8080/user/profileUpdate", {
-                method: "POST",
-                body: formData,
+            const userId = sessionStorage.getItem("userId"); // ✅ must include ID in path
+
+            console.log(userId)
+            const response = await fetch(`http://localhost:8080/user/profileUpdate/${userId}`, {
+                method: "PUT",
                 headers: {
-                    // ✅ attach JWT so Spring Security recognizes user
-                    "Authorization": "Bearer " + sessionStorage.getItem("jwtToken")
-                }
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                const updatedUser = result.data;
 
+            if (response.ok) {
+                const updatedUser = await response.json();
                 avatarPreview.src = updatedUser.profileImage || "../assets/boy%20(1).png";
                 alert("✅ Profile updated successfully!");
             } else if (response.status === 403) {

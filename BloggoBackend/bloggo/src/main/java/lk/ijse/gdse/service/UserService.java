@@ -27,4 +27,8 @@ public interface UserService {
     UserProfileDTO getCurrentUser(String username);
 
     User updateProfile(String loggedUsername, String username, String email, String bio, MultipartFile profileImage) throws IOException;
+
+    User getUserById(Long id);
+
+    User updateProfileUser(User existing, String name);
 }
