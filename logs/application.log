@@ -5910,3 +5910,8 @@ org.hibernate.query.QueryArgumentException: Argument [USER] of type [java.lang.S
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
+2025-09-04T15:23:24.408+05:30  INFO 7192 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-04T15:23:24.412+05:30  INFO 7192 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-04T15:23:24.417+05:30  INFO 7192 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-04T15:23:24.420+05:30  INFO 7192 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-04T15:23:24.423+05:30  INFO 7192 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
