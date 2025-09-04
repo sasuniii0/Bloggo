@@ -29,6 +29,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    const loading = document.getElementById("loading");
+
+    // Show loading
+    loading.style.display = "flex";
+
+    // Hide loading
+    loading.style.display = "none";
+
+
     // --- Utility: Fetch JSON with Auth ---
     const fetchJSON = async (url, options = {}) => {
         options.headers = options.headers || {};

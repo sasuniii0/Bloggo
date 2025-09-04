@@ -203,3 +203,30 @@ function preventBackNavigation() {
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
+
+const loading = document.getElementById("loading");
+
+// Show loader
+function showLoader() {
+    loading.classList.add("show");
+}
+
+// Hide loader
+function hideLoader() {
+    loading.classList.remove("show");
+    // optional: delay setting display none to match fade
+    setTimeout(() => loading.style.display = "none", 400);
+}
+
+// Example usage in your DOMContentLoaded
+document.addEventListener("DOMContentLoaded", async () => {
+    showLoader();
+
+    try {
+        // your fetch logic here
+    } catch (err) {
+        console.error(err);
+    } finally {
+        hideLoader();
+    }
+});
