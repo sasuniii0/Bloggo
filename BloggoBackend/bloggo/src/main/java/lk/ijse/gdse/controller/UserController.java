@@ -44,19 +44,6 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "User deleted successfully", null));
     }
 
-    // ✅ Get users with role USER only, no 403
-    @GetMapping
-    public ResponseEntity<Map<String, Object>> getUsers(
-            @RequestParam(defaultValue = "0") int offset,
-            @RequestParam(defaultValue = "6") int limit
-    ) {
-        List<UserDTO> users = userService.getUsersByRole(offset, limit);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("users", users);
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/me")
     public ResponseEntity<UserProfileDTO> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userService.getCurrentUser(userDetails.getUsername()));
@@ -81,5 +68,12 @@ public class UserController {
 
         return ResponseEntity.ok(new ApiResponseDTO(200, "User updated successfully",
                 userService.updateProfileUser(existing, principal.getName())));
+    }
+
+    @GetMapping("user-only")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> getRoleOnlyUser(){
+        return ResponseEntity.ok(new ApiResponseDTO(200, "You are a USER",
+                userService.getUserByRole("USER")));
     }
 }

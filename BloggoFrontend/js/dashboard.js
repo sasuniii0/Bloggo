@@ -179,7 +179,7 @@ async function loadUsers() {
     if (!token) return console.error("No JWT token found");
 
     try {
-        const res = await fetch("http://localhost:8080/user?offset=0&limit=6", {
+        const res = await fetch("http://localhost:8080/user/user-only", {
             headers: { "Authorization": `Bearer ${token}` }
         });
 

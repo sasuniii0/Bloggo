@@ -18,7 +18,6 @@ public interface UserService {
 
     List<UserDTO> getUsers(int offset, int limit);
 
-    List<UserDTO> getUsersByRole(int offset, int limit);
 
     UserProfileDTO getCurrentUser(String username);
 
@@ -29,4 +28,6 @@ public interface UserService {
     User updateProfile(String loggedUsername, String username, String email, String bio, MultipartFile profileImage) throws IOException;
 
     User findByUsername(String name);
+
+    List<UserDTO> getUserByRole(String user);
 }

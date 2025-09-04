@@ -2,6 +2,7 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
+import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.UserService;
@@ -49,16 +50,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable)
                 .stream()
                 .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
-                .collect(Collectors.toList());
-    }
-
-    // Get users **with role USER only**
-    @Override
-    public List<UserDTO> getUsersByRole(int offset, int limit) {
-        Pageable pageable = PageRequest.of(offset, limit);
-        return userRepository.findByRole("USER", pageable)
-                .stream()
-                .map(u -> new UserDTO(u.getUserId(), u.getUsername()))
                 .collect(Collectors.toList());
     }
 
@@ -126,5 +117,13 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String name) {
         return userRepository.findByUsername(name)
                 .orElseThrow(() -> new RuntimeException("User not found with username: " + name));
+    }
+
+    @Override
+    public List<UserDTO> getUserByRole(String user) {
+        return userRepository.findUserByRole(RoleName.USER)
+                .stream()
+                .map(u -> new UserDTO(u.getUserId(), u.getUsername()))
+                .collect(Collectors.toList());
     }
 }
