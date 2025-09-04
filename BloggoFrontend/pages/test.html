@@ -2,349 +2,332 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JWT Authentication System</title>
+  <title>User Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
+    /* ===== General Styles ===== */
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+    }
+
+    :root {
+      --bg:#ffffff;
+      --text:#1f2937; /* slate-800 */
+      --muted:#6b7280; /* slate-500 */
+      --card:#f8fafc; /* slate-50 */
+      --border:#e5e7eb; /* gray-200 */
+      --primary:#1a73e8;
+      --primary-600:#1666cc;
+      --accent:#2ecc71;
+      --danger:#dc3545;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --radius: 16px;
+    }
+
+    /* Reset */
+    * { box-sizing: border-box; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; transition: 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* ===== Navbar ===== */
+    .glass-navbar {
+      position: sticky;
+      top: 1rem;
+      z-index: 1050;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 60%;
+      margin: 1rem auto 2rem;
+      padding: 1rem 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-navbar a {
+      color: #000;
+      font-weight: 500;
+      margin: 0 1.2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+
+    .glass-navbar a:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #000;
+      letter-spacing: 2px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 500px;
-      overflow: hidden;
-    }
-
-    .header {
-      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-      color: white;
-      padding: 25px;
+    /* ===== Profile Card ===== */
+    .profile-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
       text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
     }
 
-    .content {
-      padding: 30px;
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-top: -80px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .form-group {
-      margin-bottom: 20px;
+    .profile-name {
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-top: 1rem;
     }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #333;
+    .profile-bio {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0.5rem 0 1rem;
     }
 
-    input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: border-color 0.3s;
-    }
-
-    input:focus {
-      border-color: #4b6cb7;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
-    }
-
+    /* ===== Buttons ===== */
     .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
+      transition: 0.2s;
     }
 
-    .login-btn {
-      background-color: #2ecc71;
-      color: white;
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
     }
 
-    .login-btn:hover {
-      background-color: #27ae60;
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-600); }
+
+    .btn-outline-secondary {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
     }
 
-    .logout-btn {
-      background-color: #e74c3c;
-      color: white;
-      margin-bottom: 15px;
+    /* ===== Follow Section ===== */
+    .follow-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
     }
 
-    .logout-btn:hover {
-      background-color: #c0392b;
+    .follow-stats a {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .follow-stats span {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
     }
 
-    .status {
-      text-align: center;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 5px;
-      font-weight: 500;
+    /* ===== Stories / Posts ===== */
+    .story-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+    }
+    .story-card:hover { transform: translateY(-3px); }
+
+    .story-card h6 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
     }
 
-    .logged-in {
-      background-color: #d4edda;
-      color: #155724;
+    .story-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
-    .logged-out {
-      background-color: #f8d7da;
-      color: #721c24;
+    /* ===== Modals (Followers/Following) ===== */
+    .modal-content {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
-    .info-box {
-      background-color: #f8f9fa;
-      border-left: 4px solid #4b6cb7;
-      padding: 15px;
-      margin-top: 25px;
-      border-radius: 0 5px 5px 0;
+    .modal-body ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
     }
 
-    .jwt-display {
-      background-color: #f1f1f1;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 20px;
-      font-family: monospace;
-      word-break: break-all;
-      font-size: 14px;
-      max-height: 150px;
-      overflow-y: auto;
+    .modal-body li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    .modal-body img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.75rem;
     }
 
-    h2 {
-      font-size: 22px;
-      margin-bottom: 15px;
+    /* Dropdown Menu (profile top-right) */
+    .dropdown-menu {
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      font-size: 0.95rem;
+      padding: 8px 0;
     }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 15px;
+    }
+    .dropdown-item:hover { background: #f8f9fa; }
 
-    h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    p {
-      margin-bottom: 15px;
-      line-height: 1.6;
-      color: #555;
-    }
-
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <h1>JWT Authentication System</h1>
-    <p>Secure login and logout with token management</p>
-  </div>
+<header class="sticky-top bg-light shadow-sm">
+  <nav class="container d-flex justify-content-between align-items-center py-2">
+    <h3 class="fw-bold m-0">BLOGGO</h3>
+    <a href="dashboard.html" class="btn btn-outline-dark btn-sm"><i class="fas fa-home me-1"></i> Home</a>
+  </nav>
+</header>
 
-  <div class="content">
-    <!-- Login Form -->
-    <div id="loginSection">
-      <h2>Please Login</h2>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter your username" value="admin">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" value="password">
-      </div>
-      <button id="loginBtn" class="btn login-btn">Login</button>
-    </div>
+<div class="container mt-4">
+  <div class="row">
+    <!-- Left: Profile -->
+    <div class="col-lg-4">
+      <div class="card text-center p-3 mb-3">
+        <img src="../assets/user2.png" class="profile-avatar mx-auto mb-2" alt="User Avatar">
+        <h4 class="profile-name">User2</h4>
+        <p class="text-muted">Living with passion ✨</p>
 
-    <!-- Dashboard -->
-    <div id="dashboardSection" class="hidden">
-      <h2>Welcome to your Dashboard!</h2>
-      <p>You have successfully logged in and your JWT token is stored.</p>
+        <!-- Follow/Unfollow -->
+        <button id="followBtn" class="btn btn-primary btn-sm mb-2">
+          <i class="fas fa-user-plus me-1"></i> Follow
+        </button>
 
-      <div class="jwt-display">
-        <strong>JWT Token:</strong> <span id="jwtToken"></span>
-      </div>
-
-      <button id="logoutBtn" class="btn logout-btn">Logout</button>
-
-      <div class="status logged-in">
-        Status: You are logged in
+        <!-- Followers/Following -->
+        <div class="d-flex justify-content-center gap-3">
+          <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#followersModal">
+            <span id="followersCount">120</span> Followers
+          </a>
+          <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#followingModal">
+            <span id="followingCount">80</span> Following
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Logout Message -->
-    <div id="logoutSection" class="hidden">
-      <h2>You have been logged out</h2>
-      <p>Your JWT token has been removed from storage.</p>
-
-      <div class="status logged-out">
-        Status: You are logged out
+    <!-- Right: Stories/Posts -->
+    <div class="col-lg-8">
+      <h5 class="mb-3">Stories by User2</h5>
+      <div class="card story-card p-3 mb-3">
+        <h6 class="fw-bold">My First Blog</h6>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <a href="#" class="text-decoration-none">Read more</a>
       </div>
-
-      <button id="backToLoginBtn" class="btn login-btn">Back to Login</button>
-    </div>
-
-    <div class="info-box">
-      <h3>Security Information</h3>
-      <p>After logout, your JWT token is removed and browser history is manipulated to prevent going back to the protected dashboard.</p>
-      <p>Try logging out and then using the browser's back button to test this security feature.</p>
+      <div class="card story-card p-3 mb-3">
+        <h6 class="fw-bold">Another Adventure</h6>
+        <p>Exploring new places and sharing my journey with you all...</p>
+        <a href="#" class="text-decoration-none">Read more</a>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- Followers Modal -->
+<div class="modal fade" id="followersModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Followers</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+          <li class="d-flex align-items-center mb-2">
+            <img src="../assets/user1.png" class="rounded-circle me-2" width="35" height="35"> <span>User1</span>
+          </li>
+          <li class="d-flex align-items-center mb-2">
+            <img src="../assets/user3.png" class="rounded-circle me-2" width="35" height="35"> <span>User3</span>
+          </li>
+          <!-- More followers -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Following Modal -->
+<div class="modal fade" id="followingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Following</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+          <li class="d-flex align-items-center mb-2">
+            <img src="../assets/user4.png" class="rounded-circle me-2" width="35" height="35"> <span>User4</span>
+          </li>
+          <li class="d-flex align-items-center mb-2">
+            <img src="../assets/user5.png" class="rounded-circle me-2" width="35" height="35"> <span>User5</span>
+          </li>
+          <!-- More following -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const loginSection = document.getElementById('loginSection');
-    const dashboardSection = document.getElementById('dashboardSection');
-    const logoutSection = document.getElementById('logoutSection');
-    const loginBtn = document.getElementById('loginBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const backToLoginBtn = document.getElementById('backToLoginBtn');
-    const jwtTokenElement = document.getElementById('jwtToken');
+  const followBtn = document.getElementById("followBtn");
+  let isFollowing = false;
 
-    // Check if user is already logged in (has a JWT)
-    if (isLoggedIn()) {
-      showDashboard();
-    } else {
-      showLogin();
-    }
-
-    // Login button event
-    loginBtn.addEventListener('click', function() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      // Simple validation
-      if (username && password) {
-        // In a real application, you would send this to your server
-        // For demo, we'll simulate a successful login
-        simulateLogin(username);
-      } else {
-        alert('Please enter both username and password');
-      }
-    });
-
-    // Logout button event
-    logoutBtn.addEventListener('click', function() {
-      performLogout();
-    });
-
-    // Back to login button event
-    backToLoginBtn.addEventListener('click', function() {
-      showLogin();
-    });
-
-    // Simulate login function (would be replaced with actual API call)
-    function simulateLogin(username) {
-      // Generate a mock JWT token
-      const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-      const payload = btoa(JSON.stringify({
-        sub: '1234567890',
-        name: username,
-        iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour expiration
-      }));
-      const signature = 'simulated-signature';
-
-      const token = `${header}.${payload}.${signature}`;
-
-      // Store the token
-      localStorage.setItem('jwtToken', token);
-
-      // Show dashboard
-      showDashboard();
-    }
-
-    // Check if user is logged in
-    function isLoggedIn() {
-      const token = localStorage.getItem('jwtToken');
-      return token !== null;
-    }
-
-    // Show login section
-    function showLogin() {
-      loginSection.classList.remove('hidden');
-      dashboardSection.classList.add('hidden');
-      logoutSection.classList.add('hidden');
-    }
-
-    // Show dashboard section
-    function showDashboard() {
-      const token = localStorage.getItem('jwtToken');
-
-      loginSection.classList.add('hidden');
-      dashboardSection.classList.remove('hidden');
-      logoutSection.classList.add('hidden');
-
-      // Display the JWT token
-      jwtTokenElement.textContent = token;
-    }
-
-    // Show logout section
-    function showLogout() {
-      loginSection.classList.add('hidden');
-      dashboardSection.classList.add('hidden');
-      logoutSection.classList.remove('hidden');
-    }
-
-    // Perform logout
-    function performLogout() {
-      // Remove the JWT token from storage
-      localStorage.removeItem('jwtToken');
-
-      // Show logout message
-      showLogout();
-
-      // Prevent back navigation after logout
-      preventBackNavigation();
-
-      // Replace history to prevent back navigation
-    }
-
-    function preventBackNavigation() {
-      // Replace current history entry
-      window.history.replaceState(null, null, window.location.href);
-
-      // Add new history entry
-      window.history.pushState(null, null, window.location.href);
-
-      // Handle back button press
-      window.onpopstate = function() {
-        window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
-      };
-    }
+  followBtn.addEventListener("click", () => {
+    isFollowing = !isFollowing;
+    followBtn.innerHTML = isFollowing
+            ? '<i class="fas fa-user-check me-1"></i> Following'
+            : '<i class="fas fa-user-plus me-1"></i> Follow';
+    followBtn.classList.toggle("btn-primary");
+    followBtn.classList.toggle("btn-outline-secondary");
   });
 </script>
 </body>
