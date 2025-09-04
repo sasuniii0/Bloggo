@@ -110,6 +110,10 @@ public class UserController {
         if (existing == null) {
             return ResponseEntity.status(404).body(new ApiResponseDTO(404, "User not found", null));
         }
+        // Ensure the logged-in user can only update THEIR profile
+        if (!existing.getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(403).body(new ApiResponseDTO(403, "Unauthorized: You can only update your own profile", null));
+        }
         existing.setUsername(user.getUsername());
         existing.setEmail(user.getEmail());
         existing.setBio(user.getBio());

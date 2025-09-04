@@ -31,18 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
                 console.log('Login response:', result);
 
-
                 const data = result.data;
-                console.log(data)
+                console.log("this is data "+data)
 
                 const token = result.data.accessToken;
                 const role = result.data.role;
+                const id = result.data.userId;
 
-                console.log('Login response:', result);
+                console.log("Raw result:", result);
+                console.log("Data object:", data);
+                console.log("User ID:", data.userId);
+
 
                 sessionStorage.setItem('jwtToken', token);
                 sessionStorage.setItem('userRole', role);
                 sessionStorage.setItem('username', data.username);
+                sessionStorage.setItem('userId', id);
 
 
                 if (data && data.username && data.role) {

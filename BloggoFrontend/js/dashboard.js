@@ -255,3 +255,32 @@ function preventBackNavigation() {
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
+
+function showLoading() {
+    document.getElementById("loading").classList.remove("d-none");
+}
+
+function hideLoading() {
+    document.getElementById("loading").classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = sessionStorage.getItem("jwtToken");
+    const feedContainer = document.querySelector(".feed");
+
+    if (!token) {
+        feedContainer.innerHTML = `<p class="text-danger">⚠️ Please log in to view the dashboard.</p>`;
+        return;
+    }
+
+    showLoading(); // Show loading overlay
+
+    try {
+        // Load posts, users, and tags simultaneously
+        await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+    } finally {
+        hideLoading(); // Hide loading overlay
+    }
+});

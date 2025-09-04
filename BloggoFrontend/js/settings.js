@@ -81,3 +81,73 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+function logout() {
+    preventBackNavigation();
+    // Clear stored token and user info
+    sessionStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('userId');
+
+    // Redirect to login page
+    window.location.href = 'signing.html';
+}
+
+function preventBackNavigation() {
+    // Replace current history entry
+    window.history.replaceState(null, null, window.location.href);
+
+    // Add new history entry
+    window.history.pushState(null, null, window.location.href);
+
+    // Handle back button press
+    window.onpopstate = function() {
+        window.history.go(1);
+        alert("Access denied. Your session has been terminated after logout.");
+    };
+}
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = sessionStorage.getItem("jwtToken");
+    if (!token) return;
+
+    const loading = document.getElementById("loading");
+
+    // Show loading
+    loading.style.display = "flex";
+
+    // Hide loading
+    loading.style.display = "none";
+
+
+    try {
+        const res = await fetch("http://localhost:8080/user/me", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error("Failed to load user");
+
+        const user = await res.json();
+
+        // Populate navbar avatar
+        const avatar = document.querySelector(".avatar");
+        if (avatar) avatar.src = user.profileImage || "../assets/default.png";
+
+        // Populate settings form inputs
+        const usernameInput = document.getElementById("username");
+        const emailInput = document.getElementById("email");
+        const bioInput = document.getElementById("bio");
+        const avatarPreview = document.getElementById("avatarPreview");
+
+        if (usernameInput) usernameInput.value = user.username || "";
+        if (emailInput) emailInput.value = user.email || "";
+        if (bioInput) bioInput.value = user.bio || "";
+        if (avatarPreview) avatarPreview.src = user.profileImage || "../assets/default.png";
+
+    } catch (err) {
+        console.error("Error loading user:", err);
+        alert("Failed to load user data.");
+    } finally {
+        if (loading) loading.style.display = "none"; // Hide loading
+    }
+});
+
