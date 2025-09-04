@@ -13,16 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
 
     @Override
@@ -32,59 +30,74 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User editUser(User user) {
-        User updatedUser =userRepository.getUserByUserId(user.getUserId());
-        updatedUser.setUsername(user.getUsername());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setRole(user.getRole());
-        updatedUser.setMembershipStatus(user.getMembershipStatus());
-        return userRepository.save(updatedUser);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return  userRepository.findAll();
+        User existing = userRepository.getUserByUserId(user.getUserId());
+        existing.setUsername(user.getUsername());
+        existing.setEmail(user.getEmail());
+        existing.setRole(user.getRole());
+        return userRepository.save(existing);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        User user = userRepository.getUserByUserId(userId);
-        userRepository.delete(user);
-    }
-
-    @Override
-    public User findByUsername(String name) {
-        return userRepository.findByUsername(name)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    @Override
-    public List<String> getAllUsernames() {
-        return userRepository.getAllUsernames();
+        User existing = userRepository.getUserByUserId(userId);
+        userRepository.delete(existing);
     }
 
     @Override
     public List<UserDTO> getUsers(int offset, int limit) {
-        Pageable pageable = PageRequest.of(offset,limit);
+        Pageable pageable = PageRequest.of(offset, limit);
         return userRepository.findAll(pageable)
                 .stream()
                 .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
-                .toList();
+                .collect(Collectors.toList());
+    }
+
+    // Get users **with role USER only**
+    @Override
+    public List<UserDTO> getUsersByRole(int offset, int limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return userRepository.findByRole("USER", pageable)
+                .stream()
+                .map(u -> new UserDTO(u.getUserId(), u.getUsername()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public UserProfileDTO getCurrentUser(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         return new UserProfileDTO(
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getProfileImage(),
                 user.getBio(),
-                user.getFollowers().size(),
-                user.getFollowing().size()
+                user.getFollowers() != null ? user.getFollowers().size() : 0,
+                user.getFollowing() != null ? user.getFollowing().size() : 0
         );
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User updateProfileUser(User existing, String loggedUsername) {
+        User existingUser = userRepository.findById(existing.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<User> duplicateUsername = userRepository.findByUsername(existing.getUsername());
+        if (duplicateUsername.isPresent() && !duplicateUsername.get().getUserId().equals(existing.getUserId())) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        existingUser.setUsername(existing.getUsername());
+        existingUser.setEmail(existing.getEmail());
+        existingUser.setBio(existing.getBio());
+        existingUser.setProfileImage(existing.getProfileImage());
+        return userRepository.save(existingUser);
     }
 
     @Override
@@ -97,19 +110,12 @@ public class UserServiceImpl implements UserService {
         user.setBio(bio);
 
         if (profileImage != null && !profileImage.isEmpty()) {
-            // Ensure directory exists
             String uploadDir = "uploads/profile_images";
             File uploadPath = new File(uploadDir);
-            if (!uploadPath.exists()) {
-                uploadPath.mkdirs();
-            }
+            if (!uploadPath.exists()) uploadPath.mkdirs();
 
-            // Save file
             String fileName = System.currentTimeMillis() + "_" + profileImage.getOriginalFilename();
-            File destinationFile = new File(uploadPath, fileName);
-            profileImage.transferTo(destinationFile);
-
-            // Update user profileImage path (relative or absolute as needed)
+            profileImage.transferTo(new File(uploadPath, fileName));
             user.setProfileImage(uploadDir + "/" + fileName);
         }
 
@@ -117,27 +123,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-
-    @Override
-    public User updateProfileUser(User existing, String name) {
-        User existingUser = userRepository.findById(existing.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Only prevent duplicate usernames if another user has it
-        Optional<User> userWithSameUsername = userRepository.findByUsername(existing.getUsername());
-        if (userWithSameUsername.isPresent() && !userWithSameUsername.get().getUserId().equals(existing.getUserId())) {
-            throw new RuntimeException("Username already exists");
-        }
-
-        existingUser.setUsername(existing.getUsername());
-        existingUser.setEmail(existing.getEmail());
-        existingUser.setBio(existing.getBio());
-        existingUser.setProfileImage(existing.getProfileImage());
-        // Do not reset createdAt here
-        return userRepository.save(existingUser);
+    public User findByUsername(String name) {
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + name));
     }
 }

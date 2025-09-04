@@ -45,37 +45,47 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return `<p class="text-muted">No stories found.</p>`;
             }
             return list.map(post => `
-                <div class="card mb-3 p-3">
-                    <h5>${post.title || "Untitled"}</h5>
-                    <div class="text-muted small mb-2">
-                        ${post.status} • ${
-                post.createdAt || post.publishedAt
-                    ? new Date(post.createdAt || post.publishedAt).toLocaleDateString()
-                    : "Unknown"
-            }
-                    </div>
-                    <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
-                    <a href="story-detail.html?id=${post.postId || post.id}" 
-                       class="btn btn-sm btn-outline-primary mb-2">
-                        Read More
-                    </a>
+    <div class="card mb-3 p-3 d-flex align-items-start gap-3">
+        <!-- Cover image square only if image exists -->
+        ${post.imageUrl ? `
+        <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+            <img src="${post.imageUrl}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        ` : ''}
 
-                    <!-- Action bar -->
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                        <div class="d-flex gap-3">
-                            <button class="btn btn-sm btn-outline-secondary like-btn" data-id="${post.id}">
-                                🚀 Boost <span class="like-count">${post.likes || 0}</span>
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary comment-btn" data-id="${post.id}">
-                                💬 Comments (${post.commentsCount || 0})
-                            </button>
-                        </div>
-                        <button class="btn btn-sm btn-outline-warning bookmark-btn" data-id="${post.id}">
-                            🔖 Save
-                        </button>
-                    </div>
+        <!-- Post content -->
+        <div class="flex-grow-1">
+            <h5>${post.title || "Untitled"}</h5>
+            <div class="text-muted small mb-2">
+                ${post.status} • ${post.createdAt || post.publishedAt
+                ? new Date(post.createdAt || post.publishedAt).toLocaleDateString()
+                : "Unknown"}
+            </div>
+            <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
+            <a href="story-detail.html?id=${post.id || post.postId}" 
+               class="btn btn-sm btn-outline-primary mb-2">
+                Read More
+            </a>
+
+            <!-- Action bar -->
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="d-flex gap-3">
+                    <button class="btn btn-sm btn-outline-secondary like-btn" data-id="${post.id}">
+                        🚀 Boost <span class="like-count">${post.likes || 0}</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary comment-btn" data-id="${post.id}">
+                        💬 Comments (${post.commentsCount || 0})
+                    </button>
                 </div>
-            `).join("");
+                <button class="btn btn-sm btn-outline-warning bookmark-btn" data-id="${post.id}">
+                    🔖 Save
+                </button>
+            </div>
+        </div>
+    </div>
+`).join("");
+
+
         }
 
         // Build tab layout

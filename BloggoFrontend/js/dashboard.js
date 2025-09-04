@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Load posts, users, and tags simultaneously
-    await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
+    + await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
 });
 
 // ========================
@@ -32,33 +32,44 @@ async function loadPosts(token) {
 
         feedContainer.innerHTML = posts.length
             ? posts.map(post => `
-                <article class="blog-card mb-3 p-3 shadow-sm rounded" style="cursor: pointer;" data-id="${post.id}">
-                    <h3 class="mb-2" style="font-size: 20px; font-weight: bold">${post.title || "Untitled"}</h3>
-                    <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
-                    <div class="blog-meta d-flex justify-content-between">
-                        <span>by ${post.username || "Unknown"}</span>
-                        <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
-                    </div>
+        <article class="blog-card mb-3 p-3 shadow-sm rounded d-flex gap-3" style="cursor: pointer;" data-id="${post.id}">
+            
+            ${post.imageUrl ? `
+            <!-- Cover image square -->
+            <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+                <img src="${post.imageUrl}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            ` : ''}
 
-                    <div class="blog-actions mt-2 d-flex justify-content-between">
-                        <button class="btn btn-sm btn-outline-success boost-btn" data-id="${post.id}">
-                            🚀 Boost (${post.boostCount || 0})
-                        </button>
-                        <button class="btn btn-sm btn-outline-primary comment-toggle-btn" data-id="${post.id}">
-                            💬 Comments
-                        </button>
-                    </div>
+            <div class="flex-grow-1">
+                <h3 class="mb-2" style="font-size: 20px; font-weight: bold">${post.title || "Untitled"}</h3>
+                <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
+                <div class="blog-meta d-flex justify-content-between">
+                    <span>by ${post.username || "Unknown"}</span>
+                    <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
+                </div>
 
-                    <div class="comments-section mt-2 d-none" id="comments-${post.id}">
-                        <div class="existing-comments mb-2"></div>
-                        <div class="input-group">
-                            <input type="text" class="form-control comment-input" placeholder="Write a comment...">
-                            <button class="btn btn-primary add-comment-btn">Send</button>
-                        </div>
+                <div class="blog-actions mt-2 d-flex justify-content-between">
+                    <button class="btn btn-sm btn-outline-success boost-btn" data-id="${post.id}">
+                        🚀 Boost (${post.boostCount || 0})
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary comment-toggle-btn" data-id="${post.id}">
+                        💬 Comments
+                    </button>
+                </div>
+
+                <div class="comments-section mt-2 d-none" id="comments-${post.id}">
+                    <div class="existing-comments mb-2"></div>
+                    <div class="input-group">
+                        <input type="text" class="form-control comment-input" placeholder="Write a comment...">
+                        <button class="btn btn-primary add-comment-btn">Send</button>
                     </div>
-                </article>
-            `).join("")
+                </div>
+            </div>
+        </article>
+    `).join("")
             : `<p class="text-muted">No posts available.</p>`;
+
     } catch (err) {
         console.error("Dashboard error:", err);
         feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
@@ -163,27 +174,53 @@ async function loadComments(postId, container) {
     }
 }
 
-// Load Users
 async function loadUsers() {
     const token = sessionStorage.getItem("jwtToken");
+    if (!token) return console.error("No JWT token found");
+
     try {
-        const res = await fetch("http://localhost:8080/user?offset=0&limit=3", {
+        const res = await fetch("http://localhost:8080/user?offset=0&limit=6", {
             headers: { "Authorization": `Bearer ${token}` }
         });
+
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
         const data = await res.json();
-        const users = data.user || []; // <-- matches your endpoint response
-        console.log(data)
+        console.log("Users API response:", data);
+
+        // Adjust this depending on your API
+        const users = data.users || data.data || [];
+
         const userList = document.getElementById("userList");
+        if (!userList) throw new Error("Element with id 'userList' not found");
+
+        userList.innerHTML = ""; // clear previous content
+
+        if (users.length === 0) {
+            userList.innerHTML = `<li class="text-muted">No users found</li>`;
+            return;
+        }
 
         users.forEach(user => {
             const li = document.createElement("li");
-            li.innerHTML = `<a href="profile.html?id=${user.id}" class="follow-link">${user.username}</a>`;
+            li.className = "mb-2";
+            li.innerHTML = `
+                <a href="profile.html?id=${user.id}" class="d-flex align-items-center gap-2">
+                    ${user.profileImage ? `<img src="${user.profileImage}" alt="${user.username}" 
+                    style="width:35px; height:35px; border-radius:50%; object-fit:cover;">` : ''}
+                    <span>${user.username}</span>
+                </a>
+            `;
             userList.appendChild(li);
         });
+
     } catch (err) {
         console.error("Load users failed", err);
+        const userList = document.getElementById("userList");
+        if (userList) userList.innerHTML = `<li class="text-danger">Failed to load users</li>`;
     }
 }
+
 
 // Load Tags
 let tagOffset = 0;
