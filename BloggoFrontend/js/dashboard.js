@@ -205,7 +205,7 @@ async function loadUsers() {
             const li = document.createElement("li");
             li.className = "mb-2";
             li.innerHTML = `
-                <a href="profile.html?id=${user.id}" class="d-flex align-items-center gap-2">
+                <a href="members.html?id=${user.id}" class="d-flex align-items-center gap-2">
                     ${user.profileImage ? `<img src="${user.profileImage}" alt="${user.username}" 
                     style="width:35px; height:35px; border-radius:50%; object-fit:cover;">` : ''}
                     <span>${user.username}</span>
