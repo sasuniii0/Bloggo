@@ -1,5 +1,5 @@
 package lk.ijse.gdse.service;
 
 public interface CommentService {
-    void deleteComment(Long postId);
+    void deleteComment(Long commentId, String name);
 }

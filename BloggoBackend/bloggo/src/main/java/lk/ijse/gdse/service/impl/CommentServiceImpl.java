@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     @Override
-    public void deleteComment(Long postId) {
+    public void deleteComment(Long postId, String name) {
         Comment comment = commentRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
         commentRepository.delete(comment);

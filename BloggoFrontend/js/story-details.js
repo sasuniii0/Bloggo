@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const post = data.data;
         currentPost = post;
 
-        console.log(post);
+        console.log("Loaded post:", post);
 
         // Render post
         titleEl.textContent = post.title || "Untitled";
@@ -88,12 +88,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         coverPreview.src = coverUrl;
         coverPreview.style.display = coverUrl ? "block" : "none";
 
+        // --- Check if user already boosted ---
+        // backend should return post.boostUsers = ["user1", "user2"]
+        // --- After loading post ---
+        const hasBoosted = currentPost.boostUsers?.includes(loggedInUser);
+        if (hasBoosted) {
+            boostBtn.classList.add("active");
+            boostBtn.disabled = true;
+        } else {
+            boostBtn.classList.remove("active");
+            boostBtn.disabled = false;
+        }
+
+
         // Load comments
         await loadComments();
+
     } catch (err) {
         console.error("Error loading post:", err);
         titleEl.textContent = "⚠️ Error loading story.";
     }
+
 
 // --- Cover Input Preview ---
     coverInput.addEventListener("change", () => {
@@ -205,9 +220,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const data = await response.json();
             console.log(data)
-            boostCountEl.textContent = data.boostCount; // now it shows 5
+
+            boostCountEl.textContent = data.data; // new boost count
             boostBtn.classList.add("active");
             boostBtn.disabled = true;
+
+            // Update local currentPost to prevent multiple boosts without reload
+            if (!currentPost.boostUsers) currentPost.boostUsers = [];
+            currentPost.boostUsers.push(loggedInUser);
         } catch (err) {
             console.error("Boost failed:", err);
             alert("Boost failed! Make sure you are logged in.");
@@ -224,23 +244,60 @@ document.addEventListener("DOMContentLoaded", async () => {
             commentsCountEl.textContent = comments.length;
             commentsList.innerHTML = comments.length
                 ? comments.map(c => `
-                    <div class="comment">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80">
-                        <div class="comment-content">
-                            <div class="comment-header">
-                                <div class="fw-semibold">${c.userId || 'Anonymous'}</div>
-                                <div class="small text-light">${new Date(c.createdAt).toLocaleDateString()}</div>
-                            </div>
-                            <p>${c.content}</p>
-                        </div>
-                    </div>
-                `).join("")
+        <div class="comment d-flex gap-2 align-items-start mb-2">
+            <img src="${c.profileImage || '../assets/default.png'}" 
+                 alt="Profile" 
+                 class="rounded-circle" 
+                 style="width:40px;height:40px;object-fit:cover;">
+            <div class="comment-content">
+                <div class="comment-header d-flex justify-content-between">
+                    <div class="fw-semibold">${c.userId || 'Anonymous'}</div>
+                    <div class="small text-muted">${new Date(c.createdAt).toLocaleDateString()}</div>
+                </div>
+                <p class="mb-0">${c.content}</p>
+            </div>
+        </div>
+    `).join("")
                 : "<div class='text-center py-3 text-muted'>No comments yet.</div>";
+
         } catch (err) {
             console.error("Load comments failed:", err);
             commentsList.innerHTML = "<div class='text-center py-3 text-muted'>Error loading comments</div>";
         }
     }
+
+    document.getElementById("addCommentBtn").addEventListener("click", async () => {
+        const token = sessionStorage.getItem("jwtToken");
+        const commentInput = document.getElementById("commentInput");
+        const content = commentInput.value.trim();
+        if (!content) return alert("⚠️ Please write something");
+
+        try {
+            const payload = { content }; // JSON object
+
+            const response = await fetch(`http://localhost:8080/api/v1/comment/post/${postId}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+            const data = await response.json();
+            console.log("Comment added:", data);
+
+            commentInput.value = "";
+            await loadComments(); // reload comments
+        } catch (err) {
+            console.error("Post comment failed:", err);
+            alert("❌ Failed to post comment. Please try again.");
+        }
+    });
+
+
 
     // --- Helper functions ---
     function toggleClass(el, className, condition) {

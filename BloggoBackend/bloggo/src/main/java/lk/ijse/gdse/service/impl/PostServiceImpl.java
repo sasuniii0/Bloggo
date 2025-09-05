@@ -202,7 +202,9 @@ public class PostServiceImpl implements PostService {
         return new CommentDTO(
                 comment.getCommentId(),
                 comment.getContent(),
-                comment.getUser().getUsername()
+                comment.getUser().getUsername(),
+                comment.getUser().getProfileImage(),
+                comment.getCreatedAt()
         );
     }
 
@@ -218,7 +220,9 @@ public class PostServiceImpl implements PostService {
                 .map(c -> new CommentDTO(
                         c.getCommentId(),
                         c.getContent(),
-                        c.getUser().getUsername()
+                        c.getUser().getUsername(),
+                        c.getUser().getProfileImage(),
+                        c.getCreatedAt()
                 ))
                 .toList();
     }

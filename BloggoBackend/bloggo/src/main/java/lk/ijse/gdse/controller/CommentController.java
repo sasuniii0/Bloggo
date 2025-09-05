@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/comment")
@@ -21,26 +22,24 @@ public class CommentController {
     private final PostService postService;
     private final CommentService commentService;
 
-    @PostMapping("{postId}")
-    @PreAuthorize("hasRole('USER')") // Only users with the USER role can access this endpoint
+    @PostMapping("/post/{postId}")
     public ResponseEntity<ApiResponseDTO> addComment(
             @PathVariable Long postId,
-            @RequestBody String content,
+            @RequestBody Map<String, String> request,
             Principal principal
-    ){
-        CommentDTO commentDTO = postService.addComment(postId, principal.getName(),content);
+    ) {
+        String content = request.get("content");
+        CommentDTO commentDTO = postService.addComment(postId, principal.getName(), content);
         return ResponseEntity.status(201).body(
-                new ApiResponseDTO(
-                        201,
-                        "Comment added successfully",
-                        commentDTO
-                )
+                new ApiResponseDTO(201, "Comment added successfully", commentDTO)
         );
     }
-    @DeleteMapping("/delete/{postId}")
+
+
+    @DeleteMapping("{commentId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ApiResponseDTO> deleteComment(@PathVariable Long postId, Principal principal) {
-        commentService.deleteComment(postId);
+    public ResponseEntity<ApiResponseDTO> deleteComment(@PathVariable Long commentId, Principal principal) {
+        commentService.deleteComment(commentId, principal.getName());
         return ResponseEntity.ok(
                 new ApiResponseDTO(
                         200,
