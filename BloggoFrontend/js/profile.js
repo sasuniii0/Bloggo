@@ -15,12 +15,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const user = await res.json();
 
         // Fill sidebar
-        document.querySelector(".profile-avatar").src = user.profileImage || "../assets/default.png";
+        document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
         document.querySelector(".profile-name").textContent = user.username;
         document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
 
         // Top navbar avatar
-        document.querySelector(".avatar").src = user.profileImage || "../assets/default.png";
+        document.querySelector(".avatar").src = user.profileImage || "../assets/client1.jpg";
 
         // Followers count
         const followersLink = document.querySelector("#edit-profile-card p a");
@@ -49,7 +49,7 @@ function preventBackNavigation() {
     window.history.pushState(null, null, window.location.href);
 
     // Handle back button press
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         window.history.go(1);
         alert("Access denied. Your session has been terminated after logout.");
     };

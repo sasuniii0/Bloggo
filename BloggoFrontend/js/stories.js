@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const user = await res.json();
 
             // Fill sidebar
-            document.querySelector(".profile-avatar").src = user.profileImage || "default.png";
+            document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
             document.querySelector(".profile-name").textContent = user.username;
             document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
 

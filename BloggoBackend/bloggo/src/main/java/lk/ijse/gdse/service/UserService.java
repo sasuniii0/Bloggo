@@ -1,5 +1,6 @@
 package lk.ijse.gdse.service;
 
+import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
@@ -18,7 +19,6 @@ public interface UserService {
 
     List<UserDTO> getUsers(int offset, int limit);
 
-
     UserProfileDTO getCurrentUser(String username);
 
     User updateProfileUser(User existing, String loggedUsername);
@@ -30,4 +30,6 @@ public interface UserService {
     User findByUsername(String name);
 
     List<UserDTO> getUserByRole(String user);
+
+    List<PostDTO> getUserPosts(String username);
 }

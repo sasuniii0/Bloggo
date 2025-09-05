@@ -1,9 +1,12 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
+import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Override
     public User saveUser(User user) {
@@ -125,5 +129,24 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(u -> new UserDTO(u.getUserId(), u.getUsername()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDTO> getUserPosts(String username) {
+        List<Post> posts = postRepository.findByUserUsername(username);
+
+        return posts.stream()
+                .map(p->PostDTO.builder()
+                        .id(p.getPostId())
+                        .title(p.getTitle())
+                        .content(p.getContent())
+                        .username(p.getUser().getUsername())
+                        .imageUrl(p.getCoverImageUrl())
+                        .status(p.getStatus())
+                        .publishedAt(p.getPublishedAt())
+                        .boostCount(p.getBoostCount())
+                        .commentsCount(p.getCommentsCount())
+                        .build()
+                ).toList();
     }
 }

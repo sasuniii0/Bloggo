@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
@@ -75,5 +76,14 @@ public class UserController {
     public ResponseEntity<ApiResponseDTO> getRoleOnlyUser(){
         return ResponseEntity.ok(new ApiResponseDTO(200, "You are a USER",
                 userService.getUserByRole("USER")));
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getCurrentUser(username));
+    }
+    @GetMapping("/{username}/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserPosts(username));
     }
 }

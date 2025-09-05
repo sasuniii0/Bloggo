@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!postId) return alert("⚠️ Story not found");
 
+    await loadLoggedUser();
+
+
     // --- DOM Elements ---
     const titleEl = document.getElementById("storyTitle");
     const authorNameEl = document.getElementById("authorName");
@@ -32,16 +35,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const loading = document.getElementById("loading");
 
     // Show loading
-    loading.style.display = "flex";
+    if (loading) loading.style.display = "flex";
 
     // Hide loading
-    loading.style.display = "none";
+    if (loading) loading.style.display = "none";
 
-
-    // --- Utility: Fetch JSON with Auth ---
+    // --- Fetch JSON with Auth ---
     const fetchJSON = async (url, options = {}) => {
         options.headers = options.headers || {};
-        if (!options.headers["Authorization"]) options.headers["Authorization"] = `Bearer ${token}`;
+        if (!options.headers["Authorization"]) {
+            options.headers["Authorization"] = `Bearer ${token}`;
+        }
         const res = await fetch(url, options);
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw data;
@@ -64,20 +68,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         contentEl.innerHTML = post.content || "No content available.";
         boostCountEl.textContent = post.boostCount || 0;
 
+        // Author clickable → members page
+        authorNameEl.style.cursor = "pointer";
+        authorNameEl.addEventListener("click", () => {
+            window.location.href = `../pages/members.html?username=${encodeURIComponent(post.username)}`;
+        });
+
         // Show Edit/Delete buttons if author
-        if (loggedInUser && loggedInUser === post.username) createPostActions();
+        if (loggedInUser && loggedInUser === post.username) {
+            createPostActions();
+        }
 
         // Prefill Edit Modal
         editTitle.value = post.title;
         editContent.value = post.content;
 
-// const coverUrl = post.coverImageUrl || "";
-
         const coverUrl = post.imageUrl || "";
         storyImageEl.src = coverUrl;
         coverPreview.src = coverUrl;
         coverPreview.style.display = coverUrl ? "block" : "none";
-
 
         // Load comments
         await loadComments();
@@ -250,4 +259,35 @@ function preventBackNavigation() {
         window.history.go(1);
         alert("Access denied. Your session has been terminated after logout.");
     };
+}
+
+async function loadLoggedUser() {
+    const token = sessionStorage.getItem("jwtToken");
+    try {
+        const res = await fetch(`http://localhost:8080/user/me`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const user = await res.json();  // backend returns DTO directly
+        console.log("Logged user:", user);
+
+        if (res.ok) {
+            // Avatar
+            document.querySelector(".avatar").src = user.profileImage || "../assets/default.png";
+            document.getElementById("userAvatar").src = user.profileImage || "../assets/default.png";
+
+            // Navbar username
+            if (document.getElementById("navbarUsername")) {
+                document.getElementById("navbarUsername").textContent = user.username;
+            }
+
+            // Save for later
+            sessionStorage.setItem("username", user.username);
+            sessionStorage.setItem("userId", user.id);
+        } else {
+            document.querySelector(".avatar").src = "../assets/default.png";
+        }
+    } catch (err) {
+        console.error("Failed to load user:", err);
+        document.querySelector(".avatar").src = "../assets/default.png";
+    }
 }
