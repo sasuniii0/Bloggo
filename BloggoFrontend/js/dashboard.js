@@ -18,7 +18,7 @@ async function loadPosts(token) {
     const feedContainer = document.querySelector(".feed");
 
     try {
-        const postsRes = await fetch("http://localhost:8080/api/v1/dashboard/all-posts", {
+        const postsRes = await fetch("http://localhost:8080/api/v1/dashboard/recent-published-posts", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

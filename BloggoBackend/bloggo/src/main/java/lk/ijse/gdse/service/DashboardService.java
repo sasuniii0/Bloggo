@@ -14,4 +14,6 @@ public interface DashboardService {
     List<UserDTO> getAllUsers();
 
     PostDTO getPostById(Long postId);
+
+    List<PostDTO> getRecentPublishedPosts();
 }

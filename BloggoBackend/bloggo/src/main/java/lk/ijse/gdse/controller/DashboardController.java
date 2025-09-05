@@ -60,6 +60,19 @@ public class DashboardController {
         );
     }
 
+    @GetMapping("/recent-published-posts")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<ApiResponseDTO> getRecentPublishedPosts() {
+        List<PostDTO> posts = dashboardService.getRecentPublishedPosts();
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Top 10 recent published posts retrieved successfully",
+                        posts
+                )
+        );
+    }
+
     @GetMapping("/post/{postId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponseDTO> getPostById(@PathVariable Long postId) {

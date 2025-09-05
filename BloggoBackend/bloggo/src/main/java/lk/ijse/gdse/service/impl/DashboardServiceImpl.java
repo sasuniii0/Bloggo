@@ -3,6 +3,7 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.Post;
+import lk.ijse.gdse.entity.PostStatus;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.repository.DashboardRepository;
@@ -74,6 +75,24 @@ public class DashboardServiceImpl implements DashboardService {
                 .boostCount(post.getBoosts() != null ? post.getBoosts().size() : 0)
                 .commentsCount(post.getComments() != null ? post.getComments().size() : 0)
                 .build();
+    }
+
+    @Override
+    public List<PostDTO> getRecentPublishedPosts() {
+        List<Post> posts = postRepository.findTop10ByStatusOrderByCreatedAtDesc(PostStatus.PUBLISHED);
+        return posts.stream()
+                .map(post -> new PostDTO(
+                        post.getPostId(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getUser().getUsername(),
+                        post.getCoverImageUrl(),
+                        post.getStatus(),
+                        post.getPublishedAt(),
+                        post.getBoosts() != null ? post.getBoosts().size() : 0,
+                        post.getComments() != null ? post.getComments().size() : 0
+                ))
+                .toList();
     }
 
 }
