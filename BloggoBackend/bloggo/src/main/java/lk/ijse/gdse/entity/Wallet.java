@@ -20,10 +20,13 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walletId;
 
-    @OneToOne
-    private User userId;
     private Double balance;
     private LocalDateTime createdAt;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private User userId;
+
 
     @OneToMany(mappedBy = "walletId")
     private List<Earning> earnings; // List of earnings associated with the wallet

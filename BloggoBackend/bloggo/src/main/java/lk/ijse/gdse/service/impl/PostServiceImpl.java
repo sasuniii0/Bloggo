@@ -104,88 +104,76 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public int boostPost(Long postId, String username) {
+        // Fetch the post
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        User boostinguser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (post.getBoosts()== null){
-            post.setBoosts(new ArrayList<>());
-        }
-
-        Boost existingBoost = post.getBoosts().stream()
-                .filter(b -> b.getUser().equals(boostinguser))
-                .findFirst().orElse(null);
-
-        if (existingBoost != null) {
-            post.getBoosts().remove(existingBoost);
-        }else{
-            Boost newBoost =Boost.builder()
-                    .user(boostinguser)
-                    .post(post)
-                    .createdAt(LocalDateTime.now())
-                    .build();
-            post.getBoosts().add(newBoost);
-
-            // create earnings
-            Wallet postOwnerWallet = post.getUser().getWallet();
-            if (postOwnerWallet == null) {
-                throw new RuntimeException("post owner has no wallet");
-            }
-
-            Earning earning = Earning.builder()
-                    .walletId(postOwnerWallet)
-                    .source(Source.BOOST)
-                    .amount(1.0)
-                    .post(post)
-                    .createdAt(LocalDateTime.now())
-                    .build();
-
-            postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
-            postOwnerWallet.getEarnings().add(earning);
-
-            walletRepository.save(postOwnerWallet);
-            earningRepository.save(earning);
-
-        }
-
-        postRepository.save(post);
-        return post.getBoosts().size();
-
-
-
-       /* Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
-        User user = userRepository.findByUsername(username)
+        // Fetch the boosting user
+        User boostingUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (post.getBoosts() == null) {
             post.setBoosts(new ArrayList<>());
         }
 
-        // check if this user already boosted
+        // Check if user already boosted this post (toggle)
         Boost existingBoost = post.getBoosts().stream()
-                .filter(b -> b.getUser().equals(user))
+                .filter(b -> b.getUser().equals(boostingUser))
                 .findFirst()
                 .orElse(null);
 
         if (existingBoost != null) {
-            // user already boosted → remove
+            // Remove boost
             post.getBoosts().remove(existingBoost);
         } else {
-            // user has not boosted → add
+            // Create new boost
             Boost newBoost = Boost.builder()
-                            .user(user)
-                                    .post(post)
-                                            .createdAt(LocalDateTime.now())
-                                                    .build();
-
+                    .post(post)
+                    .user(boostingUser)
+                    .createdAt(LocalDateTime.now())
+                    .build();
             post.getBoosts().add(newBoost);
+
+            // Ensure post owner has a wallet
+            User postOwner = post.getUser();
+            Wallet postOwnerWallet = postOwner.getWallet();
+            if (postOwnerWallet == null) {
+                postOwnerWallet = Wallet.builder()
+                        .userId(postOwner)
+                        .balance(0.0)
+                        .createdAt(LocalDateTime.now())
+                        .build();
+                walletRepository.save(postOwnerWallet);
+
+                // Associate wallet with user
+                postOwner.setWallet(postOwnerWallet);
+                userRepository.save(postOwner);
+            }
+
+            // Add earning for the post owner
+            Earning earning = Earning.builder()
+                    .walletId(postOwnerWallet)
+                    .post(post)
+                    .source(Source.BOOST)
+                    .amount(1.0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            if (postOwnerWallet.getEarnings() == null) {
+                postOwnerWallet.setEarnings(new ArrayList<>());
+            }
+            postOwnerWallet.getEarnings().add(earning);
+            postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
+
+            // Save wallet and earning
+            walletRepository.save(postOwnerWallet);
+            earningRepository.save(earning);
         }
 
+        // Save post with updated boosts
         postRepository.save(post);
-        return post.getBoosts().size();*/
+
+        return post.getBoosts().size();
     }
 
 

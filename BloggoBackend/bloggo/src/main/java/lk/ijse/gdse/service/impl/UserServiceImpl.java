@@ -6,8 +6,10 @@ import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.entity.Wallet;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
+import lk.ijse.gdse.repository.WalletRepository;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,11 +30,25 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final WalletRepository walletRepository;
 
     @Override
     public User saveUser(User user) {
-        return userRepository.save(user);
+        // Save the user first
+        User userSaved = userRepository.save(user);
+
+        // Create a wallet for the saved user
+        Wallet wallet = Wallet.builder()
+                .userId(userSaved)  // associate wallet with the saved user
+                .balance(0.0)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        walletRepository.save(wallet); // save the wallet
+
+        return userSaved; // return the saved user
     }
+
 
     @Override
     public User editUser(User user) {

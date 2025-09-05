@@ -189,15 +189,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // --- Boost ---
+    //boost
     boostBtn.addEventListener("click", async () => {
         try {
-            const data = await fetchJSON(`http://localhost:8080/api/v1/boost/${postId}`, { method: "POST" });
-            boostCountEl.textContent = data.data;
+            const token = sessionStorage.getItem("jwtToken");
+            const response = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+            const data = await response.json();
+            console.log(data)
+            boostCountEl.textContent = data.boostCount; // now it shows 5
             boostBtn.classList.add("active");
             boostBtn.disabled = true;
-        } catch (err) { console.error("Boost failed:", err); }
+        } catch (err) {
+            console.error("Boost failed:", err);
+            alert("Boost failed! Make sure you are logged in.");
+        }
     });
+
+
 
     // --- Load Comments ---
     async function loadComments() {

@@ -24,6 +24,7 @@ public class BoostController {
     @PreAuthorize("hasRole('USER')") // Only users with the USER role can access this endpoint
     public ResponseEntity<ApiResponseDTO> boostPost(@PathVariable Long postId, Principal principal) {
         int newBoostCount = postService.boostPost(postId, principal.getName());
+        System.out.println(newBoostCount);
         return ResponseEntity.ok(
                 new ApiResponseDTO(
                         200,

@@ -88,9 +88,10 @@ public class User {
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
 
-    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Wallet wallet;
 
+    // Add wallet relationship
+    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Wallet wallet;
 
 
 }

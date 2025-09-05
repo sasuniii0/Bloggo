@@ -22,7 +22,9 @@ public class Earning {
     @ManyToOne
     @JoinColumn(name = "walletId", nullable = false)
     private Wallet walletId;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Source source;
     private Double amount;
 
