@@ -48,23 +48,6 @@ async function loadPosts(token) {
                     <span>by ${post.username || "Unknown"}</span>
                     <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
                 </div>
-
-                <div class="blog-actions mt-2 d-flex justify-content-between">
-                    <button class="btn btn-sm btn-outline-success boost-btn" data-id="${post.id}">
-                        🚀 Boost (${post.boostCount || 0})
-                    </button>
-                    <button class="btn btn-sm btn-outline-primary comment-toggle-btn" data-id="${post.id}">
-                        💬 Comments
-                    </button>
-                </div>
-
-                <div class="comments-section mt-2 d-none" id="comments-${post.id}">
-                    <div class="existing-comments mb-2"></div>
-                    <div class="input-group">
-                        <input type="text" class="form-control comment-input" placeholder="Write a comment...">
-                        <button class="btn btn-primary add-comment-btn">Send</button>
-                    </div>
-                </div>
             </div>
         </article>
     `).join("")
@@ -292,13 +275,14 @@ function preventBackNavigation() {
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
+function showLoading(duration = 3600) { // duration in ms
+    const loadingEl = document.getElementById("loading");
+    loadingEl.classList.remove("d-none");
 
-function showLoading() {
-    document.getElementById("loading").classList.remove("d-none");
-}
-
-function hideLoading() {
-    document.getElementById("loading").classList.add("d-none");
+    // Hide automatically after duration
+    setTimeout(() => {
+        loadingEl.classList.add("d-none");
+    }, duration);
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -318,6 +302,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
         console.error("Error loading dashboard:", err);
     } finally {
-        hideLoading(); // Hide loading overlay
+
     }
 });

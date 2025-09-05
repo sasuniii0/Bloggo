@@ -50,11 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(payload)
 
         const token = sessionStorage.getItem("jwtToken");
+        const userId = sessionStorage.getItem("userId");
 
         try {
-            const userId = sessionStorage.getItem("userId"); // ✅ must include ID in path
-
-            console.log(userId)
             const response = await fetch(`http://localhost:8080/user/profileUpdate/${userId}`, {
                 method: "PUT",
                 headers: {
@@ -64,9 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(payload)
             });
 
-
             if (response.ok) {
-                const updatedUser = await response.json();
+                // Safely parse JSON
+                const text = await response.text();  // get raw text
+                let updatedUser = {};
+                try {
+                    updatedUser = text ? JSON.parse(text) : {};
+                } catch (parseErr) {
+                    console.warn("Server returned invalid JSON:", text);
+                    updatedUser = {}; // fallback
+                }
+
                 avatarPreview.src = updatedUser.profileImage || "../assets/boy%20(1).png";
                 alert("✅ Profile updated successfully!");
             } else if (response.status === 403) {
@@ -79,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error updating profile:", error);
             alert("⚠️ An error occurred.");
         }
+
     });
 });
 
@@ -130,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Populate navbar avatar
         const avatar = document.querySelector(".avatar");
-        if (avatar) avatar.src = user.profileImage || "../assets/default.png";
+        if (avatar) avatar.src = user.profileImage || "../assets/boy%20(1).png";
 
         // Populate settings form inputs
         const usernameInput = document.getElementById("username");
@@ -141,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (usernameInput) usernameInput.value = user.username || "";
         if (emailInput) emailInput.value = user.email || "";
         if (bioInput) bioInput.value = user.bio || "";
-        if (avatarPreview) avatarPreview.src = user.profileImage || "../assets/default.png";
+        if (avatarPreview) avatarPreview.src = user.profileImage || "../assets/boy%20(1).png";
 
     } catch (err) {
         console.error("Error loading user:", err);

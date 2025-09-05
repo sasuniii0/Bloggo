@@ -253,65 +253,49 @@ a { color:inherit; text-decoration:none }
 
 
 
-
-
-/* Full-screen overlay */
 #loading {
     position: fixed;
-    inset: 0; /* top:0; bottom:0; left:0; right:0 */
-    background: rgba(0, 0, 0, 0.35); /* semi-transparent dark overlay */
-    display: none; /* hidden by default */
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2); /* lighter overlay */
+    display: none;
     z-index: 9999;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    backdrop-filter: blur(5px); /* subtle blur effect */
-    transition: opacity 0.3s ease;
+    transition: opacity 0.1s ease; /* super fast */
 }
 
-/* Loading box */
 .loading-box {
-    background: rgba(255, 255, 255, 0.95); /* glass-like */
-    padding: 30px 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    min-width: 200px;
-    animation: fadeIn 0.2s ease-out;
+    gap: 8px;
+    min-width: 140px;
+    animation: fadeIn 0.1s ease-out;
+    font-size: 14px;
+    color: #4A4A4A;
+    font-weight: 500;
 }
 
-/* Spinner */
 .spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #e0e0e0; /* soft gray */
-    border-top: 5px solid #00fbff; /* coral red accent */
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid #00fbff;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.7s linear infinite; /* fast but visible */
 }
 
-/* Spinner animation */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* Loading text */
-.loading-box p {
-    font-size: 16px;
-    color: #4A4A4A; /* charcoal gray */
-    font-weight: 600;
-}
-
-/* Fade-in animation */
 @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(-10px); }
+    0% { opacity: 0; transform: translateY(-3px); }
     100% { opacity: 1; transform: translateY(0); }
 }
-

@@ -39,54 +39,61 @@ document.addEventListener("DOMContentLoaded", async () => {
             else if (post.status === "SCHEDULED") grouped.SCHEDULED.push(post);
         });
 
-        // Render post cards
         function renderPosts(list) {
             if (!list.length) {
-                return `<p class="text-muted">No stories found.</p>`;
+                return `<p class="text-muted text-center">No stories found.</p>`;
             }
-            return list.map(post => `
-    <div class="card mb-3 p-3 d-flex align-items-start gap-3">
-        <!-- Cover image square only if image exists -->
-        ${post.imageUrl ? `
-        <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
-            <img src="${post.imageUrl}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
-        </div>
-        ` : ''}
 
-        <!-- Post content -->
-        <div class="flex-grow-1">
-            <h5>${post.title || "Untitled"}</h5>
-            <div class="text-muted small mb-2">
-                ${post.status} • ${post.createdAt || post.publishedAt
+            return list.map(post => `
+        <div class="card mb-3 shadow-sm" style="border-radius: 10px;">
+            <div class="card-body d-flex flex-column">
+                
+                <!-- Cover Image (small square, if exists) -->
+                ${post.imageUrl ? `
+                <div style="width:80px; height:80px; overflow:hidden; border-radius:8px; margin-bottom:10px;">
+                    <img src="${post.imageUrl}" alt="Cover Image" 
+                         style="width:100%; height:100%; object-fit:cover;">
+                </div>` : ""}
+
+                <!-- Title -->
+                <h5 class="card-title mb-1">${post.title || "Untitled"}</h5>
+                
+                <!-- Status and Date -->
+                <div class="text-muted small mb-2">
+                    ${post.status || ""} • 
+                    ${post.createdAt || post.publishedAt
                 ? new Date(post.createdAt || post.publishedAt).toLocaleDateString()
                 : "Unknown"}
-            </div>
-            <p>${post.content ? post.content.substring(0, 200) : ""}...</p>
-            <a href="story-detail.html?id=${post.id || post.postId}" 
-               class="btn btn-sm btn-outline-primary mb-2">
-                Read More
-            </a>
-
-            <!-- Action bar -->
-            <div class="d-flex justify-content-between align-items-center mt-2">
-                <div class="d-flex gap-3">
+                </div>
+                
+                <!-- Content Preview -->
+                <p class="card-text mb-3">
+                    ${post.content ? post.content.substring(0, 300) + "..." : ""}
+                </p>
+                
+                <!-- Read More Link -->
+                <a href="story-detail.html?id=${post.id || post.postId}" 
+                   class="text-decoration-none mb-3">
+                   Read More
+                </a>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-start align-items-center gap-2">
                     <button class="btn btn-sm btn-outline-secondary like-btn" data-id="${post.id}">
                         🚀 Boost <span class="like-count">${post.likes || 0}</span>
                     </button>
                     <button class="btn btn-sm btn-outline-secondary comment-btn" data-id="${post.id}">
                         💬 Comments (${post.commentsCount || 0})
                     </button>
+                    <button class="btn btn-sm btn-outline-warning bookmark-btn ms-auto" data-id="${post.id}">
+                        🔖 Save
+                    </button>
                 </div>
-                <button class="btn btn-sm btn-outline-warning bookmark-btn" data-id="${post.id}">
-                    🔖 Save
-                </button>
             </div>
         </div>
-    </div>
-`).join("");
-
-
+    `).join("");
         }
+
 
         // Build tab layout
         storiesContainer.innerHTML = `
