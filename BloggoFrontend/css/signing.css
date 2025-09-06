@@ -1,5 +1,5 @@
 :root {
-    --primary: #2563eb;
+    --primary: #000000;
     --primary-hover: #1d4ed8;
     --muted: #64748b;
     --light: #f8fafc;
@@ -83,7 +83,7 @@ body {
     flex: 1;
     background:
             radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(170, 214, 246, 0.3) 0%, transparent 50%),
             radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
             linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
     display: flex;
@@ -171,7 +171,7 @@ body {
 /* Right side - Image */
 .image-section {
     flex: 1;
-    background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1)),
+    background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(122, 128, 143, 0.1)),
     url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1000&fit=crop&crop=face');
     background-size: cover;
     background-position: center;
@@ -321,7 +321,7 @@ body {
     border-radius: 12px;
     border: 2px solid var(--border);
     background: #fff;
-    color: var(--dark);
+    color: #818CF8;
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
@@ -351,13 +351,13 @@ body {
 }
 
 #btn-home {
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    background: #000000;;
     border-color: var(--primary);
     color: white;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    background: #000000;
     border: none;
     color: white;
     font-size: 1rem;
@@ -368,7 +368,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--primary-hover), #7c3aed);
+    background: #0b0b40;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
 }

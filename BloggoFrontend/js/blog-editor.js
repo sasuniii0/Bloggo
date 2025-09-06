@@ -160,6 +160,7 @@ editor.addEventListener('drop', e => {
     });
 });
 
+
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
 

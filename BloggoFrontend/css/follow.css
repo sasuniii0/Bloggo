@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: white;
     font-family: 'Inter', sans-serif;
 }
 
@@ -17,7 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #fff;
+    background: #f5fbff;
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -90,7 +90,7 @@ body {
     --card:#f8fafc; /* slate-50 */
     --border:#e5e7eb; /* gray-200 */
     --primary:#1a73e8;
-    --primary-600:#1666cc;
+    --primary-600: #010205;
     --accent:#2ecc71;
     --shadow: 0 10px 30px rgba(2,6,23,.08);
     --radius: 16px;
@@ -153,7 +153,7 @@ a{
 }
 
 .glass-navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(79,70,229,0.05);
     transform: translateY(-2px);
 }
 
@@ -198,6 +198,7 @@ a{
 }
 
 #notificationTabs{
+   background: #f5fbff;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 1rem;

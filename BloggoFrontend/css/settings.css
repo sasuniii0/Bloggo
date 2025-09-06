@@ -1,7 +1,7 @@
 html,body {
     margin:0;
     padding:0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: #FFFFFF;
     color:var(--text);
     font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
 }
@@ -42,7 +42,7 @@ a { color:inherit; text-decoration:none }
 }
 
 .glass-navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(79,70,229,0.05);
     transform: translateY(-2px);
 }
 

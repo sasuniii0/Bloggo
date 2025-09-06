@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: white;
 }
 
 /* ===== Navbar Styles ===== */
@@ -33,7 +33,7 @@ body {
 }
 
 .glass-navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(79,70,229,0.05);
     transform: translateY(-2px);
 }
 
@@ -92,7 +92,7 @@ body {
 }
 
 .step.active {
-    color: #0d6efd;
+    color: #261068;
 }
 
 .step-circle {
@@ -109,13 +109,13 @@ body {
 }
 
 .step.active .step-circle {
-    border-color: #0d6efd;
+    border-color: #698fc8;
     background: #0d6efd;
     color: #fff;
 }
 
 .confirmation-card {
-    background: #fff;
+    background: #f5fbff;
     padding: 2rem;
     border-radius: 12px;
     max-width: 500px;
