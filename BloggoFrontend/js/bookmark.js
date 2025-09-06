@@ -1,95 +1,83 @@
-let isBookmarked = false;
-
-// First check if post is already bookmarked
-const checkBookmarkStatus = async () => {
-    try {
-        const response = await fetch(`http://localhost:8080/api/v1/bookmarks/check/${postId}`, {
-            headers: {
-                'X-User-Id': userId // You need to get userId from your auth system
-            }
-        });
-        isBookmarked = await response.json();
-        updateBookmarkButton();
-    } catch (err) {
-        console.error("Failed to check bookmark status:", err);
-    }
-};
-
-const updateBookmarkButton = () => {
-    toggleClass(bookmarkBtn, "active", isBookmarked);
-    bookmarkBtn.innerHTML = isBookmarked
-        ? '<i class="fas fa-bookmark"></i> Saved'
-        : '<i class="far fa-bookmark"></i> Save';
-};
-
-bookmarkBtn.addEventListener("click", async () => {
-    try {
-        const response = await fetch(`http://localhost:8080/api/v1/bookmarks/toggle/${postId}`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'X-User-Id': userId
-            }
-        });
-
-        if (response.ok) {
-            isBookmarked = await response.json();
-            updateBookmarkButton();
-        } else {
-            console.error("Bookmark toggle failed");
-        }
-    } catch (err) {
-        console.error("Bookmark failed:", err);
-    }
-
+document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
-    if (!token) return;
 
-    try{
-        const res = await fetch("http://localhost:8080/user/me",{
-            headers:{
-                "Authorization" : `Bearer ${token}`
-            }
-        });
-        if (!res.ok) throw new Error("Failed to load user...")
-
-        const user = await res.json();
-
-        // Fill sidebar
-        document.querySelector(".avatar").src = user.profileImage || "default.png";
-
-        // Followers count
-        const followersLink = document.querySelector("#edit-profile-card p a");
-        followersLink.textContent = `${user.followers.length} Followers`;
-    }catch (err){
-        console.error("Error loading user...")
+    if (!token) {
+        alert("⚠️ Please log in to view bookmarks.");
+        window.location.href = "signing.html";
+        return;
     }
-});
 
-// Initialize bookmark status
-checkBookmarkStatus();
+    const allTabEl = document.getElementById("all"); // container for bookmarks
 
-function logout() {
-    preventBackNavigation();
-    // Clear stored token and user info
-    sessionStorage.removeItem('jwtToken');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('userId');
+    const loadBookmarks = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/api/v1/bookmarks/user", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
 
-    // Redirect to login page
-    window.location.href = 'signing.html';
-}
+            const bookmarks = await res.json();
 
-function preventBackNavigation() {
-    // Replace current history entry
-    window.history.replaceState(null, null, window.location.href);
+            if (!Array.isArray(bookmarks) || bookmarks.length === 0) {
+                allTabEl.innerHTML = "<p class='text-muted'>You haven't saved any bookmarks yet.</p>";
+                return;
+            }
 
-    // Add new history entry
-    window.history.pushState(null, null, window.location.href);
+            console.log(bookmarks)
 
-    // Handle back button press
-    window.onpopstate = function() {
-        window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+            // Render each bookmark as a separate card
+            allTabEl.innerHTML = bookmarks.map(b => `
+                <div class="card p-3 mb-3">
+                    <div class="d-flex gap-3">
+                        ${b.coverImage ? `
+                            <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+                                <img src="${b.coverImage}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
+                            </div>
+                        ` : ''}
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">
+                                <a href="story-details.html?id=${b.postId}" class="text-decoration-none">
+                                    ${b.postTitle || "Untitled"}
+                                </a>
+                            </h6>
+                            <p class="text-muted mb-1" style="font-size: 14px;">By ${b.username || "Unknown"}</p>
+                            ${b.content ? `<p class="mb-2" style="font-size: 14px;">${b.content.substring(0, 150)}...</p>` : ''}
+                            <button class="btn btn-sm btn-outline-danger removeBookmarkBtn" data-post-id="${b.postId}">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+
+            // Attach remove bookmark functionality
+            allTabEl.querySelectorAll(".removeBookmarkBtn").forEach(btn => {
+                btn.addEventListener("click", async e => {
+                    const postId = e.currentTarget.dataset.postId;
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/v1/bookmarks/remove/${postId}`, {
+                            method: "DELETE",
+                            headers: { "Authorization": `Bearer ${token}` }
+                        });
+                        if (!res.ok) throw new Error("Failed to remove bookmark");
+                        loadBookmarks(); // refresh list
+                    } catch (err) {
+                        console.error(err);
+                        alert("⚠️ Could not remove bookmark");
+                    }
+                });
+            });
+
+        } catch (err) {
+            console.error(err);
+            allTabEl.innerHTML = "<p class='text-danger'>Failed to load bookmarks.</p>";
+        }
     };
-}
+
+    // Simple logout
+    window.logout = () => {
+        sessionStorage.clear();
+        window.location.href = 'signing.html';
+    };
+
+    await loadBookmarks();
+});

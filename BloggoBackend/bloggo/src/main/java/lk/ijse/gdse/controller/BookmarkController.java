@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.BookmarkDTO;
 import lk.ijse.gdse.entity.Bookmark;
 import lk.ijse.gdse.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
@@ -63,8 +64,18 @@ public class BookmarkController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Bookmark>> getUserBookmarks(Principal principal) {
-        return ResponseEntity.ok(bookmarkService.getBookmarksByUser(principal.getName()));
+    public ResponseEntity<List<BookmarkDTO>> getUserBookmarks(Principal principal) {
+        List<Bookmark> bookmarks = bookmarkService.getBookmarksByUser(principal.getName());
+
+        List<BookmarkDTO> bookmarkDTOS =bookmarks.stream()
+                .map(b-> new BookmarkDTO(
+                        b.getPost().getPostId(),
+                        b.getPost().getCoverImageUrl(),
+                        b.getPost().getTitle(),
+                        b.getPost().getUser().getUsername(),
+                        b.getPost().getContent()
+                )).toList();
+        return ResponseEntity.ok(bookmarkDTOS);
     }
 
     @GetMapping("/count/{postId}")
