@@ -1289,3 +1289,412 @@ java.lang.RuntimeException: Invalid Credentials
 2025-09-06T08:29:53.230+05:30  INFO 11204 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-09-06T08:29:53.230+05:30  INFO 11204 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-09-06T08:29:53.232+05:30  INFO 11204 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-06T08:46:12.993+05:30  WARN 11204 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-06T08:46:12.993+05:30  WARN 11204 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-06T09:02:38.638+05:30  INFO 11204 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:02:38.655+05:30  INFO 11204 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:02:38.660+05:30  INFO 11204 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:02:38.663+05:30  INFO 11204 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:02:38.671+05:30  INFO 11204 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:02:43.131+05:30  INFO 14916 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 14916 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:02:43.132+05:30  INFO 14916 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:02:43.932+05:30  INFO 14916 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:02:44.002+05:30  INFO 14916 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:02:44.429+05:30  INFO 14916 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:02:44.439+05:30  INFO 14916 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:02:44.439+05:30  INFO 14916 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:02:44.487+05:30  INFO 14916 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:02:44.487+05:30  INFO 14916 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1324 ms
+2025-09-06T09:02:44.619+05:30  INFO 14916 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:02:44.681+05:30  INFO 14916 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:02:44.716+05:30  INFO 14916 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:02:44.954+05:30  INFO 14916 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:02:44.979+05:30  INFO 14916 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:02:45.331+05:30  INFO 14916 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@57b130f6
+2025-09-06T09:02:45.331+05:30  INFO 14916 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:02:45.381+05:30  WARN 14916 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:02:45.394+05:30  INFO 14916 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:02:46.390+05:30  INFO 14916 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:02:46.526+05:30  INFO 14916 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:02:46.762+05:30  INFO 14916 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:02:47.392+05:30  INFO 14916 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:02:47.392+05:30  INFO 14916 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:02:47.867+05:30  WARN 14916 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:02:47.898+05:30  INFO 14916 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:02:48.362+05:30  INFO 14916 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:02:48.364+05:30  INFO 14916 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 5.623 seconds (process running for 6.197)
+2025-09-06T09:03:09.514+05:30  INFO 14916 --- [bloggo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:03:09.514+05:30  INFO 14916 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:03:09.516+05:30  INFO 14916 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-06T09:07:57.663+05:30  INFO 14916 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:07:57.676+05:30  INFO 14916 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:07:57.684+05:30  INFO 14916 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:07:57.686+05:30  INFO 14916 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:07:57.696+05:30  INFO 14916 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:08:02.685+05:30  INFO 8320 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 8320 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:08:02.685+05:30  INFO 8320 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:08:03.282+05:30  INFO 8320 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:08:03.353+05:30  INFO 8320 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:08:03.745+05:30  INFO 8320 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:08:03.745+05:30  INFO 8320 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:08:03.745+05:30  INFO 8320 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:08:03.792+05:30  INFO 8320 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:08:03.792+05:30  INFO 8320 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1059 ms
+2025-09-06T09:08:03.887+05:30  INFO 8320 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:08:03.925+05:30  INFO 8320 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:08:03.935+05:30  INFO 8320 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:08:04.138+05:30  INFO 8320 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:08:04.156+05:30  INFO 8320 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:08:04.379+05:30  INFO 8320 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@67e4928c
+2025-09-06T09:08:04.379+05:30  INFO 8320 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:08:04.417+05:30  WARN 8320 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:08:04.427+05:30  INFO 8320 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:08:05.284+05:30  INFO 8320 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:08:05.427+05:30  INFO 8320 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:08:05.633+05:30  INFO 8320 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:08:06.188+05:30  INFO 8320 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:08:06.188+05:30  INFO 8320 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:08:06.600+05:30  WARN 8320 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:08:06.632+05:30  INFO 8320 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:08:07.069+05:30  INFO 8320 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:08:07.073+05:30  INFO 8320 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.93 seconds (process running for 5.47)
+2025-09-06T09:08:10.604+05:30  INFO 8320 --- [bloggo] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:08:10.604+05:30  INFO 8320 --- [bloggo] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:08:10.604+05:30  INFO 8320 --- [bloggo] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-09-06T09:09:51.298+05:30  INFO 8320 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:09:51.310+05:30  INFO 8320 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:09:51.310+05:30  INFO 8320 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:09:51.310+05:30  INFO 8320 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:09:51.322+05:30  INFO 8320 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:09:55.177+05:30  INFO 18768 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 18768 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:09:55.177+05:30  INFO 18768 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:09:55.728+05:30  INFO 18768 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:09:55.809+05:30  INFO 18768 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:09:56.189+05:30  INFO 18768 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:09:56.189+05:30  INFO 18768 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:09:56.189+05:30  INFO 18768 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:09:56.237+05:30  INFO 18768 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:09:56.237+05:30  INFO 18768 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1029 ms
+2025-09-06T09:09:56.334+05:30  INFO 18768 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:09:56.364+05:30  INFO 18768 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:09:56.380+05:30  INFO 18768 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:09:56.570+05:30  INFO 18768 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:09:56.602+05:30  INFO 18768 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:09:56.809+05:30  INFO 18768 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4f552aa2
+2025-09-06T09:09:56.816+05:30  INFO 18768 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:09:56.843+05:30  WARN 18768 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:09:56.857+05:30  INFO 18768 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:09:57.716+05:30  INFO 18768 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:09:57.859+05:30  INFO 18768 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:09:58.082+05:30  INFO 18768 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:09:58.620+05:30  INFO 18768 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:09:58.620+05:30  INFO 18768 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:09:59.053+05:30  WARN 18768 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:09:59.081+05:30  INFO 18768 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:09:59.518+05:30  INFO 18768 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:09:59.524+05:30  INFO 18768 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.734 seconds (process running for 5.399)
+2025-09-06T09:10:04.236+05:30  INFO 18768 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:10:04.236+05:30  INFO 18768 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:10:04.236+05:30  INFO 18768 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-09-06T09:12:16.643+05:30  INFO 18768 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:12:16.653+05:30  INFO 18768 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:12:16.659+05:30  INFO 18768 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:12:16.659+05:30  INFO 18768 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:12:16.661+05:30  INFO 18768 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:12:20.162+05:30  INFO 12592 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 12592 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:12:20.178+05:30  INFO 12592 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:12:20.870+05:30  INFO 12592 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:12:20.948+05:30  INFO 12592 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 79 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:12:21.394+05:30  INFO 12592 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:12:21.402+05:30  INFO 12592 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:12:21.402+05:30  INFO 12592 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:12:21.441+05:30  INFO 12592 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:12:21.441+05:30  INFO 12592 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1225 ms
+2025-09-06T09:12:21.552+05:30  INFO 12592 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:12:21.583+05:30  INFO 12592 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:12:21.599+05:30  INFO 12592 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:12:21.789+05:30  INFO 12592 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:12:21.805+05:30  INFO 12592 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:12:22.028+05:30  INFO 12592 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6a04d2a4
+2025-09-06T09:12:22.042+05:30  INFO 12592 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:12:22.058+05:30  WARN 12592 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:12:22.074+05:30  INFO 12592 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:12:22.906+05:30  INFO 12592 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:12:23.064+05:30  INFO 12592 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:12:23.244+05:30  INFO 12592 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:12:23.818+05:30  INFO 12592 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:12:23.818+05:30  INFO 12592 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:12:24.319+05:30  WARN 12592 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:12:24.367+05:30  INFO 12592 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:12:24.997+05:30  INFO 12592 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:12:25.013+05:30  INFO 12592 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 5.215 seconds (process running for 5.711)
+2025-09-06T09:12:37.285+05:30  INFO 12592 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:12:37.285+05:30  INFO 12592 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:12:37.293+05:30  INFO 12592 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2025-09-06T09:12:39.861+05:30 ERROR 12592 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Invalid Credentials] with root cause
+
+java.lang.RuntimeException: Invalid Credentials
+	at lk.ijse.gdse.service.impl.AuthServiceImpl.authenticate(AuthServiceImpl.java:43) ~[classes/:na]
+	at lk.ijse.gdse.controller.AuthController.authenticateUser(AuthController.java:37) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.43.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.43.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at lk.ijse.gdse.util.JWTAuthFilter.doFilterInternal(JWTAuthFilter.java:31) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2025-09-06T09:21:13.058+05:30  INFO 12592 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:21:13.072+05:30  INFO 12592 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:21:13.072+05:30  INFO 12592 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:21:13.078+05:30  INFO 12592 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:21:13.078+05:30  INFO 12592 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:21:15.481+05:30  INFO 10760 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 10760 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:21:15.483+05:30  INFO 10760 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:21:16.016+05:30  INFO 10760 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:21:16.098+05:30  INFO 10760 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:21:16.466+05:30  INFO 10760 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:21:16.482+05:30  INFO 10760 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:21:16.482+05:30  INFO 10760 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:21:16.530+05:30  INFO 10760 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:21:16.530+05:30  INFO 10760 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1006 ms
+2025-09-06T09:21:16.628+05:30  INFO 10760 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:21:16.657+05:30  INFO 10760 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:21:16.692+05:30  INFO 10760 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:21:16.877+05:30  INFO 10760 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:21:16.899+05:30  INFO 10760 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:21:17.168+05:30  INFO 10760 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@152891f8
+2025-09-06T09:21:17.170+05:30  INFO 10760 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:21:17.207+05:30  WARN 10760 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:21:17.222+05:30  INFO 10760 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:21:18.383+05:30  INFO 10760 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:21:18.610+05:30  INFO 10760 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:21:18.835+05:30  INFO 10760 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:21:19.449+05:30  INFO 10760 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:21:19.449+05:30  INFO 10760 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:21:19.986+05:30  WARN 10760 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:21:20.026+05:30  INFO 10760 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:21:20.581+05:30  INFO 10760 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:21:20.589+05:30  INFO 10760 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 5.502 seconds (process running for 6.376)
+2025-09-06T09:21:26.306+05:30  INFO 10760 --- [bloggo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:21:26.306+05:30  INFO 10760 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:21:26.306+05:30  INFO 10760 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-09-06T09:28:27.468+05:30  INFO 10760 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:28:27.484+05:30  INFO 10760 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:28:27.501+05:30  INFO 10760 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:28:27.501+05:30  INFO 10760 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:28:27.517+05:30  INFO 10760 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:28:30.395+05:30  INFO 6284 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 6284 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:28:30.395+05:30  INFO 6284 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:28:30.977+05:30  INFO 6284 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:28:31.045+05:30  INFO 6284 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:28:31.449+05:30  INFO 6284 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:28:31.458+05:30  INFO 6284 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:28:31.458+05:30  INFO 6284 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:28:31.505+05:30  INFO 6284 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:28:31.505+05:30  INFO 6284 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1078 ms
+2025-09-06T09:28:31.609+05:30  INFO 6284 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:28:31.630+05:30  INFO 6284 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:28:31.666+05:30  INFO 6284 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:28:31.838+05:30  INFO 6284 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:28:31.870+05:30  INFO 6284 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:28:32.117+05:30  INFO 6284 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@294c44b7
+2025-09-06T09:28:32.117+05:30  INFO 6284 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:28:32.160+05:30  WARN 6284 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:28:32.176+05:30  INFO 6284 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:28:33.013+05:30  INFO 6284 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:28:33.176+05:30  INFO 6284 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:28:33.394+05:30  INFO 6284 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:28:33.954+05:30  INFO 6284 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:28:33.954+05:30  INFO 6284 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:28:34.390+05:30  WARN 6284 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:28:34.424+05:30  INFO 6284 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:28:34.861+05:30  INFO 6284 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:28:34.867+05:30  INFO 6284 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.824 seconds (process running for 5.44)
+2025-09-06T09:28:46.207+05:30  INFO 6284 --- [bloggo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:28:46.207+05:30  INFO 6284 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:28:46.209+05:30  INFO 6284 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-09-06T09:31:11.819+05:30  INFO 6284 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-06T09:31:11.835+05:30  INFO 6284 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-06T09:31:11.841+05:30  INFO 6284 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:31:11.841+05:30  INFO 6284 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-06T09:31:11.857+05:30  INFO 6284 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-06T09:31:14.127+05:30  INFO 16880 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 16880 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-06T09:31:14.127+05:30  INFO 16880 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-06T09:31:14.701+05:30  INFO 16880 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-06T09:31:14.761+05:30  INFO 16880 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 11 JPA repository interfaces.
+2025-09-06T09:31:15.201+05:30  INFO 16880 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-06T09:31:15.201+05:30  INFO 16880 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-06T09:31:15.201+05:30  INFO 16880 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-06T09:31:15.252+05:30  INFO 16880 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-06T09:31:15.253+05:30  INFO 16880 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1083 ms
+2025-09-06T09:31:15.373+05:30  INFO 16880 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-06T09:31:15.410+05:30  INFO 16880 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-06T09:31:15.436+05:30  INFO 16880 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-06T09:31:15.677+05:30  INFO 16880 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-06T09:31:15.699+05:30  INFO 16880 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-06T09:31:15.954+05:30  INFO 16880 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1ae9d0e4
+2025-09-06T09:31:15.955+05:30  INFO 16880 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-06T09:31:15.994+05:30  WARN 16880 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-06T09:31:16.005+05:30  INFO 16880 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-06T09:31:16.883+05:30  INFO 16880 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-06T09:31:17.029+05:30  INFO 16880 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-06T09:31:17.250+05:30  INFO 16880 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-06T09:31:17.805+05:30  INFO 16880 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-06T09:31:17.805+05:30  INFO 16880 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-06T09:31:18.248+05:30  WARN 16880 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-06T09:31:18.280+05:30  INFO 16880 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-06T09:31:18.693+05:30  INFO 16880 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-06T09:31:18.693+05:30  INFO 16880 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.92 seconds (process running for 5.529)
+2025-09-06T09:31:21.357+05:30  INFO 16880 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-06T09:31:21.358+05:30  INFO 16880 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-06T09:31:21.360+05:30  INFO 16880 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms

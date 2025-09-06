@@ -21,4 +21,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // Optional: only published posts
     List<Post> findTop10ByStatusOrderByCreatedAtDesc(PostStatus status);
 
+    @Query("SELECT DISTINCT p FROM Post p " +
+            "LEFT JOIN p.tags t " +
+            "WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(p.content) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(p.user.username) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "ORDER BY p.createdAt DESC")
+    List<Post> searchPostsByKeyword(@Param("keyword") String keyword);
 }

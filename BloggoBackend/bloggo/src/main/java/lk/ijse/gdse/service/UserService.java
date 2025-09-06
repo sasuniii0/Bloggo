@@ -32,4 +32,6 @@ public interface UserService {
     List<UserDTO> getUserByRole(String user);
 
     List<PostDTO> getUserPosts(String username);
+
+    List<UserDTO> searchUsers(String keyword);
 }

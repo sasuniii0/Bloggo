@@ -1,3 +1,6 @@
+// ============================
+// DOMContentLoaded: Initial Load
+// ============================
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
     const feedContainer = document.querySelector(".feed");
@@ -7,81 +10,97 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // Load posts, users, and tags simultaneously
-    + await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
-});
-
-// ========================
-// Load Posts
-// ========================
-async function loadPosts(token) {
-    const feedContainer = document.querySelector(".feed");
+    showLoading(); // Show loading overlay
 
     try {
-        const postsRes = await fetch("http://localhost:8080/api/v1/dashboard/recent-published-posts", {
-            method: "GET",
+        await Promise.all([loadPosts(token), loadUsers(token), loadTags(token), loadCurrentUser(token)]);
+    } catch (err) {
+        console.error("Error loading dashboard:", err);
+        feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
+    } finally {
+        hideLoading();
+    }
+
+    setupSearch(token);
+});
+
+// ============================
+// Loading Overlay
+// ============================
+function showLoading(duration = 3600) {
+    const loadingEl = document.getElementById("loading");
+    if (!loadingEl) return;
+    loadingEl.classList.remove("d-none");
+    setTimeout(() => loadingEl.classList.add("d-none"), duration);
+}
+
+function hideLoading() {
+    const loadingEl = document.getElementById("loading");
+    if (loadingEl) loadingEl.classList.add("d-none");
+}
+
+// ============================
+// Load Posts
+// ============================
+async function loadPosts(token) {
+    const feedContainer = document.querySelector(".feed");
+    try {
+        const res = await fetch("http://localhost:8080/api/v1/dashboard/recent-published-posts", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
         });
-
-        if (!postsRes.ok) throw new Error("Failed to fetch posts");
-        const postsData = await postsRes.json();
+        if (!res.ok) throw new Error("Failed to fetch posts");
+        const postsData = await res.json();
         const posts = Array.isArray(postsData.data) ? postsData.data : [];
 
         feedContainer.innerHTML = posts.length
             ? posts.map(post => `
-        <article class="blog-card mb-3 p-3 shadow-sm rounded d-flex gap-3" style="cursor: pointer;" data-id="${post.id}">
-            
-            ${post.imageUrl ? `
-            <!-- Cover image square -->
-            <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
-                <img src="${post.imageUrl}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
-            </div>
-            ` : ''}
-
-            <div class="flex-grow-1">
-                <h3 class="mb-2" style="font-size: 20px; font-weight: bold">${post.title || "Untitled"}</h3>
-                <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
-                <div class="blog-meta d-flex justify-content-between">
-                    <span>by ${post.username || "Unknown"}</span>
-                    <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
-                </div>
-            </div>
-        </article>
-    `).join("")
+                <article class="blog-card mb-3 p-3 shadow-sm rounded d-flex gap-3" style="cursor: pointer;" data-id="${post.id}">
+                    ${post.imageUrl ? `<div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+                        <img src="${post.imageUrl}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
+                    </div>` : ''}
+                    <div class="flex-grow-1">
+                        <h3 class="mb-2" style="font-size: 20px; font-weight: bold">${post.title || "Untitled"}</h3>
+                        <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
+                        <div class="blog-meta d-flex justify-content-between">
+                            <span>by ${post.username || "Unknown"}</span>
+                            <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
+                        </div>
+                    </div>
+                </article>
+            `).join("")
             : `<p class="text-muted">No posts available.</p>`;
-
     } catch (err) {
-        console.error("Dashboard error:", err);
-        feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
+        console.error("Load posts error:", err);
+        feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading posts.</p>`;
     }
 }
 
-// ========================
+// ============================
 // Navigate to Story Detail
-// ========================
+// ============================
 document.querySelector(".feed").addEventListener("click", (e) => {
     const card = e.target.closest(".blog-card");
+    if (!card) return;
 
-    // ignore clicks on buttons
+    // Ignore clicks on buttons
     if (e.target.classList.contains("boost-btn") ||
         e.target.classList.contains("comment-toggle-btn") ||
         e.target.classList.contains("add-comment-btn") ||
         e.target.classList.contains("comment-input")) return;
 
-    if (card) {
-        const postId = card.dataset.id;
-        window.location.href = `story-detail.html?id=${postId}`;
-    }
+    const postId = card.dataset.id;
+    window.location.href = `story-detail.html?id=${postId}`;
 });
 
-// ========================
-// Boost
-// ========================
+// ============================
+// Boost Posts
+// ============================
 document.querySelector(".feed").addEventListener("click", async (e) => {
     if (!e.target.classList.contains("boost-btn")) return;
+
     const postId = e.target.dataset.id;
     const token = sessionStorage.getItem("jwtToken");
 
@@ -100,51 +119,26 @@ document.querySelector(".feed").addEventListener("click", async (e) => {
     }
 });
 
-// ========================
-// Toggle Comments
-// ========================
+// ============================
+// Comments: Toggle, Load & Add
+// ============================
 document.querySelector(".feed").addEventListener("click", (e) => {
-    if (!e.target.classList.contains("comment-toggle-btn")) return;
-    const postId = e.target.dataset.id;
-    const section = document.getElementById(`comments-${postId}`);
-    section.classList.toggle("d-none");
+    // Toggle Comments
+    if (e.target.classList.contains("comment-toggle-btn")) {
+        const postId = e.target.dataset.id;
+        const section = document.getElementById(`comments-${postId}`);
+        section.classList.toggle("d-none");
+        if (!section.classList.contains("d-none")) {
+            loadComments(postId, section.querySelector(".existing-comments"));
+        }
+    }
 
-    if (!section.classList.contains("d-none")) {
-        loadComments(postId, section.querySelector(".existing-comments"));
+    // Add Comment
+    if (e.target.classList.contains("add-comment-btn")) {
+        addComment(e);
     }
 });
 
-// ========================
-// Add Comment
-// ========================
-document.querySelector(".feed").addEventListener("click", async (e) => {
-    if (!e.target.classList.contains("add-comment-btn")) return;
-
-    const postId = e.target.closest(".comments-section").id.split("-")[1];
-    const input = e.target.closest(".comments-section").querySelector(".comment-input");
-    const content = input.value.trim();
-    const token = sessionStorage.getItem("jwtToken");
-    if (!content) return;
-
-    try {
-        await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(content)
-        });
-        input.value = "";
-        loadComments(postId, e.target.closest(".comments-section").querySelector(".existing-comments"));
-    } catch (err) {
-        console.error("Add comment failed", err);
-    }
-});
-
-// ========================
-// Load Comments
-// ========================
 async function loadComments(postId, container) {
     try {
         const res = await fetch(`http://localhost:8080/api/v1/comment/${postId}`);
@@ -157,45 +151,55 @@ async function loadComments(postId, container) {
     }
 }
 
-async function loadUsers() {
-    const token = sessionStorage.getItem("jwtToken");
-    if (!token) return console.error("No JWT token found");
+async function addComment(e) {
+    const section = e.target.closest(".comments-section");
+    const postId = section.id.split("-")[1];
+    const input = section.querySelector(".comment-input");
+    const content = input.value.trim();
+    if (!content) return;
 
+    const token = sessionStorage.getItem("jwtToken");
+
+    try {
+        await fetch(`http://localhost:8080/api/v1/comment/${postId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(content)
+        });
+        input.value = "";
+        loadComments(postId, section.querySelector(".existing-comments"));
+    } catch (err) {
+        console.error("Add comment failed", err);
+    }
+}
+
+// ============================
+// Load Users
+// ============================
+async function loadUsers(token) {
     try {
         const res = await fetch("http://localhost:8080/user/user-only", {
             headers: { "Authorization": `Bearer ${token}` }
         });
-
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
+        if (!res.ok) throw new Error("Failed to load users");
         const data = await res.json();
-        console.log("Users API response:", data);
-
-        // Adjust this depending on your API
         const users = data.users || data.data || [];
-
-        console.log(users)
-
         const userList = document.getElementById("userList");
-        if (!userList) throw new Error("Element with id 'userList' not found");
+        if (!userList) return;
 
-        userList.innerHTML = ""; // clear previous content
+        userList.innerHTML = "";
+        if (!users.length) userList.innerHTML = `<li class="text-muted">No users found</li>`;
 
-        if (users.length === 0) {
-            userList.innerHTML = `<li class="text-muted">No users found</li>`;
-            return;
-        }
-
-        users.forEach(user => {
+        users.forEach(u => {
             const li = document.createElement("li");
             li.className = "mb-2";
-            li.innerHTML = `
-                <a href="members.html?id=${user.id}" class="d-flex align-items-center gap-2">
-                    ${user.profileImage ? `<img src="${user.profileImage}" alt="${user.username}" 
-                    style="width:35px; height:35px; border-radius:50%; object-fit:cover;">` : ''}
-                    <span>${user.username}</span>
-                </a>
-            `;
+            li.innerHTML = `<a href="members.html?id=${u.id}" class="d-flex align-items-center gap-2">
+                                ${u.profileImage ? `<img src="${u.profileImage}" alt="${u.username}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;">` : ''}
+                                <span>${u.username}</span>
+                            </a>`;
             userList.appendChild(li);
         });
 
@@ -206,17 +210,21 @@ async function loadUsers() {
     }
 }
 
-
-// Load Tags
+// ============================
+// Load Tags with Pagination
+// ============================
 let tagOffset = 0;
 const tagLimit = 5;
 
-async function loadTags() {
+async function loadTags(token) {
     try {
-        const res = await fetch(`http://localhost:8080/api/v1/tag?offset=${tagOffset}&limit=${tagLimit}`);
+        const res = await fetch(`http://localhost:8080/api/v1/tag?offset=${tagOffset}&limit=${tagLimit}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
         const data = await res.json();
-        const tags = data.tags || []; // <-- matches your endpoint response
+        const tags = data.tags || [];
         const tagList = document.getElementById("tagList");
+        if (!tagList) return;
 
         tags.forEach(tag => {
             const li = document.createElement("li");
@@ -226,84 +234,147 @@ async function loadTags() {
 
         tagOffset += tagLimit;
         if (tags.length < tagLimit) document.getElementById("loadMoreTags").style.display = "none";
+
     } catch (err) {
         console.error("Load tags failed", err);
     }
 }
-document.addEventListener("DOMContentLoaded", async () => {
-    const token = sessionStorage.getItem("jwtToken");
 
-    if (!token) return;
-
+// ============================
+// Load Current User for Avatar
+// ============================
+async function loadCurrentUser(token) {
     try {
         const res = await fetch("http://localhost:8080/user/me", {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
-
         if (!res.ok) throw new Error("Failed to load user");
-
         const user = await res.json();
-
-        // Top navbar avatar
-        document.querySelector(".avatar").src = user.profileImage || "../assets/default.png";
+        const avatar = document.querySelector(".avatar");
+        if (avatar) avatar.src = user.profileImage || "../assets/default.png";
     } catch (err) {
         console.error("Error loading user:", err);
     }
-});
+}
 
+// ============================
+// Logout
+// ============================
 function logout() {
     preventBackNavigation();
-    // Clear stored token and user info
     sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('userId');
-
-    // Redirect to login page
     window.location.href = 'signing.html';
 }
 
 function preventBackNavigation() {
-    // Replace current history entry
     window.history.replaceState(null, null, window.location.href);
-
-    // Add new history entry
     window.history.pushState(null, null, window.location.href);
-
-    // Handle back button press
     window.onpopstate = function() {
         window.history.go(1);
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
-function showLoading(duration = 3600) { // duration in ms
-    const loadingEl = document.getElementById("loading");
-    loadingEl.classList.remove("d-none");
 
-    // Hide automatically after duration
-    setTimeout(() => {
-        loadingEl.classList.add("d-none");
-    }, duration);
+// ============================
+// Search Logic with Load More
+// ============================
+function setupSearch(token) {
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+
+    searchInput.addEventListener("input", async (e) => {
+        const keyword = e.target.value.trim();
+        if (!keyword) return searchResults.innerHTML = "";
+
+        try {
+            const [postsData, usersData, tagsData] = await Promise.all([
+                fetchSearch("post", keyword, 5),
+                fetchSearch("user", keyword, 5),
+                fetchSearch("tag", keyword, 5)
+            ]);
+            searchResults.innerHTML = renderSearchResults(postsData, usersData, tagsData, keyword);
+        } catch (err) {
+            console.error(err);
+            searchResults.innerHTML = "<p class='text-danger'>Error loading search results</p>";
+        }
+    });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+async function fetchSearch(type, keyword, limit = 5) {
     const token = sessionStorage.getItem("jwtToken");
-    const feedContainer = document.querySelector(".feed");
+    let url = "";
+    switch (type) {
+        case "post": url = `/api/v1/post/search/${keyword}?limit=${limit}`; break;
+        case "user": url = `/user/search/${keyword}?limit=${limit}`; break;
+        case "tag": url = `/api/v1/tag/search/${keyword}?limit=${limit}`; break;
+    }
+    const res = await fetch(`http://localhost:8080${url}`, { headers: { "Authorization": `Bearer ${token}` } });
+    return await res.json();
+}
 
-    if (!token) {
-        feedContainer.innerHTML = `<p class="text-danger">⚠️ Please log in to view the dashboard.</p>`;
-        return;
+function renderSearchResults(postsData, usersData, tagsData, keyword) {
+    let html = `<div class="p-8" style="max-width:600px; margin:0 auto; padding-bottom: 10px;">`;
+
+    if (postsData?.data?.length) {
+        html += `<h5 class="mt-3"">Posts</h5>`;
+        postsData.data.forEach(p => html += `<div class="search-item mb-2">
+            <a href="story-details.html?id=${p.postId}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
+        </div>`);
+        if (postsData.total > 5) html += `<div class="view-more" onclick="loadAll('post','${keyword}')">View all posts →</div>`;
     }
 
-    showLoading(); // Show loading overlay
+    if (usersData?.data?.length) {
+        html += `<h5 class="mt-3">Users</h5>`;
+        usersData.data.forEach(u => html += `<div class="d-flex align-items-center mb-2 search-item">
+            <img src="${u.profileImage || '../assets/default.png'}" alt="${u.username}" class="rounded-circle me-2" style="width:30px;height:30px;object-fit:cover;">
+            <a href="profile.html?userId=${u.userId}">${u.username}</a>
+        </div>`);
+        if (usersData.total > 5) html += `<div class="view-more" onclick="loadAll('user','${keyword}')">View all users →</div>`;
+    }
+
+    if (tagsData?.data?.length) {
+        html += `<h5 class="mt-3">Tags</h5>`;
+        tagsData.data.forEach(t => html += `<div class="search-item"><a href="tag.html?tagId=${t.tagId}">#${t.name}</a></div>`);
+        if (tagsData.total > 5) html += `<div class="view-more" onclick="loadAll('tag','${keyword}')">View all tags →</div>`;
+    }
+
+    html += `</div>`;
+
+    return html || "<p class='text-muted'>No results found</p>";
+}
+
+// Load all items for a category
+async function loadAll(type, keyword) {
+    const token = sessionStorage.getItem("jwtToken");
+    let url = "";
+    switch(type) {
+        case "post": url = `/api/v1/post/search/${keyword}`; break;
+        case "user": url = `/user/search/${keyword}`; break;
+        case "tag": url = `/api/v1/tag/search/${keyword}`; break;
+    }
 
     try {
-        // Load posts, users, and tags simultaneously
-        await Promise.all([loadPosts(token), loadUsers(token), loadTags()]);
-    } catch (err) {
-        console.error("Error loading dashboard:", err);
-    } finally {
+        const res = await fetch(`http://localhost:8080${url}`, { headers: { "Authorization": `Bearer ${token}` } });
+        const data = await res.json();
+        const container = document.getElementById("searchResults");
+        let html = "";
 
+        if(type==="post") html = `<h5>Posts</h5>` + data.data.map(p => `<div class="search-item mb-2">
+            <a href="story-details.html?id=${p.postId}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
+        </div>`).join("");
+
+        if(type==="user") html = `<h5 class="mt-3">Users</h5>` + data.data.map(u => `<div class="d-flex align-items-center mb-2 search-item">
+            <img src="${u.profileImage || '../assets/default.png'}" alt="${u.username}" class="rounded-circle me-2" style="width:30px;height:30px;object-fit:cover;">
+            <a href="profile.html?userId=${u.userId}">${u.username}</a>
+        </div>`).join("");
+
+        if(type==="tag") html = `<h5 class="mt-3">Tags</h5>` + data.data.map(t => `<div class="search-item"><a href="tag.html?tagId=${t.tagId}">#${t.name}</a></div>`).join("");
+
+        container.innerHTML = html;
+    } catch(err) {
+        console.error(err);
+        document.getElementById("searchResults").innerHTML = "<p class='text-danger'>Failed to load all results</p>";
     }
-});
+}

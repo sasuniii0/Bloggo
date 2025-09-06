@@ -86,4 +86,10 @@ public class UserController {
     public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserPosts(username));
     }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<ApiResponseDTO> searchUsers(@PathVariable String keyword) {
+        List<UserDTO> users = userService.searchUsers(keyword);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Users found", users));
+    }
 }

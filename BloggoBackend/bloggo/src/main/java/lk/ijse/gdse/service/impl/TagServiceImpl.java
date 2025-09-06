@@ -1,6 +1,7 @@
 package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.TagDTO;
+import lk.ijse.gdse.entity.Tag;
 import lk.ijse.gdse.repository.TagRepository;
 import lk.ijse.gdse.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,10 @@ public class TagServiceImpl implements TagService {
                 .stream()
                 .map(tag -> new TagDTO(tag.getTagId(),tag.getName()))
                 .toList();
+    }
+
+    @Override
+    public List<Tag> searchTags(String keyword) {
+        return tagRepository.searchTagsByKeyword(keyword);
     }
 }

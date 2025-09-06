@@ -74,16 +74,30 @@
     <p>Loading dashboard...</p>
 </div>
 
-
-<!-- Search Section -->
 <section class="search-section mb-8">
     <div class="input-group shadow-sm rounded-pill">
-            <span class="input-group-text bg-white border-0 rounded-start-pill">
-                <i class="fas fa-search text-muted"></i>
-            </span>
-        <input type="text" class="form-control border-0 rounded-end-pill" placeholder="Search blogs, tags, or people...">
+        <span class="input-group-text bg-white border-0 rounded-start-pill">
+            <i class="fas fa-search text-muted"></i>
+        </span>
+        <input type="text" id="searchInput" class="form-control border-0 rounded-end-pill" placeholder="Search blogs, tags, or people...">
     </div>
 </section>
+<!--&lt;!&ndash; Search Results Container &ndash;&gt;
+<div id="searchResults"
+     class="position-absolute w-100 bg-white border rounded shadow overflow-auto mt-1"
+     style="max-height: 300px; z-index: 1050;">
+    &lt;!&ndash; JS will append search items here &ndash;&gt;
+</div>-->
+
+<div id="searchResults"
+      class="position-absolute start-50 translate-middle-x rounded shadow overflow-auto mt-2 "
+      style="width: 60%; max-height: 300px; z-index: 1050;
+            backdrop-filter: blur(12px);
+            background: rgba(255,255,255,0.85);">
+    <!-- JS will append search items here -->
+</div>
+
+
 
 <main class="container dashboard">
 

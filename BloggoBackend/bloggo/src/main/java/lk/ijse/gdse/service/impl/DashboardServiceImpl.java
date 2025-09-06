@@ -27,7 +27,7 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<Post> serachByKeyword(String keyword) {
-        return dashboardRepository.findByKeyword(keyword);
+        return dashboardRepository.searchPostsByKeyword(keyword);
     }
 
     @Override

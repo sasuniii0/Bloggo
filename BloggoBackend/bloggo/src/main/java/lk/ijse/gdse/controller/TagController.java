@@ -1,6 +1,8 @@
 package lk.ijse.gdse.controller;
 
+import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.TagDTO;
+import lk.ijse.gdse.entity.Tag;
 import lk.ijse.gdse.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,11 @@ public class TagController {
         Map<String,Object> response = new HashMap<>();
         response.put("tags",tags);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<ApiResponseDTO> searchTags(@PathVariable String keyword) {
+        List<Tag> tags = tagService.searchTags(keyword);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Tags found", tags));
     }
 }

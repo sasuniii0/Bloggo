@@ -172,4 +172,16 @@ public class UserServiceImpl implements UserService {
                         .build()
                 ).toList();
     }
+
+    @Override
+    public List<UserDTO> searchUsers(String keyword) {
+        return userRepository.searchUsersByKeyword(keyword)
+                .stream()
+                .map(u -> new UserDTO(
+                        u.getUserId(),
+                        u.getUsername(),
+                        u.getProfileImage()
+                ))
+                .collect(Collectors.toList());
+    }
 }

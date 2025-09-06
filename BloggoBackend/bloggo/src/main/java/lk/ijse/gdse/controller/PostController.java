@@ -107,6 +107,11 @@ public class PostController {
         postService.deletePost(postId, principal.getName());
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post deleted successfully", null));
     }
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<ApiResponseDTO> searchPosts(@PathVariable String keyword) {
+        List<PostDTO> posts = postService.searchPosts(keyword);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Posts found", posts));
+    }
 }
 
 

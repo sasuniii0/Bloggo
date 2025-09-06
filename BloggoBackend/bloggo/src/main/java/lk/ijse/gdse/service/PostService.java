@@ -27,4 +27,6 @@ public interface PostService {
     List<CommentDTO> getCommentsByPost(Long postId);
 
     PostBoostDTO getPostBoostById(Long postId, String name);
+
+    List<PostDTO> searchPosts(String keyword);
 }

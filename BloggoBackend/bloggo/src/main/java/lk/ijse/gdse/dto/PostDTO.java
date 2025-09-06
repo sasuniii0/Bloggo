@@ -23,4 +23,9 @@ public class PostDTO {
 
     private int boostCount;
     private int commentsCount;
+
+    public PostDTO(String title, String username) {
+        this.title = title;
+        this.username = username;
+    }
 }

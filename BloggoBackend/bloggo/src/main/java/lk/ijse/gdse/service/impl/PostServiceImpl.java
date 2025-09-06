@@ -250,4 +250,15 @@ public class PostServiceImpl implements PostService {
                 .build();
     }
 
+    @Override
+    public List<PostDTO> searchPosts(String keyword) {
+        List<Post> posts = postRepository.searchPostsByKeyword(keyword); // your existing query
+        return posts.stream()
+                .map(p -> new PostDTO(
+                        p.getTitle(),
+                        p.getUser().getUsername()
+                ))
+                .toList();
+    }
+
 }
