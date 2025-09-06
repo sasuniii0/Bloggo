@@ -22,7 +22,7 @@ public class BoostController {
     private final BoostService boostService;
 
     @PostMapping("/{postId}")
-    @PreAuthorize("hasRole('USER')") // Only users with the USER role can access this endpoint
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponseDTO> boostPost(@PathVariable Long postId, Principal principal) {
         postService.boostPost(postId, principal.getName());
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
