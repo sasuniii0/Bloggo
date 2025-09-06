@@ -28,5 +28,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.username FROM User u")
     List<String> getAllUsernames();
 
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
     List<User> findUserByRole(RoleName roleName);
+
+    List<User> findTop5ByRoleOrderByCreatedAtDesc(RoleName roleName);
 }

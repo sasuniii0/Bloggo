@@ -29,4 +29,10 @@ public class UserDTO {
         this.userId = userId;
         this.username = username;
     }
+
+    public UserDTO(Long userId, String username, String profileImage) {
+        this.userId = userId;
+        this.username = username;
+        this.profileImage = profileImage;
+    }
 }

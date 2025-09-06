@@ -174,6 +174,8 @@ async function loadUsers() {
         // Adjust this depending on your API
         const users = data.users || data.data || [];
 
+        console.log(users)
+
         const userList = document.getElementById("userList");
         if (!userList) throw new Error("Element with id 'userList' not found");
 

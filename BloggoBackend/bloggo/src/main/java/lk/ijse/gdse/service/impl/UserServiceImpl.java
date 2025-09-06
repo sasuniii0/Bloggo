@@ -142,10 +142,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUserByRole(String user) {
-        return userRepository.findUserByRole(RoleName.USER)
-                .stream()
-                .map(u -> new UserDTO(u.getUserId(), u.getUsername()))
+        List<User> recentUsers = userRepository.findTop5ByRoleOrderByCreatedAtDesc(RoleName.USER);
+
+        return recentUsers.stream()
+                .map(u -> new UserDTO(
+                        u.getUserId(),
+                        u.getUsername(),
+                        u.getProfileImage()
+                ))
                 .collect(Collectors.toList());
+
     }
 
     @Override
