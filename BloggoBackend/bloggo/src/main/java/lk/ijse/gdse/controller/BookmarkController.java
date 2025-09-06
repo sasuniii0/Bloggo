@@ -79,6 +79,12 @@ public class BookmarkController {
             Principal principal
     ) {
         Bookmark result = bookmarkService.toggleBookmark(postId, principal.getName());
-        return ResponseEntity.ok(result != null);
+        boolean isBookmarked = result != null;
+
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
+                "bookmark toggled",
+                isBookmarked
+        ));
     }
 }

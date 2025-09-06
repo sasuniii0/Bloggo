@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const boostCountEl = document.getElementById("boostCount");
     const commentsList = document.getElementById("commentsList");
     const commentsCountEl = document.getElementById("commentsCount");
+    const bookmarkBtn = document.getElementById("bookmarkBtn");
 
     const editForm = document.getElementById("editForm");
     const editTitle = document.getElementById("editTitle");
@@ -189,6 +190,80 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (err) {
             console.error("Edit failed:", err);
             alert("⚠️ Error updating post");
+        }
+    });
+
+    // --- Bookmark button logic ---
+    async function updateBookmarkButton() {
+        const token = sessionStorage.getItem("jwtToken");
+        if (!token) {
+            bookmarkBtn.innerHTML = '<i class="far fa-bookmark"></i> Save';
+            return;
+        }
+
+        try {
+            // Check initial bookmark status
+            const checkResponse = await fetch(`http://localhost:8080/api/v1/bookmarks/check/${postId}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            let checkData;
+            try {
+                checkData = await checkResponse.json();
+            } catch {
+                console.warn("Check bookmark response is not JSON:", await checkResponse.text());
+                return;
+            }
+
+            const isBookmarked = checkData.data;
+            bookmarkBtn.innerHTML = isBookmarked
+                ? '<i class="fas fa-bookmark"></i> Saved'
+                : '<i class="far fa-bookmark"></i> Save';
+
+        } catch (err) {
+            console.error("Error checking bookmark:", err);
+        }
+    }
+
+// Call once on page load
+    updateBookmarkButton();
+
+// Toggle bookmark on click
+    bookmarkBtn.addEventListener("click", async () => {
+        const token = sessionStorage.getItem("jwtToken");
+        if (!token) return alert("⚠️ Please log in to save bookmarks.");
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/v1/bookmarks/toggle/${postId}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const text = await response.text(); // Read raw response first
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                console.warn("Bookmark toggle response not JSON:", text);
+                return alert("⚠️ Backend returned invalid data.");
+            }
+
+            if (response.ok && data.status === 200) {
+                const isBookmarked = data.data;
+                bookmarkBtn.innerHTML = isBookmarked
+                    ? '<i class="fas fa-bookmark"></i> Saved'
+                    : '<i class="far fa-bookmark"></i> Save';
+            } else {
+                console.error("Failed toggle response:", data);
+                alert("⚠️ Failed to toggle bookmark");
+            }
+
+        } catch (err) {
+            console.error("Toggle bookmark failed:", err);
+            alert("⚠️ Error toggling bookmark");
         }
     });
 
