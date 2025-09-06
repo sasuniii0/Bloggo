@@ -67,6 +67,17 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       margin-bottom: 2rem;
     }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .profile-menu .dropdown-menu {
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
 
 
   </style>
@@ -87,18 +98,48 @@
     </nav>
   </div>
 </header>-->
-
 <header class="sticky-top">
   <nav class="glass-navbar align-items-center">
     <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="d-flex align-items-center">
-      <span class="text-black me-3">Welcome, Admin</span>
-      <img src="../assets/boy%20(1).png" alt="Admin Avatar" class="rounded-circle" width="40" height="40">
+      <div class="text-black me-3">Welcome, Admin</div>
+
+      <!-- Profile Dropdown -->
+      <div class="dropdown profile-menu">
+        <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+          <li>
+            <a class="dropdown-item" href="admin-dashboard.html">
+              <i class="fas fa-info me-2"></i> Admin Actions
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="user-management.html">
+              <i class="fas fa-user me-2"></i> User Management
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="post-management.html">
+              <i class="fas fa-blog me-2"></i> Post Management
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item text-danger" href="logout.html" onclick="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 </header>

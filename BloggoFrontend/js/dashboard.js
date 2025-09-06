@@ -66,7 +66,11 @@ async function loadPosts(token) {
                         <p style="font-size: 15px; font-weight: bold">${post.content ? post.content.substring(0, 200) : ""}...</p>
                         <div class="blog-meta d-flex justify-content-between">
                             <span>by ${post.username || "Unknown"}</span>
-                            <span>🚀 ${post.boostCount || 0} · 💬 ${post.commentsCount || 0}</span>
+                            <span>
+  <i class="fas fa-rocket me-1 text-primary"></i> ${post.boostCount || 0} ·
+  <i class="fas fa-comment-alt me-1 text-secondary"></i> ${post.commentsCount || 0}
+</span>
+
                         </div>
                     </div>
                 </article>
