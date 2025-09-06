@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.service.BoostService;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +24,41 @@ public class BoostController {
     @PostMapping("/{postId}")
     @PreAuthorize("hasRole('USER')") // Only users with the USER role can access this endpoint
     public ResponseEntity<ApiResponseDTO> boostPost(@PathVariable Long postId, Principal principal) {
-        int newBoostCount = postService.boostPost(postId, principal.getName());
-        System.out.println(newBoostCount);
+        postService.boostPost(postId, principal.getName());
+        PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
         return ResponseEntity.ok(
                 new ApiResponseDTO(
                         200,
                         "Post boosted successfully",
-                        newBoostCount
+                        postBoostDTO
                 )
         );
+    }
+
+    @PostMapping("/unboost/{postId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> unboostPost(@PathVariable Long postId, Principal principal) {
+        boostService.unboostPost(postId, principal.getName());
+        PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Post unboosted successfully",
+                        postBoostDTO
+                )
+        );
+    }
+
+    @GetMapping("/status/{postId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ApiResponseDTO> getBoostStatus(@PathVariable Long postId, Principal principal) {
+        PostBoostDTO postBoostDTO = postService.getPostBoostById(postId, principal.getName());
+        return ResponseEntity.ok(
+                new ApiResponseDTO(
+                        200,
+                        "Boost status fetched",
+                        postBoostDTO
+                ));
     }
 
     @DeleteMapping("/delete/{postId}")

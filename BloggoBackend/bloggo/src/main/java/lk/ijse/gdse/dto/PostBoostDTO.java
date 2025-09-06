@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,6 +16,9 @@ public class PostBoostDTO {
     private String title;
     private String content;
     private String username;
+    private String imageUrl;
+    private LocalDateTime publishedAt;
+
     private int boostCount;
-    private int commentsCount;
+    private boolean boostedByCurrentUser;
 }

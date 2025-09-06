@@ -1,12 +1,10 @@
 package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.CommentDTO;
+import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.*;
-import lk.ijse.gdse.repository.EarningRepository;
-import lk.ijse.gdse.repository.PostRepository;
-import lk.ijse.gdse.repository.UserRepository;
-import lk.ijse.gdse.repository.WalletRepository;
+import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,7 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
     private final EarningRepository earningRepository;
+    private final BoostRepository boostRepository;
 
     @Override
     public Post publishPost(Post post) {
@@ -132,6 +131,7 @@ public class PostServiceImpl implements PostService {
                     .user(boostingUser)
                     .createdAt(LocalDateTime.now())
                     .build();
+            boostRepository.save(newBoost);
             post.getBoosts().add(newBoost);
 
             // Ensure post owner has a wallet
@@ -227,6 +227,27 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
+    @Override
+    public PostBoostDTO getPostBoostById(Long postId, String name) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
 
+        User user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        boolean hasBoosted = post.getBoosts().stream()
+                .anyMatch(boost -> boost.getUser().equals(user));
+
+        return PostBoostDTO.builder()
+                .id(post.getPostId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .username(post.getUser().getUsername())
+                .imageUrl(post.getCoverImageUrl())
+                .publishedAt(post.getPublishedAt())
+                .boostCount(post.getBoosts().size())
+                .boostedByCurrentUser(hasBoosted)
+                .build();
+    }
 
 }

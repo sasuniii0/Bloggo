@@ -2,6 +2,7 @@ package lk.ijse.gdse.controller;
 
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +41,20 @@ public class PostController {
         );
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<Map<String, Object>> getPost(
+            @PathVariable Long postId,
+            Principal principal
+    ){
+        PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,  principal.getName());
+        return ResponseEntity.ok(
+                Map.of(
+                        "status", 200,
+                        "message", "Post retrieved successfully",
+                        "data", postBoostDTO
+                )
+        );
+    }
     @GetMapping("/my-posts")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {

@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get("id");
     const token = sessionStorage.getItem("jwtToken");
-    const loggedInUser = sessionStorage.getItem("username");
+    let loggedInUser = sessionStorage.getItem("username");
 
     if (!postId) return alert("⚠️ Story not found");
 
     await loadLoggedUser();
-
+    loggedInUser = sessionStorage.getItem("username"); // refresh after loadLoggedUser
 
     // --- DOM Elements ---
     const titleEl = document.getElementById("storyTitle");
@@ -33,12 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const loading = document.getElementById("loading");
-
-    // Show loading
     if (loading) loading.style.display = "flex";
-
-    // Hide loading
-    if (loading) loading.style.display = "none";
 
     // --- Fetch JSON with Auth ---
     const fetchJSON = async (url, options = {}) => {
@@ -52,8 +47,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         return data;
     };
 
-    // --- Load Post ---
     let currentPost = null;
+
+    // --- Load Post ---
     try {
         const data = await fetchJSON(`http://localhost:8080/api/v1/dashboard/post/${postId}`);
         const post = data.data;
@@ -61,12 +57,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("Loaded post:", post);
 
-        // Render post
+        // Render post info
         titleEl.textContent = post.title || "Untitled";
         authorNameEl.textContent = post.username || "Unknown";
         publishDateEl.textContent = new Date(post.publishedAt).toLocaleDateString();
         contentEl.innerHTML = post.content || "No content available.";
-        boostCountEl.textContent = post.boostCount || 0;
+
+        const coverUrl = post.imageUrl || "";
+        storyImageEl.src = coverUrl;
+        coverPreview.src = coverUrl;
+        coverPreview.style.display = coverUrl ? "block" : "none";
 
         // Author clickable → members page
         authorNameEl.style.cursor = "pointer";
@@ -75,31 +75,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         // Show Edit/Delete buttons if author
-        if (loggedInUser && loggedInUser === post.username) {
-            createPostActions();
-        }
+        if (loggedInUser && loggedInUser === post.username) createPostActions();
 
-        // Prefill Edit Modal
+        // Prefill edit modal
         editTitle.value = post.title;
         editContent.value = post.content;
 
-        const coverUrl = post.imageUrl || "";
-        storyImageEl.src = coverUrl;
-        coverPreview.src = coverUrl;
-        coverPreview.style.display = coverUrl ? "block" : "none";
+        function updateBoostUI() {
+            const hasBoosted = currentPost.boostedByCurrentUser;
+            boostCountEl.textContent = currentPost.boostCount || 0;
 
-        // --- Check if user already boosted ---
-        // backend should return post.boostUsers = ["user1", "user2"]
-        // --- After loading post ---
-        const hasBoosted = currentPost.boostUsers?.includes(loggedInUser);
-        if (hasBoosted) {
-            boostBtn.classList.add("active");
-            boostBtn.disabled = true;
-        } else {
-            boostBtn.classList.remove("active");
-            boostBtn.disabled = false;
+            if (hasBoosted) {
+                boostBtn.classList.add("active", "boost-btn");
+                boostBtn.disabled = true;
+                boostCountEl.innerHTML += " Boosted";
+            } else {
+                boostBtn.classList.remove("active");
+                boostBtn.classList.add("boost-btn");
+                boostBtn.disabled = false;
+                boostCountEl.innerHTML += " Boost";
+            }
         }
 
+        updateBoostUI();
 
         // Load comments
         await loadComments();
@@ -107,10 +105,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (err) {
         console.error("Error loading post:", err);
         titleEl.textContent = "⚠️ Error loading story.";
+    } finally {
+        if (loading) loading.style.display = "none";
     }
 
-
-// --- Cover Input Preview ---
+    // --- Cover Input Preview ---
     coverInput.addEventListener("change", () => {
         const file = coverInput.files[0];
         if (file) {
@@ -119,12 +118,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             coverPreview.style.display = "block";
             storyImageEl.src = previewUrl;
         } else {
-            coverPreview.src = currentPost.coverImageUrl || "";
-            coverPreview.style.display = currentPost.coverImageUrl ? "block" : "none";
-            storyImageEl.src = currentPost.coverImageUrl || "";
+            coverPreview.src = currentPost.imageUrl || "";
+            coverPreview.style.display = currentPost.imageUrl ? "block" : "none";
+            storyImageEl.src = currentPost.imageUrl || "";
         }
     });
-
 
     // --- Create Edit/Delete buttons ---
     function createPostActions() {
@@ -151,20 +149,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         actionsEl.append(editBtn, deleteBtn);
     }
 
-    // --- Cover Image Preview ---
-    coverInput.addEventListener("change", () => {
-        const file = coverInput.files[0];
-        coverPreview.src = file ? URL.createObjectURL(file) : "";
-        coverPreview.style.display = file ? "block" : "none";
-        if (file) storyImageEl.src = URL.createObjectURL(file);
-    });
-
     // --- Edit Form Submission ---
     editForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
-        // Determine cover image
-        let coverImageUrl = currentPost.coverPicture;
+        let coverImageUrl = currentPost.imageUrl;
         const file = coverInput.files[0];
 
         if (file) {
@@ -204,10 +192,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    //boost
+    // --- Boost Button ---
     boostBtn.addEventListener("click", async () => {
         try {
-            const token = sessionStorage.getItem("jwtToken");
             const response = await fetch(`http://localhost:8080/api/v1/boost/${postId}`, {
                 method: "POST",
                 headers: {
@@ -215,26 +202,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Content-Type": "application/json"
                 }
             });
-
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
             const data = await response.json();
-            console.log(data)
 
-            boostCountEl.textContent = data.data; // new boost count
-            boostBtn.classList.add("active");
-            boostBtn.disabled = true;
+            currentPost.boostCount = data.data.boostCount;
+            currentPost.boostedByCurrentUser = data.data.boostedByCurrentUser;
 
-            // Update local currentPost to prevent multiple boosts without reload
-            if (!currentPost.boostUsers) currentPost.boostUsers = [];
-            currentPost.boostUsers.push(loggedInUser);
+            updateBoostUI();
         } catch (err) {
             console.error("Boost failed:", err);
             alert("Boost failed! Make sure you are logged in.");
         }
     });
-
-
 
     // --- Load Comments ---
     async function loadComments() {
@@ -244,20 +223,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             commentsCountEl.textContent = comments.length;
             commentsList.innerHTML = comments.length
                 ? comments.map(c => `
-        <div class="comment d-flex gap-2 align-items-start mb-2">
-            <img src="${c.profileImage || '../assets/default.png'}" 
-                 alt="Profile" 
-                 class="rounded-circle" 
-                 style="width:40px;height:40px;object-fit:cover;">
-            <div class="comment-content">
-                <div class="comment-header d-flex justify-content-between">
-                    <div class="fw-semibold">${c.userId || 'Anonymous'}</div>
-                    <div class="small text-muted">${new Date(c.createdAt).toLocaleDateString()}</div>
-                </div>
-                <p class="mb-0">${c.content}</p>
-            </div>
-        </div>
-    `).join("")
+                    <div class="comment d-flex gap-2 align-items-start mb-2">
+                        <img src="${c.profileImage || '../assets/default.png'}" 
+                             alt="Profile" 
+                             class="rounded-circle" 
+                             style="width:40px;height:40px;object-fit:cover;">
+                        <div class="comment-content">
+                            <div class="comment-header d-flex justify-content-between">
+                                <div class="fw-semibold">${c.userId || 'Anonymous'}</div>
+                                <div class="small text-muted">${new Date(c.createdAt).toLocaleDateString()}</div>
+                            </div>
+                            <p class="mb-0">${c.content}</p>
+                        </div>
+                    </div>
+                `).join("")
                 : "<div class='text-center py-3 text-muted'>No comments yet.</div>";
 
         } catch (err) {
@@ -266,15 +245,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    // --- Add Comment ---
     document.getElementById("addCommentBtn").addEventListener("click", async () => {
-        const token = sessionStorage.getItem("jwtToken");
         const commentInput = document.getElementById("commentInput");
         const content = commentInput.value.trim();
         if (!content) return alert("⚠️ Please write something");
 
         try {
-            const payload = { content }; // JSON object
-
+            const payload = { content };
             const response = await fetch(`http://localhost:8080/api/v1/comment/post/${postId}`, {
                 method: "POST",
                 headers: {
@@ -283,32 +261,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 },
                 body: JSON.stringify(payload)
             });
-
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-            const data = await response.json();
-            console.log("Comment added:", data);
-
             commentInput.value = "";
-            await loadComments(); // reload comments
+            await loadComments();
         } catch (err) {
             console.error("Post comment failed:", err);
             alert("❌ Failed to post comment. Please try again.");
         }
     });
 
-
-
-    // --- Helper functions ---
-    function toggleClass(el, className, condition) {
-        if (condition) el.classList.add(className);
-        else el.classList.remove(className);
-    }
-
-    function toggleIcon(el, removeClass, addClass, condition) {
-        if (condition) el.classList.replace(removeClass, addClass);
-        else el.classList.replace(addClass, removeClass);
-    }
 });
 
 function logout() {
