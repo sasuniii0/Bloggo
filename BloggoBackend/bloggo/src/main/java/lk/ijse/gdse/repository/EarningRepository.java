@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface EarningRepository extends JpaRepository<Earning, Long> {
     List<Earning> findByWalletIdOrderByCreatedAtDesc(Wallet wallet);
+    List<Earning> findByWalletId_WalletId(Long walletId);
+
 }

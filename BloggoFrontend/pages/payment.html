@@ -63,41 +63,36 @@
         </div>
     </nav>
 </header>
-<button id="payhere-payment">Pay with PayHere</button>
 
-<!--
 
-<form method="post" action="http://localhost:8080/api/v1/payment/create" class="mt-5 card p-3">
-    <div class="mb-3">
-        <label for="method" class="form-label">Payment Method</label>
-        <input id="method" name="method" type="text" class="form-control" value="PayPal" readonly>
+<div class="d-flex justify-content-center align-items-center vh-60 bg-light">
+    <div class="card shadow-lg rounded-4 text-center p-4" style="max-width: 600px; width: 100%; border: none;">
+        <!-- Header -->
+        <h2 class="text-primary fw-bold mb-2">Premium Membership</h2>
+        <p class="text-muted mb-4">Unlock exclusive features designed for you:</p>
+
+        <!-- Features List -->
+        <ul class="list-unstyled text-start mb-4 px-3">
+            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Unlimited article access</li>
+            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Earning within blogs</li>
+            <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Monthly newsletter</li>
+            <li><i class="fas fa-check text-success me-2"></i> Priority support</li>
+        </ul>
+
+        <!-- Price -->
+        <h3 class="fw-bold mb-4">$5 / month</h3>
+
+        <!-- CTA Button -->
+        <button id="payhere-membership" class="btn btn-primary btn-lg w-100 shadow-sm">
+            <i class="fas fa-credit-card me-2"></i> Pay with PayHere
+        </button>
+
+        <!-- Footer / Trust Microcopy -->
+        <p class="text-muted mt-3" style="font-size: 0.9rem;">Secure checkout — your data is protected 🔒</p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label for="amount" class="form-label">Amount</label>
-        <input id="amount" name="amount" type="number" step="0.01" class="form-control" value="10.0">
-    </div>
 
-    <div class="mb-3">
-        <label for="currency" class="form-label">Currency</label>
-        <select class="form-control" id="currency" name="currency">
-            <option value="USD" selected>USD</option>
-            <option value="LKR">LKR</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <input id="description" name="description" type="text" class="form-control">
-    </div>
-
-    <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary">Pay with PayPal</button>
-    </div>
-</form>
--->
 
 
 <!-- Checkout Progress -->
@@ -107,9 +102,6 @@
     </div>
     <div class="step active">
         <div class="step-circle">2</div> Payment
-    </div>
-    <div class="step">
-        <div class="step-circle">3</div> Confirmation
     </div>
 </div>
 
@@ -125,10 +117,13 @@
     // PayHere event handlers
     payhere.onCompleted = function(orderId) {
         console.log("✅ Payment completed. OrderID: " + orderId);
+        alert("Payment completed. OrderID: " + orderId);
+        window.location.href = "stories.html";
     };
 
     payhere.onDismissed = function() {
         console.log("❌ Payment dismissed");
+
     };
 
     payhere.onError = function(error) {
@@ -137,7 +132,7 @@
 
     document.getElementById('payhere-payment').onclick = async function () {
         const orderId = "ORDER123";
-        const amount = 1000.00;
+        const amount = 1500.00;
         const currency = "LKR";
 
         // 1️⃣ Fetch secure hash from backend

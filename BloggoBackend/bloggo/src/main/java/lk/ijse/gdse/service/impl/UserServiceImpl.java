@@ -3,10 +3,7 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
-import lk.ijse.gdse.entity.Post;
-import lk.ijse.gdse.entity.RoleName;
-import lk.ijse.gdse.entity.User;
-import lk.ijse.gdse.entity.Wallet;
+import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.repository.WalletRepository;
@@ -85,7 +82,8 @@ public class UserServiceImpl implements UserService {
                 user.getProfileImage(),
                 user.getBio(),
                 user.getFollowers() != null ? user.getFollowers().size() : 0,
-                user.getFollowing() != null ? user.getFollowing().size() : 0
+                user.getFollowing() != null ? user.getFollowing().size() : 0,
+                user.getRole().name()
         );
     }
 
@@ -132,6 +130,24 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public User upgradeMembership(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setMembershipStatus(MembershipStatus.PAID);
+        user.setRole(RoleName.MEMBER);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User getLoggedInUser(String username) {
+        return userRepository.findByUsername(username).orElseThrow();
     }
 
     @Override

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,4 +22,9 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
         return earningRepository.findByWalletIdOrderByCreatedAtDesc(wallet);    }
+
+    @Override
+    public Optional<Wallet> getWalletByUserId(Long userId) {
+        return walletRepository.findByUserId_UserId(userId);
+    }
 }

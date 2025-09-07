@@ -27,6 +27,11 @@ public interface UserService {
 
     User updateProfile(String loggedUsername, String username, String email, String bio, MultipartFile profileImage) throws IOException;
 
+    User findByEmail(String email);
+
+    User upgradeMembership(Long userId);
+
+    User getLoggedInUser(String username);
     User findByUsername(String name);
 
     List<UserDTO> getUserByRole(String user);

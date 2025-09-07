@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const storiesContainer = document.getElementById("myStories");
 
+    const token = sessionStorage.getItem("jwtToken");
     try {
         const token = sessionStorage.getItem("jwtToken");
         if (!token) {
@@ -133,11 +134,30 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!res.ok) throw new Error("Failed to load user...")
 
             const user = await res.json();
+            console.log("user profile:", user);
 
             // Fill sidebar
             document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
             document.querySelector(".profile-name").textContent = user.username;
             document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+
+
+            // Toggle wallet & earnings for member
+            if (user.membershipStatus !== "MEMBER") {
+                document.querySelector('.wallet').style.display = 'none';
+                document.querySelector('.earnings').style.display = 'none';
+            } else {
+                // Fetch wallet & earnings
+                const walletRes = await fetch(`http://localhost:8080/api/v1/user/${user.userId}/wallet`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const wallet = await walletRes.json();
+
+                document.querySelector('.wallet p').textContent = `LKR ${wallet.balance.toFixed(2)}`;
+                const totalEarnings = wallet.earnings.reduce((sum, e) => sum + e.amount, 0);
+                document.querySelector('.earnings p').textContent = `LKR ${totalEarnings.toFixed(2)}`;
+            }
+
 
             // Followers count
             const followersLink = document.querySelector("#edit-profile-card p a");
@@ -247,3 +267,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         hideLoader();
     }
 });
+// Example JS to toggle UI based on role
+const isPremium = true; // replace with backend value
+
+if (!isPremium) {
+    document.querySelector('.wallet').style.display = 'none';
+    document.querySelector('.earnings').style.display = 'none';
+    // Optional: change badge text
+    document.querySelector('.profile-name + small').textContent = 'User';
+}

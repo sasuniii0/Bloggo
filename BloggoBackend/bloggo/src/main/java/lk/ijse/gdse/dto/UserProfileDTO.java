@@ -1,5 +1,6 @@
 package lk.ijse.gdse.dto;
 
+import lk.ijse.gdse.entity.RoleName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,16 @@ public class UserProfileDTO {
     private String bio;
     private int followersCount;
     private int followingCount;
+    private RoleName roleName;
+
+    public UserProfileDTO(Long userId, String username, String email, String profileImage, String bio, int followersCount, int followingCount, String name) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.profileImage = profileImage;
+        this.bio = bio;
+        this.followersCount = followersCount;
+        this.followingCount = followingCount;
+        this.roleName = RoleName.valueOf(name);
+    }
 }

@@ -6,6 +6,7 @@ import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.UserService;
+import lk.ijse.gdse.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final WalletService walletService;
 
     @PostMapping("/save")
     public ResponseEntity<ApiResponseDTO> saveUser(@RequestBody User user) {
@@ -48,6 +50,20 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserProfileDTO> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(userService.getCurrentUser(userDetails.getUsername()));
+    }
+
+    // Upgrade membership after payment success
+    @PostMapping("/payments/success")
+    public ResponseEntity<String> paymentSuccess(@RequestParam Long userId) {
+        User user = userService.upgradeMembership(userId);
+        return ResponseEntity.ok("Payment successful, membership upgraded");
+    }
+
+    // Optional: Return wallet & earnings for member UI
+    @GetMapping("/user/{userId}/wallet")
+    public ResponseEntity<?> getWallet(@PathVariable Long userId) {
+        var wallet = walletService.getWalletByUserId(userId);
+        return ResponseEntity.ok(wallet);
     }
 
     @PutMapping("/profileUpdate/{id}")
