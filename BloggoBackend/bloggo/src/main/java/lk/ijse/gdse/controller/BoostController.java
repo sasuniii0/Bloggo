@@ -22,7 +22,7 @@ public class BoostController {
     private final BoostService boostService;
 
     @PostMapping("/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> boostPost(@PathVariable Long postId, Principal principal) {
         postService.boostPost(postId, principal.getName());
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
@@ -36,7 +36,7 @@ public class BoostController {
     }
 
     @PostMapping("/unboost/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> unboostPost(@PathVariable Long postId, Principal principal) {
         boostService.unboostPost(postId, principal.getName());
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
@@ -50,7 +50,7 @@ public class BoostController {
     }
 
     @GetMapping("/status/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> getBoostStatus(@PathVariable Long postId, Principal principal) {
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId, principal.getName());
         return ResponseEntity.ok(
@@ -62,7 +62,7 @@ public class BoostController {
     }
 
     @DeleteMapping("/delete/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
         boostService.deleteBoost(postId, principal.getName());
         return new ResponseEntity<>(new ApiResponseDTO(

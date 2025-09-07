@@ -21,7 +21,7 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
 
     @PostMapping("/save/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> saveBookmark(
             @PathVariable Long postId,
             Principal principal
@@ -35,7 +35,7 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/remove/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> removeBookmark(
             @PathVariable Long postId,
             Principal principal
@@ -49,7 +49,7 @@ public class BookmarkController {
     }
 
     @GetMapping("/check/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> isPostBookmarked(
             @PathVariable Long postId,
             Principal principal
@@ -63,7 +63,7 @@ public class BookmarkController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<List<BookmarkDTO>> getUserBookmarks(Principal principal) {
         List<Bookmark> bookmarks = bookmarkService.getBookmarksByUser(principal.getName());
 
@@ -84,7 +84,7 @@ public class BookmarkController {
     }
 
     @PostMapping("/toggle/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<?> toggleBookmark(
             @PathVariable Long postId,
             Principal principal

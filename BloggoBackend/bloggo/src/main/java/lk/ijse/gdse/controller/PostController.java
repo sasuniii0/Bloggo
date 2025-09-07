@@ -27,7 +27,7 @@ public class PostController {
     private final UserService userService;
 
     @PostMapping("/publish")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> publishPost(@RequestBody Post post, Principal principal) {
         User user= userService.findByUsername(principal.getName());
         post.setUser(user);
@@ -56,7 +56,7 @@ public class PostController {
         );
     }
     @GetMapping("/my-posts")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {
         List<PostDTO> posts = postService.getPostsByUser(principal.getName());
         return ResponseEntity.ok(
@@ -69,7 +69,7 @@ public class PostController {
     }
 
     @PutMapping("/edit/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> editPost(
             @PathVariable Long id,
             @RequestBody Post post,
@@ -94,7 +94,7 @@ public class PostController {
 
     // ✅ Delete (owner only)
     @DeleteMapping("/delete/{postId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
         Post existing = postService.getPostById(postId);
         if (existing == null) {

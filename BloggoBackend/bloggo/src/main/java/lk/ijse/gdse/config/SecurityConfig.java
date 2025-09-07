@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/user/**",
+                                "/user/payments/**",
                                 "/api/v1/dashboard/**",
                                 "/api/v1/post/**",
                                 "/api/v1/boost/**",

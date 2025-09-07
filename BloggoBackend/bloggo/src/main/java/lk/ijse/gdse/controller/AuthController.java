@@ -6,6 +6,7 @@ import lk.ijse.gdse.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,6 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/signing")
+    //@PreAuthorize("hasAnyRole('USER', 'MEMBER', 'ADMIN')")
     public ResponseEntity<ApiResponseDTO> authenticateUser(@RequestBody AuthDTO authDTO) {
         return ResponseEntity.ok(new ApiResponseDTO(
                 200,

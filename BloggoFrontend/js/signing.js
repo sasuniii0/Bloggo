@@ -54,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.setItem('userRole', data.role);
 
                     alert("Sign in successful!");
-                    if (data.role=== 'ADMIN') {
+                    if (data.role === 'ADMIN') {
                         window.location.href = "admin-action.html";
-                    } else if (data.role === 'USER') {
+                    } else {
+                        // Both USER and MEMBER go to the same page
                         window.location.href = "dashboard.html";
                     }
+
                 } else {
                     alert('Authentication failed: Token or role not found');
                 }

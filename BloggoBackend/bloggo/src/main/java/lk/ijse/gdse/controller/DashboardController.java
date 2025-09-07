@@ -35,7 +35,7 @@ public class DashboardController {
     }
 
     @GetMapping("/all-users")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> getAllUsers() {
         List<UserDTO> users = dashboardService.getAllUsers();
         return ResponseEntity.ok(
@@ -48,7 +48,7 @@ public class DashboardController {
     }
 
     @GetMapping("/all-posts")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> getAllPosts() {
         List<PostDTO> posts = dashboardService.getAllPosts();
         return ResponseEntity.ok(
@@ -61,7 +61,7 @@ public class DashboardController {
     }
 
     @GetMapping("/recent-published-posts")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN','MEMBER')")
     public ResponseEntity<ApiResponseDTO> getRecentPublishedPosts() {
         List<PostDTO> posts = dashboardService.getRecentPublishedPosts();
         return ResponseEntity.ok(
@@ -74,7 +74,7 @@ public class DashboardController {
     }
 
     @GetMapping("/post/{postId}")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> getPostById(@PathVariable Long postId) {
         PostDTO post = dashboardService.getPostById(postId);
         return ResponseEntity.ok(

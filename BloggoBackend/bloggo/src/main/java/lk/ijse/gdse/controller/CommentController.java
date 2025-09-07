@@ -37,7 +37,7 @@ public class CommentController {
 
 
     @DeleteMapping("{commentId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> deleteComment(@PathVariable Long commentId, Principal principal) {
         commentService.deleteComment(commentId, principal.getName());
         return ResponseEntity.ok(

@@ -7,6 +7,7 @@ import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.UserService;
 import lk.ijse.gdse.service.WalletService;
+import lk.ijse.gdse.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class UserController {
 
     private final UserService userService;
     private final WalletService walletService;
+    private final JWTUtil jwtUtil;
 
     @PostMapping("/save")
     public ResponseEntity<ApiResponseDTO> saveUser(@RequestBody User user) {
@@ -52,12 +54,21 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser(userDetails.getUsername()));
     }
 
-    // Upgrade membership after payment success
     @PostMapping("/payments/success")
-    public ResponseEntity<String> paymentSuccess(@RequestParam Long userId) {
+    public ResponseEntity<Map<String, Object>> paymentSuccess(@RequestParam Long userId) {
+        // Upgrade role in DB
         User user = userService.upgradeMembership(userId);
-        return ResponseEntity.ok("Payment successful, membership upgraded");
+
+        // Generate a new JWT for the user
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole()); // include MEMBER role
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Payment successful, membership upgraded");
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
+
 
     // Optional: Return wallet & earnings for member UI
     @GetMapping("/user/{userId}/wallet")
@@ -67,7 +78,7 @@ public class UserController {
     }
 
     @PutMapping("/profileUpdate/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> updateProfile(
             @PathVariable Long id,
             @RequestBody User user,
@@ -88,7 +99,7 @@ public class UserController {
     }
 
     @GetMapping("user-only")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> getRoleOnlyUser(){
         return ResponseEntity.ok(new ApiResponseDTO(200, "You are a USER",
                 userService.getUserByRole("USER")));
