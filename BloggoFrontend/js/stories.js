@@ -148,10 +148,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 document.querySelector('.earnings').style.display = 'none';
             } else {
                 // Fetch wallet & earnings
-                const walletRes = await fetch(`http://localhost:8080/api/v1/user/${user.userId}/wallet`, {
+                const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
                 const wallet = await walletRes.json();
+                console.log(wallet)
 
                 document.querySelector('.wallet p').textContent = `LKR ${wallet.balance.toFixed(2)}`;
                 const totalEarnings = wallet.earnings.reduce((sum, e) => sum + e.amount, 0);
