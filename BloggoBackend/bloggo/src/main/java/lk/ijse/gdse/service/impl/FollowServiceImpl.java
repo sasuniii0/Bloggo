@@ -51,8 +51,7 @@ public class FollowServiceImpl implements FollowService {
 
         // Reward followed user if MEMBER
         if (isMember(followed)) {
-            Wallet wallet = walletRepository.findByUserId_UserId(followed.getUserId())
-                    .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+            Wallet wallet = walletRepository.findByUserId_UserId(followed.getUserId());
 
             Earning earning = Earning.builder()
                     .walletId(wallet)

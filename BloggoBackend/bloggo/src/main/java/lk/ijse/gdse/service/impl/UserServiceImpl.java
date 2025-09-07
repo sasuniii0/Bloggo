@@ -139,9 +139,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User upgradeMembership(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         user.setMembershipStatus(MembershipStatus.PAID);
         user.setRole(RoleName.MEMBER);
+
+        // Create wallet if not exists
+        if (user.getWallet() == null) {
+            Wallet wallet = Wallet.builder()
+                    .userId(user)
+                    .balance(0.0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            walletRepository.save(wallet);
+
+            user.setWallet(wallet);
+        }
+
         return userRepository.save(user);
     }
 

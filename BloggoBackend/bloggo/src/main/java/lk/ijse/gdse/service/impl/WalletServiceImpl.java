@@ -24,7 +24,9 @@ public class WalletServiceImpl implements WalletService {
         return earningRepository.findByWalletIdOrderByCreatedAtDesc(wallet);    }
 
     @Override
-    public Optional<Wallet> getWalletByUserId(Long userId) {
+    public Wallet getWalletByUserId(Long userId) {
         return walletRepository.findByUserId_UserId(userId);
     }
+
+
 }

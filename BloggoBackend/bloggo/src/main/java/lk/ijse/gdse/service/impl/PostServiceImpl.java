@@ -136,38 +136,40 @@ public class PostServiceImpl implements PostService {
 
             // Ensure post owner has a wallet
             User postOwner = post.getUser();
-            Wallet postOwnerWallet = postOwner.getWallet();
-            if (postOwnerWallet == null) {
-                postOwnerWallet = Wallet.builder()
-                        .userId(postOwner)
-                        .balance(0.0)
+
+            if (RoleName.MEMBER.equals(postOwner.getRole())){
+                Wallet postOwnerWallet = postOwner.getWallet();
+                if (postOwnerWallet == null) {
+                    postOwnerWallet = Wallet.builder()
+                            .userId(postOwner)
+                            .balance(0.0)
+                            .createdAt(LocalDateTime.now())
+                            .build();
+                    walletRepository.save(postOwnerWallet);
+
+                    // Associate wallet with user
+                    postOwner.setWallet(postOwnerWallet);
+                    userRepository.save(postOwner);
+                }
+
+                // Add earning for the post owner
+                Earning earning = Earning.builder()
+                        .walletId(postOwnerWallet)
+                        .post(post)
+                        .source(Source.BOOST)
+                        .amount(1.0)
                         .createdAt(LocalDateTime.now())
                         .build();
+                if (postOwnerWallet.getEarnings() == null) {
+                    postOwnerWallet.setEarnings(new ArrayList<>());
+                }
+                postOwnerWallet.getEarnings().add(earning);
+                postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
+
+                // Save wallet and earning
                 walletRepository.save(postOwnerWallet);
-
-                // Associate wallet with user
-                postOwner.setWallet(postOwnerWallet);
-                userRepository.save(postOwner);
+                earningRepository.save(earning);
             }
-
-            // Add earning for the post owner
-            Earning earning = Earning.builder()
-                    .walletId(postOwnerWallet)
-                    .post(post)
-                    .source(Source.BOOST)
-                    .amount(1.0)
-                    .createdAt(LocalDateTime.now())
-                    .build();
-
-            if (postOwnerWallet.getEarnings() == null) {
-                postOwnerWallet.setEarnings(new ArrayList<>());
-            }
-            postOwnerWallet.getEarnings().add(earning);
-            postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
-
-            // Save wallet and earning
-            walletRepository.save(postOwnerWallet);
-            earningRepository.save(earning);
         }
 
         // Save post with updated boosts

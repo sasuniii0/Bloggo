@@ -115,26 +115,63 @@
 
         <!-- Sidebar -->
         <div class="col-lg-4">
+            <!-- Profile Card -->
             <div class="card p-3 mb-3 text-center" id="edit-profile-card">
-                <img src="../assets/test.png" class="profile-avatar" alt="Avatar">
-                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;">
+                <img  class="profile-avatar mb-2" alt="Avatar">
+
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
                     <h4 class="profile-name m-0">Sasuniwijerathne</h4>
-                    <p class="text-muted m-0">she/her</p>
+                    <small class="text-muted">she/her</small>
                 </div>
-                <p>71 Followers</p>
-                <p class="profile-bio">Just a 21+ girl navigating life with passion and purpose! ✨</p>
-                <a href="../pages/profile-edit.html" class="btn btn-sm btn" style="background: black; color: white" >
-                    Edit profile
-                </a>
+
+                <p>
+                    <a href="follow.html" class="text-decoration-none fw-semibold">71 Followers</a>
+                </p>
+
+                <p class="profile-bio">
+                    Just a 21+ girl navigating life with passion and purpose! ✨
+                </p>
+
+                <!-- Wallet & Earnings Inline -->
+                <div class="d-flex gap-3 mb-3">
+                    <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
+                            <p class="fw-bold mb-0">LKR 2,500.00</p>
+                        </div>
+                    </div>
+
+                    <div class="earnings flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+                        <div>
+                            <h6 class="mb-1"><i class="fas fa-chart-line me-2 text-success"></i> Earnings</h6>
+                            <p class="fw-bold mb-0">LKR 1,200.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="settings.html" class="btn btn-secondary btn-sm w-100 mt-2" style="background: black; color: white">Edit profile</a>
+
             </div>
 
-            <div class="card p-3 mb-3"  style="background: #f5fbff; padding: 15px; border-radius: 8px;">
-                <h6>Following</h6>
-                <ul class="list-unstyled following-list">
-                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test1</li>
-                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test2</li>
-                    <li class="d-flex align-items-center mb-2"><img src="https://via.placeholder.com/30" alt=""> test3 </li>
-                    <li><a href="follow.html">See all (12)</a></li>
+            <!-- Following List -->
+            <div class="card p-3 mb-3">
+                <h6 class="mb-3">Following</h6>
+                <ul class="list-unstyled following-list mb-0">
+                    <li class="d-flex align-items-center mb-2">
+                        <img  class="rounded-circle me-2" alt="">
+                        <span>test1</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <img  class="rounded-circle me-2" alt="">
+                        <span>test2</span>
+                    </li>
+                    <li class="d-flex align-items-center mb-2">
+                        <img  class="rounded-circle me-2" alt="">
+                        <span>test3</span>
+                    </li>
+                    <li>
+                        <a href="follow.html" class="text-decoration-none">See all (12)</a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -5,6 +5,7 @@ import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.entity.Wallet;
 import lk.ijse.gdse.service.UserService;
 import lk.ijse.gdse.service.WalletService;
 import lk.ijse.gdse.util.JWTUtil;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,9 +74,9 @@ public class UserController {
 
     // Optional: Return wallet & earnings for member UI
     @GetMapping("/user/{userId}/wallet")
-    public ResponseEntity<?> getWallet(@PathVariable Long userId) {
-        var wallet = walletService.getWalletByUserId(userId);
-        return ResponseEntity.ok(wallet);
+    public ResponseEntity<ApiResponseDTO> getWallet(@PathVariable Long userId) {
+        Wallet wallet = walletService.getWalletByUserId(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
     }
 
     @PutMapping("/profileUpdate/{id}")
