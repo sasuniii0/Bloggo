@@ -44,6 +44,9 @@ function hideLoading() {
 // ============================
 async function loadPosts(token) {
     const feedContainer = document.querySelector(".feed");
+
+    feedContainer.innerHTML = `<div class="text-center w-100">Loading Recent Posts...</div>`;
+
     try {
         const res = await fetch("http://localhost:8080/api/v1/dashboard/recent-published-posts", {
             headers: {
@@ -205,6 +208,7 @@ async function loadUsers(token) {
             userList.innerHTML = `<li class="text-muted">No users found</li>`;
             return;
         }
+
 
         firstEightUsers.forEach(u => {
             const li = document.createElement("li");
