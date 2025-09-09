@@ -55,6 +55,7 @@ public class SecurityConfig {
                                 "/api/v1/payment/**",
                                 "/api/v1/payhere/**",
                                 "/api/v1/admin-actions/**",
+                                "/api/v1/admin-dashboard/**",
                                 "/api/v1/wallets/**").permitAll().anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

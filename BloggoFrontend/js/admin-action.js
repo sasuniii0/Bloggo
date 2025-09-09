@@ -1,12 +1,13 @@
-// Example: confirm before banning a user
+// Confirm before banning a user
 document.querySelectorAll('.btn-danger').forEach(btn => {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (event) {
         if (!confirm("Are you sure you want to ban this user?")) {
             event.preventDefault();
         }
     });
 });
 
+// Logout function
 function logout() {
     // Clear stored token and user info
     sessionStorage.removeItem('jwtToken');
@@ -32,3 +33,95 @@ function preventBackNavigation() {
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
+
+// Get JWT token
+async function getToken() {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+        alert('No JWT token found, please sign in again.');
+        window.location.href = 'signing.html';
+        return null;
+    }
+    return token;
+}
+
+// Load dashboard stats dynamically
+async function loadDashboardStats() {
+    const token = await getToken();
+    if (!token) return;
+
+    try {
+        // Users, Posts, Boosts, and Comments stats
+        const [usersRes, postsRes, boostsRes, commentRes] = await Promise.all([
+            fetch('http://localhost:8080/api/v1/admin-dashboard/users/stats', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }),
+            fetch('http://localhost:8080/api/v1/admin-dashboard/posts/stats', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }),
+            fetch('http://localhost:8080/api/v1/admin-dashboard/boosts/stats', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }),
+            fetch('http://localhost:8080/api/v1/admin-dashboard/comments/stats', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }),
+        ]);
+
+        const usersData = await usersRes.json();
+        const postsData = await postsRes.json();
+        const boostsData = await boostsRes.json();
+        const commentsData = await commentRes.json();
+
+        console.log()
+
+        // Update dashboard cards
+        document.getElementById('totalUsers').innerText = usersData.total || 0;
+        document.getElementById('totalPosts').innerText = postsData.total || 0;
+        document.getElementById('totalBoosts').innerText = boostsData.total || 0;
+        document.getElementById('totalComments').innerText = commentsData.total || 0;
+
+        // User Growth Chart
+        const userCtx = document.getElementById('userGrowthChart').getContext('2d');
+        new Chart(userCtx, {
+            type: 'line',
+            data: {
+                labels: usersData.months,
+                datasets: [{
+                    label: 'New Users',
+                    data: usersData.counts,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13,110,253,0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Reports Chart
+        const reportsCtx = document.getElementById('reportsChart').getContext('2d');
+        new Chart(reportsCtx, {
+            type: 'bar',
+            data: {
+                labels: reportsData.months,
+                datasets: [{
+                    label: 'Reports',
+                    data: reportsData.counts,
+                    backgroundColor: 'rgba(255,99,132,0.6)'
+                }]
+            },
+            options: { responsive: true }
+        });
+
+    } catch (err) {
+        console.error("Error loading dashboard stats:", err);
+    }
+}
+
+// Load stats on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadDashboardStats();
+});

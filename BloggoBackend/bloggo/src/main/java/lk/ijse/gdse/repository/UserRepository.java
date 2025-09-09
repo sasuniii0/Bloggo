@@ -61,4 +61,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     )
     int toggleUserStatus(@Param("userId") Long userId);
 
+    @Query("SELECT MONTH(u.createdAt) as month, COUNT(u) as count FROM User u GROUP BY MONTH(u.createdAt) ORDER BY MONTH(u.createdAt)")
+    List<Object[]> getMonthlyUserStats();
 }

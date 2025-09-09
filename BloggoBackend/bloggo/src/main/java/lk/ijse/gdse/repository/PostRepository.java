@@ -29,4 +29,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "ORDER BY p.createdAt DESC")
     List<Post> searchPostsByKeyword(@Param("keyword") String keyword);
-}
+
+    @Query("SELECT MONTH(p.createdAt) as month, COUNT(p) as count FROM Post p GROUP BY MONTH(p.createdAt) ORDER BY MONTH(p.createdAt)")
+    List<Object[]> getMonthlyPostStats();}

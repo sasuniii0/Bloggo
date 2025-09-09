@@ -93,267 +93,35 @@
 
             <!-- Stats -->
             <div class="row mb-4">
-                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Users</h5><h3>1,245</h3></div></div>
-                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Posts</h5><h3>3,576</h3></div></div>
-                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Reports</h5><h3>128</h3></div></div>
-                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Actions</h5><h3>412</h3></div></div>
+                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Users</h5><h3 id="totalUsers">0</h3></div></div>
+                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Posts</h5><h3 id="totalPosts">0</h3></div></div>
+                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Boosts</h5><h3 id="totalBoosts">0</h3></div></div>
+                <div class="col-md-3"><div class="card text-center p-3 shadow-sm"><h5>Comments</h5><h3 id="totalComments">0</h3></div></div>
             </div>
 
-            <!-- 📊 Graphs -->
+            <!-- Graphs -->
             <div class="row mb-4">
-                <div class="col-md-6"><div class="card shadow-sm"><div class="card-header fw-bold">User Growth</div><div class="card-body"><canvas id="userGrowthChart"></canvas></div></div></div>
-                <div class="col-md-6"><div class="card shadow-sm"><div class="card-header fw-bold">Reports Trend</div><div class="card-body"><canvas id="reportsChart"></canvas></div></div></div>
-            </div>
-
-            <!-- Recent Admin Actions -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-header fw-bold">Recent Admin Actions</div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">Admin <strong>@sasuni</strong> banned user <strong>@alex</strong> — Reason: Spam <small class="text-muted float-end">2h ago</small></li>
-                        <li class="list-group-item">Admin <strong>@minuki</strong> deleted post <em>"Spring Boot Guide"</em> <small class="text-muted float-end">4h ago</small></li>
-                        <li class="list-group-item">Admin <strong>@chanuli</strong> warned user <strong>@susan</strong> — Reason: Offensive comment <small class="text-muted float-end">6h ago</small></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 📢 Broadcast Announcement -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-header fw-bold">Broadcast Announcement</div>
-                <div class="card-body">
-                    <textarea class="form-control mb-2" rows="3" placeholder="Write a message to all users..."></textarea>
-                    <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
-                </div>
-            </div>
-
-
-
-
-
-            <!-- ADMIN ACTIONS MANAGEMENT -->
-            <!--<div class="card shadow-sm mb-4 mt-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="mb-0">Admin Actions</h3>
-                    <div class="d-flex gap-2 justify-content-end w-50">
-                        <input type="text" id="actionSearch" class="form-control form-control-sm" placeholder="Search users..." onkeyup="searchActions()">
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#actionModal" onclick="openAddActionModal()">+ Add Action</button>
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header fw-bold">User Growth</div>
+                        <div class="card-body"><canvas id="userGrowthChart"></canvas></div>
                     </div>
                 </div>
-
-                <div class="card-body p-0">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                        <tr>
-                            <th>ID</th>
-                            <th>Action</th>
-                            <th>Target User</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody id="actionTableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            &lt;!&ndash; Add/Edit Admin Action Modal &ndash;&gt;
-            <div class="modal fade" id="actionModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <form class="modal-content" id="actionForm" onsubmit="saveAction(event)">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="actionModalTitle">Add Admin Action</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" id="actionId">
-
-                            <div class="mb-3">
-                                <label for="actionName" class="form-label">Action</label>
-                                <select id="actionName" class="form-select" required>
-                                    <option value="BAN">Ban User</option>
-                                    <option value="PROMOTE">Promote to Admin</option>
-                                    <option value="SUSPEND">Suspend User</option>
-                                    <option value="DEACTIVATE">Deactivate User</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="targetUser" class="form-label">Target User</label>
-                                <input type="text" id="targetUser" class="form-control" placeholder="Username or ID" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="actionDate" class="form-label">Date</label>
-                                <input type="date" id="actionDate" class="form-control" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason / Notes</label>
-                                <textarea id="reason" class="form-control" rows="2" placeholder="Optional notes..."></textarea>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Save Action</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>-->
-
-
-            <div class="row mt-4">
-                <!-- Recent Admin Actions -->
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <div class="card shadow-sm p-3">
-                        <h5>Recent Admin Actions</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <i class="fas fa-ban text-danger me-2"></i>
-                                Banned user <strong>@alex</strong>
-                                <small class="text-muted float-end">2h ago</small>
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-user-shield text-primary me-2"></i>
-                                Promoted <strong>@susan</strong> to Admin
-                                <small class="text-muted float-end">4h ago</small>
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-user-slash text-warning me-2"></i>
-                                Suspended <strong>@john</strong>
-                                <small class="text-muted float-end">6h ago</small>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Admin Action Stats -->
-                <div class="col-lg-6 col-md-6 mb-3">
-                    <div class="card shadow-sm p-3">
-                        <h5>Action Stats</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                Total Actions: <span class="fw-bold">412</span>
-                            </li>
-                            <li class="list-group-item">
-                                Active Admins: <span class="fw-bold">5</span>
-                            </li>
-                            <li class="list-group-item">
-                                Pending Requests: <span class="fw-bold">8</span>
-                            </li>
-                        </ul>
+                <!-- 📢 Broadcast Announcement -->
+                <div class="card shadow-sm col-md-6">
+                    <div class="card-header fw-bold">Broadcast Announcement</div>
+                    <div class="card-body">
+                        <textarea class="form-control mb-2" rows="3" placeholder="Write a message to all users..."></textarea>
+                        <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
                     </div>
                 </div>
             </div>
-
         </main>
-
-        <!-- 📌 Right Panel -->
 
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-
-    function openAddActionModal() {
-        document.getElementById('actionForm').reset();
-        document.getElementById('actionId').value = '';
-        document.getElementById('actionModalTitle').innerText = 'Add Admin Action';
-    }
-
-    function saveAction(event) {
-        event.preventDefault();
-        // Logic to save action to table or backend
-        const id = document.getElementById('actionId').value || Date.now();
-        const actionName = document.getElementById('actionName').value;
-        const targetUser = document.getElementById('targetUser').value;
-        const actionDate = document.getElementById('actionDate').value;
-        const reason = document.getElementById('reason').value;
-
-        const tbody = document.getElementById('actionTableBody');
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-      <td>${id}</td>
-      <td>${actionName}</td>
-      <td>${targetUser}</td>
-      <td>${actionDate}</td>
-      <td>
-        <button class="btn btn-sm btn-warning" onclick="editAction(this)">Edit</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteAction(this)">Delete</button>
-      </td>
-    `;
-        tbody.appendChild(tr);
-
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('actionModal'));
-        modal.hide();
-    }
-
-    function editAction(btn) {
-        const row = btn.closest('tr');
-        document.getElementById('actionId').value = row.cells[0].innerText;
-        document.getElementById('actionName').value = row.cells[1].innerText;
-        document.getElementById('targetUser').value = row.cells[2].innerText;
-        document.getElementById('actionDate').value = row.cells[3].innerText;
-        document.getElementById('actionModalTitle').innerText = 'Edit Admin Action';
-        const modal = new bootstrap.Modal(document.getElementById('actionModal'));
-        modal.show();
-    }
-
-    function deleteAction(btn) {
-        if (confirm('Are you sure you want to delete this action?')) {
-            btn.closest('tr').remove();
-        }
-    }
-    // 📊 User Growth Chart
-    new Chart(document.getElementById('userGrowthChart'), {
-        type: 'line',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-            datasets: [{
-                label: "Users",
-                data: [200, 400, 600, 900, 1200, 1500],
-                borderColor: "#0d6efd",
-                backgroundColor: "rgba(13, 110, 253, 0.2)",
-                fill: true,
-                tension: 0.3
-            }]
-        }
-    });
-
-    // 📊 Reports Chart
-    new Chart(document.getElementById('reportsChart'), {
-        type: 'bar',
-        data: {
-            labels: ["Spam", "Abuse", "Other"],
-            datasets: [{
-                label: "Reports",
-                data: [40, 60, 28],
-                backgroundColor: ["#dc3545", "#ffc107", "#6c757d"]
-            }]
-        }
-    });
-
-    // 🔎 Search filter for users
-    document.getElementById("userSearch").addEventListener("keyup", function() {
-        let value = this.value.toLowerCase();
-        document.querySelectorAll("#userTable tbody tr").forEach(row => {
-            row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
-        });
-    });
-
-    // 📱 System Info (Screen size + Time)
-    function updateSystemInfo() {
-        let info = `
-            <p>Screen Size: ${window.innerWidth} x ${window.innerHeight}</p>
-            <p>Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
-            <p>Last Updated: ${new Date().toLocaleTimeString()}</p>
-        `;
-        document.getElementById("systemInfo").innerHTML = info;
-    }
-    updateSystemInfo();
-    window.addEventListener("resize", updateSystemInfo);
-</script>
+<script src="../js/admin-action.js"></script>
 </body>
 </html>
