@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Author clickable → members page
         authorNameEl.style.cursor = "pointer";
         authorNameEl.addEventListener("click", () => {
-            window.location.href = `../pages/members.html?username=${encodeURIComponent(post.username)}`;
+            window.location.href = `../pages/members-profile.html?username=${encodeURIComponent(post.username)}`;
         });
 
         // Show Edit/Delete buttons if author
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             try {
                 await fetchJSON(`http://localhost:8080/api/v1/post/delete/${postId}`, { method: "DELETE" });
                 alert("✅ Post deleted successfully!");
-                window.location.href = "dashboard.html";
+                window.location.href = "stories.html";
             } catch (err) {
                 alert(`❌ ${err.message || "Failed to delete post"}`);
             }

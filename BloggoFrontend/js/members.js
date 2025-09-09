@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const membersContainer = document.getElementById("MembersTabsContent");
     const postsContainer = document.getElementById("notificationTabsContent");
     const token = sessionStorage.getItem("jwtToken");
-    const loggedUserId = sessionStorage.getItem("userId"); // set when user logs in
+    const loggedUserId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
 
     await loadCurrentUser(token);
 
@@ -61,28 +61,43 @@ document.addEventListener("DOMContentLoaded", async () => {
             const memberCard = document.createElement("div");
             memberCard.classList.add(
                 "card", "p-3", "mb-3", "d-flex",
-                "align-items-center", "flex-row", "justify-content-between"
+                "align-items-center", "flex-row", "justify-content-between",
+                "user-card" // add a class for click listener
             );
 
-            memberCard.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <img src="${user.profileImage || '../assets/client1.jpg'}" 
-                         class="rounded-circle me-3" width="50" height="50" alt="Profile">
-                    <div>
-    <strong>${user.username}</strong>
-    <small class="text-muted ms-1">
-        ${user.role || 'USER'}
-        ${user.role === 'MEMBER' ? '<i class="fas fa-star text-warning ms-1"></i>' : ''}
-    </small>
-</div>
+            memberCard.dataset.userId = user.userId; // store userId in dataset
 
-                </div>
-                <button class="btn btn-primary btn-sm follow-btn" data-user-id="${user.userId}">
-                    Follow
-                </button>
-            `;
+            memberCard.innerHTML = `
+        <div class="d-flex align-items-center flex-grow-1">
+            <img src="${user.profileImage || '../assets/client1.jpg'}" 
+                 class="rounded-circle me-3" width="50" height="50" alt="Profile">
+            <div>
+                <strong>${user.username}</strong>
+                <small class="text-muted ms-1">
+                    ${user.role || 'USER'}
+                    ${user.role === 'MEMBER' ? '<i class="fas fa-star text-warning ms-1"></i>' : ''}
+                </small>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-sm follow-btn" data-user-id="${user.userId}">
+            Follow
+        </button>
+    `;
 
             membersContainer.appendChild(memberCard);
+        });
+
+// ============================
+// Navigate to member profile
+// ============================
+        document.querySelectorAll(".user-card").forEach(card => {
+            card.addEventListener("click", (e) => {
+                // Avoid clicking the follow button triggering navigation
+                if (e.target.classList.contains("follow-btn")) return;
+
+                const userId = card.dataset.userId;
+                window.location.href = `members-profile.html?userId=${userId}`;
+            });
         });
 
         // Add follow button functionality

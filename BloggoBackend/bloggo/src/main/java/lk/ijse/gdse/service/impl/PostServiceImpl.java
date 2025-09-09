@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -309,6 +310,19 @@ public class PostServiceImpl implements PostService {
                post.getBoosts() != null ? post.getBoosts().size() : 0,
                post.getComments() != null ? post.getComments().size() : 0
        ));
+    }
+
+    public List<PostDTO> getPostsByUserId(Long userId) {
+        List<Post> posts = postRepository.findAllByUserUserId(userId);
+        return posts.stream()
+                .map(post -> new PostDTO(
+                        post.getPostId(),
+                        post.getTitle(),
+                        post.getCoverImageUrl(),
+                        post.getContent(),
+                        post.getPublishedAt()
+                ))
+                .collect(Collectors.toList());
     }
 
 

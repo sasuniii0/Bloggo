@@ -28,4 +28,12 @@ public class PostDTO {
         this.title = title;
         this.username = username;
     }
+
+    public PostDTO(Long postId, String title, String coverImageUrl, String content, LocalDateTime publishedAt) {
+        this.id = postId;
+        this.title = title;
+        this.imageUrl = coverImageUrl;
+        this.content = content;
+        this.publishedAt = publishedAt;
+    }
 }

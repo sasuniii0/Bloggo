@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionStorage.setItem('userRole', role);
                 sessionStorage.setItem('username', data.username);
                 sessionStorage.setItem('userId', id);
+                document.cookie =`userId=${data.userId}; path=/; max-age=3600`;
 
 
                 if (data && data.username && data.role) {

@@ -50,4 +50,5 @@ public interface UserService {
 
     List<UserDTO> getAllMembersExcludingAdminAndSelf(Long loggedUserId);
 
+    UserDTO getUserDTOById(Long userId);
 }

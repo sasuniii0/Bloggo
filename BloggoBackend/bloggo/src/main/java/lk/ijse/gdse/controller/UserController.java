@@ -2,18 +2,22 @@ package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.*;
 import lk.ijse.gdse.entity.Notification;
+import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.entity.Wallet;
+import lk.ijse.gdse.service.PostService;
 import lk.ijse.gdse.service.UserService;
 import lk.ijse.gdse.service.WalletService;
 import lk.ijse.gdse.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,6 +35,7 @@ public class UserController {
     private final UserService userService;
     private final WalletService walletService;
     private final JWTUtil jwtUtil;
+    private final PostService postService;
 
     @PostMapping("/save")
     public ResponseEntity<ApiResponseDTO> saveUser(@RequestBody User user) {
@@ -110,6 +115,24 @@ public class UserController {
     public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable String username) {
         return ResponseEntity.ok(userService.getCurrentUser(username));
     }
+
+    // Public endpoint to fetch member profile by ID
+    @GetMapping("/members/{id}")
+    public ResponseEntity<UserDTO> getMemberProfile(@PathVariable Long id) {
+        try {
+            UserDTO userDTO = userService.getUserDTOById(id);
+            return ResponseEntity.ok(userDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/get/{userId}/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable Long userId) {
+        List<PostDTO> posts = postService.getPostsByUserId(userId);
+        return ResponseEntity.ok(posts);
+    }
+
     @GetMapping("/{username}/posts")
     public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserPosts(username));

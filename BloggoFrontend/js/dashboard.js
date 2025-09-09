@@ -188,7 +188,7 @@ async function addComment(e) {
 // ============================
 async function loadUsers(token) {
     try {
-        const loggedUserId = sessionStorage.getItem("userId"); // get current user ID
+        const loggedUserId =  document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
         const res = await fetch(`http://localhost:8080/user/members?loggedUserId=${loggedUserId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });

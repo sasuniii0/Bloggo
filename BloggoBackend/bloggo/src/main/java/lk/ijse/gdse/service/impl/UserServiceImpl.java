@@ -276,6 +276,22 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
+    @Override
+    public UserDTO getUserDTOById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        return new UserDTO(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getProfileImage(),
+                user.getBio(),
+                user.getMembershipStatus(),
+                user.getRole()
+        );
+    }
+
 
 
 }

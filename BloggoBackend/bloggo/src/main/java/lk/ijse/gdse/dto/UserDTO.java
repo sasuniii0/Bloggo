@@ -45,4 +45,14 @@ public class UserDTO {
         this.membershipStatus = membershipStatus;
         this.role = role;
     }
+
+    public UserDTO(Long userId, String username, String email, String profileImage, String bio, MembershipStatus membershipStatus, RoleName role) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.profileImage = profileImage;
+        this.bio = bio;
+        this.membershipStatus = membershipStatus;
+        this.role = role;
+    }
 }

@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(payload)
 
         const token = sessionStorage.getItem("jwtToken");
-        const userId = sessionStorage.getItem("userId");
+        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
 
         try {
             const response = await fetch(`http://localhost:8080/user/profileUpdate/${userId}`, {

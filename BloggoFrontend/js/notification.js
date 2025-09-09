@@ -34,7 +34,7 @@ function getToken() {
 }
 
 function getUserId() {
-    const user = sessionStorage.getItem("userId");
+    const user = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
     if (!user) {
         alert("No userId found, please sign in again.");
         window.location.href = "signing.html";

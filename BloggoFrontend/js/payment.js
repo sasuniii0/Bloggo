@@ -6,6 +6,7 @@ payhere.onCompleted = async function(orderId) {
     }
 
     try {
+
         const res = await fetch("http://localhost:8080/user/payments/success?userId=" + sessionStorage.getItem("userId"), {
             method: "POST",
             headers: {

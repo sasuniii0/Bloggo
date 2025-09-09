@@ -34,4 +34,6 @@ public interface PostService {
     List<PostDTO> searchPosts(String keyword);
 
     Page<PostDTO> getPosts(Pageable of);
+
+    List<PostDTO> getPostsByUserId(Long userId);
 }
