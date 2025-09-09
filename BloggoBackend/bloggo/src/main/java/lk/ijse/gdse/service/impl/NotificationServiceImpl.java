@@ -1,6 +1,7 @@
 package lk.ijse.gdse.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import lk.ijse.gdse.dto.NotificationDTO;
 import lk.ijse.gdse.entity.Notification;
 import lk.ijse.gdse.entity.Type;
 import lk.ijse.gdse.entity.User;
@@ -35,10 +36,19 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getUserNotifications(Long userId) {
+    public List<NotificationDTO> getUserNotifications(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-        return notificationRepository.findByUserOrderByCreatedAtDesc(user);
+
+        List<Notification> notifications = notificationRepository.findByUserOrderByCreatedAtDesc(user);
+        return notifications.stream().map(notification -> new NotificationDTO(
+                notification.getNotificationId(),
+                notification.getMessage(),
+                notification.getType(),
+                notification.getIsRead(),
+                notification.getUser().getUserId(),
+                notification.getCreatedAt()
+        )).toList();
     }
 
     @Override

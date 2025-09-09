@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 "/api/v1/tag/**",
                                 "/api/v1/bookmarks/**",
                                 "/api/v1/earnings/**",
+                                "/api/v1/notification/**",
                                 "/api/v1/follows/**",
                                 "/api/v1/payments/**",
                                 "/api/v1/payment/**",

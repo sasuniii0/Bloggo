@@ -1,5 +1,6 @@
 package lk.ijse.gdse.service.impl;
 
+import jakarta.transaction.Transactional;
 import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
@@ -24,6 +25,7 @@ public class PostServiceImpl implements PostService {
     private final WalletRepository walletRepository;
     private final EarningRepository earningRepository;
     private final BoostRepository boostRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public Post publishPost(Post post) {
@@ -104,6 +106,7 @@ public class PostServiceImpl implements PostService {
         return postRepository.save(existingPost);
     }
 
+    @Transactional
     @Override
     public int boostPost(Long postId, String username) {
         // Fetch the post
@@ -136,6 +139,19 @@ public class PostServiceImpl implements PostService {
                     .build();
             boostRepository.save(newBoost);
             post.getBoosts().add(newBoost);
+
+            // --- SEND NOTIFICATION TO POST OWNER ---
+            User postOwners = post.getUser();
+            if (!boostingUser.equals(postOwners)) { // Don't notify if self-boost
+                Notification notification = Notification.builder()
+                        .user(postOwners)
+                        .message(boostingUser.getUsername() + " boosted your post: " + post.getTitle())
+                        .type(Type.BOOST)
+                        .isRead(false)
+                        .createdAt(LocalDateTime.now())
+                        .build();
+                notificationRepository.save(notification);
+            }
 
             // Ensure post owner has a wallet
             User postOwner = post.getUser();

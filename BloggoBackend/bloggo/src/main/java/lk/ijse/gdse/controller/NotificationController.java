@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.NotificationDTO;
 import lk.ijse.gdse.entity.Notification;
 import lk.ijse.gdse.entity.Type;
 import lk.ijse.gdse.service.NotificationService;
@@ -18,31 +19,14 @@ import java.util.List;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponseDTO> createNotification(
-            @RequestParam Long userId,
-            @RequestParam String message,
-            @RequestParam Type type) {
-        Notification notification = notificationService.createNotification(userId, message, type);
-        return ResponseEntity.ok(
-                ApiResponseDTO.builder()
-                        .status(200)
-                        .message("Notification created successfully")
-                        .data(notification)
-                        .build()
-        );
-    }
-
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponseDTO> getUserNotifications(@PathVariable Long userId) {
-        List<Notification> notifications = notificationService.getUserNotifications(userId);
-        return ResponseEntity.ok(
-                ApiResponseDTO.builder()
-                        .status(200)
-                        .message("Notifications fetched successfully")
-                        .data(notifications)
-                        .build()
-        );
+        List<NotificationDTO> notifications = notificationService.getUserNotifications(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
+                "User notifications fetched successfully",
+                notifications
+        ));
     }
 
     @PutMapping("/read/{id}")
