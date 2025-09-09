@@ -2,9 +2,230 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Post-Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { background: #f9f9f9; }
+
+        /* ===== Navbar Styles ===== */
+        .glass-navbar {
+            position: sticky;
+            top: 1rem;
+            z-index: 1050;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            margin: 0 auto;
+            width: 60%;
+            border-radius: 20px;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-navbar a {
+            color: #000000;
+            font-weight: 500;
+            margin: 0 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
+
+        .glass-navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar-brand{
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #131212;
+            letter-spacing: 2px;
+            margin-right: 2rem;
+            user-select: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        /*header { border-bottom: 1px solid #ddd; background: #fff; }
+        .brand-logo { height: 40px; }*/
+        .table-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-menu .dropdown-menu {
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: sticky;
+            top: 60px;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: #0d6efd;
+            color: white;
+        }
+        .right-panel {
+            position: sticky;
+            top: 60px;
+            height: 100vh;
+            border-left: 1px solid #dee2e6;
+            background: #fff;
+            padding: 20px;
+        }
+
+    </style>
 </head>
 <body>
+<header class="sticky-top">
+    <nav class="glass-navbar align-items-center">
+        <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-flex align-items-center">
+            <div class="text-black me-3">Welcome, Admin</div>
+
+            <!-- Profile Dropdown -->
+            <div class="dropdown profile-menu">
+                <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li>
+                        <a class="dropdown-item" href="admin-action.html">
+                            <i class="fas fa-info me-2"></i> Admin Actions
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="user-management.html">
+                            <i class="fas fa-user me-2"></i> User Management
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="post-management.html">
+                            <i class="fas fa-blog me-2"></i> Post Management
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="logout.html" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="row">
+        <aside class="col-lg-2 col-md-6 sidebar">
+            <a href="admin-action.html" ><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+            <a href="user-management.html" ><i class="fas fa-users me-2"></i> Manage Users</a>
+            <a href="post-management.html" class="active"><i class="fas fa-blog me-2"></i> Manage Posts</a>
+            <!--<a href="#"><i class="fas fa-flag me-2"></i> Reports</a>-->
+            <a href="admin-settings.html"><i class="fas fa-cogs me-2"></i> Settings</a>
+        </aside>
+
+        <main  class="col-lg-10 col-md-6 mt-8">
+            <h2 class="mb-4">Post Management</h2>
+
+            <div class="card shadow-sm mt-4">
+                <div class="card-header fw-bold d-flex justify-content-between">
+                    <span>Post Management</span>
+                    <input type="text" id="postSearch" class="form-control w-25" placeholder="Search post...">
+                </div>
+                <div class="card-body">
+                    <div class="row g-3" id="postContainer">
+
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title">@alex</h6>
+                                    <p class="card-text text-muted">"Just finished my project! Feeling accomplished 🙌"</p>
+                                    <span class="badge bg-success">Visible</span>
+                                </div>
+                                <div class="card-footer d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-warning me-2">Hide</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title">@susan</h6>
+                                    <p class="card-text text-muted">"Vacation time! Can't wait to travel ✈️"</p>
+                                    <span class="badge bg-secondary">Hidden</span>
+                                </div>
+                                <div class="card-footer d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-success me-2">Unhide</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title">@john</h6>
+                                    <p class="card-text text-muted">"Working late night on my startup idea 💡"</p>
+                                    <span class="badge bg-success">Visible</span>
+                                </div>
+                                <div class="card-footer d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-warning me-2">Hide</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
 </body>
 </html>

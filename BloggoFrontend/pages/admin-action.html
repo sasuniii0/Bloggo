@@ -80,11 +80,11 @@
     <div class="row">
         <!-- 📌 Sidebar -->
         <aside class="col-lg-2 col-md-6 sidebar">
-            <a href="#" class="active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-            <a href="#"><i class="fas fa-users me-2"></i> Manage Users</a>
-            <a href="#"><i class="fas fa-blog me-2"></i> Manage Posts</a>
-            <a href="#"><i class="fas fa-flag me-2"></i> Reports</a>
-            <a href="#"><i class="fas fa-cogs me-2"></i> Settings</a>
+            <a href="admin-action.html" class="active"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+            <a href="user-management.html"><i class="fas fa-users me-2"></i> Manage Users</a>
+            <a href="post-management.html"><i class="fas fa-blog me-2"></i> Manage Posts</a>
+            <!--<a href="#"><i class="fas fa-flag me-2"></i> Reports</a>-->
+            <a href="admin-settings.html"><i class="fas fa-cogs me-2"></i> Settings</a>
         </aside>
 
         <!-- 📌 Main Content -->
@@ -126,84 +126,12 @@
                 </div>
             </div>
 
-            <!-- User Management -->
-            <div class="card shadow-sm">
-                <div class="card-header fw-bold d-flex justify-content-between">
-                    <span>User Management</span>
-                    <input type="text" id="userSearch" class="form-control w-25" placeholder="Search user...">
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped align-middle" id="userTable">
-                        <thead><tr><th>User ID</th><th>Username</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody>
-                        <tr><td>#101</td><td>@alex</td><td><span class="badge bg-success">Active</span></td><td><button class="btn btn-sm btn-warning">Suspend</button><button class="btn btn-sm btn-danger">Ban</button></td></tr>
-                        <tr><td>#102</td><td>@susan</td><td><span class="badge bg-danger">Banned</span></td><td><button class="btn btn-sm btn-success">Unban</button></td></tr>
-                        <tr><td>#103</td><td>@john</td><td><span class="badge bg-warning">Suspended</span></td><td><button class="btn btn-sm btn-success">Activate</button><button class="btn btn-sm btn-danger">Ban</button></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
-            <!-- Post Management -->
-            <div class="card shadow-sm mt-4">
-                <div class="card-header fw-bold d-flex justify-content-between">
-                    <span>Post Management</span>
-                    <input type="text" id="postSearch" class="form-control w-25" placeholder="Search post...">
-                </div>
-                <div class="card-body">
-                    <div class="row g-3" id="postContainer">
 
-                        <!-- Post Card 1 -->
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="card-title">@alex</h6>
-                                    <p class="card-text text-muted">"Just finished my project! Feeling accomplished 🙌"</p>
-                                    <span class="badge bg-success">Visible</span>
-                                </div>
-                                <div class="card-footer d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-warning me-2">Hide</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Post Card 2 -->
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="card-title">@susan</h6>
-                                    <p class="card-text text-muted">"Vacation time! Can't wait to travel ✈️"</p>
-                                    <span class="badge bg-secondary">Hidden</span>
-                                </div>
-                                <div class="card-footer d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-success me-2">Unhide</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Post Card 3 -->
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="card-title">@john</h6>
-                                    <p class="card-text text-muted">"Working late night on my startup idea 💡"</p>
-                                    <span class="badge bg-success">Visible</span>
-                                </div>
-                                <div class="card-footer d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-warning me-2">Hide</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <!-- ADMIN ACTIONS MANAGEMENT -->
-            <div class="card shadow-sm mb-4 mt-4">
+            <!--<div class="card shadow-sm mb-4 mt-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="mb-0">Admin Actions</h3>
                     <div class="d-flex gap-2 justify-content-end w-50">
@@ -228,7 +156,7 @@
                 </div>
             </div>
 
-            <!-- Add/Edit Admin Action Modal -->
+            &lt;!&ndash; Add/Edit Admin Action Modal &ndash;&gt;
             <div class="modal fade" id="actionModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <form class="modal-content" id="actionForm" onsubmit="saveAction(event)">
@@ -271,7 +199,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
 
 
             <div class="row mt-4">
