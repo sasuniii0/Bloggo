@@ -11,108 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/admin-dashboard.css">
 
-    <style>
-        body {     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
 
-        /* ===== Navbar Styles ===== */
-        .glass-navbar {
-            position: sticky;
-            top: 1rem;
-            z-index: 1050;
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 2rem;
-            margin: 0 auto;
-            width: 60%;
-            border-radius: 20px;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .glass-navbar a {
-            color: #000000;
-            font-weight: 500;
-            margin: 0 1.2rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-        }
-
-        .glass-navbar a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .navbar-brand{
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #131212;
-            letter-spacing: 2px;
-            margin-right: 2rem;
-            user-select: none;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        /*header { border-bottom: 1px solid #ddd; background: #fff; }
-        .brand-logo { height: 40px; }*/
-        .table-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-menu .dropdown-menu {
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-
-        .sidebar {
-
-            position: sticky;
-            top: 60px;
-            background: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-            padding-top: 20px;
-        }
-        .sidebar a {
-            display: block;
-            padding: 12px 15px;
-            color: #333;
-            text-decoration: none;
-            margin: 5px 0;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background: #0d6efd;
-            color: white;
-        }
-        .right-panel {
-            position: sticky;
-            top: 60px;
-            height: 100vh;
-            border-left: 1px solid #dee2e6;
-            background: #fff;
-            padding: 20px;
-        }
-
-    </style>
 </head>
 <body>
 <header class="sticky-top">
@@ -167,8 +66,6 @@
             <a href="admin-action.html" ><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
             <a href="user-management.html" ><i class="fas fa-users me-2"></i> Manage Users</a>
             <a href="post-management.html" class="active"><i class="fas fa-blog me-2"></i> Manage Posts</a>
-            <!--<a href="#"><i class="fas fa-flag me-2"></i> Reports</a>-->
-            <a href="admin-settings.html"><i class="fas fa-cogs me-2"></i> Settings</a>
         </aside>
 
         <main  class="col-lg-10 col-md-6 mt-8">
@@ -176,7 +73,6 @@
 
             <div class="card shadow-sm mt-4">
                 <div class="card-header fw-bold d-flex justify-content-between">
-                    <span>Post Management</span>
                     <input type="text" id="postSearch" class="form-control w-25" placeholder="Search post...">
                 </div>
                 <div class="card-body">
