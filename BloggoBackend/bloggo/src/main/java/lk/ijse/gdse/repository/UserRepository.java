@@ -1,6 +1,7 @@
 package lk.ijse.gdse.repository;
 
 import lk.ijse.gdse.dto.PaginationDTO;
+import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import org.springframework.data.domain.Page;
@@ -32,8 +33,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.username FROM User u")
     List<String> getAllUsernames();
 
-    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
-    List<User> findUserByRole(RoleName roleName);
+    @Query("SELECT u FROM User u WHERE u.role = :roleName ORDER BY u.createdAt DESC")
+    List<User> findUserByRole(@Param("roleName") RoleName roleName);
+
 
     List<User> findTop5ByRoleOrderByCreatedAtDesc(RoleName roleName);
 
@@ -63,4 +65,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT MONTH(u.createdAt) as month, COUNT(u) as count FROM User u GROUP BY MONTH(u.createdAt) ORDER BY MONTH(u.createdAt)")
     List<Object[]> getMonthlyUserStats();
+
+    List<User> findByRoleNotAndUserIdNotOrderByCreatedAtDesc(RoleName role, Long userId);
 }

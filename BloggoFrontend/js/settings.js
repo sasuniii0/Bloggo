@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 avatarPreview.src = updatedUser.profileImage || "../assets/boy%20(1).png";
                 alert("✅ Profile updated successfully!");
+                window.location.href= "settings.html";
             } else if (response.status === 403) {
                 alert("❌ Unauthorized: Please log in again.");
                 window.location.href = "signing.html";

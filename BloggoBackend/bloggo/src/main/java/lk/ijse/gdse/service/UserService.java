@@ -8,6 +8,7 @@ import lk.ijse.gdse.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
@@ -46,4 +47,7 @@ public interface UserService {
     Page<PaginationDTO> getUsersForAdmin(int page, int size);
 
     Page<PaginationDTO> getAllUsers(Pageable pageable);
+
+    List<UserDTO> getAllMembersExcludingAdminAndSelf(Long loggedUserId);
+
 }

@@ -97,12 +97,14 @@ public class UserController {
                 userService.updateProfileUser(existing, principal.getName())));
     }
 
-    @GetMapping("user-only")
+    /*@GetMapping("user-only")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
-    public ResponseEntity<ApiResponseDTO> getRoleOnlyUser(){
-        return ResponseEntity.ok(new ApiResponseDTO(200, "You are a USER",
-                userService.getUserByRole("USER")));
-    }
+    public ResponseEntity<ApiResponseDTO> getRoleWithoutAdmin(){
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
+                "You are a USER or MEMBER",
+                userService.getAllMembersExcludingAdminAndSelf()));
+    }*/
 
     @GetMapping("/{username}")
     public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable String username) {
@@ -132,5 +134,10 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Users fetched", data));
     }
 
+    @GetMapping("/members")
+    public ResponseEntity<ApiResponseDTO> getMembers(@RequestParam Long loggedUserId) {
+        List<UserDTO> members = userService.getAllMembersExcludingAdminAndSelf(loggedUserId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Members fetched", members));
+    }
 
 }

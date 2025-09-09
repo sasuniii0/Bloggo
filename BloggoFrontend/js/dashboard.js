@@ -185,27 +185,44 @@ async function addComment(e) {
 // ============================
 async function loadUsers(token) {
     try {
-        const res = await fetch("http://localhost:8080/user/user-only", {
+        const loggedUserId = sessionStorage.getItem("userId"); // get current user ID
+        const res = await fetch(`http://localhost:8080/user/members?loggedUserId=${loggedUserId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
+
         if (!res.ok) throw new Error("Failed to load users");
         const data = await res.json();
         const users = data.users || data.data || [];
+
+        // Take only the first 10 users
+        const firstEightUsers = users.slice(0, 8);
+
         const userList = document.getElementById("userList");
         if (!userList) return;
 
         userList.innerHTML = "";
-        if (!users.length) userList.innerHTML = `<li class="text-muted">No users found</li>`;
+        if (!firstEightUsers.length) {
+            userList.innerHTML = `<li class="text-muted">No users found</li>`;
+            return;
+        }
 
-        users.forEach(u => {
+        firstEightUsers.forEach(u => {
             const li = document.createElement("li");
             li.className = "mb-2";
+
+            // Use default image if profileImage is null or empty
+            const profileImage = u.profileImage && u.profileImage.trim() !== ""
+                ? u.profileImage
+                : "../assets/client1.jpg"; // your default image path
+
             li.innerHTML = `<a href="members.html?id=${u.id}" class="d-flex align-items-center gap-2">
-                                ${u.profileImage ? `<img src="${u.profileImage}" alt="${u.username}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;">` : ''}
-                                <span>${u.username}</span>
-                            </a>`;
+                        <img src="${profileImage}" alt="${u.username}" 
+                             style="width:35px;height:35px;border-radius:50%;object-fit:cover;">
+                        <span>${u.username}</span>
+                    </a>`;
             userList.appendChild(li);
         });
+
 
     } catch (err) {
         console.error("Load users failed", err);
@@ -213,6 +230,7 @@ async function loadUsers(token) {
         if (userList) userList.innerHTML = `<li class="text-danger">Failed to load users</li>`;
     }
 }
+
 
 // ============================
 // Load Tags with Pagination

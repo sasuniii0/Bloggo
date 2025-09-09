@@ -268,5 +268,14 @@ public class UserServiceImpl implements UserService {
         );
     }
 
+    @Override
+    public List<UserDTO> getAllMembersExcludingAdminAndSelf(Long loggedUserId) {
+        List<User> users = userRepository.findByRoleNotAndUserIdNotOrderByCreatedAtDesc(RoleName.ADMIN, loggedUserId);
+        return users.stream()
+                .map(u -> new UserDTO(u.getUserId(), u.getUsername(), u.getProfileImage(),u.getMembershipStatus(), u.getRole()))
+                .toList();
+    }
+
+
 
 }
