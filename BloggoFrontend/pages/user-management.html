@@ -52,124 +52,154 @@
       <a href="admin-settings.html"><i class="fas fa-cogs me-2"></i> Settings</a>
     </aside>
 
+    <!-- Main Content -->
     <main class="col-lg-10">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Admin Actions</h2>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actionModal">+ Add Action</button>
+        <h2>User Management</h2>
       </div>
 
       <div class="table-card">
         <table class="table table-hover align-middle">
           <thead class="table-light">
           <tr>
-            <th>ID</th><th>Action</th><th>Target User</th><th>Date</th><th>Status</th>
+            <th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th>
           </tr>
           </thead>
-          <tbody id="actionTableBody"></tbody>
+          <tbody id="userTableBody"></tbody>
         </table>
+        <nav>
+          <ul class="pagination" id="pagination"></ul>
+        </nav>
       </div>
     </main>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="actionModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" id="actionForm">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Admin Action</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Action</label>
-          <select id="actionName" class="form-select" required>
-            <option value="BAN">Ban User</option>
-            <option value="PROMOTE">Promote to Admin</option>
-            <option value="DEACTIVATE">Deactivate User</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Target User</label>
-          <input type="text" id="targetUser" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Date</label>
-          <input type="date" id="actionDate" class="form-control" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
+<tbody id="userTableBody"></tbody>
+<nav>
+  <ul class="pagination" id="pagination"></ul>
+</nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  const API_BASE = "http://localhost:8080/api/v1/admin-actions";
+  const API_USERS = "http://localhost:8080/user/getAll-pagination";
+  let currentPage = 1;
+  const pageSize = 5;
 
-  // 🔄 Load all actions
-  function loadActions() {
-    fetch(`${API_BASE}/getAll`)
-            .then(res => res.json())
+  // Get JWT token
+  function getToken() {
+    const token = sessionStorage.getItem("jwtToken");
+    if (!token) {
+      alert("You are not logged in! Redirecting to login...");
+      window.location.href = "signing.html";
+    }
+    return token;
+  }
+
+  // Load users
+  function loadUsers(page = 1) {
+    const token = getToken();
+    currentPage = page;
+
+    fetch(`${API_USERS}?page=${page-1}&size=${pageSize}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+            .then(res => {
+              if (!res.ok) throw new Error(`Failed to fetch users (${res.status})`);
+              return res.json();
+            })
             .then(data => {
-              const tbody = document.getElementById("actionTableBody");
+              const tbody = document.getElementById("userTableBody");
               tbody.innerHTML = "";
-              data.data.forEach(action => {
+
+              if (!data.content || data.content.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No users found</td></tr>`;
+                renderPagination(0, page);
+                return;
+              }
+
+              data.content.forEach(user => {
                 tbody.innerHTML += `
-          <tr>
-            <td>${action.id}</td>
-            <td>${action.actionName}</td>
-            <td>${action.targetUser?.username || "-"}</td>
-            <td>${action.createdAt || "-"}</td>
-            <td>
-              <span class="badge ${action.actionType === 'ACTIVE' ? 'bg-success':'bg-secondary'}"
-                style="cursor:pointer"
-                onclick="toggleStatus(${action.id}, this)">
-                ${action.actionType}
-              </span>
-            </td>
-          </tr>`;
+                <tr>
+                    <td>${user.userId || user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role?.name || user.role}</td>
+                    <td>
+                        <span class="badge ${user.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}"
+                              onclick="toggleStatus(${user.userId || user.id}, this)">
+                            ${user.status || 'ACTIVE'}
+                        </span>
+                    </td>
+                </tr>`;
               });
+
+              renderPagination(data.totalPages, page);
+            })
+            .catch(err => {
+              console.error(err);
+              alert("Error loading users. Check console for details.");
             });
   }
 
-  // 🔁 Toggle status
-  function toggleStatus(id, badge) {
-    fetch(`${API_BASE}/status/${id}?status=TOGGLE`, { method: "PATCH" })
-            .then(res => res.json())
+  // Render pagination
+  function renderPagination(totalPages, current) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    if (totalPages === 0) return;
+
+    const createPageItem = (label, page, disabled = false, active = false) => {
+      const li = document.createElement("li");
+      li.className = `page-item ${disabled ? "disabled" : ""} ${active ? "active" : ""}`;
+      li.innerHTML = `<a class="page-link" href="#">${label}</a>`;
+      li.addEventListener("click", e => {
+        e.preventDefault();
+        if (!disabled) loadUsers(page);
+      });
+      return li;
+    };
+
+    // Previous
+    pagination.appendChild(createPageItem("Previous", current - 1, current === 1));
+
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+      pagination.appendChild(createPageItem(i, i, false, i === current));
+    }
+
+    // Next
+    pagination.appendChild(createPageItem("Next", current + 1, current === totalPages));
+  }
+
+  // Toggle user status
+  function toggleStatus(userId, badge) {
+    const token = getToken();
+    fetch(`http://localhost:8080/api/v1/admin-actions/status/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+            .then(res => {
+              if (!res.ok) throw new Error(`Failed to update status (${res.status})`);
+              return res.json();
+            })
             .then(data => {
               const updated = data.data;
-              badge.textContent = updated.actionType;
-              badge.className = "badge " + (updated.actionType === "ACTIVE" ? "bg-success" : "bg-secondary");
-            });
+              badge.textContent = updated.status;
+              badge.className = "badge " + (updated.status === "ACTIVE" ? "bg-success" : "bg-secondary");
+            })
+            .catch(err => console.error(err));
   }
 
-  // ➕ Add action
-  document.getElementById("actionForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    const adminUsername = "admin"; // replace with logged-in user if needed
-    const targetUser = document.getElementById("targetUser").value;
-    const actionName = document.getElementById("actionName").value;
-    const date = document.getElementById("actionDate").value;
-
-    fetch(`${API_BASE}/create?adminUsername=${adminUsername}&targetUsername=${targetUser}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ actionName, createdAt: date, actionType: "ACTIVE" })
-    })
-            .then(res => res.json())
-            .then(() => {
-              document.getElementById("actionForm").reset();
-              bootstrap.Modal.getInstance(document.getElementById("actionModal")).hide();
-              loadActions();
-            });
-  });
-
-  // Auto-load table
-  document.addEventListener("DOMContentLoaded", loadActions);
+  // Auto-load
+  document.addEventListener("DOMContentLoaded", () => loadUsers(currentPage));
 </script>
+
+
 </body>
 </html>

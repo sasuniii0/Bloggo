@@ -1,5 +1,6 @@
 package lk.ijse.gdse.repository;
 
+import lk.ijse.gdse.dto.PaginationDTO;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) ORDER BY u.createdAt DESC")
     List<User> searchUsersByKeyword(@Param("keyword") String keyword);
+
+    @Query("""
+    SELECT new lk.ijse.gdse.dto.PaginationDTO(
+        u.userId,
+        u.username,
+        u.email,
+        u.role,
+        (SELECT a FROM AdminAction a WHERE a.targetUser = u ORDER BY a.createdAt DESC LIMIT 1)
+    )
+    FROM User u
+    ORDER BY u.createdAt DESC
+""")
+    Page<PaginationDTO> findUsersWithLatestAction(Pageable pageable);
+
+
 }

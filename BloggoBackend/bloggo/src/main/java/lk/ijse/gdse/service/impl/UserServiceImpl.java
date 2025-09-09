@@ -1,5 +1,6 @@
 package lk.ijse.gdse.service.impl;
 
+import lk.ijse.gdse.dto.PaginationDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
@@ -9,8 +10,11 @@ import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.repository.WalletRepository;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -214,4 +218,31 @@ public class UserServiceImpl implements UserService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Page<PaginationDTO> getUsersForAdmin(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        return userRepository.findAll(pageable)
+                .map(user -> {
+                    AdminAction latestAction = null;
+                    if (user.getAdminActions() != null && !user.getAdminActions().isEmpty()) {
+                        latestAction = user.getAdminActions().stream()
+                                .sorted((a1, a2) -> a2.getCreatedAt().compareTo(a1.getCreatedAt()))
+                                .findFirst()
+                                .orElse(null);
+                    }
+                    return new PaginationDTO(
+                            user.getUserId(),
+                            user.getUsername(),
+                            user.getEmail(),
+                            user.getRole(),
+                            latestAction
+                    );
+                });
+    }
+
+
+
+
 }
