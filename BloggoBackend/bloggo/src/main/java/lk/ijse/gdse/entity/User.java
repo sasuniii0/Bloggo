@@ -40,6 +40,11 @@ public class User {
     private RoleName role;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ActionType status;  // or String if you prefer
+
+
+    @Enumerated(EnumType.STRING)
     private MembershipStatus membershipStatus;
 
     private String resetToken;

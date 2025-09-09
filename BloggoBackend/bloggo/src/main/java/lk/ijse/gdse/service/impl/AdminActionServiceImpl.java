@@ -8,6 +8,7 @@ import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AdminActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -17,18 +18,6 @@ public class AdminActionServiceImpl implements AdminActionService {
     private final AdminActionRepository adminActionRepository;
     private final UserRepository userRepository;
 
-    @Override
-    public AdminAction updateActionStatus(Long id, String status) {
-        AdminAction adminAction = adminActionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AdminAction not found"));
-
-        ActionType curruntStatus = adminAction.getActionType();
-
-        if (curruntStatus == ActionType.ACTIVE) {
-            adminAction.setActionType(ActionType.INACTIVE);
-        }
-        return adminActionRepository.save(adminAction);
-    }
 
     @Override
     public Object getAllActions() {
@@ -48,4 +37,42 @@ public class AdminActionServiceImpl implements AdminActionService {
         adminAction.setCreatedAt(LocalDateTime.now());
         return adminActionRepository.save(adminAction);
     }
+
+    @Transactional
+    public AdminAction toggleUserStatusWithAction(Long userId, String adminUsername) {
+        // Toggle user status via query
+        int updatedRows = userRepository.toggleUserStatus(userId);
+        if (updatedRows == 0) throw new RuntimeException("User not found or no status changed");
+
+        // Get updated user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Get admin performing the action
+        User admin = userRepository.findByUsername(adminUsername)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        // Get last admin action for this user
+        AdminAction lastAction = adminActionRepository
+                .findTopByTargetUser_UserIdOrderByCreatedAtDesc(user.getUserId())
+                .orElse(null);
+
+        // Determine new actionType
+        ActionType newActionType = (lastAction == null || lastAction.getActionType() == ActionType.INACTIVE)
+                ? ActionType.ACTIVE
+                : ActionType.INACTIVE;
+
+        // Create new AdminAction
+        AdminAction action = AdminAction.builder()
+                .targetUser(user)
+                .admin(admin)
+                .actionType(newActionType)
+                .reason("Status toggled by admin")
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        return adminActionRepository.save(action);
+    }
+
+
 }

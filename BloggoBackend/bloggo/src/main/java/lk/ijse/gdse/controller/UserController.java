@@ -8,6 +8,7 @@ import lk.ijse.gdse.service.WalletService;
 import lk.ijse.gdse.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -117,18 +118,16 @@ public class UserController {
     }
 
     @GetMapping("/getAll-pagination")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Object>> getAllUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
-    ) {
-        Page<PaginationDTO> users = userService.getUsersForAdmin(page,size);
-        Map<String, Object> response = new HashMap<>();
-        response.put("content", users.getContent());
-        response.put("totalPages", users.getTotalPages());
-        response.put("totalElements", users.getTotalElements());
-        response.put("currentPage", users.getNumber() + 1); // frontend pages start from 1
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponseDTO> getUsers(@RequestParam int page,
+                                                   @RequestParam int size) {
+        Page<PaginationDTO> users = userService.getAllUsers(PageRequest.of(page, size));
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", users.getContent());
+        data.put("totalPages", users.getTotalPages());
+        data.put("totalElements", users.getTotalElements());
+
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Users fetched", data));
     }
 
 

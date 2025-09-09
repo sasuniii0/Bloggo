@@ -6,6 +6,7 @@ import lk.ijse.gdse.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -52,5 +53,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 """)
     Page<PaginationDTO> findUsersWithLatestAction(Pageable pageable);
 
+
+    @Modifying
+    @Query(
+            value = "UPDATE user u SET u.status = CASE WHEN u.status = 'ACTIVE' THEN 'INACTIVE' WHEN u.status = 'INACTIVE' THEN 'ACTIVE' ELSE u.status END WHERE u.user_id = :userId",
+            nativeQuery = true
+    )
+    int toggleUserStatus(@Param("userId") Long userId);
 
 }

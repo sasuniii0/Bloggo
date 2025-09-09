@@ -242,7 +242,19 @@ public class UserServiceImpl implements UserService {
                 });
     }
 
+    @Override
+    public Page<PaginationDTO> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
 
+        return users.map(user -> PaginationDTO.builder()
+                .id(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole() != null ? user.getRole(): null)
+                .action(null) // later you can fetch latest AdminAction if required
+                .build()
+        );
+    }
 
 
 }

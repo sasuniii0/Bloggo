@@ -1,145 +1,125 @@
-const api = "http://localhost:8080/user";
+    const userEndpoint = "http://localhost:8080/user/getAll-pagination";
+    let currentPage = 1;
+    const pageSize = 5;
 
-let users = [];
-let editingId = null;
-
-// Fetch all users from the API
-async function fetchUsers() {
-    try {
-        const res = await fetch(`${api}/getAll`);
-        const data = await res.json();
-        users = data.data; // Assuming ApiResponseDTO.data contains users
-        renderUsers();
-    } catch (error) {
-        console.error("Error fetching users:", error);
-    }
+    // Get JWT token from sessionStorage
+    function getToken() {
+    const token = sessionStorage.getItem("jwtToken");
+    if (!token) {
+    alert("You are not logged in! Redirecting...");
+    window.location.href = "signing.html";
+}
+    return token;
 }
 
-// Render users with optional filtered list
-function renderUsers(list = users) {
+    // Load users from backend
+    async function loadUsers(page = 1) {
+    currentPage = page;
+    const token = getToken();
     const tbody = document.getElementById("userTableBody");
-    console.log("Rendering users:", list);
+    const pagination = document.getElementById("pagination");
+
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center">Loading...</td></tr>`;
+    pagination.innerHTML = "";
+
+    try {
+    const res = await fetch(`${userEndpoint}?page=${page - 1}&size=${pageSize}`, {
+    headers: { "Authorization": `Bearer ${token}` }
+});
+
+    if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`HTTP ${res.status}: ${errorText}`);
+}
+
+    const data = await res.json();
+    console.log("Fetched data:", data);
+
+    const users = data?.data?.content || [];
+    const totalPages = data?.data?.totalPages || 1;
+
+    if (!users || users.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center">No users found</td></tr>`;
+    renderPagination(0);
+    return;
+}
+
     tbody.innerHTML = "";
-    list.forEach(user => {
-        tbody.innerHTML += `
-        <tr>
-          <td>${user.userId}</td>
-          <td>${user.username}</td>
-          <td>${user.email}</td>
-          <td>${user.role}</td>
-          <td>${user.membershipStatus}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary" onclick="openEditUserModal(${user.id})">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">Delete</button>
-          </td>
-        </tr>`;
-    });
+    users.forEach(user => {
+    tbody.innerHTML += `
+          <tr>
+              <td>${user.id}</td>
+              <td>${user.username}</td>
+              <td>${user.email}</td>
+              <td>${user.role || '-'}</td>
+              <td>
+                  <span class="badge ${user.action?.actionType === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}"
+                        onclick="toggleStatus(${user.id}, this)">
+                      ${user.action?.actionType || 'INACTIVE'}
+                  </span>
+              </td>
+          </tr>
+        `;
+});
+
+    renderPagination(totalPages);
+
+} catch (err) {
+    console.error("Error loading users:", err);
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error fetching users</td></tr>`;
+}
 }
 
-// Search filter
-function searchUsers() {
-    const query = document.getElementById("userSearch").value.toLowerCase();
-    const filteredUsers = users.filter(user =>
-        user.username.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query) ||
-        user.role.toLowerCase().includes(query)
-    );
-    renderUsers(filteredUsers);
+    // Render pagination buttons
+    function renderPagination(totalPages) {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+    const li = document.createElement("li");
+    li.className = `page-item ${i === currentPage ? "active" : ""}`;
+    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+    li.onclick = e => {
+    e.preventDefault();
+    loadUsers(i);
+};
+    pagination.appendChild(li);
+}
 }
 
-// Save (Add/Edit) user
-async function saveUser(event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const role = document.getElementById("role").value;
-    const status = document.getElementById("status").value;
-
-    const payload = { id: editingId, username, email, role, status };
+    // Toggle user status (ACTIVE / INACTIVE)
+    async function toggleStatus(userId, badge) {
+    const token = getToken();
+    const adminUsername = sessionStorage.getItem("username") || "admin";
 
     try {
-        const token = sessionStorage.getItem('jwtToken');
-        if (!token) {
-            alert('You must be logged in to perform this action.');
-            return;
-        }
-        let url = editingId ? `${api}/edit` : `${api}/save`;
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        console.log(data.message);
+    const res = await fetch(`http://localhost:8080/api/v1/admin-actions/status/${userId}`, {
+    method: "PATCH",
+    headers: {
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/x-www-form-urlencoded"
+},
+    body: `adminUsername=${encodeURIComponent(adminUsername)}`
+});
 
-        // Refresh user list
-        fetchUsers();
-        bootstrap.Modal.getInstance(document.getElementById("userModal")).hide();
-    } catch (error) {
-        console.error("Error saving user:", error);
-    }
+    if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`HTTP ${res.status}: ${errorText}`);
 }
 
-// Delete user
-async function deleteUser(id) {
-    if (!confirm("Are you sure you want to delete this user?")) return;
-    try {
-        const res = await fetch(`${api}/delete?userId=${id}`, { method: "DELETE" });
-        const data = await res.json();
-        console.log(data.message);
-        fetchUsers();
-    } catch (error) {
-        console.error("Error deleting user:", error);
-    }
+    const data = await res.json();
+    console.log("Toggle response:", data);
+
+    const newStatus = data?.data?.actionType || 'INACTIVE';
+    badge.textContent = newStatus;
+    badge.className = "badge " + (newStatus === "ACTIVE" ? "bg-success" : "bg-secondary");
+
+} catch (err) {
+    console.error("Toggle status error:", err);
+    alert("Failed to toggle status. Check console for details.");
+}
 }
 
-// Open edit modal
-function openEditUserModal(id) {
-    const user = users.find(u => u.id === id);
-    if (!user) return;
-    editingId = id;
-    document.getElementById("userId").value = user.userId;
-    document.getElementById("username").value = user.username;
-    document.getElementById("email").value = user.email;
-    document.getElementById("role").value = user.role;
-    document.getElementById("status").value = user.membershipStatus;
-    document.getElementById("userModalTitle").innerText = "Edit User";
-    new bootstrap.Modal(document.getElementById("userModal")).show();
-}
-
-// Open add modal
-function openAddUserModal() {
-    editingId = null;
-    document.getElementById("userForm").reset();
-    document.getElementById("userModalTitle").innerText = "Add User";
-}
-
-// Initial fetch
-fetchUsers();
-
-function logout() {
-    preventBackNavigation();
-    // Clear stored token and user info
-    sessionStorage.removeItem('jwtToken');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('userId');
-
-    // Redirect to login page
-    window.location.href = 'signing.html';
-}
-function preventBackNavigation() {
-    // Replace current history entry
-    window.history.replaceState(null, null, window.location.href);
-
-    // Add new history entry
-    window.history.pushState(null, null, window.location.href);
-
-    // Handle back button press
-    window.onpopstate = function() {
-        window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
-    };
-}
+    // Load users when DOM is ready
+    document.addEventListener("DOMContentLoaded", () => loadUsers(currentPage));

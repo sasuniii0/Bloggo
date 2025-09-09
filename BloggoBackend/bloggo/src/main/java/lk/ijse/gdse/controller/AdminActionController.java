@@ -5,12 +5,17 @@ import lk.ijse.gdse.entity.AdminAction;
 import lk.ijse.gdse.service.AdminActionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/admin-actions")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:63342",allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:63342",
+        allowCredentials = "true")
 public class AdminActionController {
     private final AdminActionService adminActionService;
 
@@ -36,15 +41,29 @@ public class AdminActionController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/status/{id}")
-    public ResponseEntity<ApiResponseDTO> updateActionStatus(
-            @PathVariable Long id,
-            @RequestParam String status) {
-        AdminAction updatedAction = adminActionService.updateActionStatus(id, status);
-        ApiResponseDTO response = new ApiResponseDTO(
-                200,
-                "Admin action status updated successfully",
-                updatedAction);
-        return ResponseEntity.ok(response);
+    @PatchMapping("/status/{userId}")
+    public ResponseEntity<ApiResponseDTO> toggleStatus(@PathVariable Long userId,
+                                                       @RequestParam String adminUsername) {
+        try {
+            AdminAction updatedAction = adminActionService.toggleUserStatusWithAction(userId, adminUsername);
+
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("userId", updatedAction.getTargetUser().getUserId());
+            responseData.put("username", updatedAction.getTargetUser().getUsername());
+            responseData.put("actionType", updatedAction.getActionType() != null
+                    ? updatedAction.getActionType().name()
+                    : "INACTIVE");
+
+            return ResponseEntity.ok(new ApiResponseDTO(200, "Status updated", responseData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500)
+                    .body(new ApiResponseDTO(500, "Internal server error", Map.of("error", e.getMessage())));
+        }
     }
+
+
+
+
 }

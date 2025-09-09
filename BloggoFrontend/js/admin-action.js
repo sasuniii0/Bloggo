@@ -32,31 +32,3 @@ function preventBackNavigation() {
         alert("Access denied. Your session has been terminated after logout.");
     };
 }
-
-// 🔄 Toggle Action Status
-function toggleActionStatus(id, badgeElement) {
-    fetch(`http://localhost:8080/api/v1/admin-actions/status/${id}`, {
-        method: "PATCH",
-        credentials: "include" // in case cookies/session are used
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.code === 200) {
-                const updated = data.data;
-                // Update badge text + color instantly in UI
-                if (updated.actionType === "ACTIVE") {
-                    badgeElement.textContent = "Active";
-                    badgeElement.className = "badge bg-success";
-                } else {
-                    badgeElement.textContent = "Inactive";
-                    badgeElement.className = "badge bg-secondary";
-                }
-            } else {
-                alert("Failed to update status!");
-            }
-        })
-        .catch(err => {
-            console.error("Error toggling status:", err);
-            alert("Server error while toggling status");
-        });
-}
