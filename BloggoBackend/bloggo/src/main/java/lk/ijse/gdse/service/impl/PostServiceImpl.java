@@ -198,7 +198,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-
     @Override
     public CommentDTO addComment(Long postId, String username, String content) {
         Post post = postRepository.findById(postId)
@@ -212,6 +211,20 @@ public class PostServiceImpl implements PostService {
         comment.setUser(user);
         comment.setPost(post);
         comment.setCreatedAt(LocalDateTime.now());
+
+        // --- SEND NOTIFICATION TO POST OWNER ---
+        User postOwner = post.getUser();
+        if (!user.getUserId().equals(postOwner.getUserId())) { // safer ID comparison
+            Notification notification = Notification.builder()
+                    .user(postOwner)
+                    .message(user.getUsername() + " commented on your post: " + post.getTitle()
+                            + " → \"" + content + "\"")
+                    .type(Type.COMMENT)
+                    .isRead(false)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            notificationRepository.save(notification);
+        }
 
         if (post.getComments() == null) {
             post.setComments(new ArrayList<>());

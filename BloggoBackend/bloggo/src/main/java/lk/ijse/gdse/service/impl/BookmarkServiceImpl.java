@@ -1,9 +1,9 @@
 package lk.ijse.gdse.service.impl;
 
-import lk.ijse.gdse.entity.Bookmark;
-import lk.ijse.gdse.entity.Post;
-import lk.ijse.gdse.entity.User;
+import jakarta.transaction.Transactional;
+import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.repository.BookmarkRepository;
+import lk.ijse.gdse.repository.NotificationRepository;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.BookmarkService;
@@ -21,12 +21,14 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final NotificationRepository notificationRepository;
 
     private User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    @Transactional
     @Override
     public Bookmark saveBookmark(Long postId, String username) {
         User user = getUserByUsername(username);
@@ -43,8 +45,23 @@ public class BookmarkServiceImpl implements BookmarkService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
+        // --- SEND NOTIFICATION TO POST OWNER ---
+        User postOwner = post.getUser();
+        if (postOwner != null) {
+            Notification notification = Notification.builder()
+                    .user(postOwner)
+                    .message(user.getUsername() + " saved your post: " + post.getTitle())
+                    .type(Type.BOOKMARK)
+                    .isRead(false)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            Notification saved = notificationRepository.save(notification);
+            System.out.println("Notification saved with ID: " + saved.getUser().getUsername());
+        }
+
         return bookmarkRepository.save(bookmark);
     }
+
 
     @Override
     public void removeBookmark(Long postId, String username) {

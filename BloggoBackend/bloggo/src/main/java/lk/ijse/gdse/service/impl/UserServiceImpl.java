@@ -5,6 +5,7 @@ import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.repository.NotificationRepository;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.repository.WalletRepository;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final WalletRepository walletRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public User saveUser(User user) {
@@ -147,6 +149,16 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         user.setMembershipStatus(MembershipStatus.PAID);
         user.setRole(RoleName.MEMBER);
+
+        // 2️⃣ Send congratulatory notification
+        Notification notification = Notification.builder()
+                .user(user)
+                .message("Congratulations, " + user.getUsername() + "! Your membership is now upgraded. 🎉")
+                .type(Type.MEMBERSHIP_SUCCESS) // Make sure your enum has a PAYMENT type
+                .isRead(false)
+                .createdAt(LocalDateTime.now())
+                .build();
+        notificationRepository.save(notification);
 
         // Create wallet if not exists
         if (user.getWallet() == null) {
