@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Load notifications for logged-in user
-// Load notifications for logged-in user
 async function loadNotifications() {
     const token = getToken();
     const userId = getUserId();
@@ -68,9 +67,9 @@ async function loadNotifications() {
         }
 
         const apiResponse = await res.json();
-        console.log("Fetched API response:", apiResponse);
+        console.log("Fetched notifications:", apiResponse);
 
-        const notifications = apiResponse.data; // ✅ take notifications from .data
+        const notifications = apiResponse.data; // ✅ Extract the array
 
         if (!notifications || notifications.length === 0) {
             allTab.innerHTML = `<div class="text-center text-muted">No notifications found</div>`;
@@ -82,17 +81,17 @@ async function loadNotifications() {
             const item = document.createElement("div");
             item.className = "card mb-2 shadow-sm";
             item.innerHTML = `
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <span class="fw-bold">${n.type}</span><br>
-                        <span>${n.message}</span>
-                        <div class="text-muted small">${new Date(n.createdAt).toLocaleString()}</div>
-                    </div>
-                    ${n.isRead
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold">${n.type}</span><br>
+                <span>${n.message}</span>
+                <div class="text-muted small">${new Date(n.createdAt).toLocaleString()}</div>
+            </div>
+            ${n.isRead
                 ? '<span class="badge bg-secondary">Read</span>'
                 : '<span class="badge bg-primary">New</span>'}
-                </div>
-            `;
+        </div>
+    `;
             allTab.appendChild(item);
         });
 
@@ -101,4 +100,3 @@ async function loadNotifications() {
         allTab.innerHTML = `<div class="text-center text-danger">Error fetching notifications</div>`;
     }
 }
-
