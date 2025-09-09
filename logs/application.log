@@ -6458,3 +6458,251 @@ java.lang.RuntimeException: User not found
 2025-09-09T11:27:30.610+05:30  INFO 23252 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-09-09T11:27:30.610+05:30  INFO 23252 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-09-09T11:27:30.612+05:30  INFO 23252 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-09T11:49:14.436+05:30  INFO 23252 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-09T11:49:14.441+05:30  INFO 23252 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-09T11:49:14.446+05:30  INFO 23252 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T11:49:14.450+05:30  INFO 23252 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-09T11:49:14.457+05:30  INFO 23252 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-09T11:49:19.826+05:30  INFO 13692 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 13692 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-09T11:49:19.828+05:30  INFO 13692 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-09T11:49:20.410+05:30  INFO 13692 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-09T11:49:20.510+05:30  INFO 13692 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 91 ms. Found 13 JPA repository interfaces.
+2025-09-09T11:49:20.872+05:30  INFO 13692 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-09T11:49:20.881+05:30  INFO 13692 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-09T11:49:20.881+05:30  INFO 13692 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-09T11:49:20.944+05:30  INFO 13692 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-09T11:49:20.944+05:30  INFO 13692 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1082 ms
+2025-09-09T11:49:21.061+05:30  INFO 13692 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-09T11:49:21.099+05:30  INFO 13692 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-09T11:49:21.125+05:30  INFO 13692 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-09T11:49:21.309+05:30  INFO 13692 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-09T11:49:21.331+05:30  INFO 13692 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-09T11:49:21.546+05:30  INFO 13692 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2375a976
+2025-09-09T11:49:21.548+05:30  INFO 13692 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-09T11:49:21.589+05:30  WARN 13692 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-09T11:49:21.600+05:30  INFO 13692 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-09T11:49:22.537+05:30  INFO 13692 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-09T11:49:22.728+05:30  INFO 13692 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T11:49:22.974+05:30  INFO 13692 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-09T11:49:23.684+05:30  INFO 13692 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-09T11:49:23.685+05:30  INFO 13692 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-09T11:49:24.074+05:30  WARN 13692 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-09T11:49:24.100+05:30  INFO 13692 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-09T11:49:24.523+05:30  INFO 13692 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-09T11:49:24.529+05:30  INFO 13692 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 5.045 seconds (process running for 5.621)
+2025-09-09T11:50:08.957+05:30  INFO 13692 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-09T11:50:08.957+05:30  INFO 13692 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-09T11:50:08.959+05:30  INFO 13692 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-09T11:51:01.191+05:30 ERROR 13692 --- [bloggo] [http-nio-8080-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.IllegalArgumentException: Page size must not be less than one] with root cause
+
+java.lang.IllegalArgumentException: Page size must not be less than one
+	at org.springframework.data.domain.AbstractPageRequest.<init>(AbstractPageRequest.java:50) ~[spring-data-commons-3.5.2.jar:3.5.2]
+	at org.springframework.data.domain.PageRequest.<init>(PageRequest.java:46) ~[spring-data-commons-3.5.2.jar:3.5.2]
+	at org.springframework.data.domain.PageRequest.of(PageRequest.java:73) ~[spring-data-commons-3.5.2.jar:3.5.2]
+	at org.springframework.data.domain.PageRequest.of(PageRequest.java:61) ~[spring-data-commons-3.5.2.jar:3.5.2]
+	at lk.ijse.gdse.controller.PostController.getPosts(PostController.java:124) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:360) ~[spring-aop-6.2.9.jar:6.2.9]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:724) ~[spring-aop-6.2.9.jar:6.2.9]
+	at lk.ijse.gdse.controller.PostController$$SpringCGLIB$$0.getPosts(<generated>) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.43.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.43.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at lk.ijse.gdse.util.JWTAuthFilter.doFilterInternal(JWTAuthFilter.java:46) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.2.jar:6.5.2]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.9.jar:6.2.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.43.jar:10.1.43]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2025-09-09T11:53:54.568+05:30  INFO 13692 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-09T11:53:54.579+05:30  INFO 13692 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-09T11:53:54.588+05:30  INFO 13692 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T11:53:54.590+05:30  INFO 13692 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-09T11:53:54.595+05:30  INFO 13692 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-09T11:53:58.478+05:30  INFO 9540 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 9540 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-09T11:53:58.479+05:30  INFO 9540 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-09T11:53:59.052+05:30  INFO 9540 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-09T11:53:59.118+05:30  INFO 9540 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 13 JPA repository interfaces.
+2025-09-09T11:53:59.461+05:30  INFO 9540 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-09T11:53:59.469+05:30  INFO 9540 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-09T11:53:59.469+05:30  INFO 9540 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-09T11:53:59.504+05:30  INFO 9540 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-09T11:53:59.504+05:30  INFO 9540 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 982 ms
+2025-09-09T11:53:59.594+05:30  INFO 9540 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-09T11:53:59.624+05:30  INFO 9540 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-09T11:53:59.654+05:30  INFO 9540 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-09T11:53:59.830+05:30  INFO 9540 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-09T11:53:59.848+05:30  INFO 9540 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-09T11:54:00.054+05:30  INFO 9540 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@708f7386
+2025-09-09T11:54:00.055+05:30  INFO 9540 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-09T11:54:00.094+05:30  WARN 9540 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-09T11:54:00.107+05:30  INFO 9540 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-09T11:54:00.945+05:30  INFO 9540 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-09T11:54:01.071+05:30  INFO 9540 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T11:54:01.270+05:30  INFO 9540 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-09T11:54:01.996+05:30  INFO 9540 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-09T11:54:01.996+05:30  INFO 9540 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-09T11:54:02.498+05:30  WARN 9540 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-09T11:54:02.529+05:30  INFO 9540 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-09T11:54:02.970+05:30  INFO 9540 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-09T11:54:02.975+05:30  INFO 9540 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.844 seconds (process running for 5.366)
+2025-09-09T11:54:06.926+05:30  INFO 9540 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-09T11:54:06.926+05:30  INFO 9540 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-09T11:54:06.927+05:30  INFO 9540 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-09-09T12:18:13.918+05:30  WARN 9540 --- [bloggo] [http-nio-8080-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-09-09T12:19:13.043+05:30  INFO 9540 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-09T12:19:13.052+05:30  INFO 9540 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-09T12:19:13.063+05:30  INFO 9540 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T12:19:13.067+05:30  INFO 9540 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-09T12:19:13.072+05:30  INFO 9540 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-09T12:19:17.656+05:30  INFO 20584 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 20584 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-09T12:19:17.658+05:30  INFO 20584 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-09T12:19:18.184+05:30  INFO 20584 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-09T12:19:18.250+05:30  INFO 20584 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 13 JPA repository interfaces.
+2025-09-09T12:19:18.593+05:30  INFO 20584 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-09T12:19:18.602+05:30  INFO 20584 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-09T12:19:18.602+05:30  INFO 20584 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-09T12:19:18.635+05:30  INFO 20584 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-09T12:19:18.636+05:30  INFO 20584 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 948 ms
+2025-09-09T12:19:18.722+05:30  INFO 20584 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-09T12:19:18.749+05:30  INFO 20584 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-09T12:19:18.783+05:30  INFO 20584 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-09T12:19:18.946+05:30  INFO 20584 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-09T12:19:18.964+05:30  INFO 20584 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-09T12:19:19.147+05:30  INFO 20584 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@36cf16a6
+2025-09-09T12:19:19.149+05:30  INFO 20584 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-09T12:19:19.183+05:30  WARN 20584 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-09T12:19:19.193+05:30  INFO 20584 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-09T12:19:19.947+05:30  INFO 20584 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-09T12:19:20.070+05:30  INFO 20584 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-09T12:19:20.220+05:30  INFO 20584 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-09T12:19:20.927+05:30  INFO 20584 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromEmail
+2025-09-09T12:19:20.927+05:30  INFO 20584 --- [bloggo] [main] f.a.AutowiredAnnotationBeanPostProcessor : Autowired annotation is not supported on static fields: private static java.lang.String lk.ijse.gdse.service.impl.SendGridEmailServiceImpl.fromName
+2025-09-09T12:19:21.351+05:30  WARN 20584 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-09T12:19:21.383+05:30  INFO 20584 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-09T12:19:21.813+05:30  INFO 20584 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-09T12:19:21.818+05:30  INFO 20584 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.488 seconds (process running for 5.038)
+2025-09-09T12:19:31.639+05:30  INFO 20584 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-09T12:19:31.640+05:30  INFO 20584 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-09T12:19:31.643+05:30  INFO 20584 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms

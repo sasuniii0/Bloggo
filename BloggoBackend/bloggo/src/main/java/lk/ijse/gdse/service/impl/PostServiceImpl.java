@@ -7,6 +7,9 @@ import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -262,5 +265,22 @@ public class PostServiceImpl implements PostService {
                 ))
                 .toList();
     }
+
+    @Override
+    public Page<PostDTO> getPosts(Pageable of) {
+       Page <Post> posts = postRepository.findAll(of);
+       return posts.map(post -> new PostDTO(
+               post.getPostId(),
+               post.getTitle(),
+               post.getContent(),
+               post.getUser().getUsername(),
+               post.getCoverImageUrl(),
+               post.getStatus(),
+               post.getPublishedAt(),
+               post.getBoosts() != null ? post.getBoosts().size() : 0,
+               post.getComments() != null ? post.getComments().size() : 0
+       ));
+    }
+
 
 }

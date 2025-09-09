@@ -9,11 +9,14 @@ import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.PostService;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -94,7 +97,7 @@ public class PostController {
 
     // ✅ Delete (owner only)
     @DeleteMapping("/delete/{postId}")
-    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER', 'ADMIN')")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
         Post existing = postService.getPostById(postId);
         if (existing == null) {
@@ -112,6 +115,26 @@ public class PostController {
         List<PostDTO> posts = postService.searchPosts(keyword);
         return ResponseEntity.ok(new ApiResponseDTO(200, "Posts found", posts));
     }
+
+    @GetMapping("getAll-pagination")
+    public ResponseEntity<ApiResponseDTO> getPosts(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "5") int size
+    ) {
+        if (size < 1) size = 5;
+        if (page < 0) page = 0;
+
+        Page<PostDTO> postPage = postService.getPosts(PageRequest.of(page, size));
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("posts", postPage.getContent()); // only the content
+        data.put("currentPage", postPage.getNumber());
+        data.put("totalItems", postPage.getTotalElements());
+        data.put("totalPages", postPage.getTotalPages());
+
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Posts retrieved successfully", data));
+    }
+
 }
 
 
