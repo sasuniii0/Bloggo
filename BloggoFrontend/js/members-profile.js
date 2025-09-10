@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
 
     await loadLoggedUserAvatar()
+    await getMorePeopleToFollow();
 
     if (!userId || !token) return;
 
@@ -171,3 +172,80 @@ async function loadLoggedUserAvatar() {
     }
 }
 
+async function getMorePeopleToFollow() {
+    const token = sessionStorage.getItem("jwtToken");
+    const loggedUserId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+    const params = new URLSearchParams(window.location.search);
+    const profileOwnerId = params.get("userId"); // from query string
+
+    if (!token || !loggedUserId || !profileOwnerId) return;
+
+    console.log("Fetching suggestions for", { loggedUserId, profileOwnerId });
+
+    try {
+        const res = await fetch(
+            `http://localhost:8080/user/suggestions?loggedUserId=${loggedUserId}&profileOwnerId=${profileOwnerId}`,
+            {
+                headers: { "Authorization": `Bearer ${token}` }
+            }
+        );
+
+        if (!res.ok) throw new Error("Failed to load suggestions");
+
+        // unwrap ApiResponseDTO
+        const apiResponse = await res.json();
+        const users = apiResponse.data || []; // assuming ApiResponseDTO has {status, message, data}
+
+        console.log("Fetched suggestions:", users);
+
+        const container = document.getElementById("more-people-container");
+        if (!container) return;
+
+        container.innerHTML = ""; // clear old items
+
+// Show only the first 5 users
+        users.slice(0, 5).forEach(user => {
+            const li = document.createElement("li");
+            li.className = "d-flex align-items-center mb-2";
+            li.innerHTML = `
+        <img src="${user.profileImage || '../assets/client1.jpg'}" 
+             class="rounded-circle me-2" width="32" height="32" alt="">
+        <span>${user.username}</span>
+    `;
+            container.appendChild(li);
+        });
+
+// Add "See all" link if more than 5 users
+        if (users.length > 5) {
+            container.insertAdjacentHTML("beforeend", `
+        <li>
+          <a href="members.html" class="text-decoration-none">See all (${users.length})</a>
+        </li>
+    `);
+        }
+
+
+
+        // Attach follow button handlers
+        container.querySelectorAll(".followBtn").forEach(btn => {
+            btn.addEventListener("click", async e => {
+                const userId = e.currentTarget.dataset.userId;
+                try {
+                    const res = await fetch(`http://localhost:8080/user/follow/${userId}`, {
+                        method: "POST",
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+                    if (!res.ok) throw new Error("Failed to follow user");
+                    e.currentTarget.textContent = "Following";
+                    e.currentTarget.disabled = true;
+                } catch (err) {
+                    console.error("Error following user:", err);
+                    alert("Could not follow user. Please try again.");
+                }
+            });
+        });
+
+    } catch (err) {
+        console.error("Failed to load suggestions:", err);
+    }
+}

@@ -163,4 +163,9 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Members fetched", members));
     }
 
+    @GetMapping("/suggestions")
+    public ResponseEntity<ApiResponseDTO> getSuggestions(@RequestParam Long loggedUserId, @RequestParam Long profileOwnerId) {
+        List<UserDTO> members = userService.getAllMembersExcludingLoggedUserAndProfileOwner(loggedUserId, profileOwnerId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Members fetched", members));
+    }
 }

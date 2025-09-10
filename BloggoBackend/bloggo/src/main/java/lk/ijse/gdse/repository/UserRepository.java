@@ -67,4 +67,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<Object[]> getMonthlyUserStats();
 
     List<User> findByRoleNotAndUserIdNotOrderByCreatedAtDesc(RoleName role, Long userId);
+
+    List<User> findByRoleNotAndUserIdNotInOrderByCreatedAtDesc(RoleName roleName, List<Long> loggedUserId);
 }

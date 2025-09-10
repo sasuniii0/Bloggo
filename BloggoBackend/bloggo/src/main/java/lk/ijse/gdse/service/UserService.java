@@ -51,4 +51,6 @@ public interface UserService {
     List<UserDTO> getAllMembersExcludingAdminAndSelf(Long loggedUserId);
 
     UserDTO getUserDTOById(Long userId);
+
+    List<UserDTO> getAllMembersExcludingLoggedUserAndProfileOwner(Long loggedUserId, Long profileOwnerId);
 }
