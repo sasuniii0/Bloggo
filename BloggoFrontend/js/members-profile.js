@@ -180,64 +180,58 @@ async function getMorePeopleToFollow() {
 
     if (!token || !loggedUserId || !profileOwnerId) return;
 
-    console.log("Fetching suggestions for", { loggedUserId, profileOwnerId });
-
     try {
         const res = await fetch(
             `http://localhost:8080/user/suggestions?loggedUserId=${loggedUserId}&profileOwnerId=${profileOwnerId}`,
-            {
-                headers: { "Authorization": `Bearer ${token}` }
-            }
+            { headers: { "Authorization": `Bearer ${token}` } }
         );
 
         if (!res.ok) throw new Error("Failed to load suggestions");
 
-        // unwrap ApiResponseDTO
         const apiResponse = await res.json();
-        const users = apiResponse.data || []; // assuming ApiResponseDTO has {status, message, data}
-
-        console.log("Fetched suggestions:", users);
+        const users = apiResponse.data || [];
 
         const container = document.getElementById("more-people-container");
         if (!container) return;
 
         container.innerHTML = ""; // clear old items
 
-// Show only the first 5 users
         users.slice(0, 5).forEach(user => {
             const li = document.createElement("li");
             li.className = "d-flex align-items-center mb-2";
             li.innerHTML = `
-        <img src="${user.profileImage || '../assets/client1.jpg'}" 
-             class="rounded-circle me-2" width="32" height="32" alt="">
-        <span>${user.username}</span>
-    `;
+                <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="32" height="32" alt="">
+                <span>${user.username}</span>
+                <button class="followBtn btn btn-sm btn-primary ms-auto" data-user-id="${user.userId}">Follow</button>
+            `;
             container.appendChild(li);
         });
 
-// Add "See all" link if more than 5 users
-        if (users.length > 5) {
-            container.insertAdjacentHTML("beforeend", `
-        <li>
-          <a href="members.html" class="text-decoration-none">See all (${users.length})</a>
-        </li>
-    `);
-        }
-
-
-
-        // Attach follow button handlers
         container.querySelectorAll(".followBtn").forEach(btn => {
-            btn.addEventListener("click", async e => {
-                const userId = e.currentTarget.dataset.userId;
+            btn.addEventListener("click", async (e) => {
+                const button = e.currentTarget; // store reference
+                const followedId = button.dataset.userId;
+
                 try {
-                    const res = await fetch(`http://localhost:8080/user/follow/${userId}`, {
-                        method: "POST",
-                        headers: { "Authorization": `Bearer ${token}` }
-                    });
+                    const res = await fetch(
+                        `http://localhost:8080/api/v1/follows/${followedId}`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            }
+                        }
+                    );
+
                     if (!res.ok) throw new Error("Failed to follow user");
-                    e.currentTarget.textContent = "Following";
-                    e.currentTarget.disabled = true;
+
+                    // Update button safely
+                    if (button) {
+                        button.textContent = "Following";
+                        button.disabled = true;
+                    }
+
                 } catch (err) {
                     console.error("Error following user:", err);
                     alert("Could not follow user. Please try again.");
@@ -245,7 +239,9 @@ async function getMorePeopleToFollow() {
             });
         });
 
+
     } catch (err) {
         console.error("Failed to load suggestions:", err);
     }
 }
+

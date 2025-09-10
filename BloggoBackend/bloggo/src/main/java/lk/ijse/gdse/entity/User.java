@@ -82,16 +82,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Payment> payments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "follow",
-            joinColumns = @JoinColumn(name = "followerId"),
-            inverseJoinColumns = @JoinColumn(name = "followedId")
-    )
-    private Set<User> following = new HashSet<>();
+    // Followers / Following
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> following; // Users this user follows
 
-    @ManyToMany(mappedBy = "following")
-    private Set<User> followers = new HashSet<>();
+    @OneToMany(mappedBy = "followed")
+    private List<Follow> followers; // Users following this user
 
 
     // Add wallet relationship
