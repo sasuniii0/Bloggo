@@ -58,7 +58,7 @@ async function loadPosts(page = 1) {
                     </p>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button class="btn btn-sm btn-danger" onclick="deletePost(${post.id})">Delete</button>
+                    <button class="btn btn-sm " onclick="deletePost(${post.id})">Delete</button>
                 </div>
             </div>
         </div>

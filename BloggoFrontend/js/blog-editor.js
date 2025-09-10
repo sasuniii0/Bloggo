@@ -16,6 +16,35 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
         editor.focus();
         return;
     }
+
+
+    const editor = document.getElementById("editor");
+    const toolbar = document.querySelector(".toolbar");
+    const plusBtn = document.getElementById("plusBtn");
+
+// Show "+" when editor is focused
+    editor.addEventListener("focus", () => {
+        plusBtn.style.display = "block";
+    });
+
+// Hide "+" if editor loses focus
+    editor.addEventListener("blur", () => {
+        setTimeout(() => {
+            plusBtn.style.display = "none";
+            toolbar.style.display = "none";
+        }, 200);
+    });
+
+// Toggle toolbar when "+" clicked
+    plusBtn.addEventListener("click", () => {
+        if (toolbar.style.display === "flex") {
+            toolbar.style.display = "none";
+        } else {
+            toolbar.style.display = "flex";
+        }
+    });
+
+
     let coverImageUrl = null;
     const file = coverInput.files[0];
     if (file){

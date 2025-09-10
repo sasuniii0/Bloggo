@@ -7,6 +7,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!postId) return alert("⚠️ Story not found");
 
     await loadLoggedUser();
+    await loadCurrentUser(token)
+
+    // ============================
+// Load Current User for Avatar
+// ============================
+    async function loadCurrentUser(token) {
+        try {
+            const res = await fetch("http://localhost:8080/user/me", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (!res.ok) throw new Error("Failed to load user");
+            const user = await res.json();
+            const avatar = document.querySelector(".avatar");
+            if (avatar) avatar.src = user.profileImage || "../assets/default.png";
+        } catch (err) {
+            console.error("Error loading user:", err);
+        }
+    }
+
     loggedInUser = sessionStorage.getItem("username"); // refresh after loadLoggedUser
 
     // --- DOM Elements ---

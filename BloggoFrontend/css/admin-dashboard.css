@@ -1,60 +1,177 @@
-/* ===========================
-   Modern Admin Dashboard Styles
-   =========================== */
+/* ==========================
+   Admin Dashboard Full CSS
+   ========================== */
+:root {
+    /* Primary Colors */
+    --primary: #010205;
+    --primary-light: #818CF8;
+    --accent-color: #06B6D4;
+    --accent-light: #764BA2;
 
-/* Global reset for smoother UI */
-body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e0e7ff 100%);
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1f2937;
+    /* Background Colors */
+    --bg: #FFFFFF;
+    --bg-white: #FFFFFF;
+    --bg-light: #F8FAFC;
+    --bg-section: #FEFEFE;
+    --surface: #f5fbff;
+
+    /* Text Colors */
+    --text-primary: #1A202C;
+    --text-secondary: #4A5568;
+    --text-muted: #718096;
+
+    /* Borders & Radius */
+    --border-color: #E2E8F0;
+    --border: #E5E7EB;
+    --radius: 16px;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 25px rgba(0,0,0,0.08);
+    --shadow-deep: 0 10px 30px rgba(0,0,0,0.1);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.1);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-soft: linear-gradient(135deg, #667eea22 0%, #764ba233 100%);
+
+    /* Misc */
+    --hover-bg: rgba(79,70,229,0.05);
+    --transition: all 0.3s ease;
 }
 
-/* Glass Navbar */
+/* ================= GLOBAL ================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+body, html {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    padding-top: 30px; /* for fixed navbar */
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover { color: var(--primary-light); }
+
+/* ================= NAVBAR ================= */
 .glass-navbar {
-    position: sticky;
-    top: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1050;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* BLOGGO left, actions right */
     align-items: center;
-    padding: 1rem 2rem;
-    width: 60%;
-    margin: 1rem auto 2rem;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    padding: 0.6rem 1.5rem;
+    background: rgba(255,255,255,0.85);
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
 }
 
-.glass-navbar:hover {
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+.glass-navbar.scrolled {
+    padding: 0.5rem 1.5rem;
+    background: rgba(255,255,255,0.95);
+    box-shadow: var(--shadow-deep);
 }
 
-.glass-navbar a {
-    color: #111827;
-    font-weight: 500;
-    margin: 0 1.2rem;
-    text-decoration: none;
-    padding: 0.6rem 1rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-
-.glass-navbar a:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-}
-
-/* Navbar brand */
 .navbar-brand {
     font-weight: 700;
-    font-size: 1.6rem;
-    color: #111827;
-    letter-spacing: 1.5px;
-    user-select: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+}
+
+.navbar-brand img {
+    height: 36px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.profile-menu img.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-menu img.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.profile-menu .dropdown-menu {
+    right: 0;
+    min-width: 180px;
+    border-radius: 12px;
+    padding: 6px 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.btn {
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 10px 24px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-primary);
 }
 
 /* ===========================
@@ -62,7 +179,6 @@ body {
    =========================== */
 .sidebar {
     position: sticky;      /* Stays visible while scrolling */
-    top: 60px;             /* Below navbar */
     height: calc(100vh - 60px); /* Full height minus navbar */
     width: 220px;          /* Fixed width for sidebar */
     background-color: #ffffff;
@@ -85,7 +201,7 @@ body {
 
 .sidebar a:hover {
     background-color: #f3f4f6;
-    color: #111827;
+    color: var(--primary-light);
     border-radius: 8px;
     transform: translateX(4px);
 }
@@ -227,8 +343,8 @@ body {
     color: #fff;
     font-weight: 500;
 }
-
-/* Buttons */
+/*
+!* Buttons *!
 .btn {
     padding: 10px 18px;
     border-radius: 999px;
@@ -250,7 +366,7 @@ body {
     padding: 6px 12px;
     font-size: 0.85rem;
     border-radius: 12px;
-}
+}*/
 
 #btn-publish {
     background: #6366f1;

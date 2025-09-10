@@ -16,60 +16,83 @@
 </head>
 <body>
 <header class="sticky-top">
-    <nav class="glass-navbar align-items-center">
+    <nav class="glass-navbar navbar navbar-expand-lg navbar-light px-4 py-2 shadow-sm">
         <h1 class="navbar-brand" href="#" aria-label="Bloggo Home">BLOGGO</h1>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a href="dashboard.html"><i class="fas fa-home me-1"></i> Home</a>
-        <a href="notification.html"><i class="fas fa-bell me-1"></i> Notifications</a>
-        <a href="blog-editor.html"><i class="fas fa-pen me-1"></i> Write</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navigation Links -->
+            <div class="nav-container">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="dashboard.html"><i class="fas fa-home me-1"></i> Home</a></li>
+                    <li class="nav-item"><a href="notification.html"><i class="fas fa-bell me-1"></i> Notifications</a></li>
+                    <li class="nav-item"><a href="blog-editor.html"><i class="fas fa-pen me-1"></i> Write</a></li>
+                </ul>
+            </div>
 
-        <!-- User Profile Menu -->
-        <div class="dropdown profile-menu">
-            <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li>
-                    <a class="dropdown-item" href="stories.html">
-                        <i class="fas fa-user me-2"></i> Profile
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="saved-bookmarks.html">
-                        <i class="fas fa-bookmark me-2"></i> My Library
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="membership.html">
-                        <i class="fas fa-star me-2"></i> Become a Member
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="settings.html">
-                        <i class="fas fa-cog me-2"></i> Settings
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item text-danger" href="logout.html" onclick="logout()">
-                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </a>
-                </li>
-            </ul>
-
+            <!-- User Profile Menu -->
+            <div class="dropdown profile-menu">
+                <a href="#" class="d-block" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../assets/boy%20(1).png" class="avatar" alt="Profile Avatar">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li>
+                        <a class="dropdown-item" href="stories.html">
+                            <i class="fas fa-user me-2"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="saved-bookmarks.html">
+                            <i class="fas fa-bookmark me-2"></i> My Library
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="membership.html">
+                            <i class="fas fa-star me-2"></i> Become a Member
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="settings.html">
+                            <i class="fas fa-cog me-2"></i> Settings
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="logout.html" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
+
     </nav>
 </header>
 
-<main class="container my-5">
+<main class="container my-2">
+    <div class="container mt-2 d-flex align-items-center justify-content-between">
+        <!-- Left side -->
+        <p class="fw-bold fs-3 mb-0" style="opacity: 0.3;">
+            <span style="font-size: 3.5rem;">T</span>ell your story...
+        </p>
+
+        <!-- Right side buttons -->
+        <div>
+            <a id="btn-draft" class="btn btn-outline-secondary me-2" href="#">Draft</a>
+            <a id="btn-schedule" class="btn btn-outline-secondary" href="#">Schedule</a>
+            <a id="btn-publish" class="btn btn-primary" href="#">Publish</a>
+        </div>
+    </div>
+
+
     <div class="editor-container">
-        <!-- Title -->
-        <input type="text" class="form-control form-control-lg border-0 fw-bold px-3 pt-3"
-               placeholder="Title">
+
+        <!--&lt;!&ndash; Title &ndash;&gt;
+       -->
 
         <!-- Toolbar -->
         <div class="toolbar border-bottom p-3 bg-light d-flex flex-wrap gap-2 align-items-center" >
@@ -85,25 +108,31 @@
             <button onclick="format('formatBlock','<h1>')" class="btn btn-sm btn-outline-secondary" title="Heading 1">H1</button>
             <button onclick="format('formatBlock','<h2>')" class="btn btn-sm btn-outline-secondary" title="Heading 2">H2</button>
             <button onclick="format('formatBlock','<pre>')" class="btn btn-sm btn-outline-secondary" title="Code Block">{ }</button>
-            <button onclick="insertImage()" class="btn btn-sm btn-outline-secondary" title="Insert Image">🖼️</button>
             <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="uploadImage(event)">
             <button onclick="format('undo')" class="btn btn-sm btn-outline-secondary" title="Undo">↺</button>
             <button onclick="format('redo')" class="btn btn-sm btn-outline-secondary" title="Redo">↻</button>
 
-            <div class="ms-auto">
-                <a id="btn-publish" class="btn" href="#">Publish</a>
-            </div>
         </div>
+
+        <input type="text" class="form-control form-control-lg border-0 fw-bold" style="border: none"
+               placeholder="Add Title">
+
         <!-- Cover Image Upload -->
         <div class="mb-3  p-3">
-            <label for="coverImageInput" class="form-label fw-bold">Cover Image</label>
+            <label for="coverImageInput" class="form-label fw-bold">Add Cover Image</label>
             <input type="file" class="form-control" id="coverImageInput" accept="image/*">
             <img id="coverPreview" src="" alt="Cover Preview" class="img-fluid mt-2" style="max-height: 300px; display: none;">
         </div>
 
         <!-- Editor -->
         <div class="editor-wrapper position-relative">
-            <div class="editor" id="editor" contenteditable="true" placeholder="Start writing your story..."></div>
+            <div class="editor-wrapper position-relative">
+                <!-- Plus button (hidden at first) -->
+                <button id="plusBtn" class="plus-btn" style="display: none;">+</button>
+
+                <!-- Editor -->
+                <div class="editor" id="editor" contenteditable="true" placeholder="Start writing your story..."></div>
+            </div>
         </div>
 
 
