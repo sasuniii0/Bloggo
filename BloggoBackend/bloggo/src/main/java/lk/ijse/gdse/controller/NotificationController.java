@@ -40,4 +40,15 @@ public class NotificationController {
                         .build()
         );
     }
+
+    @GetMapping("/unread/{userId}")
+    public ResponseEntity<ApiResponseDTO> getUnreadNotifications(@PathVariable Long userId) {
+        List<NotificationDTO> unread = notificationService.getUnreadNotifications(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
+                "Unread notifications fetched successfully",
+                unread
+        ));
+    }
+
 }

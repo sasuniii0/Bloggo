@@ -297,3 +297,8 @@ a:hover { color: var(--primary-light); }
     justify-content: flex-start;
     margin-bottom: 1rem;
 }
+
+.badge-new {
+    background-color: #764BA2; /* Deep purple */
+    color: #ffffff;            /* White text */
+}

@@ -58,4 +58,19 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setIsRead(true);
         notificationRepository.save(notification);
     }
+
+    @Override
+    public List<NotificationDTO> getUnreadNotifications(Long userId) {
+        List<Notification> unread = notificationRepository.findByUserUserIdAndIsReadFalse(userId);
+        return unread.stream().map(notification -> new NotificationDTO(
+                notification.getNotificationId(),
+                notification.getMessage(),
+                notification.getType(),
+                notification.getIsRead(),
+                notification.getUser().getUserId(),
+                notification.getCreatedAt()
+        )).toList();
+    }
+
+
 }

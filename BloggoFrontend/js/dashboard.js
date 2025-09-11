@@ -10,10 +10,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    showLoading(); // Show loading overlay
+    showLoading();
 
     try {
-        await Promise.all([loadPosts(token), loadUsers(token), loadTags(token), loadCurrentUser(token)]);
+        // ✅ show top alert only on login
+        await Promise.all([
+            loadNotifications(true),
+            loadPosts(token),
+            loadUsers(token),
+            loadTags(token),
+            loadCurrentUser(token)
+        ]);
     } catch (err) {
         console.error("Error loading dashboard:", err);
         feedContainer.innerHTML = `<p class="text-danger">⚠️ Error loading dashboard.</p>`;
@@ -23,6 +30,63 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     setupSearch(token);
 });
+
+// ============================
+// Top Alert Function
+// ============================
+function showTopAlert(message, duration = 4000) {
+    let alertBox = document.getElementById("top-alert");
+
+    // If not in DOM, create it
+    if (!alertBox) {
+        alertBox = document.createElement("div");
+        alertBox.id = "top-alert";
+        alertBox.className = "top-alert d-none";
+        document.body.appendChild(alertBox);
+    }
+
+    alertBox.innerHTML = message; // <-- change here
+    alertBox.classList.remove("d-none");
+
+    // Auto hide
+    setTimeout(() => {
+        alertBox.classList.add("d-none");
+    }, duration);
+}
+
+async function loadNotifications(showAlert = true) {
+    try {
+        const token = sessionStorage.getItem("jwtToken");
+        if (!token) return;
+
+        const loggedUserId = sessionStorage.getItem("userId");
+        if (!loggedUserId) return;
+
+        const res = await fetch(`http://localhost:8080/api/v1/notification/unread/${loggedUserId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!res.ok) throw new Error(`Failed to load notifications: ${res.status}`);
+
+        const notificationsRes = await res.json();
+        const notifications = notificationsRes.data || [];
+
+        if (showAlert) {
+            const unread = notifications.filter(n => !n.isRead);
+            if (unread.length > 0) {
+                showTopAlert(`<i class="fas fa-bell me-2"></i> You have ${unread.length} new notifications!`);
+            }
+        }
+
+
+
+        return notifications;
+
+    } catch (err) {
+        console.error("Error loading notifications:", err);
+    }
+}
+
 
 // ============================
 // Loading Overlay

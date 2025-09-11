@@ -192,6 +192,28 @@ a:hover { color: var(--primary-light); }
     cursor: pointer;
     color: var(--text-primary);
 }
+.top-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-color); /* Professional indigo gradient */
+    color: var(--bg-white); /* White text */
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-weight: bold;
+    z-index: 1050;
+    box-shadow: var(--shadow-lg);
+    animation: slideDown 0.3s ease-out;
+    text-align: center;
+    min-width: 250px;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
 
 /*
 :root {

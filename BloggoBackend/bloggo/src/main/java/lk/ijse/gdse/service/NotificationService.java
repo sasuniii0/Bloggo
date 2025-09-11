@@ -12,4 +12,7 @@ public interface NotificationService {
     List<NotificationDTO> getUserNotifications(Long userId);
 
     void markAsRead(Long id);
+
+    List<NotificationDTO> getUnreadNotifications(Long userId);
+
 }

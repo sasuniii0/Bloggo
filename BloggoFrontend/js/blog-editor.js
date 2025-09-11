@@ -1,10 +1,12 @@
 const editor = document.getElementById('editor');
 const autosave = document.getElementById('autosave');
 const titleInput = document.querySelector('.form-control');
+const localEditor = document.getElementById("editor");
+
 
 document.getElementById('btn-publish').addEventListener('click', async () => {
     const title = titleInput.value.trim();
-    const content = editor.innerHTML.trim();
+    const content = localEditor.innerHTML.trim();
 
     if (!title) {
         alert('Please enter a title for your blog post.');
@@ -13,7 +15,7 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     }
     if (!content || content === '<br>') {
         alert('Please enter some content for your blog post.');
-        editor.focus();
+        localEditor.focus();
         return;
     }
 
