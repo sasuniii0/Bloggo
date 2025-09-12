@@ -1,20 +1,22 @@
 :root {
-    --primary: #000000;
-    --primary-hover: #1666cc;
-    --muted: #6b7280;
-    --light: #f8fafc;
-    --dark: #1f2937;
-    --border: #e5e7eb;
-    --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+    /* Colors */
+    --primary: #000000;           /* Black */
+    --primary-hover: #222222;     /* Dark Gray on hover */
+    --muted: #6b7280;             /* Gray for secondary text */
+    --light: #f8f8f8;             /* Light gray background */
+    --dark: #1f2937;              /* Dark gray text */
+    --border: #e5e5e5;            /* Light border */
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
     --radius: 16px;
-    --bs-purple: #6f42c1;
+    --white: #ffffff;
 }
 
+/* Body */
 body {
     font-family: 'Inter', sans-serif;
     color: var(--dark);
     line-height: 1.6;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: var(--white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -22,9 +24,9 @@ body {
 
 /* Header */
 header {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: saturate(180%) blur(12px);
+    background: var(--white);
     border-bottom: 1px solid var(--border);
+    backdrop-filter: saturate(180%) blur(12px);
 }
 
 .brand-logo {
@@ -35,10 +37,11 @@ header {
 .navbar-nav .nav-link {
     font-weight: 500;
     color: var(--dark);
+    transition: color 0.3s;
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--primary);
+    color: var(--primary-hover);
 }
 
 /* Hero Section */
@@ -47,7 +50,7 @@ header {
 }
 
 .hero-card {
-    background: var(--light);
+    background: var(--white);
     border: 1px solid var(--border);
     padding: 1rem;
     border-radius: var(--radius);
@@ -58,6 +61,7 @@ header {
 .display-4 {
     font-family: 'Lora', serif;
     font-weight: 700;
+    color: var(--dark);
 }
 
 .hero-image img {
@@ -66,19 +70,18 @@ header {
 
 /* OAuth Buttons */
 .oauth-btn {
-    width: 60px;                 /* fixed width */
-    height: 60px;                /* fixed height */
+    width: 60px;
+    height: 60px;
     border: 2px solid var(--border);
-    border-radius: 50%;          /* makes it circular */
-    background: white;
+    border-radius: 50%;
+    background: var(--white);
     display: flex;
     align-items: center;
-    justify-content: center;     /* centers icon */
-    font-size: 1.2rem;           /* optional */
-    font-weight: 600;
+    justify-content: center;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    padding: 0;                  /* remove extra padding */
+    padding: 0;
 }
 
 .oauth-btn img {
@@ -91,26 +94,26 @@ header {
     box-shadow: var(--shadow);
 }
 
-
-
 /* Carousel */
 .carousel-img {
     height: 400px;
     object-fit: cover;
+    filter: grayscale(20%);
 }
 
 .carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 8px;
     padding: 1rem;
     bottom: 2rem;
     left: 2rem;
     right: 2rem;
+    color: var(--white);
 }
 
 /* Category Cards */
 .cat-card {
-    background: white;
+    background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -120,7 +123,7 @@ header {
 
 .cat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(2, 6, 23, 0.15);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
 
 .cat-thumb {
@@ -133,6 +136,7 @@ header {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    filter: grayscale(10%);
 }
 
 .cat-card:hover .cat-thumb img {
@@ -141,16 +145,35 @@ header {
 
 .cat-body {
     padding: 1.25rem;
+    color: var(--dark);
 }
 
-.bg-purple {
-    background-color: var(--bs-purple) !important;
+/* Buttons */
+.btn {
+    font-weight: 500;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--dark);
+    padding: 10px 24px;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
 /* Footer */
 footer {
-    background: white;
+    background: var(--white);
     margin-top: auto;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    padding: 1.5rem 0;
+    text-align: center;
 }
 
 /* Utilities */

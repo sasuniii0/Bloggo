@@ -77,18 +77,14 @@
 </div>
 
 
-<main class="container mt-4">
-    <div class="row">
+<main class="container px-6">
+    <div class="row justify-content-center">
         <!-- Story Content Column -->
-        <div class="col-12">
-            <!-- Story Actions (Edit/Delete) -->
-            <div class="story-actions" id="story-actions">
-                <!-- Edit & Delete buttons will be injected here -->
-            </div>
+        <div class="col-11">
 
             <!-- Story Content -->
-            <div class="glass-container">
-                <div class="story-header">
+            <div class="glass-container border rounded shadow-sm px-4">
+                <div class="story-header p-1">
                     <h1 class="story-title" id="storyTitle">Story Title</h1>
 
                     <div class="story-meta">
@@ -122,10 +118,15 @@
                         <i class="far fa-bookmark"></i> Save
                     </button>
                 </div>
+
+                <!-- Story Actions (Edit/Delete) -->
+                <div class="story-actions" id="story-actions" >
+                    <!-- Edit & Delete buttons will be injected here -->
+                </div>
             </div>
 
             <!-- Comments Section -->
-            <div class="glass-container">
+            <div class="glass-container border rounded shadow-sm" style="border: black 1px">
                 <div class="comments-header">
                     <h3><i class="far fa-comments me-2"></i> Comments</h3>
                     <span class="badge glass-thin" id="commentsCount">0</span>

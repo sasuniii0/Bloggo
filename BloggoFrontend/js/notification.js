@@ -62,6 +62,7 @@ async function loadNotifications() {
 
         const apiResponse = await res.json();
         const notifications = apiResponse.data;
+        console.log(notifications)
 
         if (!notifications || notifications.length === 0) {
             allTab.innerHTML = `<div class="text-center text-muted">No notifications found</div>`;
@@ -79,7 +80,7 @@ async function loadNotifications() {
                         <span>${n.message}</span>
                         <div class="text-muted small">${new Date(n.createdAt).toLocaleString()}</div>
                     </div>
-                    ${n.isRead
+                    ${n.read
                 ? '<span class="badge bg-secondary">Read</span>'
                 : '<span class="badge badge-new">New</span>'}
                 </div>

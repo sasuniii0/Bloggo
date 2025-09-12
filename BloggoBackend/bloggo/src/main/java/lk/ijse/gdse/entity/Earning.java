@@ -29,7 +29,7 @@ public class Earning {
     private Double amount;
 
     @ManyToOne
-    @JoinColumn(name = "postId", nullable = false)
+    @JoinColumn(name = "postId", nullable = true)
     private Post post;
     private LocalDateTime createdAt;
 }

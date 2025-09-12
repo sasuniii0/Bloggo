@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Render each bookmark as a separate card
             allTabEl.innerHTML = bookmarks.map(b => `
-                <div class="card p-3 mb-3" style="background: #f5fbff;">
+                <div class="card p-3 mb-3">
                     <div class="d-flex gap-3">
                         ${b.coverImage ? `
                             <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">

@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
+    const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+
 
     if (!token) return;
 
@@ -10,6 +12,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
+        const response = await fetch(`http://localhost:8080/api/v1/follows/${userId}/count`,{
+            headers:{
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (!response.ok)throw new Error("Failed to load followers")
+        const count = await response.json();
+        console.log(count)
+
         if (!res.ok) throw new Error("Failed to load user");
 
         const user = await res.json();
@@ -18,6 +31,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
         document.querySelector(".profile-name").textContent = user.username;
         document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+        const followersEl = document.querySelector("#edit-profile-card p a");
+        if (followersEl) followersEl.textContent = `${count.followersCount || 0} Followers`;
+
 
         // Top navbar avatar
         document.querySelector(".avatar").src = user.profileImage || "../assets/client1.jpg";

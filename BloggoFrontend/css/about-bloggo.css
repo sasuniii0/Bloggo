@@ -58,7 +58,6 @@ body {
     border-radius:999px;
     border:1px solid var(--border);
     background:#fff;
-    color:var(--text);
     font-weight:600;
     transition:.2s;
     cursor:pointer

@@ -134,8 +134,8 @@ async function loadPosts(token) {
                         <div class="blog-meta d-flex justify-content-between">
                             <span>by ${post.username || "Unknown"}</span>
                             <span>
-  <i class="fas fa-rocket me-1 text-primary"></i> ${post.boostCount || 0} ·
-  <i class="fas fa-comment-alt me-1 text-secondary"></i> ${post.commentsCount || 0}
+  <i class="fas fa-rocket me-1 text-black"></i> ${post.boostCount || 0} ·
+  <i class="fas fa-comment-alt me-1 text-black"></i> ${post.commentsCount || 0}
 </span>
 
                         </div>

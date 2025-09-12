@@ -2,10 +2,7 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.entity.*;
-import lk.ijse.gdse.repository.EarningRepository;
-import lk.ijse.gdse.repository.FollowRepository;
-import lk.ijse.gdse.repository.UserRepository;
-import lk.ijse.gdse.repository.WalletRepository;
+import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,7 @@ public class FollowServiceImpl implements FollowService {
 
     private static final double FOLLOW_EARNING_AMOUNT = 0.5;
 
+    private final NotificationRepository notificationRepository;
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
@@ -48,6 +46,15 @@ public class FollowServiceImpl implements FollowService {
                 .createdAt(LocalDateTime.now())
                 .build();
         followRepository.save(follow);
+
+        Notification notification = Notification.builder()
+                .user(follower) // who receives the notification (logged-in user)
+                .message(follower+" followed" + followed.getUsername())
+                .createdAt(LocalDateTime.now())
+                .type(Type.FOLLOW) // optional enum type
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
 
         // Reward followed user if MEMBER
         if (isMember(followed)) {
@@ -83,4 +90,15 @@ public class FollowServiceImpl implements FollowService {
     private boolean isMember(User user) {
         return user.getRole() == RoleName.MEMBER;
     }
+
+    @Override
+    public boolean isFollowing(Long followerId, Long followedId) {
+        User follower = userRepository.findById(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+        User followed = userRepository.findById(followedId)
+                .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
+
+        return followRepository.existsByFollowerAndFollowed(follower, followed);
+    }
+
 }

@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 // Call once on page load
-    updateBookmarkButton();
+    await updateBookmarkButton();
 
 // Toggle bookmark on click
     bookmarkBtn.addEventListener("click", async () => {

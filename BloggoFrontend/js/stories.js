@@ -72,24 +72,33 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ${post.content ? post.content.substring(0, 300) + "..." : ""}
                 </p>
                 
-                <!-- Read More Link -->
-                <a href="story-detail.html?id=${post.id || post.postId}" 
-                   class="text-decoration-none mb-3">
-                   Read More
-                </a>
-                
-                <!-- Action Buttons -->
-                <div class="d-flex justify-content-start align-items-center gap-2">
-                    <button class="btn btn-sm btn-outline-secondary like-btn" data-id="${post.id}">
-                        🚀 Boost <span class="like-count">${post.likes || 0}</span>
-                    </button>
-                    <button class="btn btn-sm btn-outline-secondary comment-btn" data-id="${post.id}">
-                        💬 Comments (${post.commentsCount || 0})
-                    </button>
-                    <button class="btn btn-sm btn-outline-warning bookmark-btn ms-auto" data-id="${post.id}">
-                        🔖 Save
-                    </button>
-                </div>
+               <!-- Read More Link -->
+<a href="story-detail.html?id=${post.id || post.postId}" 
+   class="text-decoration-none mb-3">
+   <i class="fa-solid fa-book-open-reader me-1"></i> Read More
+</a>
+
+<!-- Action Buttons -->
+<div class="d-flex justify-content-start align-items-center gap-2">
+    <!-- Boost -->
+    <button class="btn btn-sm btn like-btn" data-id="${post.id}">
+        <i class="fa-solid fa-rocket me-1"></i>
+        Boost <span class="like-count">${post.likes || 0}</span>
+    </button>
+
+    <!-- Comments -->
+    <button class="btn btn-sm btn comment-btn" data-id="${post.id}">
+        <i class="fa-regular fa-comments me-1"></i>
+        Comments (${post.commentsCount || 0})
+    </button>
+
+    <!-- Save -->
+    <button class="btn btn-sm btn bookmark-btn ms-auto" data-id="${post.id}">
+        <i class="fa-regular fa-bookmark me-1"></i>
+        Save
+    </button>
+</div>
+
             </div>
         </div>
     `).join("");
@@ -124,6 +133,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
 
         if (!token) return;
+        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+
 
         try{
             const res = await fetch("http://localhost:8080/user/me",{
@@ -131,6 +142,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Authorization" : `Bearer ${token}`
                 }
             });
+
+            const response = await fetch(`http://localhost:8080/api/v1/follows/${userId}/count`,{
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok)throw new Error("Failed to load followers")
+            const count = await response.json();
+            console.log(count)
+
             if (!res.ok) throw new Error("Failed to load user...")
 
             const user = await res.json();
@@ -140,6 +163,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
             document.querySelector(".profile-name").textContent = user.username;
             document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+
+            const followersEl = document.querySelector("#edit-profile-card p a");
+            if (followersEl) followersEl.textContent = `${count.followersCount || 0} Followers`;
 
             const roleBadge = document.querySelector('.profile-name + small');
 

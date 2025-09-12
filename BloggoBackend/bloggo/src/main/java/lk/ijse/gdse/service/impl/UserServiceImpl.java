@@ -5,10 +5,7 @@ import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.*;
-import lk.ijse.gdse.repository.NotificationRepository;
-import lk.ijse.gdse.repository.PostRepository;
-import lk.ijse.gdse.repository.UserRepository;
-import lk.ijse.gdse.repository.WalletRepository;
+import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final PostRepository postRepository;
     private final WalletRepository walletRepository;
     private final NotificationRepository notificationRepository;
+    private final FollowRepository followRepository;
 
     @Override
     public User saveUser(User user) {

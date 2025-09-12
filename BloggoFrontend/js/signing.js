@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         // Both USER and MEMBER go to the same page
                         window.location.href = "dashboard.html";
+
                     }
 
                 } else {

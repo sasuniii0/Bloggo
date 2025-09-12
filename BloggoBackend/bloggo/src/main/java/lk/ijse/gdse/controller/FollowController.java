@@ -36,4 +36,14 @@ public class FollowController {
     public ResponseEntity<ApiResponseDTO> getFollowerCount(@PathVariable Long userId) {
         return ResponseEntity.ok(followService.getFollowerCount(userId));
     }
+
+    @GetMapping("/is-following/{followedId}")
+    public ResponseEntity<ApiResponseDTO> isFollowing(@PathVariable Long followedId, Principal principal) {
+        String username = principal.getName();
+        User follower = userService.findByUsername(username);
+
+        boolean isFollowing = followService.isFollowing(follower.getUserId(), followedId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Follow status fetched", isFollowing));
+    }
+
 }

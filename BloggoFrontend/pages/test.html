@@ -2,333 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>User Profile</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ===== General Styles ===== */
-    body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      font-family: 'Inter', sans-serif;
-      color: var(--text);
-      margin: 0;
-      padding: 0;
+    .top-alert {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      padding: 10px 20px;
+      background-color: #fffae5;
+      border: 1px solid #f0e68c;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-
-    :root {
-      --bg:#ffffff;
-      --text:#1f2937; /* slate-800 */
-      --muted:#6b7280; /* slate-500 */
-      --card:#f8fafc; /* slate-50 */
-      --border:#e5e7eb; /* gray-200 */
-      --primary:#1a73e8;
-      --primary-600:#1666cc;
-      --accent:#2ecc71;
-      --danger:#dc3545;
-      --shadow: 0 10px 30px rgba(2,6,23,.08);
-      --radius: 16px;
+    #loading {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(255,255,255,0.7);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index: 9998;
+      font-size: 24px;
     }
-
-    /* Reset */
-    * { box-sizing: border-box; }
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; transition: 0.2s; }
-    a:hover { opacity: 0.8; }
-
-    /* ===== Navbar ===== */
-    .glass-navbar {
-      position: sticky;
-      top: 1rem;
-      z-index: 1050;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 60%;
-      margin: 1rem auto 2rem;
-      padding: 1rem 2rem;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-
-    .glass-navbar a {
-      color: #000;
-      font-weight: 500;
-      margin: 0 1.2rem;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-    }
-
-    .glass-navbar a:hover {
-      background: rgba(255,255,255,0.2);
-      transform: translateY(-2px);
-    }
-
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #000;
-      letter-spacing: 2px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    /* ===== Profile Card ===== */
-    .profile-card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-    }
-
-    .profile-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
+    .blog-card img {
       object-fit: cover;
-      border: 3px solid #fff;
-      margin-top: -80px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-
-    .profile-name {
-      font-weight: 700;
-      font-size: 1.6rem;
-      margin-top: 1rem;
+    .search-item a {
+      text-decoration: none;
     }
-
-    .profile-bio {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin: 0.5rem 0 1rem;
-    }
-
-    /* ===== Buttons ===== */
-    .btn {
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
-    }
-    .btn-primary:hover { background: var(--primary-600); }
-
-    .btn-outline-secondary {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--muted);
-    }
-
-    /* ===== Follow Section ===== */
-    .follow-stats {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-
-    .follow-stats a {
-      font-weight: 600;
-      color: var(--text);
-    }
-    .follow-stats span {
-      display: block;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    /* ===== Stories / Posts ===== */
-    .story-card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: var(--shadow);
-      transition: 0.3s;
-    }
-    .story-card:hover { transform: translateY(-3px); }
-
-    .story-card h6 {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .story-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    /* ===== Modals (Followers/Following) ===== */
-    .modal-content {
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .modal-body ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .modal-body li {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .modal-body img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 0.75rem;
-    }
-
-    /* Dropdown Menu (profile top-right) */
-    .dropdown-menu {
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      font-size: 0.95rem;
-      padding: 8px 0;
-    }
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 15px;
-    }
-    .dropdown-item:hover { background: #f8f9fa; }
-
   </style>
 </head>
-<body>
-<header class="sticky-top bg-light shadow-sm">
-  <nav class="container d-flex justify-content-between align-items-center py-2">
-    <h3 class="fw-bold m-0">BLOGGO</h3>
-    <a href="dashboard.html" class="btn btn-outline-dark btn-sm"><i class="fas fa-home me-1"></i> Home</a>
-  </nav>
-</header>
+<body class="bg-light">
 
-<div class="container mt-4">
+<!-- Top Alert -->
+<div id="top-alert" class="top-alert d-none"></div>
+
+<!-- Loading Overlay -->
+<div id="loading" class="d-none">Loading...</div>
+
+<!-- Navbar with Avatar -->
+<nav class="navbar navbar-light bg-white shadow-sm mb-3 px-3">
+  <a class="navbar-brand" href="#">Dashboard</a>
+  <img src="../assets/default.png" alt="Avatar" class="avatar rounded-circle" style="width:40px;height:40px;object-fit:cover;">
+</nav>
+
+<div class="container-fluid">
   <div class="row">
-    <!-- Left: Profile -->
-    <div class="col-lg-4">
-      <div class="card text-center p-3 mb-3">
-        <img src="../assets/user2.png" class="profile-avatar mx-auto mb-2" alt="User Avatar">
-        <h4 class="profile-name">User2</h4>
-        <p class="text-muted">Living with passion ✨</p>
 
-        <!-- Follow/Unfollow -->
-        <button id="followBtn" class="btn btn-primary btn-sm mb-2">
-          <i class="fas fa-user-plus me-1"></i> Follow
-        </button>
+    <!-- Left Sidebar: Users -->
+    <div class="col-md-3 mb-3">
+      <h5>Users</h5>
+      <ul id="userList" class="list-unstyled p-0"></ul>
+    </div>
 
-        <!-- Followers/Following -->
-        <div class="d-flex justify-content-center gap-3">
-          <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#followersModal">
-            <span id="followersCount">120</span> Followers
-          </a>
-          <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#followingModal">
-            <span id="followingCount">80</span> Following
-          </a>
+    <!-- Main Feed -->
+    <div class="col-md-6 mb-3">
+      <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search posts, users, tags...">
+      </div>
+      <div id="searchResults"></div>
+
+      <div class="feed"></div>
+    </div>
+
+    <!-- Right Sidebar: Tags -->
+    <div class="col-md-3 mb-3">
+      <h5>Tags</h5>
+      <ul id="tagList" class="list-unstyled p-0"></ul>
+      <button id="loadMoreTags" class="btn btn-sm btn-primary mt-2">Load More</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Example of a Blog Card Template (JS will inject real posts) -->
+<!--
+<article class="blog-card mb-3 p-3 shadow-sm rounded d-flex gap-3" data-id="1">
+    <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+        <img src="../assets/default.png" alt="Cover">
+    </div>
+    <div class="flex-grow-1">
+        <h3 class="mb-2" style="font-size: 20px; font-weight: bold">Post Title</h3>
+        <p style="font-size: 15px; font-weight: bold">Post excerpt...</p>
+        <div class="blog-meta d-flex justify-content-between">
+            <span>by Username</span>
+            <span>
+                <button class="boost-btn btn btn-sm btn-outline-primary" data-id="1">🚀 Boost (0)</button>
+                <button class="comment-toggle-btn btn btn-sm btn-outline-secondary" data-id="1">💬 Comments</button>
+            </span>
         </div>
-      </div>
+        <div id="comments-1" class="comments-section d-none mt-2">
+            <div class="existing-comments"></div>
+            <div class="d-flex gap-2 mt-2">
+                <input type="text" class="comment-input form-control" placeholder="Add a comment">
+                <button class="add-comment-btn btn btn-primary">Send</button>
+            </div>
+        </div>
     </div>
+</article>
+-->
 
-    <!-- Right: Stories/Posts -->
-    <div class="col-lg-8">
-      <h5 class="mb-3">Stories by User2</h5>
-      <div class="card story-card p-3 mb-3">
-        <h6 class="fw-bold">My First Blog</h6>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        <a href="#" class="text-decoration-none">Read more</a>
-      </div>
-      <div class="card story-card p-3 mb-3">
-        <h6 class="fw-bold">Another Adventure</h6>
-        <p>Exploring new places and sharing my journey with you all...</p>
-        <a href="#" class="text-decoration-none">Read more</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Followers Modal -->
-<div class="modal fade" id="followersModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Followers</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="list-unstyled">
-          <li class="d-flex align-items-center mb-2">
-            <img src="../assets/user1.png" class="rounded-circle me-2" width="35" height="35"> <span>User1</span>
-          </li>
-          <li class="d-flex align-items-center mb-2">
-            <img src="../assets/user3.png" class="rounded-circle me-2" width="35" height="35"> <span>User3</span>
-          </li>
-          <!-- More followers -->
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Following Modal -->
-<div class="modal fade" id="followingModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Following</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="list-unstyled">
-          <li class="d-flex align-items-center mb-2">
-            <img src="../assets/user4.png" class="rounded-circle me-2" width="35" height="35"> <span>User4</span>
-          </li>
-          <li class="d-flex align-items-center mb-2">
-            <img src="../assets/user5.png" class="rounded-circle me-2" width="35" height="35"> <span>User5</span>
-          </li>
-          <!-- More following -->
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const followBtn = document.getElementById("followBtn");
-  let isFollowing = false;
-
-  followBtn.addEventListener("click", () => {
-    isFollowing = !isFollowing;
-    followBtn.innerHTML = isFollowing
-            ? '<i class="fas fa-user-check me-1"></i> Following'
-            : '<i class="fas fa-user-plus me-1"></i> Follow';
-    followBtn.classList.toggle("btn-primary");
-    followBtn.classList.toggle("btn-outline-secondary");
-  });
-</script>
+<script src="../js/dashboard.js"></script>
 </body>
 </html>

@@ -6,4 +6,6 @@ public interface FollowService {
     ApiResponseDTO followUser(Long followedId, Long followerId);
 
     ApiResponseDTO getFollowerCount(Long userId);
+
+    boolean isFollowing(Long userId, Long followedId);
 }
