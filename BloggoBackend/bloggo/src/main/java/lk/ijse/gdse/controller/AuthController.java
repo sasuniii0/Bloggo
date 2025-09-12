@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -40,7 +41,7 @@ public class AuthController {
         ));
     }
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) throws IOException {
         authService.sendResetPwdLink(request.getEmail());
         return ResponseEntity.ok("Password reset link sent if the email exists.");
     }

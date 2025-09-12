@@ -1,9 +1,6 @@
 package lk.ijse.gdse.service.impl;
 
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
+import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
@@ -22,38 +19,69 @@ public class SendGridEmailServiceImpl {
     private String apiKey;
 
     @Value("${sendgrid.from.email}")
-    private static String fromEmail;
+    private String fromEmail; // Must be verified
 
     @Value("${sendgrid.from.name}")
-    private static String fromName;
+    private String fromName;
 
-    private static SendGrid sendGrid;
+    private SendGrid sendGrid;
 
     @PostConstruct
     public void init() {
         sendGrid = new SendGrid(apiKey);
     }
 
-    public static void sendPasswordResetEmail(String toEmail, String resetLink) throws IOException {
+    /**
+     * Sends a password reset email via SendGrid
+     *
+     * @param toEmail   Recipient email
+     * @param resetLink Password reset link
+     */
+    public void sendPasswordResetEmail(String toEmail, String resetLink) {
+        Mail mail = createMail(toEmail, resetLink);
+
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+
+            Response response = sendGrid.api(request);
+
+            int status = response.getStatusCode();
+            System.out.println("SendGrid Status Code: " + status);
+            System.out.println("Response Body: " + response.getBody());
+            System.out.println("Response Headers: " + response.getHeaders());
+
+            if (status == 403) {
+                System.err.println("⚠️ Email not sent: sender address is not verified. Check SendGrid sender identity.");
+            } else if (status >= 400) {
+                System.err.println("⚠️ SendGrid returned an error: " + response.getBody());
+            } else {
+                System.out.println("✅ Password reset email sent successfully to " + toEmail);
+            }
+
+        } catch (IOException ex) {
+            System.err.println("❌ Failed to send email: " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Creates a SendGrid Mail object
+     */
+    private Mail createMail(String toEmail, String resetLink) {
         Email from = new Email(fromEmail, fromName);
-        String subject = "Password Reset Request";
         Email to = new Email(toEmail);
-        Content content = new Content("text/html",
+        String subject = "Password Reset Request";
+
+        Content content = new Content(
+                "text/html",
                 "<p>Hello,</p>" +
                         "<p>Click the link below to reset your password:</p>" +
                         "<a href='" + resetLink + "'>Reset Password</a>" +
-                        "<p>If you did not request this, ignore this email.</p>");
-        Mail mail = new Mail(from, subject, to, content);
+                        "<p>If you did not request this, ignore this email.</p>"
+        );
 
-        Request request = new Request();
-        request.setMethod(Method.POST);
-        request.setEndpoint("mail/send");
-        request.setBody(mail.build());
-
-        Response response = sendGrid.api(request);
-
-        if (response.getStatusCode() >= 400) {
-            throw new RuntimeException("SendGrid error: " + response.getBody());
-        }
+        return new Mail(from, subject, to, content);
     }
 }

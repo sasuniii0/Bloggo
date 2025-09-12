@@ -85,32 +85,26 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void sendResetPwdLink(String email) {
-        // Generate token
-        String token = UUID.randomUUID().toString();
-        tokenStorage.put(token, email);
+    public void sendResetPwdLink(String email) throws IOException {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Send email via SendGrid
-        // Handle exception: expired, invalid, or max credits
-        try {
-            SendGridEmailServiceImpl.sendPasswordResetEmail(email, token);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to send email: " + e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String token = jwtUtil.generatePasswordResetToken(user.getEmail());
+        String resetLink = "http://localhost:8080/auth/reset-password?token=" + token;
+
+        emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
     }
 
     @Override
     public boolean resetPassword(String token, String newPassword) {
-        String email = tokenStorage.get(token);
-        if (email == null) return false;
+        if (!jwtUtil.validateToken(token)) return false;
 
-        // TODO: Update user password in DB (encode first)
-        String encodedPassword = passwordEncoder.encode(newPassword);
-        System.out.println("Reset password for: " + email + " -> " + encodedPassword);
+        String email = jwtUtil.getUsernameFromToken(token);
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        tokenStorage.remove(token); // invalidate token
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
         return true;
     }
 
