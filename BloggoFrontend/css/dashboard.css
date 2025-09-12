@@ -626,7 +626,7 @@ header {
 
 /* ================= "BROWSE MORE" / "LOAD MORE" ================= */
 .browse-link, .view-more {
-    color: var(--accent);
+    color: var(--text-secondary);
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;

@@ -32,6 +32,61 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // password change
+    const passwordForm = document.getElementById("passwordForm");
+    const currentPassword = document.getElementById("currentPassword");
+    const newPassword = document.getElementById("newPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const passwordMessage = document.getElementById("passwordMessage");
+
+    document.getElementById("passwordForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const currentPassword = document.getElementById("currentPassword").value;
+        const newPassword = document.getElementById("newPassword").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const passwordMessage = document.getElementById("passwordMessage");
+
+        passwordMessage.style.color = "red";
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            passwordMessage.textContent = "Please fill in all fields.";
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            passwordMessage.textContent = "New password and confirmation do not match.";
+            return;
+        }
+
+        try {
+            const userId = sessionStorage.getItem("userId"); // replace with actual logged-in ID
+
+            const response = await fetch(`http://localhost:8080/api/v1/password/change-password?userId=${userId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ currentPassword, newPassword })
+            });
+
+            const data = await response.text(); // response is a string message
+
+            if (response.ok) {
+                passwordMessage.style.color = "green";
+                passwordMessage.textContent = data;
+                // clear inputs
+                document.getElementById("currentPassword").value = "";
+                document.getElementById("newPassword").value = "";
+                document.getElementById("confirmPassword").value = "";
+            } else {
+                passwordMessage.textContent = data;
+            }
+        } catch (err) {
+            console.error(err);
+            passwordMessage.textContent = "Something went wrong!";
+        }
+    });
+
+
     // Handle profile form submit
     profileForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -89,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 });
+
+
 
 function logout() {
     preventBackNavigation();

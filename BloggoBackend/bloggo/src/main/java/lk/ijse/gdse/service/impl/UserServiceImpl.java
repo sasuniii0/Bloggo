@@ -301,5 +301,14 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
+    @Override
+    public Optional<User> findUserById(Long userId) {
+        return userRepository.findById(userId);    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user); // only save, no wallet creation
+    }
+
 
 }

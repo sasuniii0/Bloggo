@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -53,4 +54,8 @@ public interface UserService {
     UserDTO getUserDTOById(Long userId);
 
     List<UserDTO> getAllMembersExcludingLoggedUserAndProfileOwner(Long loggedUserId, Long profileOwnerId);
+
+    Optional<User> findUserById(Long userId);
+
+    void updateUser(User user);
 }

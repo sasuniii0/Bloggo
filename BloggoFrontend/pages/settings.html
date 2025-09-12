@@ -11,6 +11,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs@next/dist/cropper.min.css">
+
+
+
     <link rel="stylesheet" href="../css/settings.css">
 </head>
 <body>
@@ -82,7 +87,7 @@
 </div>
 
 
-    <div class="settings-wrapper">
+    <div class="settings-wrapper pt-10 ">
     <!-- Sidebar -->
     <aside class="settings-sidebar">
         <a href="#profile" class="active">Profile</a>
@@ -110,6 +115,8 @@
                 <!-- Hidden File Input -->
                 <input type="file" id="avatarInput" accept="image/*" style="display: none;">
             </div>
+
+
 
             <!-- 🔥 Add ID here -->
             <form id="profileForm">
@@ -149,25 +156,27 @@
             </form>
         </section>
 
-        <!-- Change Password -->
+        <!-- Change Password Section -->
         <section class="settings-section" id="password">
             <h4>Change Password</h4>
-            <form>
+            <form id="passwordForm">
                 <div class="mb-3">
                     <label class="form-label">Current Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control" id="currentPassword">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">New Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control" id="newPassword">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Confirm New Password</label>
-                    <input type="password" class="form-control">
+                    <input type="password" class="form-control" id="confirmPassword">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Password</button>
+                <p id="passwordMessage" style="margin-top:10px;color:red;"></p>
             </form>
         </section>
+
 
         <!-- Membership -->
         <section class="settings-section" id="membership">
@@ -177,6 +186,10 @@
         </section>
     </div>
 </div>
+
+
+<!-- Cropper.js JS -->
+<script src="https://unpkg.com/cropperjs@next/dist/cropper.min.js"></script>
 <script src="../js/settings.js"></script>
 
 <!-- Bootstrap JS -->

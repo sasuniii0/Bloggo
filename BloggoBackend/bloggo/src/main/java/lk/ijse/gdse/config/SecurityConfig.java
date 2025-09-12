@@ -53,6 +53,7 @@ public class SecurityConfig {
                                 "/api/v1/notification/**",
                                 "/api/v1/follows/**",
                                 "/api/v1/payments/**",
+                                "/api/v1/password/**",
                                 "/api/v1/payment/**",
                                 "/api/v1/payhere/**",
                                 "/api/v1/admin-actions/**",
