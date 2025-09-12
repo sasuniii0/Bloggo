@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse.dto.*;
 import lk.ijse.gdse.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -56,4 +57,5 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid or expired token.");
         }
     }
+
 }

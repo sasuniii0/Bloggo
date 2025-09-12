@@ -89,11 +89,16 @@ public class AuthServiceImpl implements AuthService {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Generate JWT token for password reset
         String token = jwtUtil.generatePasswordResetToken(user.getEmail());
-        String resetLink = "http://localhost:8080/auth/reset-password?token=" + token;
 
+        // Point to the frontend HTML page (port 63342)
+        String resetLink = "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token;
+
+        // Send email via SendGrid
         emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
     }
+
 
     @Override
     public boolean resetPassword(String token, String newPassword) {

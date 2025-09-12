@@ -218,6 +218,7 @@ body {
 }
 
 #signin-form { opacity: 0; animation: fadeInContent 0.6s ease-out 1s forwards; }
+#forgotForm{opacity: 0; animation: fadeInContent 0.6s ease-out 1s forwards;}
 
 .form-group {
     position: relative;
