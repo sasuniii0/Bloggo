@@ -177,90 +177,97 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
+
 async function loadUserProfile(token) {
     const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
-    try {
-        const username = sessionStorage.getItem("username");
-        if (!username) {
-            console.error("Username not found in sessionStorage");
-            return;
-        }
 
-        const res = await fetch(`http://localhost:8080/user/${username}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-        const response = await fetch(`http://localhost:8080/api/v1/follows/${userId}/count`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+    if (!userId) {
+        console.error("Logged-in user ID not found in cookies");
+        return;
+    }
+
+    try{
+        const res = await fetch("http://localhost:8080/user/me",{
+            headers:{
+                "Authorization" : `Bearer ${token}`
             }
         });
 
-        if (!response.ok) throw new Error("Failed to load followers");
+        const response = await fetch(`http://localhost:8080/api/v1/follows/${userId}/count`,{
+            headers:{
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
 
-        const result = await response.json();
-        const followerCount = result.data; // <-- get the actual number
-        console.log("Follower count:", followerCount);
+        if (!response.ok)throw new Error("Failed to load followers")
+        const count = await response.json();
+        console.log(count)
 
-
-        if (!res.ok) {
-            console.error("Failed to fetch user profile:", res.status, res.statusText);
-            return;
-        }
+        if (!res.ok) throw new Error("Failed to load user...")
 
         const user = await res.json();
+        console.log("user profile:", user);
 
-        const avatarEl = document.querySelector(".profile-avatar");
-        const nameEl = document.querySelector(".profile-name");
-        const bioEl = document.querySelector(".profile-bio");
+        // Fill sidebar
+        document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
+        document.querySelector(".profile-name").textContent = user.username;
+        document.querySelector(".profile-bio").textContent = user.bio || "No bio yet";
+
         const followersEl = document.querySelector("#edit-profile-card p a");
+        if (followersEl) followersEl.textContent = `${count.followersCount || 0} Followers`;
 
-        if (avatarEl) avatarEl.src = user.profileImage || "../assets/client1.jpg";
-        if (nameEl) nameEl.textContent = user.username;
-        if (bioEl) bioEl.textContent = user.bio || "No bio available.";
-        if (followersEl) followersEl.textContent = `${followerCount || 0} Followers`;
+        const roleBadge = document.querySelector('.profile-name + small');
+
+        if (user.roleName === "MEMBER") {
+            roleBadge.innerHTML = `<i class="fas fa-star text-warning me-1"></i> Premium Member`;
+        } else {
+            roleBadge.textContent = "User";
+        }
+        // Top navbar avatar
+        document.querySelector(".avatar").src = user.profileImage || "../assets/client1.jpg";
 
         // Toggle wallet & earnings for member
-        const walletEl = document.querySelector('.wallet');
-        const earningsEl = document.querySelector('.earnings');
+        if (user.roleName === "MEMBER") {
 
-        if (user.membershipStatus !== "MEMBER") {
-            if (walletEl) walletEl.style.display = 'none';
-            if (earningsEl) earningsEl.style.display = 'none';
-        } else {
-            if (walletEl && earningsEl) {
-                const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
-                    headers: { "Authorization": `Bearer ${token}` }
-                });
-                if (walletRes.ok) {
-                    const wallet = await walletRes.json();
+            // Fetch wallet & earnings
+            const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
 
-                    // Safely set wallet balance
-                    const balance = typeof wallet.balance === 'number' ? wallet.balance.toFixed(2) : '0.00';
-                    if (walletEl) {
-                        const pEl = walletEl.querySelector('p');
-                        if (pEl) pEl.textContent = `LKR ${balance}`;
-                    }
+            const walletApiResponse = await walletRes.json();
+            console.log("Full API response:", walletApiResponse);
 
-                    // Safely calculate total earnings
-                    const totalEarnings = Array.isArray(wallet.earnings)
-                        ? wallet.earnings.reduce((sum, e) => sum + (e.amount || 0), 0)
-                        : 0;
+            // Extract wallet from API response
+            const walletData = walletApiResponse.data;
+            console.log("Wallet data:", walletData);
 
-                    if (earningsEl) {
-                        const pEl = earningsEl.querySelector('p');
-                        if (pEl) pEl.textContent = `LKR ${totalEarnings.toFixed(2)}`;
-                    }
-                }
+            // Use balance safely
+            const walletBalance = walletData.balance || 0;
 
-            }
+            const walletEarningsDiv = document.createElement("div");
+            walletEarningsDiv.classList.add("d-flex", "gap-3", "mb-3");
+            walletEarningsDiv.innerHTML = `
+    <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+        <div>
+            <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
+            <p class="fw-bold mb-0">$ ${walletBalance.toFixed(2)}</p>
+        </div>
+    </div>
+`;
+
+            // Insert inside profile card before the "Edit profile" button
+            const profileCard = document.getElementById("edit-profile-card");
+            const editBtn = profileCard.querySelector("a.btn");
+            profileCard.insertBefore(walletEarningsDiv, editBtn);
         }
 
-    } catch (err) {
-        console.error("Error loading user profile:", err);
+
+        // Followers count
+        const followersLink = document.querySelector("#edit-profile-card p a");
+        followersLink.textContent = `${user.followers.length} Followers`;
+    } catch (err){
+        console.error()
     }
 }
 

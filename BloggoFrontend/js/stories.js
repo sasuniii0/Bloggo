@@ -177,41 +177,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Top navbar avatar
             document.querySelector(".avatar").src = user.profileImage || "../assets/client1.jpg";
 
-            // Toggle wallet & earnings for member
+            // 2️⃣ Fetch wallet if MEMBER
             if (user.roleName === "MEMBER") {
-                // Fetch wallet & earnings
                 const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
-                const wallet = await walletRes.json();
-                console.log(wallet);
 
-                // Create wallet & earnings block dynamically
-                const walletEarningsDiv = document.createElement("div");
-                walletEarningsDiv.classList.add("d-flex", "gap-3", "mb-3");
+                if (walletRes.ok) {
+                    const walletApiResponse = await walletRes.json();
+                    console.log("Wallet API response:", walletApiResponse);
+                    const walletData = walletApiResponse.data;
 
-                const totalEarnings = wallet.earnings.reduce((sum, e) => sum + e.amount, 0);
-
-                walletEarningsDiv.innerHTML = `
-        <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
-            <div>
-                <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
-                <p class="fw-bold mb-0">LKR ${wallet.balance.toFixed(2)}</p>
-            </div>
-        </div>
-
-        <div class="earnings flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
-            <div>
-                <h6 class="mb-1"><i class="fas fa-chart-line me-2 text-success"></i> Earnings</h6>
-                <p class="fw-bold mb-0">LKR ${totalEarnings.toFixed(2)}</p>
-            </div>
-        </div>
-    `;
-
-                // Insert inside profile card before the "Edit profile" button
-                const profileCard = document.getElementById("edit-profile-card");
-                const editBtn = profileCard.querySelector("a.btn");
-                profileCard.insertBefore(walletEarningsDiv, editBtn);
+                    if (walletData && profileCard) {
+                        const walletBalance = walletData.balance || 0;
+                        const walletDiv = document.createElement("div");
+                        walletDiv.classList.add("d-flex", "gap-3", "mb-3");
+                        walletDiv.innerHTML = `
+                        <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
+                                <p class="fw-bold mb-0">$ ${walletBalance.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    `;
+                        const editBtn = profileCard.querySelector("a.btn");
+                        if (editBtn) profileCard.insertBefore(walletDiv, editBtn);
+                    }
+                }
             }
 
 
