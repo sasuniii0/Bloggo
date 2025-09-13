@@ -1,5 +1,6 @@
 package lk.ijse.gdse.repository;
 
+import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.PostStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +19,24 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     // Fetch top 10 posts ordered by creation date (most recent first)
     List<Post> findTop10ByOrderByCreatedAtDesc();
 
-    // Optional: only published posts
-    List<Post> findTop10ByStatusOrderByCreatedAtDesc(PostStatus status);
+    @Query("""
+    SELECT new lk.ijse.gdse.dto.PostDTO(
+        p.postId,
+        p.title,
+        p.content,
+        p.user.username,
+        p.coverImageUrl,
+        p.status,
+        p.publishedAt,
+        SIZE(p.boosts),
+        SIZE(p.comments)
+    )
+    FROM Post p
+    WHERE p.status = :status
+    ORDER BY p.createdAt DESC
+""")
+    List<PostDTO> findTop10PublishedPosts(@Param("status") PostStatus status);
+
 
     @Query("SELECT DISTINCT p FROM Post p " +
             "LEFT JOIN p.tags t " +

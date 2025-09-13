@@ -50,13 +50,11 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findUserByRole(RoleName.USER);
-        if (users == null) {
-            return Collections.emptyList();
-        }
-        return users.stream()
+        return userRepository.findUserByRole(RoleName.USER)
+                .stream()
                 .map(user -> new UserDTO(user.getUserId(), user.getUsername()))
                 .collect(Collectors.toList());
+
     }
 
 
@@ -79,20 +77,8 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<PostDTO> getRecentPublishedPosts() {
-        List<Post> posts = postRepository.findTop10ByStatusOrderByCreatedAtDesc(PostStatus.PUBLISHED);
-        return posts.stream()
-                .map(post -> new PostDTO(
-                        post.getPostId(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getUser().getUsername(),
-                        post.getCoverImageUrl(),
-                        post.getStatus(),
-                        post.getPublishedAt(),
-                        post.getBoosts() != null ? post.getBoosts().size() : 0,
-                        post.getComments() != null ? post.getComments().size() : 0
-                ))
-                .toList();
+        return postRepository.findTop10PublishedPosts(PostStatus.PUBLISHED);
+
     }
 
 }

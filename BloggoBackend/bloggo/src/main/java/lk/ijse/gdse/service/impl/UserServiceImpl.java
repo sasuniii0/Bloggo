@@ -38,14 +38,15 @@ public class UserServiceImpl implements UserService {
         // Save the user first
         User userSaved = userRepository.save(user);
 
-        // Create a wallet for the saved user
-        Wallet wallet = Wallet.builder()
-                .userId(userSaved)  // associate wallet with the saved user
-                .balance(0.0)
-                .createdAt(LocalDateTime.now())
-                .build();
+        if (!walletRepository.existsByUserId(userSaved)) {
+            Wallet wallet = Wallet.builder()
+                    .userId(userSaved)
+                    .balance(0.0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            walletRepository.save(wallet);
+        }
 
-        walletRepository.save(wallet); // save the wallet
 
         return userSaved; // return the saved user
     }
