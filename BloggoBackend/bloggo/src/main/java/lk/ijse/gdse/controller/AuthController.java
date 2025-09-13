@@ -48,14 +48,35 @@ public class AuthController {
     }
 
 
+    @GetMapping("/reset-password/{token}")
+    public void handleResetLink(@PathVariable String token, HttpServletResponse response) throws IOException {
+        if (!authService.validateResetToken(token)) {
+            response.sendRedirect("http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/invalid-token.html");
+            return;
+        }
+
+        // ✅ Redirect to frontend with token as query param
+        response.sendRedirect(
+                "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token
+        );
+    }
+
+
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
-        boolean success = authService.resetPassword(request.getToken(), request.getNewPassword());
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("newPassword");
+
+        boolean success = authService.resetPassword(token, newPassword);
         if (success) {
             return ResponseEntity.ok("Password reset successfully.");
         } else {
             return ResponseEntity.badRequest().body("Invalid or expired token.");
         }
     }
+
+
+
+
 
 }

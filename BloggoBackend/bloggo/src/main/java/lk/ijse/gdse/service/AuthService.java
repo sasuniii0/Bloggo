@@ -13,4 +13,6 @@ public interface AuthService {
     void sendResetPwdLink(String email) throws IOException;
 
     boolean resetPassword(String token, String newPassword);
+
+    boolean validateResetToken(String token);
 }

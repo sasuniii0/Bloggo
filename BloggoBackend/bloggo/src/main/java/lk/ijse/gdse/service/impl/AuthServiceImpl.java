@@ -92,7 +92,6 @@ public class AuthServiceImpl implements AuthService {
         // Generate JWT token for password reset
         String token = jwtUtil.generatePasswordResetToken(user.getEmail());
 
-        // Point to the frontend HTML page (port 63342)
         String resetLink = "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token;
 
         // Send email via SendGrid
@@ -111,6 +110,11 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public boolean validateResetToken(String token) {
+        return jwtUtil.validateToken(token);
     }
 
 }
