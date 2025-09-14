@@ -34,25 +34,49 @@ document.addEventListener("DOMContentLoaded", async () => {
         const followersEl = document.querySelector("#edit-profile-card p a");
         if (followersEl) followersEl.textContent = `${count.followersCount || 0} Followers`;
 
+        if (user.roleName === "MEMBER") {
+            roleBadge.innerHTML = `<i class="fas fa-star text-warning me-1"></i> Premium Member`;
+        } else {
+            roleBadge.textContent = "User";
+        }
+
 
         // Top navbar avatar
         document.querySelector(".avatar").src = user.profileImage || "../assets/client1.jpg";
 
         // Toggle wallet & earnings for member
-        if (user.roleName !== "MEMBER") {
-            document.querySelector('.wallet').style.display = 'none';
-            document.querySelector('.earnings').style.display = 'none';
-        } else {
+        if (user.roleName === "MEMBER") {
+
             // Fetch wallet & earnings
             const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
-            const wallet = await walletRes.json();
-            console.log(wallet)
 
-            document.querySelector('.wallet p').textContent = `LKR ${wallet.balance.toFixed(2)}`;
-            const totalEarnings = wallet.earnings.reduce((sum, e) => sum + e.amount, 0);
-            document.querySelector('.earnings p').textContent = `LKR ${totalEarnings.toFixed(2)}`;
+            const walletApiResponse = await walletRes.json();
+            console.log("Full API response:", walletApiResponse);
+
+            // Extract wallet from API response
+            const walletData = walletApiResponse.data;
+            console.log("Wallet data:", walletData);
+
+            // Use balance safely
+            const walletBalance = walletData.balance || 0;
+
+            const walletEarningsDiv = document.createElement("div");
+            walletEarningsDiv.classList.add("d-flex", "gap-3", "mb-3");
+            walletEarningsDiv.innerHTML = `
+    <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+        <div>
+            <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
+            <p class="fw-bold mb-0">$ ${walletBalance.toFixed(2)}</p>
+        </div>
+    </div>
+`;
+
+            // Insert inside profile card before the "Edit profile" button
+            const profileCard = document.getElementById("edit-profile-card");
+            const editBtn = profileCard.querySelector("a.btn");
+            profileCard.insertBefore(walletEarningsDiv, editBtn);
         }
 
         // Followers count
