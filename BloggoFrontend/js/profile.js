@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const followersEl = document.querySelector("#edit-profile-card p a");
         if (followersEl) followersEl.textContent = `${count.followersCount || 0} Followers`;
 
+        const roleBadge = document.querySelector('.profile-name + small');
+
         if (user.roleName === "MEMBER") {
             roleBadge.innerHTML = `<i class="fas fa-star text-warning me-1"></i> Premium Member`;
         } else {
