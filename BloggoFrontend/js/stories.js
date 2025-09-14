@@ -179,11 +179,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Toggle wallet & earnings for member
             if (user.roleName === "MEMBER") {
+                console.log("ghjb")
 
                 // Fetch wallet & earnings
                 const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
+
+                console.log("jhbjk")
 
                 const walletApiResponse = await walletRes.json();
                 console.log("Full API response:", walletApiResponse);

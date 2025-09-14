@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const roleBadge = document.querySelector('.profile-name + small');
 
+
         if (user.roleName === "MEMBER") {
             roleBadge.innerHTML = `<i class="fas fa-star text-warning me-1"></i> Premium Member`;
         } else {
