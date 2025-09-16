@@ -81,6 +81,12 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
     }
 
+    @GetMapping("/wallet/{userId}")
+    public ResponseEntity<ApiResponseDTO> getWalletById(@PathVariable Long userId) {
+        Wallet wallet = walletService.getWalletByUserId(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
+    }
+
     @PutMapping("/profileUpdate/{id}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> updateProfile(
@@ -167,5 +173,11 @@ public class UserController {
     public ResponseEntity<ApiResponseDTO> getSuggestions(@RequestParam Long loggedUserId, @RequestParam Long profileOwnerId) {
         List<UserDTO> members = userService.getAllMembersExcludingLoggedUserAndProfileOwner(loggedUserId, profileOwnerId);
         return ResponseEntity.ok(new ApiResponseDTO(200, "Members fetched", members));
+    }
+
+    @GetMapping("/getWallet/{userId}")
+    public ResponseEntity<ApiResponseDTO> getWalletBalanceByUserId(@PathVariable Long userId) {
+        List<WalletDTO> wallet = walletService.getWalletBalanceByUserId(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
     }
 }

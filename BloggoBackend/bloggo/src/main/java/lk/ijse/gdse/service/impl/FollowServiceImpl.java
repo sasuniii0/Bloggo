@@ -49,7 +49,7 @@ public class FollowServiceImpl implements FollowService {
 
         Notification notification = Notification.builder()
                 .user(follower) // who receives the notification (logged-in user)
-                .message(follower+" followed" + followed.getUsername())
+                .message(follower.getUsername() +" followed " + followed.getUsername())
                 .createdAt(LocalDateTime.now())
                 .type(Type.FOLLOW) // optional enum type
                 .isRead(false)

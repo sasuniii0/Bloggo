@@ -179,21 +179,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Toggle wallet & earnings for member
             if (user.roleName === "MEMBER") {
-                console.log("ghjb")
-
                 // Fetch wallet & earnings
-                const walletRes = await fetch(`http://localhost:8080/user/user/${user.userId}/wallet`, {
+                const walletRes = await fetch(`http://localhost:8080/user/getWallet/${user.userId}`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
 
-                console.log("jhbjk")
-
                 const walletApiResponse = await walletRes.json();
-                console.log("Full API response:", walletApiResponse);
+                console.log("Full wallet API response:", walletApiResponse);
 
-                // Extract wallet from API response
-                const walletData = walletApiResponse.data;
-                console.log("Wallet data:", walletData);
+                // Handle both object & array
+                let walletData = walletApiResponse.data || {};
+                if (Array.isArray(walletData)) {
+                    walletData = walletData[0] || {};
+                }
 
                 // Use balance safely
                 const walletBalance = walletData.balance || 0;
@@ -201,13 +199,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const walletEarningsDiv = document.createElement("div");
                 walletEarningsDiv.classList.add("d-flex", "gap-3", "mb-3");
                 walletEarningsDiv.innerHTML = `
-    <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
-        <div>
-            <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
-            <p class="fw-bold mb-0">$ ${walletBalance.toFixed(2)}</p>
+        <div class="wallet flex-fill p-3 bg-light rounded d-flex align-items-center justify-content-between">
+            <div>
+                <h6 class="mb-1"><i class="fas fa-wallet me-2 text-primary"></i> Wallet</h6>
+                <p class="fw-bold mb-0">$ ${walletBalance.toFixed(2)}</p>
+            </div>
         </div>
-    </div>
-`;
+    `;
 
                 // Insert inside profile card before the "Edit profile" button
                 const profileCard = document.getElementById("edit-profile-card");

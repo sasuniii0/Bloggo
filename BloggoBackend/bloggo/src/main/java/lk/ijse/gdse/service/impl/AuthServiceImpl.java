@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import lk.ijse.gdse.dto.AuthDTO;
 import lk.ijse.gdse.dto.AuthResponseDTO;
 import lk.ijse.gdse.dto.UserDTO;
+import lk.ijse.gdse.entity.ActionType;
 import lk.ijse.gdse.entity.MembershipStatus;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
@@ -77,6 +78,7 @@ public class AuthServiceImpl implements AuthService {
                 .bio(userDTO.getBio())
                 .role(RoleName.USER)
                 .membershipStatus(MembershipStatus.FREE)
+                .status(ActionType.ACTIVE)
                 .createdAt(LocalDateTime.now())
                 .lastLogin(LocalDateTime.now())
                 .build();
