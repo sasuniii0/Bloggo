@@ -201,7 +201,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const payload = {
             title: editTitle.value,
             content: editContent.value,
-            coverImageUrl
+            coverImageUrl,
+            status: "PUBLISHED"
         };
 
         try {

@@ -28,6 +28,69 @@ plusBtn.addEventListener("click", () => {
         toolbar.style.display === "flex" ? "none" : "flex";
 });
 
+document.getElementById("btn-draft").addEventListener("click", async () => {
+    await submitPost("DRAFT");
+});
+
+document.getElementById("btn-schedule").addEventListener("click", async () => {
+    let scheduledTime = prompt("Enter schedule date & time (YYYY-MM-DD HH:mm):");
+    if (!scheduledTime) return;
+    await submitPost("SCHEDULED", scheduledTime);
+});
+
+document.getElementById("btn-publish").addEventListener("click", async () => {
+    await submitPost("PUBLISHED");
+});
+
+async function submitPost(status, scheduledAt = null) {
+    const title = titleInput.value.trim();
+    const content = editor.innerHTML.trim();
+
+    if (!title) { alert("Enter a title"); return; }
+    if (!content || content === "<br>") { alert("Enter content"); return; }
+
+    const postData = {
+        title,
+        content,
+        status,
+        coverImageUrl,
+        scheduledAt, // null for draft/publish
+        userId: 1 // replace with logged-in user
+    };
+
+    try {
+        const token = sessionStorage.getItem("jwtToken");
+        const endpoint = status === "DRAFT" ? "draft" :
+            status === "SCHEDULED" ? "schedule" : "publish";
+
+        const response = await fetch(`http://localhost:8080/api/v1/post/${endpoint}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(postData)
+        });
+
+        if (response.ok) {
+            alert(`✅ Post ${status.toLowerCase()} successfully!`);
+            titleInput.value = "";
+            editor.innerHTML = "<p><br></p>";
+            window.location.href = "stories.html";
+        } else {
+            const err = await response.text();
+            console.error(err);
+            alert(`❌ Failed to ${status.toLowerCase()} post.`);
+        }
+    } catch (err) {
+        console.error(err);
+        alert(`⚠️ Error while ${status.toLowerCase()} post.`);
+    }
+}
+
+
+/*
+
 // -------------------------
 // Publish handler
 // -------------------------
@@ -74,6 +137,7 @@ document.getElementById("btn-publish").addEventListener("click", async () => {
         await sendPost(postData);
     }
 });
+*/
 
 // -------------------------
 // Send post to backend

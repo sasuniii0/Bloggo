@@ -5,6 +5,7 @@ import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.Post;
+import lk.ijse.gdse.entity.PostStatus;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.PostService;
 import lk.ijse.gdse.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,36 @@ public class PostController {
                 )
         );
     }
+
+    @PostMapping("/draft")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    public ResponseEntity<ApiResponseDTO> saveDraft(@RequestBody Post post, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        post.setUser(user);
+        post.setStatus(PostStatus.DRAFT); // ✅ set draft status
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
+        Post savedPost = postService.publishPost(post); // create a generic save method
+        return ResponseEntity.status(201).body(
+                new ApiResponseDTO(201, "Post saved as draft", savedPost)
+        );
+    }
+
+    @PostMapping("/schedule")
+    @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    public ResponseEntity<ApiResponseDTO> schedulePost(@RequestBody Post post, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        post.setUser(user);
+        post.setStatus(PostStatus.SCHEDULED);
+        post.setScheduledAt(post.getScheduledAt()); // expect scheduledAt in request
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
+        Post savedPost = postService.publishPost(post);
+        return ResponseEntity.status(201).body(
+                new ApiResponseDTO(201, "Post scheduled successfully", savedPost)
+        );
+    }
+
 
     @GetMapping("/{postId}")
     public ResponseEntity<Map<String, Object>> getPost(
@@ -89,6 +121,7 @@ public class PostController {
         existing.setTitle(post.getTitle());
         existing.setContent(post.getContent());
         existing.setCoverImageUrl(post.getCoverImageUrl());
+        existing.setStatus(PostStatus.PUBLISHED);
 
         Post updated = postService.editPost(existing, principal.getName());
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post updated successfully", updated));

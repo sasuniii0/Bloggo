@@ -1,59 +1,46 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const storiesContainer = document.getElementById("myStories");
+    const token = sessionStorage.getItem("jwtToken");
+    if (!token) {
+        storiesContainer.innerHTML = `<p class="text-danger">⚠️ You must be logged in to view your stories.</p>`;
+        return;
+    }
 
+    // -------------------------
+    // Fetch Following Users
+    // -------------------------
     async function getFollowing() {
-        const token = sessionStorage.getItem("jwtToken")
         const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
-
         try {
-            // Step 1: get the list of following user IDs
             const res = await fetch(`http://localhost:8080/api/v1/follows/getFollowing?userId=${userId}`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
+                headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
             });
-
             const apiResponse = await res.json();
+            const followingList = apiResponse.data || [];
 
-            if (!res.ok || apiResponse.status !== 200) {
-                console.error("Failed to load following list");
-                alert("Could not load following list");
-                return;
-            }
-
-            const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
-
-            // Step 2: fetch user details for each followedId
             const usersWithDetails = await Promise.all(
                 followingList.map(async f => {
                     const userRes = await fetch(`http://localhost:8080/api/v1/follows/getFollwingDetails?userId=${f.followedId}`, {
                         headers: { "Authorization": `Bearer ${token}` }
                     });
-
                     if (!userRes.ok) return null;
                     const userApiResponse = await userRes.json();
-                    return userApiResponse.data; // should return { userId, username, profileImage }
+                    return userApiResponse.data;
                 })
             );
 
-            // Step 3: render
             const ulEl = document.querySelector(".following-list");
             if (!ulEl) return;
-
             ulEl.innerHTML = "";
 
             usersWithDetails.forEach(user => {
                 if (!user) return;
                 const li = document.createElement("li");
                 li.className = "d-flex align-items-center mb-2";
-
                 li.innerHTML = `
-                <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="35" height="35" alt="${user.username}">
-                <span>${user.username}</span>
-            `;
-
+                    <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="35" height="35" alt="${user.username}">
+                    <span>${user.username}</span>
+                `;
                 ulEl.appendChild(li);
             });
 
@@ -66,40 +53,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("Could not load following list. Try again.");
         }
     }
-
     await getFollowing();
-    const token = sessionStorage.getItem("jwtToken");
+
+    // -------------------------
+    // Fetch User Posts
+    // -------------------------
     try {
-        const token = sessionStorage.getItem("jwtToken");
-        if (!token) {
-            storiesContainer.innerHTML = `<p class="text-danger">⚠️ You must be logged in to view your stories.</p>`;
-            return;
-        }
-
         const response = await fetch("http://localhost:8080/api/v1/post/my-posts", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
-
         if (!response.ok) throw new Error("Failed to fetch posts");
-
         const data = await response.json();
-        console.log("API response:", data);
-
-        let posts = Array.isArray(data.data) ? data.data : [];
-        console.log("Fetched posts:", posts);
+        const posts = Array.isArray(data.data) ? data.data : [];
 
         // Group posts by status
-        const grouped = {
-            DRAFT: [],
-            PUBLISHED: [],
-            ARCHIVED: [],
-            SCHEDULED: []
-        };
+        const grouped = { DRAFT: [], PUBLISHED: [], ARCHIVED: [], SCHEDULED: [] };
 
+        console.log(posts)
         posts.forEach(post => {
             if (post.status === "PUBLISHED") grouped.PUBLISHED.push(post);
             else if (post.status === "DRAFT") grouped.DRAFT.push(post);
@@ -107,62 +77,40 @@ document.addEventListener("DOMContentLoaded", async () => {
             else if (post.status === "SCHEDULED") grouped.SCHEDULED.push(post);
         });
 
+        // -------------------------
+        // Render Posts Function
+        // -------------------------
         function renderPosts(list) {
-            if (!list.length) {
-                return `<p class="text-muted text-center">No stories found.</p>`;
-            }
-
-            return `
-        <div class="row">
-            ${list.map(post => `
+            if (!list.length) return `<p class="text-muted text-center">No stories found.</p>`;
+            return list.map(post => `
                 <div class="col-12 mb-3">
                     <div class="card shadow-sm" style="border-radius: 10px;">
                         <div class="card-body d-flex flex-column">
 
-                            <!-- Cover Image -->
                             ${post.imageUrl ? `
                             <div style="width:80px; height:80px; overflow:hidden; border-radius:8px; margin-bottom:10px;">
-                                <img src="${post.imageUrl}" alt="Cover Image" 
-                                    style="width:100%; height:100%; object-fit:cover;">
+                                <img src="${post.imageUrl}" alt="Cover Image" style="width:100%; height:100%; object-fit:cover;">
                             </div>` : ""}
 
-                            <!-- Title -->
                             <h5 class="card-title mb-1">${post.title || "Untitled"}</h5>
-
-                            <!-- Status and Date -->
                             <div class="text-muted small mb-2">
                                 ${post.status || ""} • 
-                                ${post.createdAt || post.publishedAt
-                ? new Date(post.createdAt || post.publishedAt).toLocaleDateString()
-                : "Unknown"}
+                                ${post.createdAt || post.publishedAt ? new Date(post.createdAt || post.publishedAt).toLocaleDateString() : "Unknown"}
                             </div>
-
-                            <!-- Content Preview -->
-                            <p class="card-text mb-3">
-                                ${post.content ? post.content.substring(0, 300) + "..." : ""}
-                            </p>
-
-                            <!-- Read More Link -->
-                            <a href="story-detail.html?id=${post.id || post.postId}" 
-                                class="text-decoration-none mb-3">
+                            <p class="card-text mb-3">${post.content ? post.content.substring(0, 300) + "..." : ""}</p>
+                            <a href="story-detail.html?id=${post.id || post.postId}" class="text-decoration-none mb-3">
                                 <i class="fa-solid fa-book-open-reader me-1"></i> Read More
                             </a>
 
-                            <!-- Action Buttons -->
                             <div class="d-flex justify-content-start align-items-center gap-2">
-                                <!-- Boost -->
                                 <button class="btn btn-sm btn like-btn" data-id="${post.id}">
                                     <i class="fa-solid fa-rocket me-1"></i>
                                     Boost <span class="like-count">${post.likes || 0}</span>
                                 </button>
-
-                                <!-- Comments -->
                                 <button class="btn btn-sm btn comment-btn" data-id="${post.id}">
                                     <i class="fa-regular fa-comments me-1"></i>
                                     Comments (${post.commentsCount || 0})
                                 </button>
-
-                                <!-- Save -->
                                 <button class="btn btn-sm btn bookmark-btn ms-auto" data-id="${post.id}">
                                     <i class="fa-regular fa-bookmark me-1"></i>
                                     Save
@@ -171,39 +119,54 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
                     </div>
                 </div>
-            `).join("")}
-        </div>
-    `;
+            `).join("");
         }
 
-
-
-        // Build tab layout
+        // -------------------------
+        // Render Tab Panes
+        // -------------------------
+        // Render Tab Panes
         storiesContainer.innerHTML = `
-        <div class="container mt-8">
-            <ul class="nav nav-tabs d-flex justify-content-start" id="storiesTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="published-tab" data-bs-toggle="tab" data-bs-target="#published" type="button" role="tab">Published</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">Draft</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">Archived</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="scheduled-tab" data-bs-toggle="tab" data-bs-target="#scheduled" type="button" role="tab">Scheduled</button>
-                </li>
-            </ul>
-            <div class="tab-content mt-3">
-                <div class="tab-pane fade show active" id="published" role="tabpanel">${renderPosts(grouped.PUBLISHED)}</div>
-                <div class="tab-pane fade" id="draft" role="tabpanel">${renderPosts(grouped.DRAFT)}</div>
-                <div class="tab-pane fade" id="archived" role="tabpanel">${renderPosts(grouped.ARCHIVED)}</div>
-                <div class="tab-pane fade" id="scheduled" role="tabpanel">${renderPosts(grouped.SCHEDULED)}</div>
-            </div>
-        </div>
-            
-        `;
+<div class="container mt-8">
+    <ul class="nav nav-tabs d-flex justify-content-start" id="storiesTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="published-tab" data-bs-toggle="tab" data-bs-target="#published" type="button" role="tab">Published</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">Draft</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">Archived</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="scheduled-tab" data-bs-toggle="tab" data-bs-target="#scheduled" type="button" role="tab">Scheduled</button>
+        </li>
+    </ul>
+    <div class="tab-content mt-3">
+        <div class="tab-pane fade show active" id="published" role="tabpanel"><div class="row" id="published-row"></div></div>
+        <div class="tab-pane fade" id="draft" role="tabpanel"><div class="row" id="draft-row"></div></div>
+        <div class="tab-pane fade" id="archived" role="tabpanel"><div class="row" id="archived-row"></div></div>
+        <div class="tab-pane fade" id="scheduled" role="tabpanel"><div class="row" id="scheduled-row"></div></div>
+    </div>
+</div>
+`;
+
+// Insert posts into each tab
+        document.getElementById("published-row").innerHTML = renderPosts(grouped.PUBLISHED);
+        document.getElementById("draft-row").innerHTML = renderPosts(grouped.DRAFT);
+        document.getElementById("archived-row").innerHTML = renderPosts(grouped.ARCHIVED);
+        document.getElementById("scheduled-row").innerHTML = renderPosts(grouped.SCHEDULED);
+
+// Attach event listeners for all buttons
+        ["like-btn", "bookmark-btn", "comment-btn"].forEach(cls => {
+            document.querySelectorAll(`.${cls}`).forEach(btn => {
+                const postId = btn.dataset.id;
+                if (cls === "like-btn") btn.addEventListener("click", () => handleLike(postId, btn));
+                if (cls === "bookmark-btn") btn.addEventListener("click", () => handleBookmark(postId));
+                if (cls === "comment-btn") btn.addEventListener("click", () => handleComments(postId));
+            });
+        });
+
 
         if (!token) return;
         const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
@@ -294,32 +257,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error()
         }
 
+        // -------------------------
         // Event Handlers
+        // -------------------------
         function handleLike(postId, btn) {
-            fetch(`http://localhost:8080/api/v1/post/${postId}/like`, {
-                method: "POST",
-                headers: { "Authorization": `Bearer ${token}` }
-            })
+            fetch(`http://localhost:8080/api/v1/post/${postId}/like`, { method: "POST", headers: { "Authorization": `Bearer ${token}` } })
                 .then(res => res.json())
-                .then(data => {
-                    console.log("Like response:", data);
+                .then(() => {
                     const countSpan = btn.querySelector(".like-count");
                     countSpan.textContent = parseInt(countSpan.textContent) + 1;
-                })
-                .catch(err => console.error("Error liking post:", err));
+                }).catch(console.error);
         }
 
         function handleBookmark(postId) {
-            fetch(`http://localhost:8080/api/v1/post/${postId}/bookmark`, {
-                method: "POST",
-                headers: { "Authorization": `Bearer ${token}` }
-            })
+            fetch(`http://localhost:8080/api/v1/post/${postId}/bookmark`, { method: "POST", headers: { "Authorization": `Bearer ${token}` } })
                 .then(res => res.json())
-                .then(data => {
-                    console.log("Bookmark response:", data);
-                    alert("Post saved to bookmarks!");
-                })
-                .catch(err => console.error("Error bookmarking post:", err));
+                .then(() => alert("Post saved to bookmarks!"))
+                .catch(console.error);
         }
 
         function handleComments(postId) {
@@ -327,23 +281,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         // Attach event listeners
-        document.querySelectorAll(".like-btn").forEach(btn => {
-            btn.addEventListener("click", () => handleLike(btn.dataset.id, btn));
-        });
-
-        document.querySelectorAll(".bookmark-btn").forEach(btn => {
-            btn.addEventListener("click", () => handleBookmark(btn.dataset.id));
-        });
-
-        document.querySelectorAll(".comment-btn").forEach(btn => {
-            btn.addEventListener("click", () => handleComments(btn.dataset.id));
-        });
+        document.querySelectorAll(".like-btn").forEach(btn => btn.addEventListener("click", () => handleLike(btn.dataset.id, btn)));
+        document.querySelectorAll(".bookmark-btn").forEach(btn => btn.addEventListener("click", () => handleBookmark(btn.dataset.id)));
+        document.querySelectorAll(".comment-btn").forEach(btn => btn.addEventListener("click", () => handleComments(btn.dataset.id)));
 
     } catch (err) {
         console.error("Error loading stories:", err);
         storiesContainer.innerHTML = `<p class="text-danger">⚠️ Error loading stories.</p>`;
     }
 });
+
 
 function logout() {
     preventBackNavigation();
