@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         posts.forEach(post => {
             if (post.status === "PUBLISHED") grouped.PUBLISHED.push(post);
             else if (post.status === "DRAFT") grouped.DRAFT.push(post);
-            else if (post.status === "ARCHIVED") grouped.ARCHIVED.push(post);
             else if (post.status === "SCHEDULED") grouped.SCHEDULED.push(post);
         });
 
@@ -136,16 +135,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">Draft</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">Archived</button>
-        </li>
-        <li class="nav-item" role="presentation">
             <button class="nav-link" id="scheduled-tab" data-bs-toggle="tab" data-bs-target="#scheduled" type="button" role="tab">Scheduled</button>
         </li>
     </ul>
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="published" role="tabpanel"><div class="row" id="published-row"></div></div>
         <div class="tab-pane fade" id="draft" role="tabpanel"><div class="row" id="draft-row"></div></div>
-        <div class="tab-pane fade" id="archived" role="tabpanel"><div class="row" id="archived-row"></div></div>
         <div class="tab-pane fade" id="scheduled" role="tabpanel"><div class="row" id="scheduled-row"></div></div>
     </div>
 </div>
@@ -154,7 +149,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Insert posts into each tab
         document.getElementById("published-row").innerHTML = renderPosts(grouped.PUBLISHED);
         document.getElementById("draft-row").innerHTML = renderPosts(grouped.DRAFT);
-        document.getElementById("archived-row").innerHTML = renderPosts(grouped.ARCHIVED);
         document.getElementById("scheduled-row").innerHTML = renderPosts(grouped.SCHEDULED);
 
 // Attach event listeners for all buttons

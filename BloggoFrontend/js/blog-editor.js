@@ -32,11 +32,30 @@ document.getElementById("btn-draft").addEventListener("click", async () => {
     await submitPost("DRAFT");
 });
 
-document.getElementById("btn-schedule").addEventListener("click", async () => {
-    let scheduledTime = prompt("Enter schedule date & time (YYYY-MM-DD HH:mm):");
-    if (!scheduledTime) return;
-    await submitPost("SCHEDULED", scheduledTime);
+const scheduleBtn = document.getElementById("btn-schedule");
+const confirmBtn = document.getElementById("confirmScheduleBtn");
+const scheduleInput = document.getElementById("scheduleDateTime");
+const scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+
+scheduleBtn.addEventListener("click", () => {
+    // Open the modal
+    scheduleModal.show();
 });
+
+confirmBtn.addEventListener("click", async () => {
+    const scheduledTime = scheduleInput.value;
+    if (!scheduledTime) {
+        alert(" Please select a date and time!");
+        return;
+    }
+
+    // Call your submit function
+    await submitPost("SCHEDULED", scheduledTime);
+
+    // Close the modal
+    scheduleModal.hide();
+});
+
 
 document.getElementById("btn-publish").addEventListener("click", async () => {
     await submitPost("PUBLISHED");
