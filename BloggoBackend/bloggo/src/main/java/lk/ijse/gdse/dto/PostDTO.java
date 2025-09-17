@@ -36,4 +36,10 @@ public class PostDTO {
         this.content = content;
         this.publishedAt = publishedAt;
     }
+
+    public PostDTO(Long postId, String title, String username) {
+        this.id = postId;
+        this.title = title;
+        this.username = username;
+    }
 }

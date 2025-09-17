@@ -59,7 +59,7 @@ async function loadNotifications(showAlert = true) {
         const token = sessionStorage.getItem("jwtToken");
         if (!token) return;
 
-        const loggedUserId = sessionStorage.getItem("userId");
+        const loggedUserId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
         if (!loggedUserId) return;
 
         const res = await fetch(`http://localhost:8080/api/v1/notification/unread/${loggedUserId}`, {
@@ -154,6 +154,7 @@ async function loadPosts(token) {
 // ============================
 document.querySelector(".feed").addEventListener("click", (e) => {
     const card = e.target.closest(".blog-card");
+    console.log(card)
     if (!card) return;
 
     // Ignore clicks on buttons
@@ -163,6 +164,7 @@ document.querySelector(".feed").addEventListener("click", (e) => {
         e.target.classList.contains("comment-input")) return;
 
     const postId = card.dataset.id;
+    console.log(postId)
     window.location.href = `story-detail.html?id=${postId}`;
 });
 
@@ -341,7 +343,7 @@ async function loadCurrentUser(token) {
         if (!res.ok) throw new Error("Failed to load user");
         const user = await res.json();
         const avatar = document.querySelector(".avatar");
-        if (avatar) avatar.src = user.profileImage || "../assets/default.png";
+        if (avatar) avatar.src = user.profileImage || "../assets/client1.jpg";
     } catch (err) {
         console.error("Error loading user:", err);
     }
@@ -407,10 +409,13 @@ async function fetchSearch(type, keyword, limit = 5) {
 function renderSearchResults(postsData, usersData, tagsData, keyword) {
     let html = `<div class="p-8" style="max-width:600px; margin:0 auto; padding-bottom: 10px;">`;
 
+    console.log("rfrgwrger")
+    console.log(postsData.data)
+
     if (postsData?.data?.length) {
         html += `<h5 class="mt-3"">Posts</h5>`;
         postsData.data.forEach(p => html += `<div class="search-item mb-2">
-            <a href="story-details.html?id=${p.postId}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
+            <a href="story-detail.html?id=${p.id}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
         </div>`);
         if (postsData.total > 5) html += `<div class="view-more" onclick="loadAll('post','${keyword}')">View all posts →</div>`;
     }
@@ -419,7 +424,7 @@ function renderSearchResults(postsData, usersData, tagsData, keyword) {
         html += `<h5 class="mt-3">Users</h5>`;
         usersData.data.forEach(u => html += `<div class="d-flex align-items-center mb-2 search-item">
             <img src="${u.profileImage || '../assets/default.png'}" alt="${u.username}" class="rounded-circle me-2" style="width:30px;height:30px;object-fit:cover;">
-            <a href="profile.html?userId=${u.userId}">${u.username}</a>
+            <a href="members-profile.html?userId=${u.userId}">${u.username}</a>
         </div>`);
         if (usersData.total > 5) html += `<div class="view-more" onclick="loadAll('user','${keyword}')">View all users →</div>`;
     }
@@ -448,16 +453,17 @@ async function loadAll(type, keyword) {
     try {
         const res = await fetch(`http://localhost:8080${url}`, { headers: { "Authorization": `Bearer ${token}` } });
         const data = await res.json();
+        console.log("ghvedjhed " + data)
         const container = document.getElementById("searchResults");
         let html = "";
 
         if(type==="post") html = `<h5>Posts</h5>` + data.data.map(p => `<div class="search-item mb-2">
-            <a href="story-details.html?id=${p.postId}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
+            <a href="story-detail.html?id=${p.postId}" class="fw-bold">${p.title}</a> by <span class="text-muted">${p.username}</span>
         </div>`).join("");
 
         if(type==="user") html = `<h5 class="mt-3">Users</h5>` + data.data.map(u => `<div class="d-flex align-items-center mb-2 search-item">
-            <img src="${u.profileImage || '../assets/default.png'}" alt="${u.username}" class="rounded-circle me-2" style="width:30px;height:30px;object-fit:cover;">
-            <a href="profile.html?userId=${u.userId}">${u.username}</a>
+            <img src="${u.profileImage || '../assets/client1.jpg'}" alt="${u.username}" class="rounded-circle me-2" style="width:30px;height:30px;object-fit:cover;">
+            <a href="members-profile.html?userId=${u.userId}">${u.username}</a>
         </div>`).join("");
 
         if(type==="tag") html = `<h5 class="mt-3">Tags</h5>` + data.data.map(t => `<div class="search-item"><a href="tag.html?tagId=${t.tagId}">#${t.name}</a></div>`).join("");
