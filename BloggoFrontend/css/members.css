@@ -102,7 +102,6 @@ body {
     /* Monochrome with subtle blue accents */
     --primary: #000000;         /* Black */
     --primary-light: #222222;   /* Dark Gray */
-    --accent: #1E90FF;          /* Subtle blue for highlights */
     --bg: #FFFFFF;              /* White background */
     --surface: #F8F8F8;         /* Light gray panels */
     --border: #DDDDDD;          /* Soft gray borders */
@@ -114,8 +113,6 @@ body {
 
     --primary-color: #000000;
     --secondary-color: #555555;
-    --accent-color: #1E90FF;
-    --accent-light: #63B3ED;
     --text-primary: #111111;
     --text-secondary: #555555;
     --text-muted: #888888;
@@ -268,6 +265,15 @@ a:hover { color: var(--primary-light); }
     border: none;
     position: relative;
     overflow: hidden;
+    background: black;
+    color: white;
+}
+.btn:hover{
+    background: var(--text-secondary);
+}
+.btn:after{
+    background: var(--text-secondary);
+
 }
 
 .btn-primary {

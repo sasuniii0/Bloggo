@@ -580,3 +580,17 @@ a:hover { color: var(--primary-light); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
+.boost-btn {
+    background-color: gray;   /* default button */
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Boosted state */
+.boost-btn.active {
+    background-color: black !important;  /* force black */
+    color: white !important;
+}

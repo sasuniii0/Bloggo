@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </small>
                 </div>
             </div>
-            <button class="btn btn-sm follow-btn ${isFollowing ? 'btn-secondary' : 'btn-primary'}" 
+            <button class="btn btn-sm follow-btn ${isFollowing ? 'btn-secondary' : 'btn'}" 
                     data-user-id="${user.userId}" ${isFollowing ? 'disabled' : ''}>
                 ${isFollowing ? 'Following' : 'Follow'}
             </button>
@@ -158,6 +158,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     // ✅ Update button text
                     event.target.textContent = "Following";
+                    event.target.classList.remove("btn-primary");
+                    event.target.classList.add("btn-secondary");
                     event.target.disabled = true;
 
                     // Optional: show success toast/alert

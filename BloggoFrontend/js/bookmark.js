@@ -24,30 +24,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             console.log(bookmarks)
 
-            // Render each bookmark as a separate card
             allTabEl.innerHTML = bookmarks.map(b => `
-                <div class="card p-3 mb-3">
-                    <div class="d-flex gap-3">
-                        ${b.coverImage ? `
-                            <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
-                                <img src="${b.coverImage}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
-                            </div>
-                        ` : ''}
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1">
-                                <a href="story-details.html?id=${b.postId}" class="text-decoration-none">
-                                    ${b.postTitle || "Untitled"}
-                                </a>
-                            </h6>
-                            <p class="text-muted mb-1" style="font-size: 14px;">By ${b.username || "Unknown"}</p>
-                            ${b.content ? `<p class="mb-2" style="font-size: 14px;">${b.content.substring(0, 150)}...</p>` : ''}
-                            <button class="btn btn-sm btn-outline-danger removeBookmarkBtn" data-post-id="${b.postId}">
-                                <i class="fas fa-times"></i> Remove
-                            </button>
-                        </div>
-                    </div>
+    <div class="card p-3 mb-3 position-relative">
+        <!-- Remove button (icon only) -->
+        <button class="btn btn-sm btn-outline-black removeBookmarkBtn position-absolute" 
+                data-post-id="${b.postId}" 
+                style="top: 8px; right: 8px; border-radius: 50%; padding: 4px 7px;">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="d-flex gap-3">
+            ${b.coverImage ? `
+                <div style="width:80px; height:80px; flex-shrink:0; border-radius:8px; overflow:hidden;">
+                    <img src="${b.coverImage}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
                 </div>
-            `).join("");
+            ` : ''}
+            <div class="flex-grow-1">
+                <h6 class="mb-1">
+                    <a href="story-details.html?id=${b.postId}" class="text-decoration-none">
+                        ${b.postTitle || "Untitled"}
+                    </a>
+                </h6>
+                <p class="text-muted mb-1" style="font-size: 14px;">By ${b.username || "Unknown"}</p>
+                ${b.content ? `<p class="mb-2" style="font-size: 14px;">${b.content.substring(0, 150)}...</p>` : ''}
+            </div>
+        </div>
+    </div>
+`).join("");
+
 
             // Attach remove bookmark functionality
             allTabEl.querySelectorAll(".removeBookmarkBtn").forEach(btn => {

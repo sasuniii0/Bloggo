@@ -45,64 +45,70 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return `<p class="text-muted text-center">No stories found.</p>`;
             }
 
-            return list.map(post => `
-        <div class="card mb-3 shadow-sm" style="border-radius: 10px;">
-            <div class="card-body d-flex flex-column">
-                
-                <!-- Cover Image (small square, if exists) -->
-                ${post.imageUrl ? `
-                <div style="width:80px; height:80px; overflow:hidden; border-radius:8px; margin-bottom:10px;">
-                    <img src="${post.imageUrl}" alt="Cover Image" 
-                         style="width:100%; height:100%; object-fit:cover;">
-                </div>` : ""}
+            return `
+        <div class="row">
+            ${list.map(post => `
+                <div class="col-12 mb-3">
+                    <div class="card shadow-sm" style="border-radius: 10px;">
+                        <div class="card-body d-flex flex-column">
 
-                <!-- Title -->
-                <h5 class="card-title mb-1">${post.title || "Untitled"}</h5>
-                
-                <!-- Status and Date -->
-                <div class="text-muted small mb-2">
-                    ${post.status || ""} • 
-                    ${post.createdAt || post.publishedAt
+                            <!-- Cover Image -->
+                            ${post.imageUrl ? `
+                            <div style="width:80px; height:80px; overflow:hidden; border-radius:8px; margin-bottom:10px;">
+                                <img src="${post.imageUrl}" alt="Cover Image" 
+                                    style="width:100%; height:100%; object-fit:cover;">
+                            </div>` : ""}
+
+                            <!-- Title -->
+                            <h5 class="card-title mb-1">${post.title || "Untitled"}</h5>
+
+                            <!-- Status and Date -->
+                            <div class="text-muted small mb-2">
+                                ${post.status || ""} • 
+                                ${post.createdAt || post.publishedAt
                 ? new Date(post.createdAt || post.publishedAt).toLocaleDateString()
                 : "Unknown"}
+                            </div>
+
+                            <!-- Content Preview -->
+                            <p class="card-text mb-3">
+                                ${post.content ? post.content.substring(0, 300) + "..." : ""}
+                            </p>
+
+                            <!-- Read More Link -->
+                            <a href="story-detail.html?id=${post.id || post.postId}" 
+                                class="text-decoration-none mb-3">
+                                <i class="fa-solid fa-book-open-reader me-1"></i> Read More
+                            </a>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                <!-- Boost -->
+                                <button class="btn btn-sm btn like-btn" data-id="${post.id}">
+                                    <i class="fa-solid fa-rocket me-1"></i>
+                                    Boost <span class="like-count">${post.likes || 0}</span>
+                                </button>
+
+                                <!-- Comments -->
+                                <button class="btn btn-sm btn comment-btn" data-id="${post.id}">
+                                    <i class="fa-regular fa-comments me-1"></i>
+                                    Comments (${post.commentsCount || 0})
+                                </button>
+
+                                <!-- Save -->
+                                <button class="btn btn-sm btn bookmark-btn ms-auto" data-id="${post.id}">
+                                    <i class="fa-regular fa-bookmark me-1"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Content Preview -->
-                <p class="card-text mb-3">
-                    ${post.content ? post.content.substring(0, 300) + "..." : ""}
-                </p>
-                
-               <!-- Read More Link -->
-<a href="story-detail.html?id=${post.id || post.postId}" 
-   class="text-decoration-none mb-3">
-   <i class="fa-solid fa-book-open-reader me-1"></i> Read More
-</a>
-
-<!-- Action Buttons -->
-<div class="d-flex justify-content-start align-items-center gap-2">
-    <!-- Boost -->
-    <button class="btn btn-sm btn like-btn" data-id="${post.id}">
-        <i class="fa-solid fa-rocket me-1"></i>
-        Boost <span class="like-count">${post.likes || 0}</span>
-    </button>
-
-    <!-- Comments -->
-    <button class="btn btn-sm btn comment-btn" data-id="${post.id}">
-        <i class="fa-regular fa-comments me-1"></i>
-        Comments (${post.commentsCount || 0})
-    </button>
-
-    <!-- Save -->
-    <button class="btn btn-sm btn bookmark-btn ms-auto" data-id="${post.id}">
-        <i class="fa-regular fa-bookmark me-1"></i>
-        Save
-    </button>
-</div>
-
-            </div>
+            `).join("")}
         </div>
-    `).join("");
+    `;
         }
+
 
 
         // Build tab layout

@@ -269,17 +269,16 @@ a:hover { color: var(--primary-light); }
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--accent-color); /* Professional indigo gradient */
-    color: var(--bg-white); /* White text */
-    padding: 12px 24px;
-    border-radius: var(--radius);
-    font-weight: bold;
-    z-index: 1050;
-    box-shadow: var(--shadow-lg);
-    animation: slideDown 0.3s ease-out;
-    text-align: center;
-    min-width: 250px;
+    background-color: black;   /* black background */
+    color: white;              /* white text */
+    padding: 12px 20px;
+    border-radius: 6px;
+    z-index: 9999;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.3s ease-in-out;
 }
+
 
 @keyframes slideDown {
     from { opacity: 0; transform: translate(-50%, -20px); }
