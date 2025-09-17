@@ -389,3 +389,18 @@ a:hover { color: var(--primary-light); }
     color: var(--btn-bg);
 }
 
+#unsplashResults img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+}
+.unsplash-result {
+    display: inline-block;
+    margin: 8px;
+    width: 150px;
+}
+.unsplash-result img {
+    width: 100%;
+    border-radius: 6px;
+}
+
