@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             ` : ''}
             <div class="flex-grow-1">
                 <h6 class="mb-1">
-                    <a href="story-details.html?id=${b.postId}" class="text-decoration-none">
+                    <a href="story-detail.html?id=${b.postId}" class="text-decoration-none">
                         ${b.postTitle || "Untitled"}
                     </a>
                 </h6>
@@ -70,12 +70,78 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                 });
             });
-
         } catch (err) {
             console.error(err);
             allTabEl.innerHTML = "<p class='text-danger'>Failed to load bookmarks.</p>";
         }
     };
+
+    async function getFollowing() {
+        const token = sessionStorage.getItem("jwtToken")
+        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+
+        try {
+            // Step 1: get the list of following user IDs
+            const res = await fetch(`http://localhost:8080/api/v1/follows/getFollowing?userId=${userId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const apiResponse = await res.json();
+
+            if (!res.ok || apiResponse.status !== 200) {
+                console.error("Failed to load following list");
+                alert("Could not load following list");
+                return;
+            }
+
+            const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
+
+            // Step 2: fetch user details for each followedId
+            const usersWithDetails = await Promise.all(
+                followingList.map(async f => {
+                    const userRes = await fetch(`http://localhost:8080/api/v1/follows/getFollwingDetails?userId=${f.followedId}`, {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+
+                    if (!userRes.ok) return null;
+                    const userApiResponse = await userRes.json();
+                    return userApiResponse.data; // should return { userId, username, profileImage }
+                })
+            );
+
+            // Step 3: render
+            const ulEl = document.querySelector(".following-list");
+            if (!ulEl) return;
+
+            ulEl.innerHTML = "";
+
+            usersWithDetails.forEach(user => {
+                if (!user) return;
+                const li = document.createElement("li");
+                li.className = "d-flex align-items-center mb-2";
+
+                li.innerHTML = `
+                <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="35" height="35" alt="${user.username}">
+                <span>${user.username}</span>
+            `;
+
+                ulEl.appendChild(li);
+            });
+
+            const seeAllLi = document.createElement("li");
+            seeAllLi.innerHTML = `<a href="follow.html" class="text-decoration-none">See all (${usersWithDetails.length})</a>`;
+            ulEl.appendChild(seeAllLi);
+
+        } catch (err) {
+            console.error(err);
+            alert("Could not load following list. Try again.");
+        }
+    }
+
 
     // Simple logout
     window.logout = () => {
@@ -84,4 +150,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     await loadBookmarks();
+    await getFollowing();
 });
+
+document.querySelector(".card").addEventListener("click", (e) => {
+    const card = e.target.closest(".blog-card");
+    if (!card) return;
+
+    // Ignore clicks on buttons
+    if (e.target.classList.contains("boost-btn") ||
+        e.target.classList.contains("comment-toggle-btn") ||
+        e.target.classList.contains("add-comment-btn") ||
+        e.target.classList.contains("comment-input")) return;
+
+    const postId = card.dataset.id;
+    window.location.href = `story-detail.html?id=${postId}`;
+});
+

@@ -311,5 +311,24 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user); // only save, no wallet creation
     }
 
+    @Override
+    public UserDTO getUsernameAndProfilePicByUserId(Long userId) {
+        // Fetch the user entity directly
+        User user = userRepository.getUserByUserId(userId);
+
+        if (user == null) {
+            return null; // or throw an exception if you prefer
+        }
+
+        // Map to DTO
+        return UserDTO.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .profileImage(user.getProfileImage())
+                .build();
+    }
+
+
+
 
 }

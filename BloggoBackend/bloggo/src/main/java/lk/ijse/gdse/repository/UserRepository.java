@@ -27,6 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User getUserByUserId(Long userId);
 
+
     // Pagination + role filter
     Page<User> findByRole(String role, Pageable pageable);
 

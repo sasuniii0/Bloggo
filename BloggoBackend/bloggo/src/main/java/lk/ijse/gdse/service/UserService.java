@@ -58,4 +58,6 @@ public interface UserService {
     Optional<User> findUserById(Long userId);
 
     void updateUser(User user);
+
+    UserDTO getUsernameAndProfilePicByUserId(Long userId);
 }

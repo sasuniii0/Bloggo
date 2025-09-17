@@ -47,6 +47,7 @@ async function getFollowing() {
     const userId = getUserId();
 
     try {
+        // Step 1: get the list of following user IDs
         const res = await fetch(`http://localhost:8080/api/v1/follows/getFollowing?userId=${userId}`, {
             method: "GET",
             headers: {
@@ -59,30 +60,33 @@ async function getFollowing() {
 
         if (!res.ok || apiResponse.status !== 200) {
             console.error("Failed to load following list");
-            alert("Could not find following list");
+            alert("Could not load following list");
             return;
         }
 
-        const followingList = apiResponse.data || [];
+        const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
 
-        // Fetch user details for each followedId
+        // Step 2: fetch user details for each followedId
         const usersWithDetails = await Promise.all(
             followingList.map(async f => {
-                const userRes = await fetch(`http://localhost:8080/api/v1/users/${f.followedId}`, {
+                const userRes = await fetch(`http://localhost:8080/api/v1/follows/getFollwingDetails?userId=${f.followedId}`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
+
                 if (!userRes.ok) return null;
-                return await userRes.json(); // assume API returns { userId, username, profileImage }
+                const userApiResponse = await userRes.json();
+                return userApiResponse.data; // should return { userId, username, profileImage }
             })
         );
 
+        // Step 3: render
         const ulEl = document.querySelector(".following-list");
         if (!ulEl) return;
 
         ulEl.innerHTML = "";
 
         usersWithDetails.forEach(user => {
-            if (!user) return; // skip if fetch failed
+            if (!user) return;
             const li = document.createElement("li");
             li.className = "d-flex align-items-center mb-2";
 
@@ -104,10 +108,10 @@ async function getFollowing() {
     }
 }
 
-
+// Call on page load
 document.addEventListener("DOMContentLoaded", () => {
-    loadNotifications();
     getFollowing();
+    loadNotifications();
 });
 
 async function loadNotifications() {

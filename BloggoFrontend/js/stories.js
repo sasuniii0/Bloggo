@@ -1,6 +1,73 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const storiesContainer = document.getElementById("myStories");
 
+    async function getFollowing() {
+        const token = sessionStorage.getItem("jwtToken")
+        const userId = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+
+        try {
+            // Step 1: get the list of following user IDs
+            const res = await fetch(`http://localhost:8080/api/v1/follows/getFollowing?userId=${userId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const apiResponse = await res.json();
+
+            if (!res.ok || apiResponse.status !== 200) {
+                console.error("Failed to load following list");
+                alert("Could not load following list");
+                return;
+            }
+
+            const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
+
+            // Step 2: fetch user details for each followedId
+            const usersWithDetails = await Promise.all(
+                followingList.map(async f => {
+                    const userRes = await fetch(`http://localhost:8080/api/v1/follows/getFollwingDetails?userId=${f.followedId}`, {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+
+                    if (!userRes.ok) return null;
+                    const userApiResponse = await userRes.json();
+                    return userApiResponse.data; // should return { userId, username, profileImage }
+                })
+            );
+
+            // Step 3: render
+            const ulEl = document.querySelector(".following-list");
+            if (!ulEl) return;
+
+            ulEl.innerHTML = "";
+
+            usersWithDetails.forEach(user => {
+                if (!user) return;
+                const li = document.createElement("li");
+                li.className = "d-flex align-items-center mb-2";
+
+                li.innerHTML = `
+                <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="35" height="35" alt="${user.username}">
+                <span>${user.username}</span>
+            `;
+
+                ulEl.appendChild(li);
+            });
+
+            const seeAllLi = document.createElement("li");
+            seeAllLi.innerHTML = `<a href="follow.html" class="text-decoration-none">See all (${usersWithDetails.length})</a>`;
+            ulEl.appendChild(seeAllLi);
+
+        } catch (err) {
+            console.error(err);
+            alert("Could not load following list. Try again.");
+        }
+    }
+
+    await getFollowing();
     const token = sessionStorage.getItem("jwtToken");
     try {
         const token = sessionStorage.getItem("jwtToken");
@@ -319,7 +386,6 @@ function hideLoader() {
 // Example usage in your DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
     showLoader();
-
     try {
         // your fetch logic here
     } catch (err) {

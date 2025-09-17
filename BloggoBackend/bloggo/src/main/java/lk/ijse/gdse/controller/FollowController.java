@@ -2,6 +2,7 @@ package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.FollowDTO;
+import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.Follow;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.FollowService;
@@ -55,6 +56,11 @@ public class FollowController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Following", following));
     }
 
-    /*@GetMapping("/getFollwingDetails")
-    pu*/
+    @GetMapping("/getFollwingDetails")
+    public ResponseEntity<ApiResponseDTO> getFollowingDetails(@RequestParam Long userId) {
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
+                "Following",
+                userService.getUsernameAndProfilePicByUserId(userId)));
+    }
 }
