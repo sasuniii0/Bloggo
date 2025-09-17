@@ -1,6 +1,7 @@
 package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.FollowDTO;
 import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.FollowService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +101,11 @@ public class FollowServiceImpl implements FollowService {
                 .orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
 
         return followRepository.existsByFollowerAndFollowed(follower, followed);
+    }
+
+    @Override
+    public List<FollowDTO> getFollowingUsersById(Long userId) {
+        return followRepository.getFollowsByFollowerId(userId);
     }
 
 }

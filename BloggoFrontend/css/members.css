@@ -309,6 +309,7 @@ a:hover { color: var(--primary-light); }
     cursor: pointer;
     color: var(--text-primary);
 }
+
 #notificationTabs{
     display: flex;
     justify-content: flex-start;

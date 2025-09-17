@@ -42,8 +42,72 @@ function getUserId() {
     return user;
 }
 
+async function getFollowing() {
+    const token = getToken();
+    const userId = getUserId();
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/v1/follows/getFollowing?userId=${userId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        const apiResponse = await res.json();
+
+        if (!res.ok || apiResponse.status !== 200) {
+            console.error("Failed to load following list");
+            alert("Could not find following list");
+            return;
+        }
+
+        const followingList = apiResponse.data || [];
+
+        // Fetch user details for each followedId
+        const usersWithDetails = await Promise.all(
+            followingList.map(async f => {
+                const userRes = await fetch(`http://localhost:8080/api/v1/users/${f.followedId}`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (!userRes.ok) return null;
+                return await userRes.json(); // assume API returns { userId, username, profileImage }
+            })
+        );
+
+        const ulEl = document.querySelector(".following-list");
+        if (!ulEl) return;
+
+        ulEl.innerHTML = "";
+
+        usersWithDetails.forEach(user => {
+            if (!user) return; // skip if fetch failed
+            const li = document.createElement("li");
+            li.className = "d-flex align-items-center mb-2";
+
+            li.innerHTML = `
+                <img src="${user.profileImage || '../assets/client1.jpg'}" class="rounded-circle me-2" width="35" height="35" alt="${user.username}">
+                <span>${user.username}</span>
+            `;
+
+            ulEl.appendChild(li);
+        });
+
+        const seeAllLi = document.createElement("li");
+        seeAllLi.innerHTML = `<a href="follow.html" class="text-decoration-none">See all (${usersWithDetails.length})</a>`;
+        ulEl.appendChild(seeAllLi);
+
+    } catch (err) {
+        console.error(err);
+        alert("Could not load following list. Try again.");
+    }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     loadNotifications();
+    getFollowing();
 });
 
 async function loadNotifications() {

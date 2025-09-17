@@ -1,6 +1,8 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.FollowDTO;
+import lk.ijse.gdse.entity.Follow;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.FollowService;
 import lk.ijse.gdse.service.UserService;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @RestController
@@ -46,4 +49,12 @@ public class FollowController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Follow status fetched", isFollowing));
     }
 
+    @GetMapping("/getFollowing")
+    public ResponseEntity<ApiResponseDTO> getFollowing(@RequestParam Long userId) {
+        List<FollowDTO> following = followService.getFollowingUsersById(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Following", following));
+    }
+
+    /*@GetMapping("/getFollwingDetails")
+    pu*/
 }
