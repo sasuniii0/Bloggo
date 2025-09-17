@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!postId) return alert("⚠️ Story not found");
 
+
     await loadLoggedUser();
     await loadCurrentUser(token)
 
@@ -46,6 +47,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const editContent = document.getElementById("editContent");
     const coverInput = document.getElementById("coverPicture");
     const coverPreview = document.getElementById("coverPreview");
+
+    const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+
+    if (downloadPdfBtn) {
+        downloadPdfBtn.addEventListener("click", () => {
+            downloadPdf(postId);
+        });
+    }
+
+    function downloadPdf(postId) {
+        window.open(`http://localhost:8080/api/v1/pdf/download-pdf/${postId}`, "_blank");
+    }
+
 
     if (!token) {
         titleEl.textContent = "⚠️ Please log in to view the story.";
