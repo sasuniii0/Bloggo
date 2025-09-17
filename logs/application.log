@@ -445,3 +445,231 @@ org.hibernate.InstantiationException: Result class must have a single constructo
 2025-09-17T13:20:14.954+05:30  WARN 14944 --- [bloggo] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
 2025-09-17T13:26:44.999+05:30  WARN 14944 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
 2025-09-17T13:27:34.280+05:30  WARN 14944 --- [bloggo] [http-nio-8080-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T13:28:09.338+05:30  INFO 14944 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-17T13:28:09.344+05:30  INFO 14944 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-17T13:28:09.351+05:30  INFO 14944 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T13:28:09.354+05:30  INFO 14944 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-17T13:28:09.360+05:30  INFO 14944 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-17T14:04:48.606+05:30  INFO 13260 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 13260 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-17T14:04:48.609+05:30  INFO 13260 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-17T14:04:49.293+05:30  INFO 13260 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T14:04:49.365+05:30  INFO 13260 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 13 JPA repository interfaces.
+2025-09-17T14:04:49.803+05:30  INFO 13260 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-17T14:04:49.813+05:30  INFO 13260 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T14:04:49.813+05:30  INFO 13260 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-17T14:04:49.861+05:30  INFO 13260 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T14:04:49.861+05:30  INFO 13260 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1209 ms
+2025-09-17T14:04:49.961+05:30  INFO 13260 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T14:04:50.002+05:30  INFO 13260 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-17T14:04:50.047+05:30  INFO 13260 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T14:04:50.244+05:30  INFO 13260 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T14:04:50.264+05:30  INFO 13260 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T14:04:50.534+05:30  INFO 13260 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47eae91d
+2025-09-17T14:04:50.535+05:30  INFO 13260 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T14:04:50.577+05:30  WARN 13260 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-17T14:04:50.587+05:30  INFO 13260 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-17T14:04:51.393+05:30  INFO 13260 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T14:04:51.537+05:30  INFO 13260 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T14:04:51.743+05:30  INFO 13260 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T14:04:53.023+05:30  WARN 13260 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-17T14:04:53.049+05:30  INFO 13260 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-17T14:04:53.459+05:30  INFO 13260 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-17T14:04:53.464+05:30  INFO 13260 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 5.254 seconds (process running for 6.093)
+2025-09-17T14:05:08.319+05:30  INFO 13260 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T14:05:08.320+05:30  INFO 13260 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T14:05:08.328+05:30  INFO 13260 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2025-09-17T14:20:17.221+05:30  WARN 13260 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m56s432ms281µs500ns).
+2025-09-17T14:21:09.616+05:30  WARN 13260 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T14:38:51.977+05:30  INFO 13260 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-17T14:38:51.980+05:30  INFO 13260 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-17T14:38:51.985+05:30  INFO 13260 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T14:38:51.987+05:30  INFO 13260 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-17T14:38:51.989+05:30  INFO 13260 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-17T14:39:04.406+05:30  INFO 428 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 428 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-17T14:39:04.408+05:30  INFO 428 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-17T14:39:06.903+05:30  INFO 428 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T14:39:06.969+05:30  INFO 428 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 13 JPA repository interfaces.
+2025-09-17T14:39:07.327+05:30  INFO 428 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-17T14:39:07.339+05:30  INFO 428 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T14:39:07.339+05:30  INFO 428 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-17T14:39:07.372+05:30  INFO 428 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T14:39:07.372+05:30  INFO 428 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2929 ms
+2025-09-17T14:39:07.457+05:30  INFO 428 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T14:39:07.483+05:30  INFO 428 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-17T14:39:07.515+05:30  INFO 428 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T14:39:07.680+05:30  INFO 428 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T14:39:07.696+05:30  INFO 428 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T14:39:07.917+05:30  INFO 428 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c4ca87c
+2025-09-17T14:39:07.918+05:30  INFO 428 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T14:39:07.953+05:30  WARN 428 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-17T14:39:07.963+05:30  INFO 428 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-17T14:39:08.781+05:30  INFO 428 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T14:39:08.880+05:30  INFO 428 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T14:39:09.076+05:30  INFO 428 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T14:39:10.457+05:30  WARN 428 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-17T14:39:10.483+05:30  INFO 428 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-17T14:39:10.873+05:30  INFO 428 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-17T14:39:10.877+05:30  INFO 428 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 6.786 seconds (process running for 8.272)
+2025-09-17T14:39:15.269+05:30  INFO 428 --- [bloggo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T14:39:15.269+05:30  INFO 428 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T14:39:15.270+05:30  INFO 428 --- [bloggo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-17T14:39:24.663+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T14:39:24.663+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T14:42:03.410+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T14:42:46.536+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'followedId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T14:43:02.469+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T14:48:49.277+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T14:48:49.277+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T14:50:42.964+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T14:50:42.964+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T14:51:38.968+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T14:51:38.969+05:30  WARN 428 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T14:51:45.140+05:30  INFO 428 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-17T14:51:45.152+05:30  INFO 428 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-17T14:51:45.168+05:30  INFO 428 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T14:51:45.173+05:30  INFO 428 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-17T14:51:45.187+05:30  INFO 428 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-17T15:19:03.876+05:30  INFO 3744 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 3744 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-17T15:19:03.880+05:30  INFO 3744 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-17T15:19:04.554+05:30  INFO 3744 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T15:19:04.649+05:30  INFO 3744 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 89 ms. Found 13 JPA repository interfaces.
+2025-09-17T15:19:05.095+05:30  INFO 3744 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-17T15:19:05.108+05:30  INFO 3744 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T15:19:05.108+05:30  INFO 3744 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-17T15:19:05.183+05:30  INFO 3744 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T15:19:05.183+05:30  INFO 3744 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1260 ms
+2025-09-17T15:19:05.294+05:30  INFO 3744 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T15:19:05.356+05:30  INFO 3744 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-17T15:19:05.411+05:30  INFO 3744 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T15:19:05.649+05:30  INFO 3744 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T15:19:05.679+05:30  INFO 3744 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T15:19:05.974+05:30  INFO 3744 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2aa07d80
+2025-09-17T15:19:05.977+05:30  INFO 3744 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T15:19:06.023+05:30  WARN 3744 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-17T15:19:06.037+05:30  INFO 3744 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-17T15:19:07.029+05:30  INFO 3744 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T15:19:07.162+05:30  INFO 3744 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T15:19:07.359+05:30  INFO 3744 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T15:19:08.930+05:30  WARN 3744 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-17T15:19:08.960+05:30  INFO 3744 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-17T15:19:09.453+05:30  INFO 3744 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-17T15:19:09.458+05:30  INFO 3744 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 6.043 seconds (process running for 6.789)
+2025-09-17T15:19:17.277+05:30  INFO 3744 --- [bloggo] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T15:19:17.278+05:30  INFO 3744 --- [bloggo] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T15:19:17.281+05:30  INFO 3744 --- [bloggo] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-17T15:20:18.819+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T15:20:18.821+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T16:16:33.949+05:30  WARN 3744 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=33m57s453ms729µs).
+2025-09-17T16:20:16.128+05:30  WARN 3744 --- [bloggo] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m42s178ms517µs600ns).
+2025-09-17T16:21:28.290+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T16:21:28.290+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T16:21:28.677+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'userId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2025-09-17T16:22:03.418+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T16:22:03.419+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T16:23:18.664+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T16:23:18.666+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T16:24:20.636+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T16:24:20.636+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T16:24:55.513+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Ignoring exception, response committed already: org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)
+2025-09-17T16:24:55.514+05:30  WARN 3744 --- [bloggo] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Document nesting depth (1001) exceeds the maximum allowed (1000, from `StreamWriteConstraints.getMaxNestingDepth()`)]
+2025-09-17T16:32:53.609+05:30  INFO 3744 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-17T16:32:53.612+05:30  INFO 3744 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-17T16:32:53.618+05:30  INFO 3744 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T16:32:53.621+05:30  INFO 3744 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-17T16:32:53.625+05:30  INFO 3744 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-17T16:52:52.630+05:30  INFO 9596 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 9596 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-17T16:52:52.631+05:30  INFO 9596 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-17T16:52:53.524+05:30  INFO 9596 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T16:52:53.638+05:30  INFO 9596 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 104 ms. Found 13 JPA repository interfaces.
+2025-09-17T16:52:54.059+05:30  INFO 9596 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-17T16:52:54.069+05:30  INFO 9596 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T16:52:54.070+05:30  INFO 9596 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-17T16:52:54.113+05:30  INFO 9596 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T16:52:54.114+05:30  INFO 9596 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1438 ms
+2025-09-17T16:52:54.211+05:30  INFO 9596 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T16:52:54.258+05:30  INFO 9596 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-17T16:52:54.313+05:30  INFO 9596 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T16:52:54.497+05:30  INFO 9596 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T16:52:54.523+05:30  INFO 9596 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T16:52:54.786+05:30  INFO 9596 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@472719df
+2025-09-17T16:52:54.787+05:30  INFO 9596 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T16:52:54.836+05:30  WARN 9596 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-17T16:52:54.849+05:30  INFO 9596 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-17T16:52:55.993+05:30  INFO 9596 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T16:52:56.191+05:30  INFO 9596 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T16:52:56.402+05:30  INFO 9596 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T16:52:57.921+05:30  WARN 9596 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-17T16:52:57.948+05:30  INFO 9596 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-17T16:52:58.381+05:30  INFO 9596 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-17T16:52:58.387+05:30  INFO 9596 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 6.255 seconds (process running for 6.879)
+2025-09-17T16:53:08.350+05:30  INFO 9596 --- [bloggo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T16:53:08.351+05:30  INFO 9596 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T16:53:08.353+05:30  INFO 9596 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-17T16:55:19.779+05:30  INFO 9596 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-17T16:55:19.785+05:30  INFO 9596 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-17T16:55:19.792+05:30  INFO 9596 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T16:55:19.795+05:30  INFO 9596 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-17T16:55:19.803+05:30  INFO 9596 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-17T16:55:24.442+05:30  INFO 19064 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Starting BloggoApplication using Java 21.0.5 with PID 19064 (C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot\BloggoBackend\bloggo\target\classes started by User in C:\Users\User\OneDrive\Documents\AAD final project\Bloggo-springboot)
+2025-09-17T16:55:24.443+05:30  INFO 19064 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : No active profile set, falling back to 1 default profile: "default"
+2025-09-17T16:55:25.018+05:30  INFO 19064 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-17T16:55:25.085+05:30  INFO 19064 --- [bloggo] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 13 JPA repository interfaces.
+2025-09-17T16:55:25.459+05:30  INFO 19064 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-17T16:55:25.467+05:30  INFO 19064 --- [bloggo] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-17T16:55:25.468+05:30  INFO 19064 --- [bloggo] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-17T16:55:25.518+05:30  INFO 19064 --- [bloggo] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-17T16:55:25.518+05:30  INFO 19064 --- [bloggo] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1037 ms
+2025-09-17T16:55:25.642+05:30  INFO 19064 --- [bloggo] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-17T16:55:25.681+05:30  INFO 19064 --- [bloggo] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-17T16:55:25.726+05:30  INFO 19064 --- [bloggo] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-17T16:55:25.904+05:30  INFO 19064 --- [bloggo] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-17T16:55:25.923+05:30  INFO 19064 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-17T16:55:26.126+05:30  INFO 19064 --- [bloggo] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4e61a863
+2025-09-17T16:55:26.128+05:30  INFO 19064 --- [bloggo] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-17T16:55:26.164+05:30  WARN 19064 --- [bloggo] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-17T16:55:26.175+05:30  INFO 19064 --- [bloggo] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-17T16:55:26.997+05:30  INFO 19064 --- [bloggo] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-17T16:55:27.116+05:30  INFO 19064 --- [bloggo] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-17T16:55:27.319+05:30  INFO 19064 --- [bloggo] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-09-17T16:55:28.596+05:30  WARN 19064 --- [bloggo] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-17T16:55:28.621+05:30  INFO 19064 --- [bloggo] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2025-09-17T16:55:29.015+05:30  INFO 19064 --- [bloggo] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-17T16:55:29.020+05:30  INFO 19064 --- [bloggo] [main] lk.ijse.gdse.BloggoApplication           : Started BloggoApplication in 4.939 seconds (process running for 5.79)
+2025-09-17T16:55:35.160+05:30  INFO 19064 --- [bloggo] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-17T16:55:35.160+05:30  INFO 19064 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-17T16:55:35.161+05:30  INFO 19064 --- [bloggo] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

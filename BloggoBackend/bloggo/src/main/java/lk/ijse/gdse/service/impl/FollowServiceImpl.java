@@ -2,6 +2,7 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.FollowDTO;
+import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.FollowService;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +108,40 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public List<FollowDTO> getFollowingUsersById(Long userId) {
         return followRepository.getFollowsByFollowerId(userId);
+    }
+
+    @Override
+    public List<UserDTO> getFollowing(Long userId) {
+        // Fetch users that the given user is following
+        List<User> users = followRepository.findFollowingByUserId(userId);
+
+        // Convert User entities to UserDTO
+        List<UserDTO> userDTOs = users.stream()
+                .map(user -> UserDTO.builder()
+                        .userId(user.getUserId())
+                        .username(user.getUsername())
+                        .profileImage(user.getProfileImage())
+                        .build())
+                .collect(Collectors.toList());
+
+        return userDTOs;
+    }
+
+
+    @Override
+    public List<UserDTO> getFollowers(Long userId) {
+        List<User> user =  followRepository.findFollowersByUserId(userId);
+
+        // Convert User entities to UserDTO
+        List<UserDTO> userDTOs = user.stream()
+                .map(users -> UserDTO.builder()
+                        .userId(users.getUserId())
+                        .username(users.getUsername())
+                        .profileImage(users.getProfileImage())
+                        .build())
+                .collect(Collectors.toList());
+
+        return userDTOs;
     }
 
 }
