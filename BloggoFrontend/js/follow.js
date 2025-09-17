@@ -18,10 +18,6 @@ async function loadFollowing(userId, token) {
             }
         });
 
-/*
-        const resPost = await fetch(`${BASE_URL}/api/v1/`)
-*/
-
         if (!res.ok) throw new Error(`Failed to load followings: ${res.status}`);
 
         const json = await res.json();
@@ -42,7 +38,7 @@ async function loadFollowing(userId, token) {
                     <img src="${user.profileImage || '../assets/client1.jpg'}" alt="Profile" class="rounded-circle me-2" width="40" height="40">
                     <div>
                         <h6 class="mb-0">${user.username}</h6>
-                        <small>${user.bio || "No bio yet"} · ${user.postsCount || 0} posts</small>
+                        <small>${user.bio || "No bio yet"} · ${user.postCount || 0} posts</small>
                     </div>
                 </div>`;
         });
@@ -78,11 +74,11 @@ async function loadFollowers(userId, token) {
 
         users.forEach(user => {
             container.innerHTML += `
-                <div class="user-card d-flex align-items-center mb-2">
-                    <img src="${user.profilePic || '../assets/default-avatar.png'}" alt="Profile" class="rounded-circle me-2" width="40" height="40">
+                <div class="user-card d-flex align-items-center mb-2 p-3">
+                    <img src="${user.profileImage || '../assets/client1.jpg'}" alt="Profile" class="rounded-circle me-2" width="40" height="40">
                     <div>
-                        <h6 class="mb-0">@${user.username}</h6>
-                        <small>${user.bio || "No bio yet"} · ${user.postsCount || 0} posts</small>
+                        <h6 class="mb-0">${user.username}</h6>
+                        <small>${user.bio || "No bio yet"} · ${user.postCount || 0} posts</small>
                     </div>
                 </div>`;
         });

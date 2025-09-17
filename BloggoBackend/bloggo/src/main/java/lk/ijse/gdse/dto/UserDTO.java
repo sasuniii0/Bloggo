@@ -24,6 +24,7 @@ public class UserDTO {
     private MembershipStatus membershipStatus;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
+    private Integer postCount;
 
     public UserDTO(Long userId, String username) {
         this.userId = userId;
@@ -54,5 +55,12 @@ public class UserDTO {
         this.bio = bio;
         this.membershipStatus = membershipStatus;
         this.role = role;
+    }
+    // Optional constructor including postsCount
+    public UserDTO(Long userId, String username, String profileImage, Integer postsCount) {
+        this.userId = userId;
+        this.username = username;
+        this.profileImage = profileImage;
+        this.postCount = postsCount;
     }
 }

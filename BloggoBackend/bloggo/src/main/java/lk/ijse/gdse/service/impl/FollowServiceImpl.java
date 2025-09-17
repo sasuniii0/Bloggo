@@ -25,6 +25,7 @@ public class FollowServiceImpl implements FollowService {
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
     private final EarningRepository earningRepository;
+    private final PostRepository postRepository;
 
     @Transactional
     @Override
@@ -115,13 +116,19 @@ public class FollowServiceImpl implements FollowService {
         // Fetch users that the given user is following
         List<User> users = followRepository.findFollowingByUserId(userId);
 
-        // Convert User entities to UserDTO
         List<UserDTO> userDTOs = users.stream()
-                .map(user -> UserDTO.builder()
-                        .userId(user.getUserId())
-                        .username(user.getUsername())
-                        .profileImage(user.getProfileImage())
-                        .build())
+                .map(user -> {
+                    // Get post count for this specific user
+                    Long postCount = postRepository.countPostsByUserId(user.getUserId());
+
+                    return UserDTO.builder()
+                            .userId(user.getUserId())
+                            .username(user.getUsername())
+                            .profileImage(user.getProfileImage())
+                            .postCount(postCount.intValue()) // individual post count
+                            .bio(user.getBio())
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return userDTOs;
@@ -130,15 +137,23 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<UserDTO> getFollowers(Long userId) {
-        List<User> user =  followRepository.findFollowersByUserId(userId);
+        // Get all followers
+        List<User> users = followRepository.findFollowersByUserId(userId);
 
-        // Convert User entities to UserDTO
-        List<UserDTO> userDTOs = user.stream()
-                .map(users -> UserDTO.builder()
-                        .userId(users.getUserId())
-                        .username(users.getUsername())
-                        .profileImage(users.getProfileImage())
-                        .build())
+        // Convert User entities to UserDTO including individual post counts
+        List<UserDTO> userDTOs = users.stream()
+                .map(user -> {
+                    // Get post count for this specific user
+                    Long postCount = postRepository.countPostsByUserId(user.getUserId());
+
+                    return UserDTO.builder()
+                            .userId(user.getUserId())
+                            .username(user.getUsername())
+                            .profileImage(user.getProfileImage())
+                            .postCount(postCount.intValue()) // individual post count
+                            .bio(user.getBio())
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return userDTOs;
