@@ -4,9 +4,6 @@
 :root {
     /* Primary Colors */
     --primary: #010205;
-    --primary-light: #818CF8;
-    --accent-color: #06B6D4;
-    --accent-light: #764BA2;
 
     /* Background Colors */
     --bg: #FFFFFF;
@@ -33,8 +30,6 @@
     --shadow-lg: 0 20px 40px rgba(0,0,0,0.1);
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     --gradient-soft: linear-gradient(135deg, #667eea22 0%, #764ba233 100%);
 
     /* Misc */
@@ -143,12 +138,13 @@ a:hover { color: var(--primary-light); }
 }
 
 .btn-primary {
-    background: var(--gradient-primary);
+    background: var(--primary);
     color: white;
     box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
+    background: var(--text-secondary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }

@@ -1,11 +1,12 @@
 package lk.ijse.gdse.controller;
 
+import lk.ijse.gdse.dto.ApiResponseDTO;
+import lk.ijse.gdse.dto.BroadcastDTO;
 import lk.ijse.gdse.service.AdminDashboardService;
+import lk.ijse.gdse.service.BroadcastService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import java.util.Map;
 public class AdminDashboardController {
 
     private final AdminDashboardService dashboardService;
+    private final BroadcastService broadcastService;
 
     @GetMapping("/users/stats")
     public Map<String, Object> getUserStats() {
@@ -37,4 +39,15 @@ public class AdminDashboardController {
     public Map<String, Object> getCommentStats() {
         return dashboardService.getCommentStats();
     }
+
+    @PostMapping("/broadcast")
+    public ResponseEntity<String> sendBroadcast(@RequestBody BroadcastDTO dto) {
+        try {
+            broadcastService.sendBroadcast(dto);
+            return ResponseEntity.ok("Broadcast sent and emailed to all users!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error sending broadcast: " + e.getMessage());
+        }
+    }
+
 }

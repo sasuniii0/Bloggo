@@ -7,6 +7,56 @@ document.querySelectorAll('.btn-danger').forEach(btn => {
     });
 });
 
+// Select elements
+const broadcastTextarea = document.querySelector('.card-body textarea');
+const sendBtn = document.getElementById('btn-send');
+
+// Create a container for status messages
+const statusContainer = document.createElement('div');
+statusContainer.style.marginTop = '10px';
+broadcastTextarea.parentElement.appendChild(statusContainer);
+
+sendBtn.addEventListener('click', async () => {
+    const message = broadcastTextarea.value.trim();
+    if (!message) {
+        statusContainer.innerHTML = '<span style="color: red;">Please write a message before sending.</span>';
+        return;
+    }
+
+    const broadcastData = {
+        title: "Admin Broadcast", // optional dynamic title
+        content: message
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/admin-dashboard/broadcast', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('jwtToken')
+            },
+            body: JSON.stringify(broadcastData)
+        });
+
+        if (response.ok) {
+            statusContainer.innerHTML = '<span style="color: green;">Broadcast sent and emailed to all users!</span>';
+            broadcastTextarea.value = ''; // clear textarea
+            alert("✅ Broadcast sent successfully!");
+        } else {
+            const errorData = await response.json();
+            const errorMsg = errorData.message || 'Failed to send broadcast.';
+            statusContainer.innerHTML = `<span style="color: red;">Error: ${errorMsg}</span>`;
+            alert("❌ Error: " + errorMsg);
+        }
+    } catch (err) {
+        console.error('Error sending broadcast:', err);
+        statusContainer.innerHTML = '<span style="color: red;">Something went wrong. Check console for details.</span>';
+        alert("❌ Something went wrong. Check console for details.");
+    }
+
+});
+
+
 // Logout function
 function logout() {
     // Clear stored token and user info
@@ -101,7 +151,7 @@ async function loadDashboardStats() {
             }
         });
 
-        // Reports Chart
+       /* // Reports Chart
         const reportsCtx = document.getElementById('reportsChart').getContext('2d');
         new Chart(reportsCtx, {
             type: 'bar',
@@ -114,7 +164,7 @@ async function loadDashboardStats() {
                 }]
             },
             options: { responsive: true }
-        });
+        });*/
 
     } catch (err) {
         console.error("Error loading dashboard stats:", err);
