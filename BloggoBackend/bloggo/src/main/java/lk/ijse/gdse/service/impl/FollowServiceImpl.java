@@ -53,8 +53,8 @@ public class FollowServiceImpl implements FollowService {
         followRepository.save(follow);
 
         Notification notification = Notification.builder()
-                .user(follower) // who receives the notification (logged-in user)
-                .message(follower.getUsername() +" followed " + followed.getUsername())
+                .user(followed) // who receives the notification (logged-in user)
+                .message(follower.getUsername() + " has started following you!")
                 .createdAt(LocalDateTime.now())
                 .type(Type.FOLLOW) // optional enum type
                 .isRead(false)
