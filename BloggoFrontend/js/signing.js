@@ -76,16 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// OAuth button alerts (placeholder)
-document.getElementById('google-auth').addEventListener('click', () => {
-    alert('Google OAuth would be implemented here');
-});
 
-document.getElementById('facebook-auth').addEventListener('click', () => {
-    alert('Facebook OAuth would be implemented here');
-});
 
-document.getElementById('linkedin-auth').addEventListener('click', () => {
-    alert('LinkedIn OAuth would be implemented here');
-});
 
