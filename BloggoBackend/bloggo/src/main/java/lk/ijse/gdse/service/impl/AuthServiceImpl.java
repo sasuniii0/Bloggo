@@ -9,6 +9,9 @@ import lk.ijse.gdse.entity.ActionType;
 import lk.ijse.gdse.entity.MembershipStatus;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.exception.InvalidCredentialsException;
+import lk.ijse.gdse.exception.ResourceAlreadyFoundException;
+import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AuthService;
 import lk.ijse.gdse.util.JWTUtil;
@@ -39,9 +42,9 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         System.out.println(authDTO.getUsername());
         User user = userRepository.findByUsername(authDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (!passwordEncoder.matches(authDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid Credentials");
+            throw new InvalidCredentialsException("Invalid Credentials");
         }
 
         String token = jwtUtil.generateToken(authDTO.getUsername(),user.getRole());
@@ -68,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(UserDTO userDTO) {
         if (userRepository.findByUsername(userDTO.getUsername()).isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new ResourceAlreadyFoundException("User already exists");
         }
         User user = User.builder()
                 .username(userDTO.getUsername())
@@ -89,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void sendResetPwdLink(String email) throws IOException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Generate JWT token for password reset
         String token = jwtUtil.generatePasswordResetToken(user.getEmail());
@@ -108,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
 
         String email = jwtUtil.getUsernameFromToken(token);
         var user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);

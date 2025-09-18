@@ -3,6 +3,7 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.entity.Boost;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.exception.ResourceNotFoundException;
 import lk.ijse.gdse.repository.BoostRepository;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
@@ -21,9 +22,9 @@ public class BoostServiceImpl implements BoostService {
     @Override
     public void deleteBoost(Long postId, String name) {
         Boost boost = boostRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Boost not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Boost not found"));
         if (!boost.getUser().getUsername().equals(name)) {
-            throw new RuntimeException("Boost doesn't exist");
+            throw new ResourceNotFoundException("Boost doesn't exist");
         }
         boostRepository.delete(boost);
     }
@@ -31,10 +32,10 @@ public class BoostServiceImpl implements BoostService {
     @Override
     public int unboostPost(Long postId, String name) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         User boostiingUser = userRepository.findByUsername(name)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (post.getBoosts() == null) {
             post.setBoosts(new ArrayList<>());
@@ -51,7 +52,7 @@ public class BoostServiceImpl implements BoostService {
             postRepository.save(post);
             return post.getBoosts().size();
         } else {
-            throw new RuntimeException("Boost doesn't exist");
+            throw new ResourceNotFoundException("Boost doesn't exist");
         }
 
     }

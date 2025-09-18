@@ -3,6 +3,8 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.entity.ActionType;
 import lk.ijse.gdse.entity.AdminAction;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.exception.AdminNotFoundException;
+import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.AdminActionRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AdminActionService;
@@ -27,9 +29,9 @@ public class AdminActionServiceImpl implements AdminActionService {
     @Override
     public AdminAction createAction(String adminUsername, String targetUsername, AdminAction adminAction) {
         User admin = userRepository.findByUsername(adminUsername)
-                .orElseThrow(() -> new RuntimeException("Admin user not found"));
+                .orElseThrow(() -> new AdminNotFoundException("Admin user not found"));
         User targetUser = userRepository.findByUsername(targetUsername)
-                .orElseThrow(() -> new RuntimeException("Target user not found"));
+                .orElseThrow(() -> new UserNotFoundException("Target user not found"));
 
         adminAction.setAdmin(admin);
         adminAction.setTargetUser(targetUser);
@@ -42,15 +44,15 @@ public class AdminActionServiceImpl implements AdminActionService {
     public AdminAction toggleUserStatusWithAction(Long userId, String adminUsername) {
         // Toggle user status via query
         int updatedRows = userRepository.toggleUserStatus(userId);
-        if (updatedRows == 0) throw new RuntimeException("User not found or no status changed");
+        if (updatedRows == 0) throw new UserNotFoundException("User not found or no status changed");
 
         // Get updated user
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Get admin performing the action
         User admin = userRepository.findByUsername(adminUsername)
-                .orElseThrow(() -> new RuntimeException("Admin not found"));
+                .orElseThrow(() -> new AdminNotFoundException("Admin not found"));
 
         // Get last admin action for this user
         AdminAction lastAction = adminActionRepository

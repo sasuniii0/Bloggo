@@ -5,6 +5,8 @@ import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.exception.ResourceNotFoundException;
+import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post publishPost(Post post) {
         User user = userRepository.findById(post.getUser().getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         post.setUser(user);
         post.setCoverImageUrl(post.getCoverImageUrl());
         post.setTitle(post.getTitle());
@@ -80,7 +82,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Long postId, String name) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         if (!post.getUser().getUsername().equals(name)) {
             throw new RuntimeException("You are not authorized to delete this post");
         }
@@ -95,9 +97,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post editPost(Post post, String name) {
         Post existingPost = postRepository.findById(post.getPostId())
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         if (!existingPost.getUser().getUsername().equals(name)) {
-            throw new RuntimeException("You are not authorized to edit this post");
+            throw new UserNotFoundException("You are not authorized to edit this post");
         }
         existingPost.setTitle(post.getTitle());
         existingPost.setContent(post.getContent());
@@ -112,11 +114,11 @@ public class PostServiceImpl implements PostService {
     public int boostPost(Long postId, String username) {
         // Fetch the post
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         // Fetch the boosting user
         User boostingUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (post.getBoosts() == null) {
             post.setBoosts(new ArrayList<>());
@@ -202,10 +204,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public CommentDTO addComment(Long postId, String username, String content) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Comment comment = new Comment();
         comment.setContent(content);
@@ -247,7 +249,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<CommentDTO> getCommentsByPost(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         if (post.getComments() == null) return List.of();
 
@@ -265,10 +267,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostBoostDTO getPostBoostById(Long postId, String name) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         User user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         boolean hasBoosted = post.getBoosts().stream()
                 .anyMatch(boost -> boost.getUser().equals(user));

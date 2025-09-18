@@ -5,6 +5,7 @@ import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.dto.UserProfileDTO;
 import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.*;
 import lk.ijse.gdse.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDTO getCurrentUser(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return new UserProfileDTO(
                 user.getUserId(),
                 user.getUsername(),
@@ -95,13 +96,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
     public User updateProfileUser(User existing, String loggedUsername) {
         User existingUser = userRepository.findById(existing.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Optional<User> duplicateUsername = userRepository.findByUsername(existing.getUsername());
         if (duplicateUsername.isPresent() && !duplicateUsername.get().getUserId().equals(existing.getUserId())) {
@@ -182,7 +183,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String name) {
         return userRepository.findByUsername(name)
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + name));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + name));
     }
 
     @Override
@@ -278,7 +279,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserDTOById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
         return new UserDTO(
                 user.getUserId(),

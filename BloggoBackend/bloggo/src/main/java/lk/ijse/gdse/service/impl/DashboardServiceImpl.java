@@ -6,6 +6,7 @@ import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.PostStatus;
 import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
+import lk.ijse.gdse.exception.ResourceNotFoundException;
 import lk.ijse.gdse.repository.DashboardRepository;
 import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
@@ -61,7 +62,7 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public PostDTO getPostById(Long postId) {
         Post post= postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         return PostDTO.builder()
                 .id(post.getPostId())
                 .title(post.getTitle())

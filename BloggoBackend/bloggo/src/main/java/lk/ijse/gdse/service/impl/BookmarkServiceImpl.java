@@ -2,6 +2,9 @@ package lk.ijse.gdse.service.impl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.gdse.entity.*;
+import lk.ijse.gdse.exception.ResourceAlreadyFoundException;
+import lk.ijse.gdse.exception.ResourceNotFoundException;
+import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.BookmarkRepository;
 import lk.ijse.gdse.repository.NotificationRepository;
 import lk.ijse.gdse.repository.PostRepository;
@@ -25,7 +28,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     private User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Transactional
@@ -33,10 +36,10 @@ public class BookmarkServiceImpl implements BookmarkService {
     public Bookmark saveBookmark(Long postId, String username) {
         User user = getUserByUsername(username);
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         if (bookmarkRepository.findByPostAndUser(post, user).isPresent()) {
-            throw new RuntimeException("Bookmark already exists");
+            throw new ResourceAlreadyFoundException("Bookmark already exists");
         }
 
         Bookmark bookmark = Bookmark.builder()
@@ -67,10 +70,10 @@ public class BookmarkServiceImpl implements BookmarkService {
     public void removeBookmark(Long postId, String username) {
         User user = getUserByUsername(username);
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         Bookmark bookmark = bookmarkRepository.findByPostAndUser(post, user)
-                .orElseThrow(() -> new RuntimeException("Bookmark not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Bookmark not found"));
 
         bookmarkRepository.delete(bookmark);
     }
@@ -90,7 +93,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public Long getBookmarkCountForPost(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         return bookmarkRepository.countByPost(post);
     }
 
@@ -98,7 +101,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     public Bookmark toggleBookmark(Long postId, String username) {
         User user = getUserByUsername(username);
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         Optional<Bookmark> existing = bookmarkRepository.findByPostAndUser(post, user);
         if (existing.isPresent()) {

@@ -3,6 +3,7 @@ package lk.ijse.gdse.service.impl;
 import lk.ijse.gdse.dto.WalletDTO;
 import lk.ijse.gdse.entity.Earning;
 import lk.ijse.gdse.entity.Wallet;
+import lk.ijse.gdse.exception.ResourceNotFoundException;
 import lk.ijse.gdse.repository.EarningRepository;
 import lk.ijse.gdse.repository.WalletRepository;
 import lk.ijse.gdse.service.WalletService;
@@ -22,7 +23,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public List<Earning> getWalletEarnings(Long walletId) {
         Wallet wallet = walletRepository.findById(walletId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
         return earningRepository.findByWalletIdOrderByCreatedAtDesc(wallet);    }
 
     @Override
