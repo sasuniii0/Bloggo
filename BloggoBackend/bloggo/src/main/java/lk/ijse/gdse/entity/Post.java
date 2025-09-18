@@ -43,6 +43,13 @@ public class Post {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
+    @Transient // This field won't be persisted
+    private boolean autoGenerateSummary = true;
+
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 

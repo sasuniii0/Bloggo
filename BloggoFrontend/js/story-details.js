@@ -445,6 +445,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
+async function generateSummary() {
+    const content = document.getElementById("storyContent").innerText;
+    const token = sessionStorage.getItem("jwtToken"); // optional if you enable JWT
+
+    const response = await fetch("http://localhost:8080/api/v1/summery", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? { "Authorization": `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ content })
+    });
+
+    const result = await response.json().catch(() => ({}));
+    console.log("Summary response:", result);
+
+    if (Array.isArray(result) && result[0]?.summary_text) {
+        document.getElementById("summaryText").innerText = result[0].summary_text;
+    } else if (result.error) {
+        document.getElementById("summaryText").innerText = "⚠️ Error: " + result.error;
+    } else {
+        document.getElementById("summaryText").innerText = "⚠️ No summary available.";
+    }
+}
+
+
+
+
 function logout() {
     preventBackNavigation();
     // Clear stored token and user info

@@ -105,15 +105,21 @@
 
                             <button id="listen-btn">🔊 Listen to this post</button>
 
-
                         </div>
                     </div>
                 </div>
 
                 <img src="" class="story-image" alt="Story image" id="storyImage">
 
-                <div class="story-content" id="storyContent">
+                <div class="story-content" id="storyContent" contenteditable="true">
                     <p>Loading story content...</p>
+                </div>
+
+                <button onclick="generateSummary()">Generate Summary</button>
+
+                <div id="summary">
+                    <h3>Auto Summary</h3>
+                    <p id="summaryText">No summary yet.</p>
                 </div>
 
                 <!-- Interactions -->

@@ -594,3 +594,6 @@ a:hover { color: var(--primary-light); }
     background-color: black !important;  /* force black */
     color: white !important;
 }
+
+textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+#summary { margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px; }
