@@ -383,59 +383,47 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     listenBtn.addEventListener("click", async () => {
         try {
-            // Get story text
-            const storyText = document.getElementById("storyContent").innerText;
-            console.log(storyText)
+            const storyText = document.getElementById("storyContent").innerText.trim();
 
-            if (!storyText.trim()) {
-                alert("Story content is empty!");
+            if (!storyText) {
+                alert("⚠️ Story content is empty!");
                 return;
             }
 
-            // Prepare request body for TTS
-            const requestBody = {
-                voice_id: "Xb7hH8MSUJpSbSDYk0k2",
-                text: storyText
-            };
-
-            // Show loading state
+            // Disable button and show loading
             listenBtn.disabled = true;
             listenBtn.innerText = "🎧 Loading...";
 
-            console.log("hjgdhje")
-
-            // Call your endpoint
             const response = await fetch("https://n8n.cenzios.com/webhook/generate-voice", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(requestBody)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ voice_id: "Xb7hH8MSUJpSbSDYk0k2", text: storyText })
             });
 
-            if (!response.ok) throw new Error("TTS request failed");
+            if (!response.ok) throw new Error(`TTS request failed with status ${response.status}`);
 
-            // Assuming endpoint returns audio URL or base64 audio
-            const result = await response
-            console.log(result)
+            // Convert the response stream to a Blob (audio)
+            const audioBlob = await response.blob();
 
-            // Example: endpoint returns { audioUrl: "https://..." }
-            const audioUrl = result.audioUrl || result.url || result.data;
-
-            if (!audioUrl) throw new Error("No audio returned from TTS");
+            if (!audioBlob || audioBlob.size === 0) {
+                throw new Error("TTS service returned empty audio.");
+            }
 
             // Play the audio
+            const audioUrl = URL.createObjectURL(audioBlob);
             const audio = new Audio(audioUrl);
             audio.play();
 
         } catch (err) {
-            console.error(err);
-            alert("Failed to generate voice.");
+            console.error("TTS failed:", err);
+            alert(`❌ Failed to generate voice: ${err.message}`);
         } finally {
+            // Restore button state
             listenBtn.disabled = false;
             listenBtn.innerText = "🔊 Listen to this post";
         }
     });
+
 
     /*const apiKey = ""; // Replace with your key
 

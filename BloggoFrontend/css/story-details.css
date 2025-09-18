@@ -449,7 +449,7 @@ a:hover { color: var(--primary-light); }
     margin-bottom: 1rem;
 }
 
-.action-btn {
+.action-btn , #listen-btn, #generate{
     padding: 0.5rem 1rem;
     border-radius: 12px;
     font-weight: 500;
