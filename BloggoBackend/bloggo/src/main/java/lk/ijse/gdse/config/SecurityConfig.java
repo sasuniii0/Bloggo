@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(
                                 "/auth/**",
+                                "https://n8n.cenzios.com/webhook/generate-voice",
                                 "/user/**",
                                 "/user/payments/**",
                                 "/api/v1/dashboard/**",
