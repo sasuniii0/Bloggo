@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void sendResetPwdLink(String email) throws IOException {
-        var user = userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Generate JWT token for password reset
@@ -96,6 +96,7 @@ public class AuthServiceImpl implements AuthService {
 
         String resetLink = "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token;
 
+        System.out.println(resetLink);
         // Send email via SendGrid
         emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
     }

@@ -4,6 +4,8 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.ClickTrackingSetting;
+import com.sendgrid.helpers.mail.objects.TrackingSettings;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,11 +42,22 @@ public class SendGridEmailServiceImpl {
     public void sendPasswordResetEmail(String toEmail, String resetLink) {
         Mail mail = createMail(toEmail, resetLink);
 
+        TrackingSettings trackingSettings = new TrackingSettings();
+        ClickTrackingSetting clickTracking = new ClickTrackingSetting();
+        clickTracking.setEnable(false);
+        clickTracking.setEnableText(false);
+        trackingSettings.setClickTrackingSetting(clickTracking);
+        mail.setTrackingSettings(trackingSettings);
+
+        System.out.println(resetLink);
+
         Request request = new Request();
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
+
+
 
             Response response = sendGrid.api(request);
 
@@ -60,6 +73,8 @@ public class SendGridEmailServiceImpl {
             } else {
                 System.out.println("✅ Password reset email sent successfully to " + toEmail);
             }
+
+
 
         } catch (IOException ex) {
             System.err.println("❌ Failed to send email: " + ex.getMessage());
