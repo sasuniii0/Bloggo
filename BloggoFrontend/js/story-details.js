@@ -379,6 +379,70 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
+    const apiKey = ""; // Replace with your key
+
+// 1️⃣ Get available voices
+    async function getAvailableVoices() {
+        try {
+            const res = await fetch("https://client.camb.ai/apis/list-voices", {
+                headers: { "x-api-key": apiKey }
+            });
+            if (!res.ok) throw new Error("Failed to fetch voices");
+            const voices = await res.json();
+            console.log("Available voices:", voices);
+            return voices;
+        } catch (err) {
+            console.error("Error fetching voices:", err);
+            return [];
+        }
+    }
+
+// 2️⃣ Convert text to speech using a selected voice
+    async function speakText(text, voiceId) {
+        try {
+            const payload = {
+                text: text,
+                voice_id: voiceId,      // Pick from available voices
+                language: 1,            // 1 = English
+                project_name: "Bloggo TTS"
+            };
+
+            const res = await fetch("https://client.camb.ai/apis/tts", {
+                method: "POST",
+                headers: {
+                    "x-api-key": apiKey,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+            console.log("CAMB TTS response:", result);
+
+            if (!result.task_id) {
+                throw new Error("No task_id returned. Check your request parameters.");
+            }
+
+            // CAMB returns the TTS audio as a task you can fetch or monitor
+            alert("TTS task created successfully! Task ID: " + result.task_id);
+        } catch (err) {
+            console.error("Error calling CAMB TTS:", err);
+        }
+    }
+
+// 3️⃣ Example usage
+    await (async () => {
+        const voices = await getAvailableVoices();
+        if (voices.length === 0) return;
+
+        // Pick first available voice (or filter for gender/language)
+        const selectedVoiceId = voices[0].id;
+
+        // Example: convert a story text
+        const storyText = document.getElementById("storyContent").innerText || "No content found.";
+        await speakText(storyText, selectedVoiceId);
+    })();
+
 });
 
 function logout() {
