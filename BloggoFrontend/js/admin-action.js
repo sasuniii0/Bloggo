@@ -41,17 +41,30 @@ sendBtn.addEventListener('click', async () => {
         if (response.ok) {
             statusContainer.innerHTML = '<span style="color: green;">Broadcast sent and emailed to all users!</span>';
             broadcastTextarea.value = ''; // clear textarea
-            alert("✅ Broadcast sent successfully!");
+            Swal.fire({
+                icon: 'success',
+                title: 'Broadcast Message Sent to the Users!',
+                showConfirmButton: false,
+                timer: 2000
+            })
         } else {
             const errorData = await response.json();
             const errorMsg = errorData.message || 'Failed to send broadcast.';
             statusContainer.innerHTML = `<span style="color: red;">Error: ${errorMsg}</span>`;
-            alert("❌ Error: " + errorMsg);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Failed to send broadcast.',
+            });
         }
     } catch (err) {
         console.error('Error sending broadcast:', err);
         statusContainer.innerHTML = '<span style="color: red;">Something went wrong. Check console for details.</span>';
-        alert("❌ Something went wrong. Check console for details.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed to send',
+            text: 'Something went wrong. Check console for details.',
+        });
     }
 
 });
@@ -80,7 +93,11 @@ function preventBackNavigation() {
     // Handle back button press
     window.onpopstate = function() {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Access denied. ',
+            text: 'Your session has been terminated after logout.',
+        });
     };
 }
 
@@ -88,7 +105,11 @@ function preventBackNavigation() {
 async function getToken() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
-        alert('No JWT token found, please sign in again.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Authentication Failed',
+            text: 'No JWT token found, please sign in again.',
+        });
         window.location.href = 'signing.html';
         return null;
     }

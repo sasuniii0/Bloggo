@@ -39,9 +39,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!res.ok || apiResponse.status !== 200) {
                 console.error("Failed to load following list");
-                alert("Could not load following list");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Could not load following list',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
+
 
             const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
 
@@ -83,8 +89,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (err) {
             console.error(err);
-            alert("Could not load following list. Try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Could not load following list. Try again.',
+                confirmButtonText: 'OK'
+            });
         }
+
     }
 
     await getFollowing();
@@ -218,9 +230,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     if (!followRes.ok || apiResponse.status !== 200) {
                         console.error("Failed to follow user:", apiResponse.message);
-                        alert("Could not follow user. Try again.");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Could not follow user. Try again.',
+                            confirmButtonText: 'OK'
+                        });
                         return;
                     }
+
 
                     // ✅ Update button text
                     event.target.textContent = "Following";
@@ -233,8 +251,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 } catch (err) {
                     console.error(err);
-                    alert("Could not follow user. Try again.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Could not follow user. Try again.',
+                        confirmButtonText: 'OK'
+                    });
                 }
+
             });
         });
 

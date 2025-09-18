@@ -2,10 +2,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
 
     if (!token) {
-        alert("⚠️ Please log in to view bookmarks.");
-        window.location.href = "signing.html";
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Please log in to view bookmarks.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = "signing.html";
+        });
         return;
     }
+
 
     const allTabEl = document.getElementById("all"); // container for bookmarks
 
@@ -66,8 +73,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                         loadBookmarks(); // refresh list
                     } catch (err) {
                         console.error(err);
-                        alert("⚠️ Could not remove bookmark");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Could not remove bookmark',
+                            confirmButtonText: 'OK'
+                        });
                     }
+
                 });
             });
         } catch (err) {
@@ -94,9 +107,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!res.ok || apiResponse.status !== 200) {
                 console.error("Failed to load following list");
-                alert("Could not load following list");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Could not load following list',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
+
 
             const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
 
@@ -138,8 +157,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (err) {
             console.error(err);
-            alert("Could not load following list. Try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Could not load following list. Try again.',
+                confirmButtonText: 'OK'
+            });
         }
+
     }
 
 

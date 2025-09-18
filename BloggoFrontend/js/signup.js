@@ -50,24 +50,59 @@ signupForm.addEventListener('submit', async function(e) {
         }
 
         if (response.ok) {
-            alert('Sign up successful! Now you can log in.');
-            window.location.href = 'signing.html';
+            Swal.fire({
+                icon: 'success',
+                title: 'Sign Up Successful',
+                text: 'Now you can log in.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'signing.html';
+            });
         } else {
-            alert(`Signup failed: ${result.message || 'Unknown error'}`);
+            Swal.fire({
+                icon: 'error',
+                title: 'Signup Failed',
+                text: `Signup failed: ${result.message || 'Unknown error'}`,
+                confirmButtonText: 'OK'
+            });
         }
     } catch (error) {
         console.error("Signup error:", error);
-        alert("Error during signup. Check console for details.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error during signup. Check console for details.',
+            confirmButtonText: 'OK'
+        });
     }
+
 });
 
 // OAuth button handlers
 document.getElementById('google-auth').addEventListener('click', () => {
-    alert('Google OAuth would be implemented here');
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'Google OAuth would be implemented here',
+        confirmButtonText: 'OK'
+    });
 });
+
 document.getElementById('facebook-auth').addEventListener('click', () => {
-    alert('Facebook OAuth would be implemented here');
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'Facebook OAuth would be implemented here',
+        confirmButtonText: 'OK'
+    });
 });
+
 document.getElementById('linkedin-auth').addEventListener('click', () => {
-    alert('LinkedIn OAuth would be implemented here');
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'LinkedIn OAuth would be implemented here',
+        confirmButtonText: 'OK'
+    });
 });
+

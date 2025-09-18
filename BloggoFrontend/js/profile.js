@@ -112,6 +112,12 @@ function preventBackNavigation() {
     // Handle back button press
     window.onpopstate = function () {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
+
 }

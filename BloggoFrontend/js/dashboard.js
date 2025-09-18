@@ -363,11 +363,18 @@ function logout() {
 function preventBackNavigation() {
     window.history.replaceState(null, null, window.location.href);
     window.history.pushState(null, null, window.location.href);
+
     window.onpopstate = function() {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
 }
+
 
 // ============================
 // Search Logic with Load More

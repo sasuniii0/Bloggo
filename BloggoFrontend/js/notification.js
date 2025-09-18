@@ -18,8 +18,14 @@ function preventBackNavigation() {
     // Handle back button press
     window.onpopstate = function() {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
+
 }
 
 const notificationEndPoint = "http://localhost:8080/api/v1/notification";
@@ -27,18 +33,32 @@ const notificationEndPoint = "http://localhost:8080/api/v1/notification";
 function getToken() {
     const token = sessionStorage.getItem("jwtToken");
     if (!token) {
-        alert("No JWT token found, please sign in again.");
-        window.location.href = "signing.html";
+        Swal.fire({
+            icon: 'warning',
+            title: 'Session Expired',
+            text: 'No JWT token found, please sign in again.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = "signing.html";
+        });
     }
+
     return token;
 }
 
 function getUserId() {
     const user = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
     if (!user) {
-        alert("No userId found, please sign in again.");
-        window.location.href = "signing.html";
+        Swal.fire({
+            icon: 'warning',
+            title: 'Session Expired',
+            text: 'No userId found, please sign in again.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = "signing.html";
+        });
     }
+
     return user;
 }
 
@@ -60,9 +80,15 @@ async function getFollowing() {
 
         if (!res.ok || apiResponse.status !== 200) {
             console.error("Failed to load following list");
-            alert("Could not load following list");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Could not load following list',
+                confirmButtonText: 'OK'
+            });
             return;
         }
+
 
         const followingList = apiResponse.data || []; // [{followedId: 18}, {followedId: 25}, ...]
 
@@ -104,8 +130,14 @@ async function getFollowing() {
 
     } catch (err) {
         console.error(err);
-        alert("Could not load following list. Try again.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Could not load following list. Try again.',
+            confirmButtonText: 'OK'
+        });
     }
+
 }
 
 // Call on page load

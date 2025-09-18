@@ -129,18 +129,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 avatarPreview.src = updatedUser.profileImage || "../assets/boy%20(1).png";
-                alert("✅ Profile updated successfully!");
-                window.location.href= "settings.html";
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Profile Updated',
+                    text: '✅ Profile updated successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = "settings.html";
+                });
+
             } else if (response.status === 403) {
-                alert("❌ Unauthorized: Please log in again.");
-                window.location.href = "signing.html";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Unauthorized',
+                    text: '❌ Unauthorized: Please log in again.',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = "signing.html";
+                });
             } else {
-                alert("❌ Failed to update profile.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: '❌ Failed to update profile.',
+                    confirmButtonText: 'OK'
+                });
             }
         } catch (error) {
             console.error("Error updating profile:", error);
-            alert("⚠️ An error occurred.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error',
+                text: '⚠️ An error occurred.',
+                confirmButtonText: 'OK'
+            });
         }
+
 
     });
 });
@@ -166,10 +191,16 @@ function preventBackNavigation() {
     window.history.pushState(null, null, window.location.href);
 
     // Handle back button press
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
+
 }
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
@@ -210,8 +241,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
         console.error("Error loading user:", err);
-        alert("Failed to load user data.");
-    } finally {
+        Swal.fire({
+            icon: 'error',
+            title: 'Load Failed',
+            text: 'Failed to load user data.',
+            confirmButtonText: 'OK'
+        });
+    }
+    finally {
         if (loading) loading.style.display = "none"; // Hide loading
     }
 });

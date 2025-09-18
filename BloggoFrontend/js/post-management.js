@@ -5,9 +5,16 @@ const pageSize = 5;
 function getToken() {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
-        alert('No JWT token found, please sign in again.');
-        window.location.href = 'index.html';
+        Swal.fire({
+            icon: 'warning',
+            title: 'Session Expired',
+            text: 'No JWT token found, please sign in again.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'index.html';
+        });
     }
+
     return token;
 }
 
@@ -103,6 +110,12 @@ async function deletePost(postId) {
         loadPosts(); // reload posts
     } catch (err) {
         console.error(err);
-        alert("Failed to delete post.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Deletion Failed',
+            text: 'Failed to delete post.',
+            confirmButtonText: 'OK'
+        });
     }
+
 }

@@ -45,7 +45,11 @@ scheduleBtn.addEventListener("click", () => {
 confirmBtn.addEventListener("click", async () => {
     const scheduledTime = scheduleInput.value;
     if (!scheduledTime) {
-        alert(" Please select a date and time!");
+        Swal.fire({
+            icon: 'warn',
+            title: 'Required All Fields',
+            text: 'Please select a date and time!',
+        });
         return;
     }
 
@@ -65,8 +69,21 @@ async function submitPost(status, scheduledAt = null) {
     const title = titleInput.value.trim();
     const content = editor.innerHTML.trim();
 
-    if (!title) { alert("Enter a title"); return; }
-    if (!content || content === "<br>") { alert("Enter content"); return; }
+    if (!title) {
+        Swal.fire({
+            icon: 'warn',
+            title: ' Required All Fields',
+            text: 'Enter a title',
+        });
+        return;
+    }
+    if (!content || content === "<br>") {
+        Swal.fire({
+            icon: 'warn',
+            title: ' Required All Fields',
+            text: 'Enter a content',
+        });
+        return; }
 
     const postData = {
         title,
@@ -92,18 +109,33 @@ async function submitPost(status, scheduledAt = null) {
         });
 
         if (response.ok) {
-            alert(`✅ Post ${status.toLowerCase()} successfully!`);
-            titleInput.value = "";
-            editor.innerHTML = "<p><br></p>";
-            window.location.href = "stories.html";
+            Swal.fire({
+                icon: 'success',
+                title: `Post ${status.toLowerCase()} successfully!`,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                titleInput.value = "";
+                editor.innerHTML = "<p><br></p>";
+                window.location.href = "stories.html";
+            });
         } else {
             const err = await response.text();
             console.error(err);
-            alert(`❌ Failed to ${status.toLowerCase()} post.`);
+            Swal.fire({
+                icon: 'error',
+                title: `Failed to ${status.toLowerCase()} post`,
+                text: err || "An unknown error occurred."
+            });
         }
+
     } catch (err) {
         console.error(err);
-        alert(`⚠️ Error while ${status.toLowerCase()} post.`);
+        Swal.fire({
+            icon: 'warning',
+            title: `Error while ${status.toLowerCase()} post `,
+            text: err.message || "Something went wrong. Please try again.",
+        });
     }
 }
 
@@ -165,9 +197,15 @@ async function sendPost(postData) {
     try {
         const token = sessionStorage.getItem("jwtToken");
         if (!token) {
-            alert("You must be logged in to publish a post.");
+            Swal.fire({
+                icon: 'info',
+                title: 'Login Required',
+                text: 'You must be logged in to publish a post.',
+                confirmButtonText: 'OK'
+            });
             return;
         }
+
 
         const response = await fetch("http://localhost:8080/api/v1/post/publish", {
             method: "POST",
@@ -179,7 +217,12 @@ async function sendPost(postData) {
         });
 
         if (response.ok) {
-            alert("✅ Blog post published successfully!");
+            Swal.fire({
+                icon: 'success',
+                title: '✅ Blog post published successfully!',
+                showConfirmButton: false,
+                timer: 2000
+            });
             titleInput.value = "";
             editor.innerHTML = "<p><br></p>";
             setSavingStatus();
@@ -187,12 +230,21 @@ async function sendPost(postData) {
         } else {
             const error = await response.text();
             console.error(error);
-            alert("❌ Failed to publish blog post.");
+            Swal.fire({
+                icon: 'error',
+                title: '❌ Failed to publish blog post',
+                text: error || 'Something went wrong. Please try again.'
+            });
         }
     } catch (err) {
         console.error(err);
-        alert("⚠️ Error publishing blog post.");
+        Swal.fire({
+            icon: 'warning',
+            title: '⚠️ Error publishing blog post',
+            text: err.message || 'Unexpected error occurred.'
+        });
     }
+
 }
 
 // -------------------------
@@ -418,10 +470,14 @@ function preventBackNavigation() {
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function () {
         window.history.go(1);
-        alert(
-            "Access denied. Your session has been terminated after logout."
-        );
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
+
 }
 
 window.onload = function () {

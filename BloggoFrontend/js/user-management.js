@@ -7,9 +7,16 @@ const pageSize = 5;
 function getToken() {
     const token = sessionStorage.getItem("jwtToken");
     if (!token) {
-        alert("You are not logged in! Redirecting...");
-        window.location.href = "signing.html";
+        Swal.fire({
+            icon: 'warning',
+            title: 'Not Logged In',
+            text: 'You are not logged in! Redirecting...',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = "signing.html";
+        });
     }
+
     return token;
 }
 
@@ -125,8 +132,14 @@ async function toggleStatus(userId, badge) {
 
     } catch (err) {
         console.error("Toggle status error:", err);
-        alert("Failed to toggle status. Check console for details.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Action Failed',
+            text: 'Failed to toggle status. Check console for details.',
+            confirmButtonText: 'OK'
+        });
     }
+
 }
 
 // Search input listener

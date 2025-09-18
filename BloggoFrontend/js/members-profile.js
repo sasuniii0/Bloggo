@@ -54,9 +54,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Follow button click
         followBtn.addEventListener("click", async () => {
             if (loggedUserId === userId) {
-                alert("You cannot follow yourself");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Action Not Allowed',
+                    text: 'You cannot follow yourself',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
+
 
             try {
                 const followRes = await fetch(`http://localhost:8080/api/v1/follows/${userId}`, {
@@ -71,8 +77,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 followBtn.style.backgroundColor = "#4A5568"; // following color
             } catch (err) {
                 console.error("Error following user:", err);
-                alert("Could not follow user. Please try again.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Could not follow user. Please try again.',
+                    confirmButtonText: 'OK'
+                });
             }
+
         });
 
 
@@ -314,8 +326,14 @@ async function getMorePeopleToFollow() {
 
                 } catch (err) {
                     console.error("Error following user:", err);
-                    alert("Could not follow user. Please try again.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Could not follow user. Please try again.',
+                        confirmButtonText: 'OK'
+                    });
                 }
+
             });
         }
 

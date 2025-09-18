@@ -4,7 +4,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
     let loggedInUser = sessionStorage.getItem("username");
 
-    if (!postId) return alert("⚠️ Story not found");
+    if (!postId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Story Not Found',
+            text: '⚠️ Story not found',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
 
 
     await loadLoggedUser();
@@ -173,11 +181,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!confirm("Are you sure you want to delete this post?")) return;
             try {
                 await fetchJSON(`http://localhost:8080/api/v1/post/delete/${postId}`, { method: "DELETE" });
-                alert("✅ Post deleted successfully!");
-                window.location.href = "stories.html";
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted',
+                    text: '✅ Post deleted successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = "stories.html";
+                });
+
             } catch (err) {
-                alert(`❌ ${err.message || "Failed to delete post"}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Deletion Failed',
+                    text: `❌ ${err.message || "Failed to delete post"}`,
+                    confirmButtonText: 'OK'
+                });
             }
+
         };
 
         actionsEl.append(editBtn, deleteBtn);
@@ -215,16 +237,33 @@ document.addEventListener("DOMContentLoaded", async () => {
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
-                alert("✅ Post updated successfully!");
-                location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Post Updated',
+                    text: '✅ Post updated successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
+                });
             } else {
                 const errData = await res.json().catch(() => ({}));
-                alert(`❌ ${errData.message || res.status}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: `❌ ${errData.message || res.status}`,
+                    confirmButtonText: 'OK'
+                });
             }
         } catch (err) {
             console.error("Edit failed:", err);
-            alert("⚠️ Error updating post");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error',
+                text: '⚠️ Error updating post',
+                confirmButtonText: 'OK'
+            });
         }
+
     });
 
     // --- Bookmark button logic ---
@@ -265,7 +304,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Toggle bookmark on click
     bookmarkBtn.addEventListener("click", async () => {
         const token = sessionStorage.getItem("jwtToken");
-        if (!token) return alert("⚠️ Please log in to save bookmarks.");
+        if (!token) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Not Logged In',
+                text: '⚠️ Please log in to save bookmarks.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
         try {
             const response = await fetch(`http://localhost:8080/api/v1/bookmarks/toggle/${postId}`, {
@@ -282,7 +329,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 data = JSON.parse(text);
             } catch {
                 console.warn("Bookmark toggle response not JSON:", text);
-                return alert("⚠️ Backend returned invalid data.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Data',
+                    text: '⚠️ Backend returned invalid data.',
+                    confirmButtonText: 'OK'
+                });
+                return;
             }
 
             if (response.ok && data.status === 200) {
@@ -292,13 +345,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                     : '<i class="far fa-bookmark"></i> Save';
             } else {
                 console.error("Failed toggle response:", data);
-                alert("⚠️ Failed to toggle bookmark");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Toggle Failed',
+                    text: '⚠️ Failed to toggle bookmark',
+                    confirmButtonText: 'OK'
+                });
             }
 
         } catch (err) {
             console.error("Toggle bookmark failed:", err);
-            alert("⚠️ Error toggling bookmark");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '⚠️ Error toggling bookmark',
+                confirmButtonText: 'OK'
+            });
         }
+
     });
 
     // --- Boost Button ---
@@ -320,8 +384,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             updateBoostUI();
         } catch (err) {
             console.error("Boost failed:", err);
-            alert("Boost failed! Make sure you are logged in.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Boost Failed',
+                text: 'Boost failed! Make sure you are logged in.',
+                confirmButtonText: 'OK'
+            });
         }
+
     });
 
     // --- Load Comments ---
@@ -358,7 +428,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("addCommentBtn").addEventListener("click", async () => {
         const commentInput = document.getElementById("commentInput");
         const content = commentInput.value.trim();
-        if (!content) return alert("⚠️ Please write something");
+        if (!content) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Empty Content',
+                text: '⚠️ Please write something',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
         try {
             const payload = { content };
@@ -375,8 +453,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             await loadComments();
         } catch (err) {
             console.error("Post comment failed:", err);
-            alert("❌ Failed to post comment. Please try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Comment Failed',
+                text: '❌ Failed to post comment. Please try again.',
+                confirmButtonText: 'OK'
+            });
         }
+
     });
 
     const listenBtn = document.getElementById("listen-btn");
@@ -386,9 +470,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             const storyText = document.getElementById("storyContent").innerText.trim();
 
             if (!storyText) {
-                alert("⚠️ Story content is empty!");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Empty Story',
+                    text: '⚠️ Story content is empty!',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
+
 
             // Disable button and show loading
             listenBtn.disabled = true;
@@ -416,8 +506,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (err) {
             console.error("TTS failed:", err);
-            alert(`❌ Failed to generate voice: ${err.message}`);
-        } finally {
+            Swal.fire({
+                icon: 'error',
+                title: 'Text-to-Speech Failed',
+                text: `❌ Failed to generate voice: ${err.message}`,
+                confirmButtonText: 'OK'
+            });
+        }
+        finally {
             // Restore button state
             listenBtn.disabled = false;
             listenBtn.innerText = "🔊 Listen to this post";
@@ -537,9 +633,14 @@ function preventBackNavigation() {
     window.history.pushState(null, null, window.location.href);
 
     // Handle back button press
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
 }
 

@@ -54,10 +54,67 @@ goTo(0);
 startAutoplay();
 
 // Demo CTA clicks (replace with real routes)
-document.getElementById('signup-btn').addEventListener('click', ()=>alert('Route to /signup'));
-document.getElementById('login-btn').addEventListener('click', ()=>alert('Route to /login'));
-document.getElementById('cta-start').addEventListener('click', ()=>alert('Route to /editor/new'));
-document.getElementById('cta-join').addEventListener('click', ()=>alert('Route to /register'));
-document.getElementById('google-auth').addEventListener('click', ()=>alert('Google OAuth'));
-document.getElementById('facebook-auth').addEventListener('click', ()=>alert('Facebook OAuth'));
-document.getElementById('linkedin-auth').addEventListener('click', ()=>alert('LinkedIn OAuth'));
+document.getElementById('signup-btn').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'Navigation',
+        text: 'Route to /signup',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('login-btn').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'Navigation',
+        text: 'Route to /login',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('cta-start').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'Navigation',
+        text: 'Route to /editor/new',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('cta-join').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'Navigation',
+        text: 'Route to /register',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('google-auth').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'Google OAuth',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('facebook-auth').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'Facebook OAuth',
+        confirmButtonText: 'OK'
+    });
+});
+
+document.getElementById('linkedin-auth').addEventListener('click', () => {
+    Swal.fire({
+        icon: 'info',
+        title: 'OAuth',
+        text: 'LinkedIn OAuth',
+        confirmButtonText: 'OK'
+    });
+});
+
+

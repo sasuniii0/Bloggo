@@ -1,9 +1,15 @@
 payhere.onCompleted = async function(orderId) {
     const token = sessionStorage.getItem("jwtToken");
     if (!token) {
-        alert("You are not logged in!");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Not Logged In',
+            text: 'You are not logged in!',
+            confirmButtonText: 'OK'
+        });
         return;
     }
+
 
     try {
 
@@ -28,8 +34,14 @@ payhere.onCompleted = async function(orderId) {
 
     } catch (err) {
         console.error("Error updating membership:", err);
-        alert("Payment completed but failed to update your membership. Contact support.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Membership Update Failed',
+            text: 'Payment completed but failed to update your membership. Contact support.',
+            confirmButtonText: 'OK'
+        });
     }
+
 };
 
 
@@ -113,13 +125,18 @@ function logout() {
     window.location.href = 'signing.html';
 }
 
-// Prevent back navigation after logout
 function preventBackNavigation() {
     window.history.replaceState(null, null, window.location.href);
     window.history.pushState(null, null, window.location.href);
 
     window.onpopstate = function() {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
 }
+

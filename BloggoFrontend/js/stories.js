@@ -50,8 +50,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (err) {
             console.error(err);
-            alert("Could not load following list. Try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Could not load following list. Try again.',
+                confirmButtonText: 'OK'
+            });
         }
+
     }
     await getFollowing();
 
@@ -264,11 +270,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         function handleBookmark(postId) {
-            fetch(`http://localhost:8080/api/v1/post/${postId}/bookmark`, { method: "POST", headers: { "Authorization": `Bearer ${token}` } })
+            fetch(`http://localhost:8080/api/v1/post/${postId}/bookmark`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            })
                 .then(res => res.json())
-                .then(() => alert("Post saved to bookmarks!"))
-                .catch(console.error);
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Bookmarked',
+                        text: 'Post saved to bookmarks!',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Could not save post to bookmarks.',
+                        confirmButtonText: 'OK'
+                    });
+                });
         }
+
 
         function handleComments(postId) {
             window.location.href = `story-detail.html?id=${postId}#comments`;
@@ -303,11 +331,16 @@ function preventBackNavigation() {
     // Add new history entry
     window.history.pushState(null, null, window.location.href);
 
-    // Handle back button press
-    window.onpopstate = function() {
+    window.onpopstate = function () {
         window.history.go(1);
-        alert("Access denied. Your session has been terminated after logout.");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Access Denied',
+            text: 'Your session has been terminated after logout.',
+            confirmButtonText: 'OK'
+        });
     };
+
 }
 
 const loading = document.getElementById("loading");

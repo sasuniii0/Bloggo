@@ -54,23 +54,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.cookie = `jwtToken=${data.accessToken}; path=/; max-age=3600`;
                     sessionStorage.setItem('userRole', data.role);
 
-                    alert("Sign in successful!");
-                    if (data.role === 'ADMIN') {
-                        window.location.href = "admin-action.html";
-                    } else {
-                        // Both USER and MEMBER go to the same page
-                        window.location.href = "dashboard.html";
-
-                    }
+                    // ✅ Success alert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Signed in successfully!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        if (data.role === 'ADMIN') {
+                            window.location.href = "admin-action.html";
+                        } else {
+                            // Both USER and MEMBER go to the same page
+                            window.location.href = "dashboard.html";
+                        }
+                    });
 
                 } else {
-                    alert('Authentication failed: Token or role not found');
+                    // ❌ Invalid auth data
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Authentication Failed',
+                        text: 'Token or role not found.',
+                    });
                 }
-
             } catch (err) {
                 console.error("Error during sign in:", err);
-                alert('Error during sign in.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Sign-In Failed',
+                    text: 'Error during sign in.',
+                    confirmButtonText: 'OK'
+                });
             }
+
         });
     }
 });
