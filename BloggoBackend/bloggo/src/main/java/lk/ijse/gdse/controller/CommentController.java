@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.CommentDTO;
 import lk.ijse.gdse.service.CommentService;
@@ -17,12 +19,14 @@ import java.util.Map;
 @RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
+@Tag(name = "Comments", description = "Operations related to Comments")
 
 public class CommentController {
     private final PostService postService;
     private final CommentService commentService;
 
     @PostMapping("/post/{postId}")
+    @Operation(summary = "add new comment for blog-post")
     public ResponseEntity<ApiResponseDTO> addComment(
             @PathVariable Long postId,
             @RequestBody Map<String, String> request,
@@ -37,6 +41,7 @@ public class CommentController {
 
     @DeleteMapping("{commentId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "delete comment for a blog-post")
     public ResponseEntity<ApiResponseDTO> deleteComment(@PathVariable Long commentId, Principal principal) {
         commentService.deleteComment(commentId, principal.getName());
         return ResponseEntity.ok(
@@ -49,6 +54,7 @@ public class CommentController {
     }
 
     @GetMapping("/{postId}")
+    @Operation(summary = "get the comments within the postId")
     public ResponseEntity<ApiResponseDTO> getCommentsByPost(@PathVariable Long postId) {
         List<CommentDTO> comments = postService.getCommentsByPost(postId);
         return ResponseEntity.ok(

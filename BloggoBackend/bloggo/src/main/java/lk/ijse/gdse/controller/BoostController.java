@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.service.BoostService;
@@ -16,6 +18,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/boost")
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
+@Tag(name = "Boosting", description = "Operations related to Boost posts")
 
 public class BoostController {
     private final PostService postService;
@@ -23,6 +26,7 @@ public class BoostController {
 
     @PostMapping("/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "boost the blog-posts")
     public ResponseEntity<ApiResponseDTO> boostPost(@PathVariable Long postId, Principal principal) {
         postService.boostPost(postId, principal.getName());
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
@@ -37,6 +41,7 @@ public class BoostController {
 
     @PostMapping("/unboost/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "unboost the blog-posts")
     public ResponseEntity<ApiResponseDTO> unboostPost(@PathVariable Long postId, Principal principal) {
         boostService.unboostPost(postId, principal.getName());
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId,principal.getName());
@@ -51,6 +56,7 @@ public class BoostController {
 
     @GetMapping("/status/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "get the status of boost")
     public ResponseEntity<ApiResponseDTO> getBoostStatus(@PathVariable Long postId, Principal principal) {
         PostBoostDTO postBoostDTO = postService.getPostBoostById(postId, principal.getName());
         return ResponseEntity.ok(
@@ -63,6 +69,7 @@ public class BoostController {
 
     @DeleteMapping("/delete/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "delete the boosted post")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
         boostService.deleteBoost(postId, principal.getName());
         return new ResponseEntity<>(new ApiResponseDTO(

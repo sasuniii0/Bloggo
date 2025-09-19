@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.entity.AdminAction;
 import lk.ijse.gdse.service.AdminActionService;
@@ -16,10 +18,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:63342",
         allowCredentials = "true")
+@Tag(name = "Admin-Actions", description = "Operations related to Admin")
+
 public class AdminActionController {
     private final AdminActionService adminActionService;
 
     @PostMapping("/create")
+    @Operation(summary = "create action for admin")
     public ResponseEntity<ApiResponseDTO> createAction(
             @RequestParam String adminUsername,
             @RequestParam String targetUsername,
@@ -33,6 +38,7 @@ public class AdminActionController {
     }
 
     @GetMapping("/getAll")
+    @Operation(summary = "getAll actions of admin")
     public ResponseEntity<ApiResponseDTO> getAllActions() {
         ApiResponseDTO response = new ApiResponseDTO(
                 200,
@@ -42,6 +48,7 @@ public class AdminActionController {
     }
 
     @PatchMapping("/status/{userId}")
+    @Operation(summary = "change status of user")
     public ResponseEntity<ApiResponseDTO> toggleStatus(@PathVariable Long userId,
                                                        @RequestParam String adminUsername) {
         try {

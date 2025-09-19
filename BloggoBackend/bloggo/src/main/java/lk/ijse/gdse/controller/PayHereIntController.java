@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +12,14 @@ import java.util.Map;
 @Controller
 @CrossOrigin(origins = "http://localhost:63342",allowCredentials = "true")
 @RequestMapping("/api/v1/payments")
+@Tag(name = "Payment-Gateway", description = "Operations related to Payment")
+
 public class PayHereIntController {
     private static final String MERCHANT_ID = "";
     private static final String MERCHANT_SECRET = "";
 
     @PostMapping("/generate-hash")
+    @Operation(summary = "generate the hash of the payment in payhere")
     public ResponseEntity<String> generateHash(
             @RequestParam String orderId,
             @RequestParam double amount,
@@ -40,6 +45,7 @@ public class PayHereIntController {
     }
 
     @PostMapping("/notify")
+    @Operation(summary = "notify the user about the payment")
     public ResponseEntity<String> paymentNotify(@RequestParam Map<String, String> params) throws Exception {
         String merchantId = params.get("merchant_id");
         String orderId = params.get("order_id");
@@ -66,11 +72,13 @@ public class PayHereIntController {
     }
 
     @GetMapping("/success")
+    @Operation(summary = "give message success of the payment")
     public ResponseEntity<String> paymentSuccess() {
         return ResponseEntity.ok("Payment Success! You can show a nice success page here.");
     }
 
     @GetMapping("/cancel")
+    @Operation(summary = "give message cancel for the payment")
     public ResponseEntity<String> paymentCancel() {
         return ResponseEntity.ok("Payment Cancelled! Show cancellation page here.");
     }

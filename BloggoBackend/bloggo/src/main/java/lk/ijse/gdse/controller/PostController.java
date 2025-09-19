@@ -1,6 +1,8 @@
 package lk.ijse.gdse.controller;
 
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.PostBoostDTO;
 import lk.ijse.gdse.dto.PostDTO;
@@ -27,12 +29,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/post")
 @CrossOrigin(origins = "http://localhost:63342",allowCredentials = "true")
+@Tag(name = "blog-posts", description = "Operations related to Blog-posts")
+
 public class PostController {
     private final PostService postService;
     private final UserService userService;
 
     @PostMapping("/publish")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "publish a blog-post")
     public ResponseEntity<ApiResponseDTO> publishPost(@RequestBody Post post, Principal principal) {
         User user= userService.findByUsername(principal.getName());
         post.setUser(user);
@@ -48,6 +53,7 @@ public class PostController {
 
     @PostMapping("/draft")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "save the post as a draft")
     public ResponseEntity<ApiResponseDTO> saveDraft(@RequestBody Post post, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         post.setUser(user);
@@ -62,6 +68,7 @@ public class PostController {
 
     @PostMapping("/schedule")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "schedule a post for publish")
     public ResponseEntity<ApiResponseDTO> schedulePost(@RequestBody Post post, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         post.setUser(user);
@@ -76,6 +83,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
+    @Operation(summary = "get the post with postId")
     public ResponseEntity<Map<String, Object>> getPost(
             @PathVariable Long postId,
             Principal principal
@@ -92,6 +100,7 @@ public class PostController {
 
     @GetMapping("/my-posts")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "get user posts according to the userId")
     public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {
         List<PostDTO> posts = postService.getPostsByUser(principal.getName());
         return ResponseEntity.ok(
@@ -105,6 +114,7 @@ public class PostController {
 
     @PutMapping("/edit/{id}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "edit the blog-post")
     public ResponseEntity<ApiResponseDTO> editPost(
             @PathVariable Long id,
             @RequestBody Post post,
@@ -129,6 +139,7 @@ public class PostController {
 
     @DeleteMapping("/delete/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER', 'ADMIN')")
+    @Operation(summary = "delete the blog-post")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {
         Post existing = postService.getPostById(postId);
         if (existing == null) {
@@ -142,12 +153,14 @@ public class PostController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post deleted successfully", null));
     }
     @GetMapping("/search/{keyword}")
+    @Operation(summary = "search post by the keyword")
     public ResponseEntity<ApiResponseDTO> searchPosts(@PathVariable String keyword) {
         List<PostDTO> posts = postService.searchPosts(keyword);
         return ResponseEntity.ok(new ApiResponseDTO(200, "Posts found", posts));
     }
 
     @GetMapping("getAll-pagination")
+    @Operation(summary = "get posts with pagination")
     public ResponseEntity<ApiResponseDTO> getPosts(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "5") int size

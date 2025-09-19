@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,11 +17,14 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/api/tts")
 @CrossOrigin(origins = "http://localhost:63342", allowCredentials = "true")
 @RequiredArgsConstructor
+@Tag(name = "Text-to-Speech", description = "Operations related to TTS")
+
 public class TTSController {
     private final String VOICERSS_API_KEY = "";
     private final RestTemplate restTemplate;
 
     @GetMapping(produces = "audio/mpeg")
+    @Operation(summary = "generate the ap3 according to the blog-post content")
     public ResponseEntity<byte[]> generateTTS(@RequestParam String text) {
         try {
             String encodedText = URLEncoder.encode(text, StandardCharsets.UTF_8);

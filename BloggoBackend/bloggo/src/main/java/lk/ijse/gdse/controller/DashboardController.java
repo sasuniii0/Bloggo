@@ -1,10 +1,11 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.dto.PostDTO;
 import lk.ijse.gdse.dto.UserDTO;
 import lk.ijse.gdse.entity.Post;
-import lk.ijse.gdse.entity.Tag;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.service.DashboardService;
 import lk.ijse.gdse.service.UserService;
@@ -19,10 +20,13 @@ import java.util.List;
 @RequestMapping("/api/v1/dashboard")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:63342",allowCredentials = "true")
+@Tag(name = "User-Dashboard", description = "Operations related to Dashboard")
+
 public class DashboardController {
     private final DashboardService dashboardService;
 
     @GetMapping("search/{keyword}")
+    @Operation(summary = "search blog-posts by keyword")
     public ResponseEntity<ApiResponseDTO> searchByKeyword(@PathVariable String keyword) {
         List<Post>  posts= dashboardService.serachByKeyword(keyword);
         return ResponseEntity.ok(
@@ -36,6 +40,7 @@ public class DashboardController {
 
     @GetMapping("/all-users")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
+    @Operation(summary = "get All users")
     public ResponseEntity<ApiResponseDTO> getAllUsers() {
         List<UserDTO> users = dashboardService.getAllUsers();
         return ResponseEntity.ok(
@@ -49,6 +54,7 @@ public class DashboardController {
 
     @GetMapping("/all-posts")
     @PreAuthorize("hasAnyRole('USER','ADMIN', 'MEMBER')")
+    @Operation(summary = "get All posts")
     public ResponseEntity<ApiResponseDTO> getAllPosts() {
         List<PostDTO> posts = dashboardService.getAllPosts();
         return ResponseEntity.ok(
@@ -62,6 +68,7 @@ public class DashboardController {
 
     @GetMapping("/recent-published-posts")
     @PreAuthorize("hasAnyRole('USER','ADMIN','MEMBER')")
+    @Operation(summary = "get blog-posts by published date")
     public ResponseEntity<ApiResponseDTO> getRecentPublishedPosts() {
         List<PostDTO> posts = dashboardService.getRecentPublishedPosts();
         return ResponseEntity.ok(
@@ -75,6 +82,7 @@ public class DashboardController {
 
     @GetMapping("/post/{postId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN', 'MEMBER')")
+    @Operation(summary = "get post by postId")
     public ResponseEntity<ApiResponseDTO> getPostById(@PathVariable Long postId) {
         PostDTO post = dashboardService.getPostById(postId);
         return ResponseEntity.ok(

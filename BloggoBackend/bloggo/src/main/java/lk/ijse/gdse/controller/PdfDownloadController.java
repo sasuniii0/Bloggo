@@ -1,5 +1,7 @@
 package lk.ijse.gdse.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +24,14 @@ import org.jsoup.Jsoup;
 @RestController
 @RequestMapping("/api/v1/pdf")
 @RequiredArgsConstructor
+@Tag(name = "PDF Downloader", description = "Operations related to PDF Downloader")
+
 public class PdfDownloadController {
 
     private final PostService postService;
 
     @GetMapping("/download-pdf/{postId}")
+    @Operation(summary = "download the pdf of the blog-posts content")
     public ResponseEntity<byte[]> downloadPostPdf(@PathVariable Long postId) {
         try {
             Post post = postService.getPostById(postId);
