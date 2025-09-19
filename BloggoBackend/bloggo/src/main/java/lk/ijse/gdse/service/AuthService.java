@@ -9,10 +9,7 @@ import java.io.IOException;
 public interface AuthService {
     AuthResponseDTO authenticate(AuthDTO authDTO);
     String register(UserDTO userDTO);
-
     void sendResetPwdLink(String email) throws IOException;
-
     boolean resetPassword(String token, String newPassword);
-
     boolean validateResetToken(String token);
 }

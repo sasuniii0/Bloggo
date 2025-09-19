@@ -68,7 +68,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private ActionType status;  // or String if you prefer
+    private ActionType status;
 
 
     @Enumerated(EnumType.STRING)
@@ -116,8 +116,6 @@ public class User {
     @OneToMany(mappedBy = "followed")
     private List<Follow> followers; // Users following this user
 
-
-    // Add wallet relationship
     @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Wallet wallet;
 

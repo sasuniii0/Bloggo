@@ -29,6 +29,6 @@ public class Wallet {
 
 
     @OneToMany(mappedBy = "walletId")
-    private List<Earning> earnings; // List of earnings associated with the wallet
+    private List<Earning> earnings;
 
 }

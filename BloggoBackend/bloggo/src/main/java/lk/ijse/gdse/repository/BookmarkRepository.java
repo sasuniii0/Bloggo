@@ -13,17 +13,13 @@ import java.util.Optional;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
-
     Optional<Bookmark> findByPostAndUser(Post post, User user);
-
     List<Bookmark> findByUser(User user);
-
     Long countByPost(Post post);
 
     @Query("SELECT CASE WHEN COUNT(b) > 0 THEN true ELSE false END " +
             "FROM Bookmark b WHERE b.post.postId = :postId AND b.user.userId = :userId")
     boolean existsByPostIdAndUserId(@Param("postId") Long postId,
                                     @Param("userId") Long userId);
-
     void deleteByPostAndUser(Post post, User user);
 }

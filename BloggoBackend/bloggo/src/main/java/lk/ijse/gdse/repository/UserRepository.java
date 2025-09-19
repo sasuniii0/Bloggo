@@ -18,15 +18,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
     Optional<User> findByUsername(String username);
-
     Optional<User> findByEmail(String email);
-
     Optional<User> findByResetToken(String token);
-
     User getUserByUserId(Long userId);
-
 
     // Pagination + role filter
     Page<User> findByRole(String role, Pageable pageable);
@@ -36,8 +31,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.role = :roleName ORDER BY u.createdAt DESC")
     List<User> findUserByRole(@Param("roleName") RoleName roleName);
-
-
     List<User> findTop5ByRoleOrderByCreatedAtDesc(RoleName roleName);
 
     @Query("SELECT u FROM User u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) ORDER BY u.createdAt DESC")
@@ -56,7 +49,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 """)
     Page<PaginationDTO> findUsersWithLatestAction(Pageable pageable);
 
-
     @Modifying
     @Query(
             value = "UPDATE user u SET u.status = CASE WHEN u.status = 'ACTIVE' THEN 'INACTIVE' WHEN u.status = 'INACTIVE' THEN 'ACTIVE' ELSE u.status END WHERE u.user_id = :userId",
@@ -66,8 +58,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT MONTH(u.createdAt) as month, COUNT(u) as count FROM User u GROUP BY MONTH(u.createdAt) ORDER BY MONTH(u.createdAt)")
     List<Object[]> getMonthlyUserStats();
-
     List<User> findByRoleNotAndUserIdNotOrderByCreatedAtDesc(RoleName role, Long userId);
-
     List<User> findByRoleNotAndUserIdNotInOrderByCreatedAtDesc(RoleName roleName, List<Long> loggedUserId);
 }

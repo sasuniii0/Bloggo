@@ -21,7 +21,7 @@ public class SendGridEmailServiceImpl {
     private String apiKey;
 
     @Value("${sendgrid.from.email}")
-    private String fromEmail; // Must be verified
+    private String fromEmail;
 
     @Value("${sendgrid.from.name}")
     private String fromName;
@@ -56,9 +56,6 @@ public class SendGridEmailServiceImpl {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-
-
-
             Response response = sendGrid.api(request);
 
             int status = response.getStatusCode();
@@ -67,17 +64,17 @@ public class SendGridEmailServiceImpl {
             System.out.println("Response Headers: " + response.getHeaders());
 
             if (status == 403) {
-                System.err.println("⚠️ Email not sent: sender address is not verified. Check SendGrid sender identity.");
+                System.err.println("Email not sent: sender address is not verified. Check SendGrid sender identity.");
             } else if (status >= 400) {
-                System.err.println("⚠️ SendGrid returned an error: " + response.getBody());
+                System.err.println("SendGrid returned an error: " + response.getBody());
             } else {
-                System.out.println("✅ Password reset email sent successfully to " + toEmail);
+                System.out.println("Password reset email sent successfully to " + toEmail);
             }
 
 
 
         } catch (IOException ex) {
-            System.err.println("❌ Failed to send email: " + ex.getMessage());
+            System.err.println("Failed to send email: " + ex.getMessage());
         }
     }
 

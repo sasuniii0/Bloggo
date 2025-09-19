@@ -75,7 +75,6 @@ public class PostController {
         );
     }
 
-
     @GetMapping("/{postId}")
     public ResponseEntity<Map<String, Object>> getPost(
             @PathVariable Long postId,
@@ -90,6 +89,7 @@ public class PostController {
                 )
         );
     }
+
     @GetMapping("/my-posts")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO>getMyPosts(Principal principal) {
@@ -127,8 +127,6 @@ public class PostController {
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post updated successfully", updated));
     }
 
-
-    // ✅ Delete (owner only)
     @DeleteMapping("/delete/{postId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER', 'ADMIN')")
     public ResponseEntity<ApiResponseDTO> deletePost(@PathVariable Long postId, Principal principal) {

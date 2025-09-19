@@ -15,7 +15,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     boolean existsByFollowerAndFollowed(User follower, User followed);
     Long countByFollowed(User followed);
 
-
     @Query("SELECT new lk.ijse.gdse.dto.FollowDTO(f.followId, f.follower.userId, f.followed.userId) " +
             "FROM Follow f WHERE f.follower.userId = :userId")
     List<FollowDTO> getFollowsByFollowerId(@Param("userId") Long userId);

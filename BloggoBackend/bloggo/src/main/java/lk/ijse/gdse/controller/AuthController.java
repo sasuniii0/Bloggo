@@ -1,13 +1,10 @@
 package lk.ijse.gdse.controller;
 
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse.dto.*;
 import lk.ijse.gdse.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -33,7 +30,6 @@ public class AuthController {
     }
 
     @PostMapping("/signing")
-    //@PreAuthorize("hasAnyRole('USER', 'MEMBER', 'ADMIN')")
     public ResponseEntity<ApiResponseDTO> authenticateUser(@RequestBody AuthDTO authDTO) {
         return ResponseEntity.ok(new ApiResponseDTO(
                 200,
@@ -41,12 +37,12 @@ public class AuthController {
                 authService.authenticate(authDTO)
         ));
     }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) throws IOException {
         authService.sendResetPwdLink(request.getEmail());
         return ResponseEntity.ok("Password reset link sent if the email exists.");
     }
-
 
     @GetMapping("/reset-password/{token}")
     public void handleResetLink(@PathVariable String token, HttpServletResponse response) throws IOException {
@@ -55,12 +51,10 @@ public class AuthController {
             return;
         }
 
-        // ✅ Redirect to frontend with token as query param
         response.sendRedirect(
                 "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token
         );
     }
-
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {

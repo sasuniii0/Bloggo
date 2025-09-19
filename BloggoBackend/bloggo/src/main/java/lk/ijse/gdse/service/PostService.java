@@ -12,28 +12,16 @@ import java.util.List;
 
 public interface PostService {
     Post publishPost(Post post);
-
     List<PostDTO> getAllPosts();
-
     List<PostDTO> getPostsByUser(String name);
-
     void deletePost(Long postId, String name);
-
     Post getPostById(Long postId);
-
     Post editPost(Post post, String name);
-
     int boostPost(Long postId, String name);
-
     CommentDTO addComment(Long postId, String name, String content);
-
     List<CommentDTO> getCommentsByPost(Long postId);
-
     PostBoostDTO getPostBoostById(Long postId, String name);
-
     List<PostDTO> searchPosts(String keyword);
-
     Page<PostDTO> getPosts(Pageable of);
-
     List<PostDTO> getPostsByUserId(Long userId);
 }

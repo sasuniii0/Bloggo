@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
-
     @Query("SELECT t FROM Tag t WHERE LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%')) ORDER BY t.name ASC")
     List<Tag> searchTagsByKeyword(@Param("keyword") String keyword);
 }

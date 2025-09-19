@@ -24,9 +24,9 @@ public class Payment {
     private User user; // User who made the payment
     private Double amount; // Amount paid
     private String currency; // Currency of the payment
-    private String paymentMethod; // e.g., "Credit Card", "PayPal"
+    private String paymentMethod;
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status; // e.g., "Completed", "Pending", "Failed"
-    private Long transactionId; // Unique identifier for the transaction
+    private PaymentStatus status;
+    private Long transactionId;
     private LocalDateTime createdAt;
 }

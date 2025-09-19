@@ -94,7 +94,6 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        // Generate JWT token for password reset
         String token = jwtUtil.generatePasswordResetToken(user.getEmail());
 
         String resetLink = "http://localhost:63342/Bloggo-springboot/BloggoFrontend/pages/reset-password.html?token=" + token;

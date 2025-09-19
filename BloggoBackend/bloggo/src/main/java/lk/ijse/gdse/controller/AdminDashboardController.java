@@ -49,5 +49,4 @@ public class AdminDashboardController {
             return ResponseEntity.status(500).body("Error sending broadcast: " + e.getMessage());
         }
     }
-
 }

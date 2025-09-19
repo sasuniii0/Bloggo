@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface TagService {
     List<TagDTO> getTags(int offset, int limit);
-
     public List<Tag> searchTags(String keyword);
 }

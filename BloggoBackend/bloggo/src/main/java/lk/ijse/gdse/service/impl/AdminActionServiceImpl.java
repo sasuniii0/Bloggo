@@ -42,29 +42,23 @@ public class AdminActionServiceImpl implements AdminActionService {
 
     @Transactional
     public AdminAction toggleUserStatusWithAction(Long userId, String adminUsername) {
-        // Toggle user status via query
         int updatedRows = userRepository.toggleUserStatus(userId);
         if (updatedRows == 0) throw new UserNotFoundException("User not found or no status changed");
 
-        // Get updated user
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        // Get admin performing the action
         User admin = userRepository.findByUsername(adminUsername)
                 .orElseThrow(() -> new AdminNotFoundException("Admin not found"));
 
-        // Get last admin action for this user
         AdminAction lastAction = adminActionRepository
                 .findTopByTargetUser_UserIdOrderByCreatedAtDesc(user.getUserId())
                 .orElse(null);
 
-        // Determine new actionType
         ActionType newActionType = (lastAction == null || lastAction.getActionType() == ActionType.INACTIVE)
                 ? ActionType.ACTIVE
                 : ActionType.INACTIVE;
 
-        // Create new AdminAction
         AdminAction action = AdminAction.builder()
                 .targetUser(user)
                 .admin(admin)
@@ -75,6 +69,4 @@ public class AdminActionServiceImpl implements AdminActionService {
 
         return adminActionRepository.save(action);
     }
-
-
 }

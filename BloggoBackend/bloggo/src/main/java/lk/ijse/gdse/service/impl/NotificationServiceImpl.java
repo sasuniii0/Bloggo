@@ -19,6 +19,7 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+
     @Override
     public Notification createNotification(Long userId, String message, Type type) {
         User user = userRepository.findById(userId)

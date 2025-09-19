@@ -41,14 +41,14 @@ public class Post {
             regexp = "^[A-Za-z0-9\\s,.?!'\";:()\\-@#&%$*\\n]+$",
             message = "Content contains invalid characters"
     )
-    @Column(columnDefinition = "TEXT") // for MySQL/Postgres
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Pattern(
             regexp = "^(https?://).+\\.(jpg|jpeg|png|gif|webp)$",
             message = "Cover image must be a valid URL ending with jpg, jpeg, png, gif, or webp"
     )
-    @Column(columnDefinition = "LONGTEXT") // for MySQL/Postgres
+    @Column(columnDefinition = "LONGTEXT")
     private String coverImageUrl;
 
     @Enumerated(EnumType.STRING)

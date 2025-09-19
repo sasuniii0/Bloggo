@@ -18,30 +18,25 @@ import java.time.LocalDateTime;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final NotificationRepository notificationRepository;
+
     @Override
     @Transactional
     public Payment savePayment(Payment payment) {
-        // 1️⃣ Set creation timestamp
         payment.setCreatedAt(LocalDateTime.now());
         Payment savedPayment = paymentRepository.save(payment);
 
-        // 2️⃣ Send notification to user
-        User user = payment.getUser(); // assuming Payment has a `User user` field
+        User user = payment.getUser();
         if (user != null) {
             Notification notification = Notification.builder()
                     .user(user)
                     .message("Welcome, " + user.getUsername() + "! Your payment is successful. Congrats on becoming a member!!!")
-                    .type(Type.MEMBERSHIP_SUCCESS) // make sure you have a Type enum value for payment
+                    .type(Type.MEMBERSHIP_SUCCESS)
                     .isRead(false)
                     .createdAt(LocalDateTime.now())
                     .build();
 
             notificationRepository.save(notification);
         }
-
         return savedPayment;
     }
-
-
-
 }

@@ -25,16 +25,10 @@ public class FollowController {
 
     @PostMapping("/{followedId}")
     public ResponseEntity<ApiResponseDTO> followUser(@PathVariable Long followedId, Principal principal) {
-        // Extract the logged-in user's username from Principal
         String username = principal.getName();
-
-        // Fetch follower user by username
         User follower = userService.findByUsername(username);
-
-        // Call service
         return ResponseEntity.ok(followService.followUser(followedId, follower.getUserId()));
     }
-
 
     @GetMapping("/{userId}/count")
     public ResponseEntity<ApiResponseDTO> getFollowerCount(@PathVariable Long userId) {

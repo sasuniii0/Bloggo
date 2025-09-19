@@ -14,22 +14,14 @@ import java.util.Optional;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
     Wallet findByUserId(User userId);
-
     Wallet findByUserId_UserId(Long userId);
-
     boolean existsByUserId(User userSaved);
-
     Wallet getWalletByUserId(User userId);
-
     List<WalletDTO> findWalletByUserId_UserId(Long userIdUserId);
-
 
     @Query(value = "SELECT w.wallet_id AS id, w.balance, w.user_id AS userId " +
             "FROM wallet w WHERE w.user_id = :userId",
             nativeQuery = true)
     List<WalletDTO> findWalletByUserId(@Param("userId") Long userId);
-
-
-
 
 }

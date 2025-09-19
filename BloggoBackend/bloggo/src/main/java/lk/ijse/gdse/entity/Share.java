@@ -21,12 +21,12 @@ public class Share {
 
     @ManyToOne
     @JoinColumn(name = "postId", nullable = false)
-    private Post post; // ID of the post being shared
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
-    private User user;  // ID of the user who shared the post
+    private User user;
     private String shareUrl;
-    private Integer clickCount; // Number of times the shared link has been clicked
+    private Integer clickCount;
     private LocalDateTime createdAt;
 }

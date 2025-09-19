@@ -35,7 +35,6 @@ public class CommentController {
         );
     }
 
-
     @DeleteMapping("{commentId}")
     @PreAuthorize("hasAnyRole('USER', 'MEMBER')")
     public ResponseEntity<ApiResponseDTO> deleteComment(@PathVariable Long commentId, Principal principal) {
@@ -48,7 +47,6 @@ public class CommentController {
                 )
         );
     }
-
 
     @GetMapping("/{postId}")
     public ResponseEntity<ApiResponseDTO> getCommentsByPost(@PathVariable Long postId) {

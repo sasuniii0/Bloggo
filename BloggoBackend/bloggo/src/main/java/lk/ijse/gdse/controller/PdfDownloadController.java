@@ -29,27 +29,22 @@ public class PdfDownloadController {
     @GetMapping("/download-pdf/{postId}")
     public ResponseEntity<byte[]> downloadPostPdf(@PathVariable Long postId) {
         try {
-            // Fetch post from DB
             Post post = postService.getPostById(postId);
 
-            // Parse HTML content to plain text
             String htmlContent = post.getContent();
-            String textContent = Jsoup.parse(htmlContent).text(); // strips HTML tags
+            String textContent = Jsoup.parse(htmlContent).text();
 
-            // Create PDF in memory
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Document document = new Document();
             PdfWriter.getInstance(document, out);
             document.open();
 
-            // Add Title
             Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
             Paragraph title = new Paragraph(post.getTitle(), titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
-            document.add(new Paragraph("\n")); // blank line
+            document.add(new Paragraph("\n"));
 
-            // Add Cleaned Content
             Font contentFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
             Paragraph content = new Paragraph(textContent, contentFont);
             document.add(content);

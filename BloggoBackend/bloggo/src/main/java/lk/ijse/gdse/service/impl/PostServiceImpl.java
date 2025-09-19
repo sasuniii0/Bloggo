@@ -112,11 +112,9 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public int boostPost(Long postId, String username) {
-        // Fetch the post
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
-        // Fetch the boosting user
         User boostingUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -124,17 +122,14 @@ public class PostServiceImpl implements PostService {
             post.setBoosts(new ArrayList<>());
         }
 
-        // Check if user already boosted this post (toggle)
         Boost existingBoost = post.getBoosts().stream()
                 .filter(b -> b.getUser().equals(boostingUser))
                 .findFirst()
                 .orElse(null);
 
         if (existingBoost != null) {
-            // Remove boost
             post.getBoosts().remove(existingBoost);
         } else {
-            // Create new boost
             Boost newBoost = Boost.builder()
                     .post(post)
                     .user(boostingUser)
@@ -145,7 +140,7 @@ public class PostServiceImpl implements PostService {
 
             // --- SEND NOTIFICATION TO POST OWNER ---
             User postOwners = post.getUser();
-            if (!boostingUser.equals(postOwners)) { // Don't notify if self-boost
+            if (!boostingUser.equals(postOwners)) {
                 Notification notification = Notification.builder()
                         .user(postOwners)
                         .message(boostingUser.getUsername() + " boosted your post: " + post.getTitle())
@@ -156,7 +151,6 @@ public class PostServiceImpl implements PostService {
                 notificationRepository.save(notification);
             }
 
-            // Ensure post owner has a wallet
             User postOwner = post.getUser();
 
             if (RoleName.MEMBER.equals(postOwner.getRole())){
@@ -169,7 +163,6 @@ public class PostServiceImpl implements PostService {
                             .build();
                     walletRepository.save(postOwnerWallet);
 
-                    // Associate wallet with user
                     postOwner.setWallet(postOwnerWallet);
                     userRepository.save(postOwner);
                 }
@@ -188,18 +181,13 @@ public class PostServiceImpl implements PostService {
                 postOwnerWallet.getEarnings().add(earning);
                 postOwnerWallet.setBalance(postOwnerWallet.getBalance() + earning.getAmount());
 
-                // Save wallet and earning
                 walletRepository.save(postOwnerWallet);
                 earningRepository.save(earning);
             }
         }
-
-        // Save post with updated boosts
         postRepository.save(post);
-
         return post.getBoosts().size();
     }
-
 
     @Override
     public CommentDTO addComment(Long postId, String username, String content) {
@@ -217,7 +205,7 @@ public class PostServiceImpl implements PostService {
 
         // --- SEND NOTIFICATION TO POST OWNER ---
         User postOwner = post.getUser();
-        if (!user.getUserId().equals(postOwner.getUserId())) { // safer ID comparison
+        if (!user.getUserId().equals(postOwner.getUserId())) {
             Notification notification = Notification.builder()
                     .user(postOwner)
                     .message(user.getUsername() + " commented on your post: " + post.getTitle()
@@ -233,8 +221,7 @@ public class PostServiceImpl implements PostService {
             post.setComments(new ArrayList<>());
         }
         post.getComments().add(comment);
-
-        postRepository.save(post); // Save post with new comment
+        postRepository.save(post);
 
         return new CommentDTO(
                 comment.getCommentId(),
@@ -244,7 +231,6 @@ public class PostServiceImpl implements PostService {
                 comment.getCreatedAt()
         );
     }
-
 
     @Override
     public List<CommentDTO> getCommentsByPost(Long postId) {
@@ -289,7 +275,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDTO> searchPosts(String keyword) {
-        List<Post> posts = postRepository.searchPostsByKeyword(keyword);// your existing query
+        List<Post> posts = postRepository.searchPostsByKeyword(keyword);
         return posts.stream()
                 .map(p -> new PostDTO(
                         p.getPostId(),
@@ -327,6 +313,4 @@ public class PostServiceImpl implements PostService {
                 ))
                 .collect(Collectors.toList());
     }
-
-
 }

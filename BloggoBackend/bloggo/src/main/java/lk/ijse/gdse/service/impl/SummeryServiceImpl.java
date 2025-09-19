@@ -24,7 +24,7 @@ public class SummeryServiceImpl implements SummeryService {
     private final String HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
     private final String HF_API_KEY = "";
 
-    private final RestTemplate restTemplate; // inject the bean
+    private final RestTemplate restTemplate;
 
     @Override
     public SummeryResponseDTO summarize(SummeryRequestDTO request) {
@@ -44,7 +44,7 @@ public class SummeryServiceImpl implements SummeryService {
             // Set headers
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(java.util.Collections.singletonList(MediaType.APPLICATION_JSON)); // ✅ Set Accept
+            headers.setAccept(java.util.Collections.singletonList(MediaType.APPLICATION_JSON));
             headers.set("Authorization", "Bearer " + HF_API_KEY);
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);

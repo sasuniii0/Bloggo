@@ -60,10 +60,8 @@ public class UserController {
 
     @PostMapping("/payments/success")
     public ResponseEntity<Map<String, Object>> paymentSuccess(@RequestParam Long userId) {
-        // Upgrade role in DB
         User user = userService.upgradeMembership(userId);
 
-        // Generate a new JWT for the user
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole()); // include MEMBER role
 
         Map<String, Object> response = new HashMap<>();
@@ -73,8 +71,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
-    // Optional: Return wallet & earnings for member UI
     @GetMapping("/user/{userId}/wallet")
     public ResponseEntity<ApiResponseDTO> getWallet(@PathVariable Long userId) {
         Wallet wallet = walletService.getWalletByUserId(userId);
@@ -122,7 +118,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser(username));
     }
 
-    // Public endpoint to fetch member profile by ID
     @GetMapping("/members/{id}")
     public ResponseEntity<UserDTO> getMemberProfile(@PathVariable Long id) {
         try {

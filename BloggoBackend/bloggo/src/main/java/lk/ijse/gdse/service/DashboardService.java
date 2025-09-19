@@ -8,12 +8,8 @@ import java.util.List;
 
 public interface DashboardService {
     List<Post> serachByKeyword(String keyword);
-
     List<PostDTO> getAllPosts();
-
     List<UserDTO> getAllUsers();
-
     PostDTO getPostById(Long postId);
-
     List<PostDTO> getRecentPublishedPosts();
 }

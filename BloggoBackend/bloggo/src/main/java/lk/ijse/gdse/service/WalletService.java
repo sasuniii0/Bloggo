@@ -9,6 +9,5 @@ import java.util.List;
 public interface WalletService {
     List<Earning> getWalletEarnings(Long walletId);
     Wallet getWalletByUserId(Long userId);
-
     List<WalletDTO> getWalletBalanceByUserId(Long userId);
 }

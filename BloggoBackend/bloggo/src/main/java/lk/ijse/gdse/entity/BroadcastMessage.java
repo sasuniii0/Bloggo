@@ -35,11 +35,11 @@ public class BroadcastMessage {
             regexp = "^[A-Za-z0-9\\s,.?!'\";:()\\-@#&%$*\\n]+$",
             message = "Content contains invalid characters"
     )
-    @Lob // Large object for rich text content
+    @Lob
     @Column(nullable = false)
     private String content;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now(); // default value
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }

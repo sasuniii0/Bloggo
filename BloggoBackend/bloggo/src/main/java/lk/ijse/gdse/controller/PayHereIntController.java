@@ -53,28 +53,26 @@ public class PayHereIntController {
         ).toUpperCase();
 
         if (!localSig.equals(receivedSig)) {
-            return ResponseEntity.badRequest().body("❌ Invalid Signature!");
+            return ResponseEntity.badRequest().body("Invalid Signature!");
         }
 
         if ("2".equals(statusCode)) {
-            System.out.println("✅ Payment success: " + orderId);
+            System.out.println("Payment success: " + orderId);
         } else {
-            System.out.println("❌ Payment failed: " + orderId);
+            System.out.println("Payment failed: " + orderId);
         }
 
         return ResponseEntity.ok("Notification Received");
     }
 
-    // ✅ Called when user completes payment and PayHere redirects them
     @GetMapping("/success")
     public ResponseEntity<String> paymentSuccess() {
-        return ResponseEntity.ok("✅ Payment Success! You can show a nice success page here.");
+        return ResponseEntity.ok("Payment Success! You can show a nice success page here.");
     }
 
-    // ✅ Called when user cancels payment and PayHere redirects them
     @GetMapping("/cancel")
     public ResponseEntity<String> paymentCancel() {
-        return ResponseEntity.ok("❌ Payment Cancelled! Show cancellation page here.");
+        return ResponseEntity.ok("Payment Cancelled! Show cancellation page here.");
     }
 
 }

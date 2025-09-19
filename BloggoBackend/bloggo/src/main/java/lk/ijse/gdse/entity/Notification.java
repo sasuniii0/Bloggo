@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @GeneratedValue
-    private Long notificationId; // Unique identifier for the notification
+    private Long notificationId;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     private User user; // ID of the user receiving the notification

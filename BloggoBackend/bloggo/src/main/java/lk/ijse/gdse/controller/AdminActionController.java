@@ -62,8 +62,4 @@ public class AdminActionController {
                     .body(new ApiResponseDTO(500, "Internal server error", Map.of("error", e.getMessage())));
         }
     }
-
-
-
-
 }

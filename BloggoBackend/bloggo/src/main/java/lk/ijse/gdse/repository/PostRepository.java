@@ -13,7 +13,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUserUsername(String username); // <-- fetch by username
-
     Post findByPostId(Long postId);
 
     // Fetch top 10 posts ordered by creation date (most recent first)
@@ -37,7 +36,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 """)
     List<PostDTO> findTop10PublishedPosts(@Param("status") PostStatus status);
 
-
     @Query("SELECT DISTINCT p FROM Post p " +
             "LEFT JOIN p.tags t " +
             "WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
@@ -49,9 +47,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT MONTH(p.createdAt) as month, COUNT(p) as count FROM Post p GROUP BY MONTH(p.createdAt) ORDER BY MONTH(p.createdAt)")
     List<Object[]> getMonthlyPostStats();
-
     List<Post> getPostsByUserUserId(Long userId);
-
     List<Post> findAllByUserUserId(Long userId);
 
     @Query("SELECT COUNT(p) FROM Post p WHERE p.user.userId = :userId")

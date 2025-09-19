@@ -19,7 +19,6 @@ public class SummeryController {
         return ResponseEntity.ok(summeryService.summarize(request));
     }
 
-
    /* @PostMapping
     public ResponseEntity<SummeryResponseDTO> generateSummary(@RequestBody SummeryRequestDTO request) {
         String summary = summeryService.generateSummary(request.getText());

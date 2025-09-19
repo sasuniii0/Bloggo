@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        // Save the user first
         User userSaved = userRepository.save(user);
 
         if (!walletRepository.existsByUserId(userSaved)) {
@@ -47,11 +46,8 @@ public class UserServiceImpl implements UserService {
                     .build();
             walletRepository.save(wallet);
         }
-
-
-        return userSaved; // return the saved user
+        return userSaved;
     }
-
 
     @Override
     public User editUser(User user) {
@@ -150,17 +146,15 @@ public class UserServiceImpl implements UserService {
         user.setMembershipStatus(MembershipStatus.PAID);
         user.setRole(RoleName.MEMBER);
 
-        // 2️⃣ Send congratulatory notification
         Notification notification = Notification.builder()
                 .user(user)
                 .message("Congratulations, " + user.getUsername() + "! Your membership is now upgraded. 🎉")
-                .type(Type.MEMBERSHIP_SUCCESS) // Make sure your enum has a PAYMENT type
+                .type(Type.MEMBERSHIP_SUCCESS)
                 .isRead(false)
                 .createdAt(LocalDateTime.now())
                 .build();
         notificationRepository.save(notification);
 
-        // Create wallet if not exists
         if (user.getWallet() == null) {
             Wallet wallet = Wallet.builder()
                     .userId(user)
@@ -171,7 +165,6 @@ public class UserServiceImpl implements UserService {
 
             user.setWallet(wallet);
         }
-
         return userRepository.save(user);
     }
 
@@ -197,7 +190,6 @@ public class UserServiceImpl implements UserService {
                         u.getProfileImage()
                 ))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -263,7 +255,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .role(user.getRole() != null ? user.getRole(): null)
-                .action(null) // later you can fetch latest AdminAction if required
+                .action(null)
                 .build()
         );
     }
@@ -314,22 +306,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUsernameAndProfilePicByUserId(Long userId) {
-        // Fetch the user entity directly
         User user = userRepository.getUserByUserId(userId);
 
         if (user == null) {
-            return null; // or throw an exception if you prefer
+            return null;
         }
-
-        // Map to DTO
         return UserDTO.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
                 .profileImage(user.getProfileImage())
                 .build();
     }
-
-
-
-
 }

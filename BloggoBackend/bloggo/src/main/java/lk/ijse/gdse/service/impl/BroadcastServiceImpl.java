@@ -58,7 +58,7 @@ public class BroadcastServiceImpl implements BroadcastService {
     private void sendEmail(String toEmail, String subject, String body) throws IOException {
         Email from = new Email(fromEmail, fromName);
         Email to = new Email(toEmail);
-        Content content = new Content("text/html", body); // HTML content
+        Content content = new Content("text/html", body);
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid(sendGridApiKey);

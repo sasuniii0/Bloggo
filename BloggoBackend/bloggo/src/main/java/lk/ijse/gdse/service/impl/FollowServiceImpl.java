@@ -53,10 +53,10 @@ public class FollowServiceImpl implements FollowService {
         followRepository.save(follow);
 
         Notification notification = Notification.builder()
-                .user(followed) // who receives the notification (logged-in user)
+                .user(followed) // who receives the notification
                 .message(follower.getUsername() + " has started following you!")
                 .createdAt(LocalDateTime.now())
-                .type(Type.FOLLOW) // optional enum type
+                .type(Type.FOLLOW)
                 .isRead(false)
                 .build();
         notificationRepository.save(notification);
@@ -67,7 +67,7 @@ public class FollowServiceImpl implements FollowService {
 
             Earning earning = Earning.builder()
                     .walletId(wallet)
-                    .post(null) // no post associated
+                    .post(null)
                     .amount(FOLLOW_EARNING_AMOUNT)
                     .source(Source.FOLLOW)
                     .createdAt(LocalDateTime.now())
@@ -75,7 +75,6 @@ public class FollowServiceImpl implements FollowService {
 
             earningRepository.save(earning);
 
-            // Update wallet balance
             wallet.setBalance(wallet.getBalance() + FOLLOW_EARNING_AMOUNT);
             walletRepository.save(wallet);
         }
@@ -113,19 +112,17 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<UserDTO> getFollowing(Long userId) {
-        // Fetch users that the given user is following
         List<User> users = followRepository.findFollowingByUserId(userId);
 
         List<UserDTO> userDTOs = users.stream()
                 .map(user -> {
-                    // Get post count for this specific user
                     Long postCount = postRepository.countPostsByUserId(user.getUserId());
 
                     return UserDTO.builder()
                             .userId(user.getUserId())
                             .username(user.getUsername())
                             .profileImage(user.getProfileImage())
-                            .postCount(postCount.intValue()) // individual post count
+                            .postCount(postCount.intValue())
                             .bio(user.getBio())
                             .build();
                 })
@@ -137,20 +134,17 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<UserDTO> getFollowers(Long userId) {
-        // Get all followers
         List<User> users = followRepository.findFollowersByUserId(userId);
 
-        // Convert User entities to UserDTO including individual post counts
         List<UserDTO> userDTOs = users.stream()
                 .map(user -> {
-                    // Get post count for this specific user
                     Long postCount = postRepository.countPostsByUserId(user.getUserId());
 
                     return UserDTO.builder()
                             .userId(user.getUserId())
                             .username(user.getUsername())
                             .profileImage(user.getProfileImage())
-                            .postCount(postCount.intValue()) // individual post count
+                            .postCount(postCount.intValue())
                             .bio(user.getBio())
                             .build();
                 })
