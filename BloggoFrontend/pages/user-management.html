@@ -42,8 +42,9 @@
   </nav>
 </header>
 
-<div class="">
+<div class="container-fluid">
   <div class="row">
+    <!-- Sidebar -->
     <aside class="col-lg-2 sidebar">
       <a href="admin-action.html"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
       <a href="user-management.html" class="active"><i class="fas fa-users me-2"></i> Manage Users</a>
@@ -56,25 +57,48 @@
         <h2>User Management</h2>
       </div>
 
-      <div class="table-card p-4 shadow-sm rounded white-bg mb-4 p-4">
-        <input type="text" id="userSearch" class="form-control w-25" placeholder="Search user...">
-        <div class="p-2"></div>
+      <!-- Users Table -->
+      <div class="table-card shadow-sm rounded mb-4 p-4">
+        <input type="text" id="userSearch" class="form-control w-25 mb-3" placeholder="Search user...">
         <table class="table table-hover align-middle">
           <thead class="table-light">
           <tr>
-            <th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
           </tr>
           </thead>
           <tbody id="userTableBody"></tbody>
         </table>
-        <nav class="d-flex justify-content-center">
+        <nav class="d-flex justify-content-center mt-3">
           <ul class="pagination" id="pagination"></ul>
         </nav>
+      </div>
 
+      <!-- Member Wallets Table -->
+      <div class="table-card shadow-sm rounded p-4">
+        <h4 class="mb-3">Member Wallets</h4>
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Wallet Balance</th>
+          </tr>
+          </thead>
+          <tbody id="memberWalletTableBody"></tbody>
+        </table>
+        <nav class="d-flex justify-content-center mt-3">
+          <ul class="pagination" id="memberPagination"></ul>
+        </nav>
       </div>
     </main>
   </div>
 </div>
+
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/user-management.js"></script>

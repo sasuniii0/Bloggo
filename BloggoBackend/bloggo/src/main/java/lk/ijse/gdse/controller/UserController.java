@@ -3,10 +3,7 @@ package lk.ijse.gdse.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.*;
-import lk.ijse.gdse.entity.Notification;
-import lk.ijse.gdse.entity.Post;
-import lk.ijse.gdse.entity.User;
-import lk.ijse.gdse.entity.Wallet;
+import lk.ijse.gdse.entity.*;
 import lk.ijse.gdse.service.PostService;
 import lk.ijse.gdse.service.UserService;
 import lk.ijse.gdse.service.WalletService;
@@ -194,6 +191,13 @@ public class UserController {
     @Operation(summary = "get user wallet balance by userId")
     public ResponseEntity<ApiResponseDTO> getWalletBalanceByUserId(@PathVariable Long userId) {
         List<WalletDTO> wallet = walletService.getWalletBalanceByUserId(userId);
+        return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
+    }
+
+    @GetMapping("/member/wallet")
+    @Operation(summary = "get member wallet balance for table")
+    public ResponseEntity<ApiResponseDTO> getMemberWalletBalance() {
+        List<WalletDTO> wallet = walletService.getAllMembersByRole(RoleName.MEMBER);
         return ResponseEntity.ok(new ApiResponseDTO(200, "Wallet found", wallet));
     }
 }

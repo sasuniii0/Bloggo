@@ -2,6 +2,7 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.dto.WalletDTO;
 import lk.ijse.gdse.entity.Earning;
+import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.Wallet;
 import lk.ijse.gdse.exception.ResourceNotFoundException;
 import lk.ijse.gdse.repository.EarningRepository;
@@ -36,6 +37,10 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.findWalletByUserId(userId);
     }
 
+    @Override
+    public List<WalletDTO> getAllMembersByRole(RoleName roleName) {
+        return walletRepository.findWalletsWithUserDetailsByRole(roleName);
+    }
 
 
 }

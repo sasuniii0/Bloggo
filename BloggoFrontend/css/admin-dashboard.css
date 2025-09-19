@@ -66,7 +66,7 @@ a:hover { color: var(--primary-light); }
     display: flex;
     justify-content: space-between; /* BLOGGO left, actions right */
     align-items: center;
-    padding: 0.6rem 1.5rem;
+    padding: 0.7rem 1.5rem;
     background: rgba(255,255,255,0.85);
     backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255,255,255,0.3);
@@ -110,7 +110,7 @@ a:hover { color: var(--primary-light); }
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--accent-color);
+    border: 2px solid black;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -175,7 +175,6 @@ a:hover { color: var(--primary-light); }
    =========================== */
 .sidebar {
     position: sticky;      /* Stays visible while scrolling */
-    height: calc(100vh - 60px); /* Full height minus navbar */
     width: 220px;          /* Fixed width for sidebar */
     background-color: #ffffff;
     border-right: 1px solid #e5e7eb;
@@ -389,6 +388,7 @@ a:hover { color: var(--primary-light); }
 }
 body {     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
+/*
 .glass-navbar { position: sticky; top: 1rem; z-index: 1050; display: flex; justify-content: space-between; padding: 1rem 2rem; margin: 0 auto; width: 60%; border-radius: 20px; margin-top: 1rem; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
 .glass-navbar a { color: #000000; font-weight: 500; margin: 0 1.2rem; text-decoration: none; transition: all 0.3s ease; padding: 0.5rem 1rem; border-radius: 12px; }
 .glass-navbar a:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
@@ -398,4 +398,4 @@ body {     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 .profile-menu .dropdown-menu { border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
 .sidebar { height: 100vh; position: sticky; top: 60px; background: #f8f9fa; border-right: 1px solid #dee2e6; padding-top: 20px; }
 .sidebar a { display: block; padding: 12px 15px; color: #333; text-decoration: none; margin: 5px 0; border-radius: 8px; font-weight: 500; }
-.sidebar a:hover, .sidebar a.active { background: #0d6efd; color: white; }
+.sidebar a:hover, .sidebar a.active { background: #0d6efd; color: white; }*/

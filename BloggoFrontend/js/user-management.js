@@ -1,9 +1,14 @@
 const userEndpoint = "http://localhost:8080/user/getAll-pagination";
-let allUsers = [];
-let currentPage = 1;
-const pageSize = 5;
+const memberEndpoint = "http://localhost:8080/user/member/wallet";
 
-// Get JWT token
+let allUsers = [];
+let allMembers = [];
+let currentPage = 1;
+let currentMemberPage = 1;
+const pageSize = 5;
+const memberPageSize = 5;
+
+// ✅ Get JWT token
 function getToken() {
     const token = sessionStorage.getItem("jwtToken");
     if (!token) {
@@ -16,52 +21,43 @@ function getToken() {
             window.location.href = "signing.html";
         });
     }
-
     return token;
 }
 
-// Load all users once
+// ========================== USERS TABLE ==========================
 async function loadAllUsers() {
     const token = getToken();
     try {
         const res = await fetch(`${userEndpoint}?page=0&size=1000`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
-        if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(`HTTP ${res.status}: ${errorText}`);
-        }
+        if (!res.ok) throw new Error(await res.text());
         const data = await res.json();
         allUsers = data?.data?.content || [];
-        renderPage(1); // render first page
+        renderPage(1);
     } catch (err) {
         console.error("Error loading users:", err);
-        const tbody = document.getElementById("userTableBody");
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error fetching users</td></tr>`;
+        document.getElementById("userTableBody").innerHTML =
+            `<tr><td colspan="5" class="text-center text-danger">Error fetching users</td></tr>`;
     }
 }
 
-// Render a specific page from filtered users
 function renderPage(page) {
     currentPage = page;
     const tbody = document.getElementById("userTableBody");
-    const pagination = document.getElementById("pagination");
     const query = document.getElementById("userSearch").value.toLowerCase();
 
-    // Filter users based on search
     const filteredUsers = allUsers.filter(user =>
         user.username.toLowerCase().includes(query) ||
         user.email.toLowerCase().includes(query) ||
         (user.role || "").toLowerCase().includes(query)
     );
 
-    // Pagination calculations
     const totalPages = Math.ceil(filteredUsers.length / pageSize);
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     const pageUsers = filteredUsers.slice(start, end);
 
-    // Render table
     tbody.innerHTML = pageUsers.length === 0
         ? `<tr><td colspan="5" class="text-center">No users found</td></tr>`
         : "";
@@ -83,29 +79,74 @@ function renderPage(page) {
         `;
     });
 
-    // Render pagination
-    renderPagination(totalPages);
+    renderPagination(totalPages, "pagination", renderPage);
 }
 
-// Render frontend pagination buttons
-function renderPagination(totalPages) {
-    const pagination = document.getElementById("pagination");
+// ========================== MEMBERS TABLE ==========================
+async function loadAllMembers() {
+    const token = getToken();
+    try {
+        const res = await fetch(`${memberEndpoint}?page=0&size=1000`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        allMembers = data?.data || [];
+        console.log(allMembers)
+        renderMemberPage(1);
+    } catch (err) {
+        console.error("Error loading members:", err);
+        document.getElementById("memberWalletTableBody").innerHTML =
+            `<tr><td colspan="4" class="text-center text-danger">Error fetching members</td></tr>`;
+    }
+}
+
+function renderMemberPage(page) {
+    currentMemberPage = page;
+    const tbody = document.getElementById("memberWalletTableBody");
+
+    const totalPages = Math.ceil(allMembers.length / memberPageSize);
+    const start = (page - 1) * memberPageSize;
+    const end = start + memberPageSize;
+    const pageMembers = allMembers.slice(start, end);
+
+    tbody.innerHTML = pageMembers.length === 0
+        ? `<tr><td colspan="4" class="text-center">No members found</td></tr>`
+        : "";
+
+    pageMembers.forEach(m => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${m.id}</td>
+                <td>${m.username}</td>
+                <td>${m.email}</td>
+                <td><span class="fw-bold text-success">$${m.balance?.toFixed(2) || 0}</span></td>
+            </tr>
+        `;
+    });
+
+    renderPagination(totalPages, "memberPagination", renderMemberPage);
+}
+
+// ========================== PAGINATION (shared) ==========================
+function renderPagination(totalPages, elementId, renderFunc) {
+    const pagination = document.getElementById(elementId);
     pagination.innerHTML = "";
     if (totalPages <= 1) return;
 
     for (let i = 1; i <= totalPages; i++) {
         const li = document.createElement("li");
-        li.className = `page-item ${i === currentPage ? "active" : ""}`;
+        li.className = `page-item ${i === (elementId === "pagination" ? currentPage : currentMemberPage) ? "active" : ""}`;
         li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
         li.onclick = e => {
             e.preventDefault();
-            renderPage(i);
+            renderFunc(i);
         };
         pagination.appendChild(li);
     }
 }
 
-// Toggle user status (ACTIVE / INACTIVE)
+// ========================== TOGGLE USER STATUS ==========================
 async function toggleStatus(userId, badge) {
     const token = getToken();
     const adminUsername = sessionStorage.getItem("username") || "admin";
@@ -120,10 +161,7 @@ async function toggleStatus(userId, badge) {
             body: `adminUsername=${encodeURIComponent(adminUsername)}`
         });
 
-        if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(`HTTP ${res.status}: ${errorText}`);
-        }
+        if (!res.ok) throw new Error(await res.text());
 
         const data = await res.json();
         const newStatus = data?.data?.actionType || 'INACTIVE';
@@ -139,13 +177,14 @@ async function toggleStatus(userId, badge) {
             confirmButtonText: 'OK'
         });
     }
-
 }
 
-// Search input listener
-document.getElementById("userSearch").addEventListener("keyup", () => {
-    renderPage(1); // Always reset to page 1 after search
+// ========================== DOM LOAD ==========================
+document.addEventListener("DOMContentLoaded", () => {
+    loadAllUsers();
+    loadAllMembers();
 });
 
-// Load all users when DOM is ready
-document.addEventListener("DOMContentLoaded", () => loadAllUsers());
+document.getElementById("userSearch").addEventListener("keyup", () => {
+    renderPage(1);
+});

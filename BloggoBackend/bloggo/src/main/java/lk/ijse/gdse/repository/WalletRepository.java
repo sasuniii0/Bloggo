@@ -1,6 +1,7 @@
 package lk.ijse.gdse.repository;
 
 import lk.ijse.gdse.dto.WalletDTO;
+import lk.ijse.gdse.entity.RoleName;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.entity.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,8 @@ public interface WalletRepository extends JpaRepository<Wallet, Long> {
             nativeQuery = true)
     List<WalletDTO> findWalletByUserId(@Param("userId") Long userId);
 
+    @Query("SELECT new lk.ijse.gdse.dto.WalletDTO(w.walletId, w.balance, u.userId, u.username, u.email) " +
+            "FROM Wallet w JOIN w.userId u " +
+            "WHERE u.role = :roleName")
+    List<WalletDTO> findWalletsWithUserDetailsByRole(@Param("roleName") RoleName roleName);
 }
