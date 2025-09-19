@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/user/**",
                                 "/user/payments/**",
                                 "/api/v1/dashboard/**",
+                                "/api/tts/**",
                                 "/api/v1/post/**",
                                 "/api/v1/boost/**",
                                 "/api/v1/comment/**",

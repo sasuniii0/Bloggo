@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         Swal.fire({
             icon: 'warning',
             title: 'Story Not Found',
-            text: '⚠️ Story not found',
+            text: ' Story not found',
             confirmButtonText: 'OK'
         });
         return;
@@ -17,6 +17,75 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadLoggedUser();
     await loadCurrentUser(token)
+
+    let utterance = null; // Keep reference to current speech
+
+// Listen button
+    document.getElementById("listen-btn").addEventListener("click", () => {
+        const postText = document.getElementById("storyContent").innerText;
+
+        if (!postText.trim()) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Story Not Found',
+                text: ' No story content to read.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Stop any current speech
+        window.speechSynthesis.cancel();
+
+        // Create a new speech utterance
+        utterance = new SpeechSynthesisUtterance(postText);
+        utterance.lang = 'en-US';
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        window.speechSynthesis.speak(utterance);
+    });
+
+// Pause button
+    document.getElementById("pause-btn").addEventListener("click", () => {
+        if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+            window.speechSynthesis.pause();
+            console.log("⏸️ Speech paused");
+        }
+    });
+
+// Resume button
+    document.getElementById("resume-btn").addEventListener("click", () => {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+            console.log("▶️ Speech resumed");
+        }
+    });
+
+
+
+    /*document.getElementById("listen-btn").addEventListener("click", async () => {
+        const postText = document.getElementById("storyContent").innerText;
+        const audioPlayer = document.getElementById("ttsAudio");
+        const apiKey = "";
+
+        // Using CORS proxy (for testing/demo purposes)
+        const proxy = "https://cors-anywhere.herokuapp.com/";
+        const url = `${proxy}https://api.voicerss.org/?key=${apiKey}&hl=en-us&c=MP3&f=44khz_16bit_stereo&src=${encodeURIComponent(postText)}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("TTS request failed");
+
+            const audioBlob = await response.blob();
+            audioPlayer.src = URL.createObjectURL(audioBlob);
+            audioPlayer.style.display = "block";
+            audioPlayer.play();
+        } catch (err) {
+            alert("❌ Error generating audio: " + err.message);
+        }
+    });
+*/
 
     // ============================
 // Load Current User for Avatar
@@ -463,7 +532,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     });
 
-    const listenBtn = document.getElementById("listen-btn");
+    /*const listenBtn = document.getElementById("listen-btn");
 
     listenBtn.addEventListener("click", async () => {
         try {
@@ -518,7 +587,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             listenBtn.disabled = false;
             listenBtn.innerText = "🔊 Listen to this post";
         }
-    });
+    });*/
 
 
     /*const apiKey = ""; // Replace with your key

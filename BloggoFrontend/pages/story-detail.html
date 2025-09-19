@@ -108,8 +108,15 @@
                             </button>
 
                             <button id="listen-btn">
-                                <i class="fa-solid fa-volume-high" style="color: black;"></i> Listen to this post
+                                <i class="fa-solid fa-play-circle" style="color: black; font-size: 1.2rem;"></i> Listen
                             </button>
+                            <button id="pause-btn">
+                                <i class="fa-solid fa-pause-circle" style="color: black; font-size: 1.2rem;"></i> Pause
+                            </button>
+                            <button id="resume-btn">
+                                <i class="fa-solid fa-play-circle" style="color: black; font-size: 1.2rem;"></i> Resume
+                            </button>
+
 
                         </div>
                     </div>
@@ -120,6 +127,10 @@
                 <div class="story-content" id="storyContent" contenteditable="true">
                     <p>Loading story content...</p>
                 </div>
+
+
+                <!-- Hidden Audio Player -->
+                <audio id="ttsAudio" controls style="display:none;"></audio>
 
                 <button onclick="generateSummary()" id="generate">Generate Summary</button>
 
