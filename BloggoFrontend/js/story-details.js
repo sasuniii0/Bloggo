@@ -586,31 +586,44 @@ document.addEventListener("DOMContentLoaded", async () => {
     })();*/
 
 });
-
 async function generateSummary() {
-    const content = document.getElementById("storyContent").innerText;
-    const token = sessionStorage.getItem("jwtToken"); // optional if you enable JWT
+    const storyDiv = document.getElementById('storyContent');
+    const summaryText = document.getElementById('summaryText');
+    const text = storyDiv.innerText.trim();
 
-    const response = await fetch("http://localhost:8080/api/v1/summery", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            ...(token ? { "Authorization": `Bearer ${token}` } : {})
-        },
-        body: JSON.stringify({ content })
-    });
+    if (!text) {
+        alert("⚠️ Please add some content to summarize!");
+        return;
+    }
 
-    const result = await response.json().catch(() => ({}));
-    console.log("Summary response:", result);
+    // Show loading indicator
+    summaryText.innerText = " Generating summary...";
 
-    if (Array.isArray(result) && result[0]?.summary_text) {
-        document.getElementById("summaryText").innerText = result[0].summary_text;
-    } else if (result.error) {
-        document.getElementById("summaryText").innerText = "⚠️ Error: " + result.error;
-    } else {
-        document.getElementById("summaryText").innerText = "⚠️ No summary available.";
+    const token = sessionStorage.getItem("jwtToken");
+
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/summary', {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to generate summary. Status: " + response.status);
+        }
+
+        const data = await response.json();
+        console.log(data)
+        summaryText.innerText = data.summery || "❌ Could not generate summary";
+    } catch (err) {
+        console.error(err);
+        summaryText.innerText = "❌ Error: " + err.message;
     }
 }
+
 
 
 
