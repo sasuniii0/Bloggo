@@ -505,3 +505,8 @@ io.jsonwebtoken.MalformedJwtException: JWT strings must contain exactly 2 period
 2025-09-19T03:31:27.823+05:30  INFO 13488 --- [bloggo] [http-nio-8080-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-09-19T03:31:27.823+05:30  INFO 13488 --- [bloggo] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-09-19T03:31:27.824+05:30  INFO 13488 --- [bloggo] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-19T03:34:40.393+05:30  INFO 13488 --- [bloggo] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-19T03:34:40.403+05:30  INFO 13488 --- [bloggo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-19T03:34:40.410+05:30  INFO 13488 --- [bloggo] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-19T03:34:40.413+05:30  INFO 13488 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-19T03:34:40.417+05:30  INFO 13488 --- [bloggo] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

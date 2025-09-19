@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -33,6 +34,11 @@ public class AdminAction {
 
     @Enumerated(EnumType.STRING)
     private ActionType actionType;
+
+    @Pattern(
+            regexp = "^[A-Za-z0-9 ,.?!-]{5,200}$",
+            message = "Reason must be 5–200 characters long and may only contain letters, numbers, spaces, and basic punctuation."
+    )
     private String reason;
     private LocalDateTime createdAt;
 
