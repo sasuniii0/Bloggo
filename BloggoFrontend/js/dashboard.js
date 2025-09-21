@@ -3,6 +3,7 @@
 // ============================
 document.addEventListener("DOMContentLoaded", async () => {
     const token = sessionStorage.getItem("jwtToken");
+    const cookieToken = document.cookie.split('; ').find(row => row.startsWith('jwtToken='))?.split('=')[1];
     const feedContainer = document.querySelector(".feed");
 
     if (!token) {
