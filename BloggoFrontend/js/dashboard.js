@@ -345,6 +345,18 @@ async function loadCurrentUser(token) {
         const user = await res.json();
         const avatar = document.querySelector(".avatar");
         if (avatar) avatar.src = user.profileImage || "../assets/client1.jpg";
+
+        // ✅ Show popup only if profile image is missing AND not shown before
+        const popupKey = `profilePopupShown_${user.userId}`;
+        if (!user.profileImage && !localStorage.getItem(popupKey)) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Complete Your Profile',
+                text: 'Please update your profile image and settings!',
+                confirmButtonText: 'OK'
+            });
+            localStorage.setItem(popupKey, 'true');
+        }
     } catch (err) {
         console.error("Error loading user:", err);
     }
