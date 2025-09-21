@@ -345,8 +345,26 @@ async function loadCurrentUser(token) {
         const user = await res.json();
         const avatar = document.querySelector(".avatar");
         if (avatar) avatar.src = user.profileImage || "../assets/client1.jpg";
+        console.log(user)
 
-        // ✅ Show popup only if profile image is missing AND not shown before
+        if (user.actionType && user.actionType.toLowerCase() === 'inactive') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Account Banned',
+                html: `Your account has been <strong>banned</strong>.<br>
+                        Please contact the admin panel for assistance.`,
+                confirmButtonText: 'OK',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                sessionStorage.clear();
+                document.cookie = 'jwtToken=; path=/; max-age=0';
+                document.cookie = 'userId=; path=/; max-age=0';
+                window.location.href = 'logout.html';
+            });
+            return;
+        }
+
         const popupKey = `profilePopupShown_${user.userId}`;
         if (!user.profileImage && !localStorage.getItem(popupKey)) {
             Swal.fire({

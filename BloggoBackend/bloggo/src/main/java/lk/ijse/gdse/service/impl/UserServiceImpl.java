@@ -85,7 +85,8 @@ public class UserServiceImpl implements UserService {
                 user.getBio(),
                 user.getFollowers() != null ? user.getFollowers().size() : 0,
                 user.getFollowing() != null ? user.getFollowing().size() : 0,
-                user.getRole().name()
+                user.getRole().name(),
+                user.getStatus()
         );
     }
 
