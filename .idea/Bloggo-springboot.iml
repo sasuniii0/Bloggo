@@ -8,5 +8,7 @@
     <orderEntry type="library" name="payhere" level="application" />
     <orderEntry type="library" name="chart.js" level="application" />
     <orderEntry type="library" name="cropperjs" level="application" />
+    <orderEntry type="library" name="sockjs-client" level="application" />
+    <orderEntry type="library" name="stompjs" level="application" />
   </component>
 </module>

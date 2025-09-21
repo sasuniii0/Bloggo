@@ -70,6 +70,8 @@ public class User {
     @Column(length = 20)
     private ActionType status;
 
+    @Enumerated(EnumType.STRING)
+    private ActionStatus active = ActionStatus.OFFLINE;
 
     @Enumerated(EnumType.STRING)
     private MembershipStatus membershipStatus;
@@ -81,9 +83,8 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.lastLogin = LocalDateTime.now();
     }
-
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts;

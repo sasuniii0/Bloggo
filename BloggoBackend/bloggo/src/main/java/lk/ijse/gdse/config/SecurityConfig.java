@@ -45,6 +45,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/v3/api-docs/**",
+                                "/ws/**",
+                                "/app/**",
+                                "/webjars/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "https://n8n.cenzios.com/webhook/generate-voice",
