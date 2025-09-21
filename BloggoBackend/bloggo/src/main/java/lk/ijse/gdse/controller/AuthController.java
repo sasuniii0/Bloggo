@@ -1,3 +1,4 @@
+
 package lk.ijse.gdse.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,11 +27,11 @@ public class AuthController {
     @PostMapping("/signup")
     @Operation(summary = "user registration to the application")
     public ResponseEntity<ApiResponseDTO> registerUser(@RequestBody UserDTO userDTO) {
-       return ResponseEntity.ok(new ApiResponseDTO(
-               200,
+        return ResponseEntity.ok(new ApiResponseDTO(
+                200,
                 "User registered successfully",
-               authService.register(userDTO)
-       ));
+                authService.register(userDTO)
+        ));
     }
 
     @PostMapping("/signing")

@@ -14,6 +14,7 @@ import lk.ijse.gdse.exception.ResourceAlreadyFoundException;
 import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AuthService;
+import lk.ijse.gdse.service.SendGridEmailService;
 import lk.ijse.gdse.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -37,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final SendGridEmailServiceImpl emailService;
     private final JWTUtil jwtUtil;
     private final JavaMailSenderImpl mailSender;
+    private final SendGridEmailService sendGridEmailService;
 
     @Override
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
@@ -58,6 +60,13 @@ public class AuthServiceImpl implements AuthService {
         System.out.println("Username: " + username);
         System.out.println("User ID: " + id);*//*
         return new AuthResponseDTO(token, role, username,id);*/
+
+        // Send login notification
+        try {
+            sendGridEmailService.sendLoginNotificationEmail(user.getEmail(), username);
+        } catch (Exception e) {
+            System.err.println("Failed to send login notification: " + e.getMessage());
+        }
 
         return AuthResponseDTO.builder()
                 .accessToken(token)

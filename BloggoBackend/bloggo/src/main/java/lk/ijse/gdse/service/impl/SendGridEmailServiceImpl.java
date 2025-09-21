@@ -7,6 +7,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.ClickTrackingSetting;
 import com.sendgrid.helpers.mail.objects.TrackingSettings;
 import jakarta.annotation.PostConstruct;
+import lk.ijse.gdse.service.SendGridEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-public class SendGridEmailServiceImpl {
+public class SendGridEmailServiceImpl implements SendGridEmailService {
 
     @Value("${sendgrid.api.key}")
     private String apiKey;
@@ -95,5 +96,39 @@ public class SendGridEmailServiceImpl {
         );
 
         return new Mail(from, subject, to, content);
+    }
+
+    @Override
+    public void sendLoginNotificationEmail(String email, String username) {
+        Email from = new Email(fromEmail, fromName);
+        Email to = new Email(email);
+        String subject = "Login Notification";
+
+        String contentHtml = "<p>Hello " + username + ",</p>" +
+                "<p>You have successfully logged in to your account.</p>" +
+                "<p>Login time: " + java.time.LocalDateTime.now() + "</p>" +
+                "<p>If this wasn’t you, please secure your account immediately.</p>";
+
+        Content content = new Content("text/html", contentHtml);
+        Mail mail = new Mail(from, subject, to, content);
+
+        // Disable click tracking
+        TrackingSettings trackingSettings = new TrackingSettings();
+        ClickTrackingSetting clickTracking = new ClickTrackingSetting();
+        clickTracking.setEnable(false);
+        clickTracking.setEnableText(false);
+        trackingSettings.setClickTrackingSetting(clickTracking);
+        mail.setTrackingSettings(trackingSettings);
+
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sendGrid.api(request);
+            System.out.println("SendGrid Status Code: " + response.getStatusCode());
+        } catch (IOException ex) {
+            System.err.println("Failed to send login email: " + ex.getMessage());
+        }
     }
 }

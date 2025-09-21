@@ -21,14 +21,31 @@ import { getAuth ,GoogleAuthProvider,signInWithPopup} from "https://www.gstatic.
 
     const google = document.getElementById("google-auth");
     google.addEventListener("click",async function (){
-        signInWithPopup(auth,provider)
-            .then((result) =>{
-                const credential = GoogleAuthProvider.credentialFromResult(result);
+        signInWithPopup(auth, provider)
+            .then(async (result) => {
                 const user = result.user;
-                console.log(user)
-                window.location.href = "dashboard.html"
-            }).catch((error) =>{
-                const errorCode = error.code;
-                const errorMessage = error.message;
-        })
+
+                // Get Firebase token
+                const idToken = await user.getIdToken();
+
+                // Send Firebase token to backend
+                const response = await fetch("http://localhost:8080/auth/google", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${idToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                // ✅ Store your backend JWT
+                sessionStorage.setItem("jwt", data.jwt);
+
+                window.location.href = "dashboard.html";
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+
     })
