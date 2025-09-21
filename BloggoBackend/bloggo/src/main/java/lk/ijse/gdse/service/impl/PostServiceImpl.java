@@ -29,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private final EarningRepository earningRepository;
     private final BoostRepository boostRepository;
     private final NotificationRepository notificationRepository;
+    private final SendGridEmailServiceImpl sendGridEmailService;
 
     @Override
     public Post publishPost(Post post) {
@@ -80,14 +81,31 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Long postId, String name) {
+    public void deletePost(Long postId, String username) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
-        if (!post.getUser().getUsername().equals(name)) {
+
+        User actingUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // Allow deletion if the user is:
+        // 1. The post owner OR
+        // 2. Admin
+        if (!post.getUser().getUsername().equals(username) && actingUser.getRole() != RoleName.ADMIN) {
             throw new RuntimeException("You are not authorized to delete this post");
         }
+
+        User user = post.getUser();
+        // Send login notification
+        try {
+            sendGridEmailService.sendPostDeleteNotificationEmail(user.getEmail(), username);
+        } catch (Exception e) {
+            System.err.println("Failed to send login notification: " + e.getMessage());
+        }
+
         postRepository.delete(post);
     }
+
 
     @Override
     public Post getPostById(Long postId) {

@@ -71,9 +71,6 @@ public class SecurityConfig {
                                 "/api/v1/wallets/**").permitAll().anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
-                .oauth2Login(oauth -> oauth
-                        .successHandler(customOAuthSuccessHandler)
-                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

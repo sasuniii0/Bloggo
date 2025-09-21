@@ -4,12 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lk.ijse.gdse.dto.ApiResponseDTO;
 import lk.ijse.gdse.entity.AdminAction;
+import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.service.AdminActionService;
+import lk.ijse.gdse.service.PostService;
+import lk.ijse.gdse.util.CustomOAuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +26,7 @@ import java.util.Map;
 
 public class AdminActionController {
     private final AdminActionService adminActionService;
+    private  final PostService postService;
 
     @PostMapping("/create")
     @Operation(summary = "create action for admin")

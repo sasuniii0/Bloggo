@@ -42,7 +42,7 @@
 
 body, html {
     font-family: 'Inter', sans-serif;
-    background: var(--bg);
+    background: white;
     color: var(--text-primary);
     font-size: 1rem;
     padding-top: 30px; /* for fixed navbar */
@@ -182,7 +182,6 @@ a:hover { color: var(--primary-light); }
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
     z-index: 1000;
 }
 
@@ -386,8 +385,7 @@ a:hover { color: var(--primary-light); }
         padding: 0.8rem 1rem;
     }
 }
-body {     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-}
+
 /*
 .glass-navbar { position: sticky; top: 1rem; z-index: 1050; display: flex; justify-content: space-between; padding: 1rem 2rem; margin: 0 auto; width: 60%; border-radius: 20px; margin-top: 1rem; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
 .glass-navbar a { color: #000000; font-weight: 500; margin: 0 1.2rem; text-decoration: none; transition: all 0.3s ease; padding: 0.5rem 1rem; border-radius: 12px; }

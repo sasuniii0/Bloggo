@@ -100,22 +100,47 @@ function renderPagination(totalPages) {
 
 async function deletePost(postId) {
     const token = getToken();
-    if (!confirm("Are you sure you want to delete this post?")) return;
+// SweetAlert confirmation
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#FF6F61', // your coral red color
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    });
+
+    if (!result.isConfirmed) return; // if user cancels, exit
     try {
         const res = await fetch(`${postEndPoint}/delete/${postId}`, {
             method: "DELETE",
-            headers: { "Authorization": `Bearer ${token}` }
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
         });
-        if (!res.ok) throw new Error("Failed to delete post");
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`Failed to delete post: ${errorText}`);
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'Post has been deleted successfully.',
+        });
+
         loadPosts(); // reload posts
     } catch (err) {
         console.error(err);
         Swal.fire({
             icon: 'error',
             title: 'Deletion Failed',
-            text: 'Failed to delete post.',
-            confirmButtonText: 'OK'
+            text: err.message,
         });
     }
-
 }
+

@@ -2,10 +2,12 @@ package lk.ijse.gdse.service.impl;
 
 import lk.ijse.gdse.entity.ActionType;
 import lk.ijse.gdse.entity.AdminAction;
+import lk.ijse.gdse.entity.Post;
 import lk.ijse.gdse.entity.User;
 import lk.ijse.gdse.exception.AdminNotFoundException;
 import lk.ijse.gdse.exception.UserNotFoundException;
 import lk.ijse.gdse.repository.AdminActionRepository;
+import lk.ijse.gdse.repository.PostRepository;
 import lk.ijse.gdse.repository.UserRepository;
 import lk.ijse.gdse.service.AdminActionService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 public class AdminActionServiceImpl implements AdminActionService {
     private final AdminActionRepository adminActionRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
 
     @Override
@@ -69,4 +72,5 @@ public class AdminActionServiceImpl implements AdminActionService {
 
         return adminActionRepository.save(action);
     }
+
 }

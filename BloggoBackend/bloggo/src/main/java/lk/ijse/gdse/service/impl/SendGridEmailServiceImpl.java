@@ -131,4 +131,42 @@ public class SendGridEmailServiceImpl implements SendGridEmailService {
             System.err.println("Failed to send login email: " + ex.getMessage());
         }
     }
+
+    @Override
+    public void sendPostDeleteNotificationEmail(String email, String username) {
+        Email from = new Email(fromEmail, fromName);
+        Email to = new Email(email);
+        String subject = "Post Deletion";
+
+        String contentHtml = "<p>Hi " + username + ",</p>" +
+                "<p>We wanted to inform you that one of your posts has been deleted by the admin.</p>" +
+                "<p>Deletion time: " + java.time.LocalDateTime.now() + "</p>" +
+                "<p>If you believe this was a mistake, please contact our support team immediately.</p>" +
+                "<p>Thank you,<br>Admin Team</p>";
+
+
+        Content content = new Content("text/html", contentHtml);
+        Mail mail = new Mail(from, subject, to, content);
+
+        // Disable click tracking
+        TrackingSettings trackingSettings = new TrackingSettings();
+        ClickTrackingSetting clickTracking = new ClickTrackingSetting();
+        clickTracking.setEnable(false);
+        clickTracking.setEnableText(false);
+        trackingSettings.setClickTrackingSetting(clickTracking);
+        mail.setTrackingSettings(trackingSettings);
+
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sendGrid.api(request);
+            System.out.println("SendGrid Status Code: " + response.getStatusCode());
+        } catch (IOException ex) {
+            System.err.println("Failed to send login email: " + ex.getMessage());
+        }
+    }
+
+
 }

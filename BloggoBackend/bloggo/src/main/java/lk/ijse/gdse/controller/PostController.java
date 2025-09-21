@@ -145,13 +145,11 @@ public class PostController {
         if (existing == null) {
             return ResponseEntity.status(404).body(new ApiResponseDTO(404, "Post not found", null));
         }
-        if (!existing.getUser().getUsername().equals(principal.getName())) {
-            return ResponseEntity.status(403).body(new ApiResponseDTO(403, "You are not allowed to delete this post", null));
-        }
 
         postService.deletePost(postId, principal.getName());
         return ResponseEntity.ok(new ApiResponseDTO(200, "Post deleted successfully", null));
     }
+
     @GetMapping("/search/{keyword}")
     @Operation(summary = "search post by the keyword")
     public ResponseEntity<ApiResponseDTO> searchPosts(@PathVariable String keyword) {
