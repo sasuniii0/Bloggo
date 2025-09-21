@@ -247,14 +247,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         deleteBtn.className = "action-btn delete-btn";
         deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
         deleteBtn.onclick = async () => {
-            if (!confirm("Are you sure you want to delete this post?")) return;
+            // Show SweetAlert confirmation
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you really want to delete this post?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF6F61',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            });
+
+            if (!result.isConfirmed) return; // User clicked cancel
             try {
                 await fetchJSON(`http://localhost:8080/api/v1/post/delete/${postId}`, { method: "DELETE" });
 
                 Swal.fire({
                     icon: 'success',
                     title: 'Deleted',
-                    text: '✅ Post deleted successfully!',
+                    text: ' Post deleted successfully!',
                     confirmButtonText: 'OK'
                 }).then(() => {
                     window.location.href = "stories.html";
@@ -264,7 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Deletion Failed',
-                    text: `❌ ${err.message || "Failed to delete post"}`,
+                    text: ` ${err.message || "Failed to delete post"}`,
                     confirmButtonText: 'OK'
                 });
             }
@@ -273,6 +285,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         actionsEl.append(editBtn, deleteBtn);
     }
+
+
 
     // --- Edit Form Submission ---
     editForm.addEventListener("submit", async (e) => {
@@ -319,7 +333,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Update Failed',
-                    text: `❌ ${errData.message || res.status}`,
+                    text: ` ${errData.message || res.status}`,
                     confirmButtonText: 'OK'
                 });
             }
@@ -401,7 +415,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Invalid Data',
-                    text: '⚠️ Backend returned invalid data.',
+                    text: 'Backend returned invalid data.',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -417,7 +431,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Toggle Failed',
-                    text: '⚠️ Failed to toggle bookmark',
+                    text: 'Failed to toggle bookmark',
                     confirmButtonText: 'OK'
                 });
             }
@@ -427,7 +441,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: '⚠️ Error toggling bookmark',
+                text: 'Error toggling bookmark',
                 confirmButtonText: 'OK'
             });
         }
@@ -501,7 +515,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Empty Content',
-                text: '⚠️ Please write something',
+                text: 'Please write something',
                 confirmButtonText: 'OK'
             });
             return;
@@ -525,7 +539,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Comment Failed',
-                text: '❌ Failed to post comment. Please try again.',
+                text: 'Failed to post comment. Please try again.',
                 confirmButtonText: 'OK'
             });
         }
@@ -661,7 +675,7 @@ async function generateSummary() {
     const text = storyDiv.innerText.trim();
 
     if (!text) {
-        alert("⚠️ Please add some content to summarize!");
+        alert("Please add some content to summarize!");
         return;
     }
 
@@ -686,10 +700,10 @@ async function generateSummary() {
 
         const data = await response.json();
         console.log(data)
-        summaryText.innerText = data.summery || "❌ Could not generate summary";
+        summaryText.innerText = data.summery || "Could not generate summary";
     } catch (err) {
         console.error(err);
-        summaryText.innerText = "❌ Error: " + err.message;
+        summaryText.innerText = "Error: " + err.message;
     }
 }
 

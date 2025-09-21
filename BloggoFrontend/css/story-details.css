@@ -46,6 +46,21 @@
     border: 1px var(--primary);
 
 }
+
+.action-btn {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s ease;
+}
+
 #addCommentBtn{
     background: black;
     color: white;
@@ -317,7 +332,8 @@ a:hover { color: var(--primary-light); }
 }
 
 .interaction-btn {
-    background:white;
+    background:black;
+    color: white;
     border:1px solid var(--border);
     padding:10px 16px;
     border-radius:999px;
@@ -449,7 +465,7 @@ a:hover { color: var(--primary-light); }
     margin-bottom: 1rem;
 }
 
-.action-btn , #listen-btn, #generate , #resume-btn , #pause-btn{
+.action-btn , #listen-btn, #generate , #resume-btn , #pause-btn,#bookmarkBtn,#addCommentBtn{
     padding: 0.5rem 1rem;
     border-radius: 12px;
     font-weight: 500;
