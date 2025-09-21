@@ -1,6 +1,7 @@
 package lk.ijse.gdse.controller;
 
 import lk.ijse.gdse.dto.UserStatus;
+import lk.ijse.gdse.dto.UserStatusUpdate;
 import lk.ijse.gdse.entity.ActionStatus;
 import lk.ijse.gdse.entity.ActionType;
 import lk.ijse.gdse.entity.User;
@@ -24,16 +25,27 @@ public class WebSocketController {
 
     @MessageMapping("/status")
     @SendTo("/topic/status")
-    public List<UserStatus> updateStatus(Long userId) {
+    public UserStatus updateStatus(UserStatusUpdate update) {
+        Long userId = update.getUserId();
+        String statusStr = update.getStatus();
+
+        // Update active user in service
         activeUserService.userConnected(userId);
 
+        // Update user entity
         User user = userRepository.findById(userId).orElseThrow();
-        user.setActive(ActionStatus.ONLINE);
+
+        if ("ONLINE".equals(statusStr)) {
+            user.setActive(ActionStatus.ONLINE);
+        } else if ("OFFLINE".equals(statusStr)) {
+            user.setActive(ActionStatus.OFFLINE);
+        }
+
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
 
-        return userRepository.findAll().stream()
-                .map(u -> new UserStatus(u.getUserId(), u.getUsername(), u.getActive()))
-                .toList();
+        // Return only the updated user
+        return new UserStatus(user.getUserId(), user.getUsername(), user.getActive());
     }
+
 }

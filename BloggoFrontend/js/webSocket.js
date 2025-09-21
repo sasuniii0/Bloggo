@@ -1,89 +1,90 @@
-let stompClient = null; // global
-const userId = sessionStorage.getItem("userId"); // make sure this exists
+let stompClient = null;
+const userId = sessionStorage.getItem("userId"); // Make sure this exists
+let idleTimeout = null;
+let lastStatusSent = 0;
 
+// Connect to WebSocket
 function connect() {
-    // Connect to Spring Boot WebSocket
     const socket = new SockJS('http://localhost:8080/ws');
-     stompClient = Stomp.over(socket);
+    stompClient = Stomp.over(socket);
+    stompClient.debug = null; // Disable debug logs for performance
 
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
+    stompClient.connect({}, frame => {
+        console.log('Connected:', frame);
 
-        sendStatus(); // initial online
-        // Function to update profile card status
-        function updateProfileStatus(user) {
-            const dot = document.getElementById("profile-status-dot");
-            if (!dot) return;
+        sendStatus("ONLINE");   // Initial online status
+        startIdleTimer();       // Start idle detection
 
-            let color;
-            switch (user.status) {
-                case 'ONLINE':
-                    color = 'green';
-                    break;
-                case 'IDLE':
-                    color = 'orange';
-                    break;
-                default:
-                    color = 'gray';
-            }
-            dot.style.backgroundColor = color;
-        }
-
-
-        // Example: update status for logged-in user
-        stompClient.subscribe('/topic/status', function(message) {
-            const users = JSON.parse(message.body);
-
-            // Update the profile card status
-            const currentUser = users.find(u => u.userId == userId);
-            if (currentUser) updateProfileStatus(currentUser);
-
-            // Optional: update online-users list
-            const container = document.getElementById("online-users");
-            container.innerHTML = '';
-            users.forEach(user => {
-                const dotColor = user.status === 'ONLINE' ? 'green' :
-                    user.status === 'IDLE' ? 'orange' : 'gray';
-                container.innerHTML += `<div><span style="color:${dotColor}">●</span> ${user.username}</div>`;
-            });
-        });
-        sendStatus();
-
-        // Idle detection
-        startIdleTimer();
-
+        // Event listeners for activity
         document.addEventListener("mousemove", resetIdle);
         document.addEventListener("keydown", resetIdle);
+
+        // Subscribe to single-user updates
+        stompClient.subscribe('/topic/status', message => {
+            const user = JSON.parse(message.body); // Single user object
+            updateSingleUserStatus(user);
+        });
     });
 }
 
-function sendStatus() {
+// Send status to server
+function sendStatus(status = "ONLINE") {
     if (stompClient && stompClient.connected) {
-        stompClient.send("/app/status", {}, userId);
-        console.log("Status sent for user:", userId);
-    } else {
-        console.warn("STOMP client not connected yet");
+        stompClient.send("/app/status", {}, JSON.stringify({ userId, status }));
     }
 }
 
+// Throttled sending to prevent flooding server
+function sendStatusThrottled() {
+    const now = Date.now();
+    if (now - lastStatusSent > 3000) { // 3 seconds throttle
+        sendStatus("ONLINE");
+        lastStatusSent = now;
+    }
+}
 
-// Idle detection
-let idleTimeout;
+// Idle timer
 function startIdleTimer() {
     clearTimeout(idleTimeout);
     idleTimeout = setTimeout(() => {
-        if (stompClient && stompClient.connected) {
-            stompClient.send("/app/status", {}, userId); // mark idle
-            console.log("User idle:", userId);
-        }
-    }, 5 * 60 * 1000); // 5 mins
+        sendStatus("IDLE"); // Mark user as idle after 5 mins
+    }, 5 * 60 * 1000);
 }
 
-
-// Reset timer on activity
+// Reset idle timer and mark user ONLINE (throttled)
 function resetIdle() {
     startIdleTimer();
-    sendStatus(); // mark ONLINE again
+    sendStatusThrottled();
 }
 
+// Update only the affected user's DOM
+function updateSingleUserStatus(user) {
+    // Update profile dot if current user
+    if (user.userId == userId) {
+        const profileDot = document.getElementById("profile-status-dot");
+        if (profileDot) {
+            profileDot.style.backgroundColor =
+                user.status === "ONLINE" ? "green" :
+                    user.status === "IDLE" ? "orange" : "gray";
+        }
+    }
+
+    // Update online-users list efficiently
+    const container = document.getElementById("online-users");
+    if (container) {
+        let userDiv = document.getElementById(`user-${user.userId}`);
+        if (!userDiv) {
+            userDiv = document.createElement('div');
+            userDiv.id = `user-${user.userId}`;
+            userDiv.innerHTML = `<span class="status-dot">●</span> ${user.username}`;
+            container.appendChild(userDiv);
+        }
+        const dot = userDiv.querySelector('.status-dot');
+        dot.style.color =
+            user.status === "ONLINE" ? "green" :
+                user.status === "IDLE" ? "orange" : "gray";
+    }
+}
+
+// Initialize connection on page load
 connect();
