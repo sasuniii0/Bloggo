@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SummeryServiceImpl implements SummeryService {
 
-    private final String HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
+    private final String HF_API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6";
     private final String HF_API_KEY = "";
 
     private final RestTemplate restTemplate;

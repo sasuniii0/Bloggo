@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
         console.error("Error loading post:", err);
-        titleEl.textContent = "⚠️ Error loading story.";
+        titleEl.textContent = " Error loading story.";
     } finally {
         if (loading) loading.style.display = "none";
     }
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Post Updated',
-                    text: '✅ Post updated successfully!',
+                    text: 'Post updated successfully!',
                     confirmButtonText: 'OK'
                 }).then(() => {
                     location.reload();
@@ -691,6 +691,7 @@ async function generateSummary() {
             },
             body: JSON.stringify({ text })
         });
+        console.log(response)
 
         if (!response.ok) {
             throw new Error("Failed to generate summary. Status: " + response.status);
