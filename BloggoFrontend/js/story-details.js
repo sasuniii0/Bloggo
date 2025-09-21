@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     if (!token) {
-        titleEl.textContent = "⚠️ Please log in to view the story.";
+        titleEl.textContent = " Please log in to view the story.";
         return;
     }
 
@@ -165,8 +165,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await fetchJSON(`http://localhost:8080/api/v1/dashboard/post/${postId}`);
         const post = data.data;
         currentPost = post;
-
-        console.log("Loaded post:", post);
 
         // Render post info
         titleEl.textContent = post.title || "Untitled";
@@ -391,7 +389,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Not Logged In',
-                text: '⚠️ Please log in to save bookmarks.',
+                text: ' Please log in to save bookmarks.',
                 confirmButtonText: 'OK'
             });
             return;
@@ -699,7 +697,6 @@ async function generateSummary() {
         }
 
         const data = await response.json();
-        console.log(data)
         summaryText.innerText = data.summery || "Could not generate summary";
     } catch (err) {
         console.error(err);
@@ -718,17 +715,13 @@ function logout() {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('userId');
 
-    // Redirect to login page
     window.location.href = 'signing.html';
 }
 function preventBackNavigation() {
-    // Replace current history entry
     window.history.replaceState(null, null, window.location.href);
 
-    // Add new history entry
     window.history.pushState(null, null, window.location.href);
 
-    // Handle back button press
     window.onpopstate = function () {
         window.history.go(1);
         Swal.fire({
@@ -746,8 +739,7 @@ async function loadLoggedUser() {
         const res = await fetch(`http://localhost:8080/user/me`, {
             headers: { "Authorization": `Bearer ${token}` }
         });
-        const user = await res.json();  // backend returns DTO directly
-        console.log("Logged user:", user);
+        const user = await res.json();
 
         if (res.ok) {
             // Avatar

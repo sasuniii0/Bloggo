@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Group posts by status
         const grouped = { DRAFT: [], PUBLISHED: [], ARCHIVED: [], SCHEDULED: [] };
 
-        console.log(posts)
         posts.forEach(post => {
             if (post.status === "PUBLISHED") grouped.PUBLISHED.push(post);
             else if (post.status === "DRAFT") grouped.DRAFT.push(post);
@@ -188,12 +187,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!response.ok)throw new Error("Failed to load followers")
             const count = await response.json();
-            console.log(count)
 
             if (!res.ok) throw new Error("Failed to load user...")
 
             const user = await res.json();
-            console.log("user profile:", user);
 
             // Fill sidebar
             document.querySelector(".profile-avatar").src = user.profileImage || "../assets/client1.jpg";
@@ -221,7 +218,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
 
                 const walletApiResponse = await walletRes.json();
-                console.log("Full wallet API response:", walletApiResponse);
 
                 // Handle both object & array
                 let walletData = walletApiResponse.data || {};
@@ -316,19 +312,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function logout() {
     preventBackNavigation();
-    // Clear stored token and user info
     sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('userId');
 
-    // Redirect to login page
     window.location.href = 'signing.html';
 }
 function preventBackNavigation() {
-    // Replace current history entry
     window.history.replaceState(null, null, window.location.href);
 
-    // Add new history entry
     window.history.pushState(null, null, window.location.href);
 
     window.onpopstate = function () {
@@ -353,28 +345,24 @@ function showLoader() {
 // Hide loader
 function hideLoader() {
     loading.classList.remove("show");
-    // optional: delay setting display none to match fade
     setTimeout(() => loading.style.display = "none", 400);
 }
 
-// Example usage in your DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
     showLoader();
     try {
-        // your fetch logic here
+
     } catch (err) {
         console.error(err);
     } finally {
         hideLoader();
     }
 });
-// Example JS to toggle UI based on role
-const isPremium = true; // replace with backend value
+const isPremium = true;
 
 if (!isPremium) {
     document.querySelector('.wallet').style.display = 'none';
     document.querySelector('.earnings').style.display = 'none';
-    // Optional: change badge text
     document.querySelector('.profile-name + small').textContent = 'User';
 }
 

@@ -92,7 +92,6 @@ async function loadAllMembers() {
         if (!res.ok) throw new Error(await res.text());
         const data = await res.json();
         allMembers = data?.data || [];
-        console.log(allMembers)
         renderMemberPage(1);
     } catch (err) {
         console.error("Error loading members:", err);
